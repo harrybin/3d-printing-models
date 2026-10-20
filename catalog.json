@@ -3,9 +3,9 @@
   "repository": "harrybin/3d-printing-models",
   "engine": {
     "distribution": "harrybin-printforge",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "source": "https://github.com/harrybin/3d-printing",
-    "revision": "5740290d85fc884364ce3b44aa752b962429de3c"
+    "revision": "976cbae64ec6e3dd8bc571326dc4a6eb45678ff4"
   },
   "models": [
     {

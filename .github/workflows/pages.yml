@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: harrybin/3d-printing
-          ref: v1.0.0
+          ref: v1.0.1
           path: build/engine
           persist-credentials: false
       - uses: actions/setup-node@v4

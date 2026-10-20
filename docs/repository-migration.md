@@ -28,6 +28,12 @@ geometry during a repository migration.
 
 ## Checks
 
+The independent installed-wheel suite ran 60 model tests and reproduced exactly
+the same single pre-migration layout error; no additional model regression was
+introduced. Engine 1.0.1 bundles agent resources in one ZIP, correcting the
+Windows temporary-build path limit observed with the initial 1.0.0 Git install.
+The Python dependency and Pages viewer are both pinned to the corrected release.
+
 Run `printforge verify-catalog .` for the current inventory.
 Use `printforge verify-catalog . --migration` for original asset hashes.
 The migration check is historical evidence, not a restriction on intentional

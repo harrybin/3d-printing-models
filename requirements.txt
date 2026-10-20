@@ -1,1 +1,1 @@
-harrybin-printforge @ git+https://github.com/harrybin/3d-printing.git@v1.0.0
+harrybin-printforge @ git+https://github.com/harrybin/3d-printing.git@v1.0.1
