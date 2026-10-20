@@ -1,5 +1,21 @@
 # AGENTS
 
+## Engine/catalog ownership
+
+This repository is `harrybin/3d-printing-models`: model generators, reference
+assets, outputs, model docs and model-specific tests belong here. The reusable
+engine is `harrybin/3d-printing` and is pinned in `requirements.txt`.
+
+Before model work, install `requirements.txt` into `.venv` and run
+`.\.venv\Scripts\python.exe -m printforge bootstrap .`. This creates ignored
+engine scripts, skills, Canvas extension, MCP template and setup docs at the
+legacy paths used below. Never commit or edit these generated engine files.
+Change them in the engine repository, publish a version, then update the pin and
+bootstrap again. Bootstrap refuses to overwrite locally modified engine files.
+The rules below apply to catalog-owned files. Keep `catalog.json`'s model/output
+inventory current; run `python -m printforge verify-catalog .` after catalog
+changes. Use `--migration` only when checking the original migration baseline.
+
 This repository contains parametric STL generation workflows for FDM printing on the Anycubic Kobra S1 Combo + ACE Pro.
 
 ## First Steps
@@ -66,7 +82,9 @@ stale slices or previews.
   - `.\.venv\Scripts\python.exe scripts\mesh_tool.py overhang models\<part>.stl`
 - The generator already prints validation stats (facets, bounds, extents, watertight, winding consistency, Euler number, degenerate faces).
 
-There is no separate test suite in this repo at the moment.
+Model regression tests live under `tests/`. Run them after engine bootstrap;
+the known pre-migration plate-layout failure is documented in
+`docs/repository-migration.md` and must not be hidden by skipping the test.
 
 ## Pull Request Output
 

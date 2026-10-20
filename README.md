@@ -1,5 +1,40 @@
 # 3D Printing Models
 
+This is `harrybin/3d-printing-models`, the independently versioned model catalog.
+The reusable engine, viewer and skills live in
+[`harrybin/3d-printing`](https://github.com/harrybin/3d-printing).
+Model-specific generators, audits, source assets, measurements, license notices,
+STL/3MF outputs and final previews are kept together here at their existing paths.
+Their filtered Git history is preserved; `catalog.json` records the source commit,
+model inventory and SHA-256 migration baseline. Models without a known generator
+are explicitly marked with `generator: null`, not silently reconstructed.
+
+## Engine setup
+
+Install the pinned engine and materialize its ignored tools/skills before working
+on models. The materialized files are caches, not sources to edit or commit.
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m printforge bootstrap .
+.\.venv\Scripts\python.exe -m printforge verify-catalog .
+```
+
+Existing generator commands below remain valid after bootstrap. New model work
+belongs here; engine changes require a separate engine PR and an explicit pinned
+version update. To prove the initial transfer was byte-for-byte unchanged, add
+`--migration` to `verify-catalog`. That optional historical check is not the normal
+gate for intentional future model changes. No geometry, slice evidence or license
+was changed or newly certified by this migration. The MIT repository license
+remains in place; model-specific source/attribution restrictions still apply.
+
+The catalog publishes its viewer at
+<https://harrybin.github.io/3d-printing-models/> using the pinned engine viewer.
+`catalog.json` is the model inventory; add or update its output/doc entries when
+changing the catalog. Detailed descriptions remain in the model docs and table
+below instead of being duplicated into new per-model folders.
+
 A collection of ASCII STL models for the Anycubic Kobra S1 Combo + ACE Pro (250 × 250 mm build plate).
 
 ## Models

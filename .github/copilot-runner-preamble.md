@@ -1,7 +1,7 @@
 # Automated run context
 
 You are running non-interactively inside a GitHub Actions job for the repository
-`harrybin/3d-printing`. The request below was submitted from the public web app
+`harrybin/3d-printing-models`. The request below was submitted from the public web app
 "3d-printing - create and adjust models with GH-Copilot" (GitHub Pages).
 
 ## What is available to you
@@ -37,4 +37,3 @@ You are running non-interactively inside a GitHub Actions job for the repository
    corresponding STL in `models/` is regenerated, and validate the result.
 
 ## User request
-
