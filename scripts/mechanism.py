@@ -61,7 +61,7 @@ PIN_GRIPS = {
     "idler": 11.4,      # idler 47..52 (head sunk 1 mm) plus rail 40.6..46.6
     "follower": 4.0,    # follower bar 46..50: crush-rib press pin, no barb
 }
-PIN_TAILS = {"follower": 6.2}   # plain tail to u 56.2 in the cam slot
+PIN_TAILS = {"follower": 7.5}   # plain tail to u 57.5 in the cam slot (0.5 mm short of chest wall u=58.0)
 PIN_QUANTITIES = {
     "floor": 2, "slider": 2, "centre": 2, "gear": 1,
     "short": 3, "idler": 3, "follower": 1,
@@ -160,13 +160,28 @@ _TRANSFER_INNER_Z = LID_TRANSFER_BEARING_X + LID_TRANSFER_BLOCK_W / 2.0 \
 _TRANSFER_OUTER_Z = _TRANSFER_INNER_Z - LID_TRANSFER_BLOCK_W
 TRANSFER_HUB_R = 2.2
 TRANSFER_HUB_LEN = -_TRANSFER_INNER_Z - 0.2
+TRANSFER_JOURNAL_R = 1.4
+TRANSFER_BORE_R = 1.6
+TRANSFER_BARB_ARC_R = 1.5
+TRANSFER_BARB_OFFSET = 0.3
+TRANSFER_BARB_R = TRANSFER_BARB_ARC_R + TRANSFER_BARB_OFFSET
+TRANSFER_BARB_LAND = 0.7
+TRANSFER_BARB_CONE = 1.6
+TRANSFER_SLOT_W = 0.8
+TRANSFER_SLOT_ROOT_Z = -4.2
+TRANSFER_CATCH_Z = _TRANSFER_OUTER_Z - 0.55
+TRANSFER_TIP_Z = TRANSFER_CATCH_Z - TRANSFER_BARB_LAND - TRANSFER_BARB_CONE
 TRANSFER_CROSS_Z = _TRANSFER_OUTER_Z - 0.33 - 1.75 / 2.0
 # Hinge-filament spacer between the lid crank (-x face at -DRIVE_PITCH_R) and
 # the lid knuckle in the service channel (x = -43): keeps the crank coupling
 # engaged in the lid socket (crank axial play ~0.2 + 0.2 mm).
 CRANK_SPACER_LEN = 43.0 - DRIVE_PITCH_R - 0.2
 CRANK_SPACER_R = 2.5
-CRANK_SPACER_BORE_R = 1.0
+# Standard 1.75 mm +/- 0.02 mm filament bore radius in 5-wall / 100%-infill
+# mechanism parts: r = 1.15 mm (Ø 2.30 mm nominal CAD bore) compensates for
+# inner-perimeter shrinkage so 1.75 mm filament fits without drilling.
+FILAMENT_BORE_R = 1.15
+CRANK_SPACER_BORE_R = FILAMENT_BORE_R
 LID_TOOTH_PHASE = 15.0
 # Slider cam: the follower pin climbs 7 mm during the first 6 mm of slider
 # travel (lid fully open), then dwells on a level track for the rest. The
@@ -427,9 +442,11 @@ def slider_cam_path() -> list[tuple[float, float]]:
     """Follower-pin centreline in slider-local (x, z)."""
     start = FOLLOWER_X - RETRACTED_SLIDER_X
     end = FOLLOWER_X - slider_x(THETA_MAX)
-    # 1 mm level over-travel at both ends keeps the pin off the slot caps.
+    # 0.2 mm level over-travel at the retracted end (plus 0.3 mm slot clearance)
+    # and 1.0 mm at the deployed end keep the pin off the slot caps while
+    # preserving a thick 7.5 mm rear end pillar behind the slot.
     return [
-        (start - 1.0, FOLLOWER_PIN_Z),
+        (start - 0.2, FOLLOWER_PIN_Z),
         (start, FOLLOWER_PIN_Z),
         (start + LID_CAM_TRAVEL, FOLLOWER_PIN_Z + LID_OPEN_TRAVEL),
         (end + 1.0, FOLLOWER_PIN_Z + LID_OPEN_TRAVEL),
@@ -481,22 +498,34 @@ def build_slider() -> trimesh.Trimesh:
     parts.append(_box_span(18.0, 22.0, -SLIDER_SIDE_U, SLIDER_SIDE_U,
                            z0, 16.0))
 
-    # -Y: drive rack on a floor-skid web (stiff against pinion tooth load).
+    # -Y: drive rack on a floor-skid web extended to -103.5 to meet the rear crossbars.
     parts.append(_box_span(-72.0, 8.0, -54.0, -46.0, 13.0, 17.5))
     parts.append(_box_span(-72.0, 11.5, -53.0, -50.6, z0, 13.2))
+    parts.append(_box_span(-103.5, -72.0, -53.0, -50.6, z0, 13.2))
+    parts.append(_box_span(-103.5, -79.0, -53.0, -45.0, z0, 13.2))
     parts.extend(
         _box_span(x - 1.05, x + 1.05, -53.5, -46.5, 17.4, 19.9)
         for x in drive_rack_tooth_x()
     )
 
-    # +Y: lid cam plate.  The follower pin rides the slot: 7 mm rise over the
-    # first 10 mm of travel, then a level dwell.
-    parts.append(_box_span(-98.3, -33.0, 53.4, 56.6, z0, 23.0))
+    # Rear box-frame crossbars closing the open U-shape into a rigid frame.
+    parts.append(_box_span(-103.5, -95.5, -53.0, 42.6, z0, 13.2))
+    parts.append(_box_span(-86.5, -79.0, -53.0, 42.6, z0, 13.2))
+    parts.append(_box_span(-103.5, -79.0, 35.0, 42.6, z0, 13.2))
+    parts.append(_box_span(-86.5, -79.0, 42.6, 56.6, z0, 12.2))
+    parts.append(_box_span(-93.5, -86.5, 42.6, 52.4, z0, 5.4))
+
+    # +Y: reinforced lid cam plate (extended to -103.5, thickened to y=50.6..56.6).
+    parts.append(_box_span(-103.5, -33.0, 53.4, 56.6, z0, 23.0))
+    parts.append(_box_span(-103.5, -80.5, 52.4, 56.6, z0, 23.0))
+    parts.append(_box_span(-93.5, -79.0, 50.6, 56.6, z0, 16.8))
+    parts.append(_box_span(-56.0, -33.0, 50.6, 56.6, z0, 23.0))
+    parts.append(_box_span(-80.5, -56.0, 52.4, 56.6, z0, 16.8))
     parts.append(_box_span(-35.0, 11.5, 50.6, 53.0, z0, 23.0))
     parts.append(_box_span(-35.0, -33.0, 50.6, 56.6, z0, 23.0))
     path = slider_cam_path()
     for p0, p1 in zip(path[:-1], path[1:]):
-        cuts.append(_slot_xz(p0, p1, PIVOT_D, 55.0, 8.0))
+        cuts.append(_slot_xz(p0, p1, PIVOT_D, 53.6, 10.0))
 
     body = difference(union(parts), cuts)
     return clean(body)
@@ -636,7 +665,8 @@ def build_drive_pinion() -> trimesh.Trimesh:
     body = union([gear, journal, d_end])
     cross = fdm_joints.cross_pin_hole(
         DRIVE_SHAFT_D, axis=(0.0, 1.0, 0.0),
-        center=(0.0, 0.0, DRIVE_CROSS_PIN_Z))
+        center=(0.0, 0.0, DRIVE_CROSS_PIN_Z),
+        diameter_clearance=2.0 * FILAMENT_BORE_R - fdm_joints.FILAMENT_NOMINAL_DIAMETER)
     return clean(difference(body, [cross]))
 
 
@@ -702,7 +732,7 @@ def build_lid_crank() -> trimesh.Trimesh:
     coupling = box((5.0, 18.0, 2.6), (0.0, -7.0, 9.7))
     hub = cylinder(2.0, 11.0, (0.0, 0.0, 5.5))
     return clean(difference(union([gear, hub, coupling]), [
-        cylinder(2.0 / 2.0, 15.0, (0.0, 0.0, 5.5))
+        cylinder(CRANK_SPACER_BORE_R, 15.0, (0.0, 0.0, 5.5))
     ]))
 
 
@@ -715,22 +745,63 @@ def build_crank_spacer() -> trimesh.Trimesh:
                   (0.0, 0.0, CRANK_SPACER_LEN / 2.0))]))
 
 
+def _transfer_barb_half(side: float) -> trimesh.Trimesh:
+    """One half of the split snap-clip on the lid transfer gear journal."""
+    catch_z = TRANSFER_CATCH_Z
+    land_end = catch_z - TRANSFER_BARB_LAND
+    cone_end = TRANSFER_TIP_Z
+    angles = np.linspace(0.0, 2.0 * np.pi, 48, endpoint=False)
+    ring = np.column_stack([np.cos(angles), np.sin(angles)])
+    points = [
+        np.column_stack([ring * (TRANSFER_JOURNAL_R - 0.15),
+                         np.full(len(ring), catch_z + 0.40)]),
+        np.column_stack([ring * TRANSFER_BARB_ARC_R
+                         + [side * TRANSFER_BARB_OFFSET, 0.0],
+                         np.full(len(ring), catch_z)]),
+        np.column_stack([ring * TRANSFER_BARB_ARC_R
+                         + [side * TRANSFER_BARB_OFFSET, 0.0],
+                         np.full(len(ring), land_end)]),
+        np.column_stack([ring * (TRANSFER_JOURNAL_R - 0.20),
+                         np.full(len(ring), cone_end)]),
+    ]
+    barb = trimesh.convex.convex_hull(np.vstack(points))
+    keep = _box_span(
+        0.0 if side > 0 else -5.0,
+        5.0 if side > 0 else 0.0,
+        -5.0, 5.0,
+        cone_end - 0.1, catch_z + 0.5,
+    )
+    return intersection([barb, keep])
+
+
 def build_lid_transfer_gear() -> trimesh.Trimesh:
-    """Equal-ratio transfer gear with an integral, axially inserted journal."""
+    """Equal-ratio transfer gear with an integral split snap-clip journal."""
     teeth = max(6, int(round(2.0 * np.pi * LID_SECTOR_R / GEAR_PITCH)))
     gear = _spur_gear(LID_SECTOR_R - 1.5, GEAR_TOOTH_H,
                       teeth, 4.0)
     gear.apply_transform(trimesh.transformations.rotation_matrix(
         np.deg2rad(LID_TOOTH_PHASE), (0.0, 0.0, 1.0)))
-    journal = cylinder(1.4, 18.0, (0.0, 0.0, -5.0))
-    # Shoulder hub: stops 0.2 mm before the bearing block's inner face so the
-    # gear cannot drift off its 4 mm rack/crank mesh; the cross pin sits
-    # 0.33 mm outside the outer face.  Axial play totals ~0.5 mm.
+    # Shoulder hub stops 0.2 mm before the bearing block's inner face; the
+    # split snap-clip catches behind the outer face (-10.0 mm) with a 45 deg
+    # ramp so axial play totals ~0.5 mm without a loose filament pin.
     hub = cylinder(TRANSFER_HUB_R, TRANSFER_HUB_LEN,
                    (0.0, 0.0, -TRANSFER_HUB_LEN / 2.0 + 0.01))
-    return clean(difference(union([gear, journal, hub]), [
-        cylinder(0.95, 6.0, (0.0, 0.0, TRANSFER_CROSS_Z), (1.0, 0.0, 0.0)),
-    ]))
+    journal_top = 0.0
+    journal_bot = TRANSFER_CATCH_Z - TRANSFER_BARB_LAND
+    journal = cylinder(
+        TRANSFER_JOURNAL_R, journal_top - journal_bot,
+        (0.0, 0.0, (journal_top + journal_bot) / 2.0))
+    body = union([
+        gear, hub, journal,
+        _transfer_barb_half(+1.0),
+        _transfer_barb_half(-1.0),
+    ])
+    slot = _box_span(
+        -TRANSFER_SLOT_W / 2.0, TRANSFER_SLOT_W / 2.0,
+        -10.0, 10.0,
+        TRANSFER_TIP_Z - 1.0, TRANSFER_SLOT_ROOT_Z,
+    )
+    return clean(difference(body, [slot]))
 
 
 def build_scissor_drive_gear() -> trimesh.Trimesh:
@@ -801,7 +872,7 @@ def build_forearm_output_gear() -> trimesh.Trimesh:
     )
     body = union([gear, shaft])
     retainer_hole = cylinder(
-        1.9 / 2.0, 10.0,
+        FILAMENT_BORE_R, 10.0,
         (0.0, FOREARM_RETAINER_Y, 0.0),
         (1.0, 0.0, 0.0),
     )
@@ -828,7 +899,7 @@ def build_forearm(length: float = FOREARM_LENGTH) -> trimesh.Trimesh:
         0.0,
     )
     body = difference(body, [
-        cylinder(1.9 / 2.0, 20.0, (0.0, 0.0, length + 9.0), wrist_pin_axis),
+        cylinder(FILAMENT_BORE_R, 20.0, (0.0, 0.0, length + 9.0), wrist_pin_axis),
         _d_prism(
             FOREARM_SOCKET_D,
             24.0,

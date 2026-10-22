@@ -1,5 +1,9 @@
 # The Ghoul's Grip – Maße und Bauanleitung
 
+Für den Zusammenbau am Arbeitsplatz:
+**[Schritt-für-Schritt-Bauanleitung mit Explosionszeichnung, Stiftzuordnung und Zwischenprüfungen](ghouls-grip-bauanleitung.md)**.
+Dieses Dokument enthält den ergänzenden Maß- und Konstruktionsvertrag.
+
 ![Ausgefahren](images/ghouls-grip-deployed.png)
 ![Eingefahren](images/ghouls-grip-retracted.png)
 
@@ -208,7 +212,7 @@ in ausreichend starkem Material.
 ## Stückliste
 
 Das Orca-Druckprojekt enthält **29 Teiltypen / 42 Druckobjekte** auf vier
-Platten. Dazu kommen **sechs nicht gedruckte Filamentstifte** (1,75-mm-PLA vom
+Platten. Dazu kommen **vier nicht gedruckte Filamentstifte** (1,75-mm-PLA ±0,02 mm vom
 Spulenrest), die in Kollisions- und Eingriffsprüfung als Ø1,75-Zylinder
 mitgeführt werden.
 
@@ -217,13 +221,13 @@ mitgeführt werden.
 | Schatulle | 1 | 209,0 × 130,5 × 98,0 mm | Schwarz |
 | Deckel | 1 | 206,0 × 129,8 × 28,2 mm | Schwarz |
 | Scherenarm | 4 | 84 × 12 × 4 mm | Naturweiß |
-| Schlitten mit Zahnstange, Kurvenbahn und Schnappfingern | 1 | 120,3 × 118,8 × 20,8 mm | Naturweiß |
+| Schlitten mit Kastenrahmen-Querstreben, Zahnstange, verstärkter Kurvenbahn und Schnappfingern | 1 | 125,5 × 118,8 × 20,8 mm | Naturweiß |
 | Plattform (Hubjoch) | 1 | 83,5 × 92,6 × 48,5 mm | Naturweiß |
 | Hauptantriebsritzel mit D-Welle | 1 | 55,8 × 55,7 × 28 mm | Naturweiß |
 | Deckel-Folger mit Zahnstange | 1 | 91 × 12,6 × 6 mm | Naturweiß |
-| Deckelkurbel (Segment mit Mitnehmer) | 1 | 9,2 × 20,6 × 11 mm | Naturweiß |
-| Kurbel-Distanzhülse (axiale Sicherung auf der Scharnierachse) | 1 | Ø5 × 15,8 mm, Bohrung Ø2,0 | Naturweiß |
-| Deckel-Übertragungsrad mit Zapfen und Bund | 2 | Ø9,2 × 18 mm | Naturweiß |
+| Deckelkurbel (Segment mit Mitnehmer) | 1 | 9,2 × 20,6 × 11 mm, Bohrung Ø2,3 | Naturweiß |
+| Kurbel-Distanzhülse (axiale Sicherung auf der Scharnierachse) | 1 | Ø5 × 15,8 mm, Bohrung Ø2,3 | Naturweiß |
+| Deckel-Übertragungsrad mit Bund und geschlitztem Schnappklips-Zapfen | 2 | Ø9,2 × 17,0 mm | Naturweiß |
 | Scheren-Eingangszahnrad | 1 | 25,8 × 25,8 × 11,5 mm | Naturweiß |
 | Zwischenrad | 3 | Ø16,5 × 6 mm | Naturweiß |
 | Unterarm-Abtriebsrad mit D-Welle | 1 | 25,8 × 75 × 25,8 mm | Naturweiß |
@@ -233,22 +237,25 @@ mitgeführt werden.
 | Schnappstift Ø4 Zahnrad (16,4) | 1 | Ø7,5 × 19,6 mm | Naturweiß |
 | Schnappstift Ø4 kurz (6,8) | 3 | Ø7,5 × 10,0 mm | Naturweiß |
 | Schnappstift Ø4 Zwischenrad (11,4) | 3 | Ø7,5 × 14,6 mm | Naturweiß |
-| Pressstift Ø4 Folger (Quetschrippen) | 1 | Ø7,5 × 11,8 mm | Naturweiß |
+| Pressstift Ø4 Folger (Quetschrippen, verlängert bis fast an die Truhenwand) | 1 | Ø7,5 × 13,1 mm | Naturweiß |
 | Unterarm mit D-Nabe | 1 | 25,8 × 18 × 50 mm | Knochenbeige |
 | Handfläche (mit 3 bündigen Sacklöchern) | 1 | 67,8 × 96,4 × 25,2 mm | Knochenbeige |
 | Fünf gekrümmte Finger (massive Gelenke) | je 1 | 33–59 mm | Knochenbeige |
 | Totenkopf-Drehknopf | 1 | 48,5 × 55,1 × 27,0 mm | Gold (`#D4AF37`) |
 | Süßigkeitenschale (`candy-dish`, optional steckbar) | 1 | 48,0 × 55,0 × 39,0 mm | Gold (`#D4AF37`) |
 
-**Nicht gedruckte Teile (Filament Ø1,75 mm, abgelängt):**
+**Nicht gedruckte Teile (Filament Ø1,75 mm ± 0,02 mm, abgelängt):**
 
-| Stift | Länge | Bohrung | Ort |
+| Stift | Länge | Bohrung (CAD) | Ort |
 | --- | ---: | --- | --- |
-| Deckelscharnier | 198 mm | Ø1,9 Truhe / Ø1,98 Deckel | Scharnierachse, durch alle Knöchel |
-| Knauf-Querstift | 14 mm | Ø1,9 | Knauf und Ritzel-D-Welle |
-| Übertragungsrad-Sicherung | 2 × 5 mm | Ø1,9 | Zapfen außen am Lagerbock |
-| Abtriebswellen-Sicherung | 10 mm | Ø1,9 | D-Welle am Plattformlager |
-| Handgelenk | 16 mm | Ø1,9 | Unterarmzapfen und Handfläche |
+| Deckelscharnier | 198 mm | Ø1,9 Truhe / Ø1,98 Deckel / Ø2,3 Kurbel & Hülse (vertikal) | Scharnierachse, durch alle Knöchel |
+| Knauf-Querstift | 14 mm | Ø2,3 | Knauf und Ritzel-D-Welle |
+| Abtriebswellen-Sicherung | 10 mm | Ø2,3 | D-Welle am Plattformlager |
+| Handgelenk | 16 mm | Ø2,3 | Unterarmzapfen und Handfläche |
+
+*(Die beiden Deckel-Übertragungsräder `lid-transfer-gear-01/02` sichern sich
+über ihre integrierten geschlitzten Schnappklipse hinter den Ø3,2-Lagerböcken
+selbst und benötigen keine 5-mm-Filamentstücke mehr.)*
 
 Die frühere separate Sehnenführung, die starre Deckel-Hauptzahnstange und die
 Ø3-Pins sind entfallen.
@@ -257,7 +264,7 @@ Die frühere separate Sehnenführung, die starre Deckel-Hauptzahnstange und die
 
 | Verbindung | Verbinder | Montageprinzip |
 | --- | --- | --- |
-| Scherenarme, Schlitten, Plattform, Zahnräder | 14 gedruckte Ø4-Schnappstifte in 7 Klemmlängen in Ø4,6-Bohrungen | geschlitzter Schaft mit Rastnase; von der Kopfseite einschieben, bis die Nase hinter der Gegenfläche einrastet (0,25 mm Hinterschnitt) |
+| Scherenarme, Schlitten, Plattform, Zahnräder | 13 gedruckte Ø4-Schnappstifte in 6 Klemmlängen in Ø4,6-Bohrungen | geschlitzter Schaft mit Rastnase; von der Kopfseite einschieben, bis die Nase hinter der Gegenfläche einrastet (0,25 mm Hinterschnitt); zusammen mit dem separaten Folger-Pressstift 14 gedruckte Stifte |
 | Folger im Kurvenschlitz | massiver Ø4-Pressstift mit Quetschrippen | von innen durch den Folger in den Schlitz drücken |
 | Schlitten in der Schiene | zwei integrierte Schnappfinger | senkrecht aufdrücken, Finger rasten in die Nut |
 | Unterarm in Plattform | D-Welle des Abtriebsrads + Filamentstift 10 mm | Unterarm zwischen die Ohren, Welle axial einschieben, außen sichern |
@@ -266,13 +273,53 @@ Die frühere separate Sehnenführung, die starre Deckel-Hauptzahnstange und die
 | Süßigkeitenschale an Handfläche | 3 asymmetrische Ø3,0-mm-Unterseitenstifte an der Schale in bündigen Ø3,4-mm-Sacklöchern der Mittelhandknochen (0,4 mm Spiel) | optional nach den Fingern entlang der Schalennormale von oben in die Handfläche einstecken; ohne Schale bleibt die Knochenhand frei von abstehenden Stegen |
 | Deckel am Gehäuse | Filament 198 mm als Scharnierachse | von der Stirnseite durch alle Knöchel, Kurbel und Distanzhülse schieben |
 | Totenkopf am Hauptritzel | D-Welle + Filamentstift 14 mm | Knauf aufstecken, Querstift einsetzen |
-| Übertragungsräder | Zapfen Ø2,8 in Ø3,2-Lagerbock, Bund innen, Filamentstift 5 mm außen | axial in -X einschieben, Stift außen quer |
+| Übertragungsräder | geschlitzter Klips-Zapfen Ø2,8 (Rastnase Ø3,6) in Ø3,2-Lagerbock, Bund innen | axial in -X einschieben, bis die geschlitzte Rastnase außen hinter dem Lagerbock einrastet (kein 5-mm-Filamentstift nötig) |
 
 Alle Steckspiele, Rastnasen-Dehnungen, Einführwege und Zahnflankenspiele sind
 in [`ghouls-grip-montage-audit.md`](ghouls-grip-montage-audit.md) gegen die
 Druckungenauigkeit (±0,1–0,2 mm) nachgewiesen.
 
 ## Montage
+
+### Explosionszeichnung
+
+[![Explosionszeichnung mit acht nummerierten Baugruppen und deutschen Montagehinweisen](images/ghouls-grip-explosionszeichnung.png)](images/ghouls-grip-explosionszeichnung.png)
+
+Die [Zeichnung in voller Auflösung (3200 × 2600 Pixel)](images/ghouls-grip-explosionszeichnung.png)
+zeigt alle **42 Druckkörper** aus `models/ghouls-grip-view.3mf`, Zustand
+`deployed`, in acht nummerierten Baugruppen. Die Nummern verweisen auf die
+Montageschritte unten; sie sind keine zusätzlichen Teilekennzeichen.
+Handfläche, fünf Finger, Unterarm und optionale Schale sind einzeln getrennt;
+Schnappstifte und Antriebsräder sind ihrer jeweiligen Baugruppe zugeordnet.
+Die vier zugeschnittenen Filamentstifte sind nicht abgebildet, ihre Längen
+und Einsteckstellen stehen in den Tabellen oben und den Montageschritten.
+
+**Darstellung, keine Geometrieänderung:** Die Originalnetze werden ausschließlich
+für die Illustration verschoben; Orientierung, Form, STL- und 3MF-Dateien bleiben
+unverändert. Gestrichelte Pfeile zeigen die Explosionsachsen, **keine geprüften
+Montagepfade**. Insbesondere Plattform und Deckel werden nicht einfach gerade
+abgesenkt: Die erforderlichen Versätze und Eingriffsrichtungen bleiben wie in
+Schritt 9 bzw. 11–12 beschrieben. Die Darstellung ist nicht maßstäblich auszumessen
+und ersetzt keinen Passungs-/Kollisionsnachweis.
+
+Reproduzierbare Bildquelle: `scripts/render_ghouls_grip_exploded.py`.
+Das Skript liest das vorhandene Ansichtsprojekt, rendert dessen Netze mit Blender
+und setzt die deutschen Beschriftungen mit Pillow. Blender wird im PATH bzw.
+unter dem Windows-Standardinstallationsordner gesucht; ein anderer Pfad kann
+mit `--blender` angegeben werden. Es werden keine neuen Druckdateien exportiert.
+
+```powershell
+.\.venv\Scripts\python.exe scripts\render_ghouls_grip_exploded.py
+```
+
+Rendernachweis: Blender **5.2.2 LTS**, erfolgreicher PNG-Render, alle 42 Körper
+im Kamerabereich, Bild visuell geprüft. SHA-256 der Quell-3MF:
+`810d8e525bf2038dc930ba21cbacf278700f29d1ddbc420faad032fe8944f012`.
+Das Skript prüft außerdem die SHA-256-Werte aller drei Ghoul's-Grip-Modelldateien
+vor/nach dem Rendern. Projektionsdaten und Zwischenrender liegen ausschließlich
+unter `build/ghouls-grip-exploded/`.
+
+### Montageschritte
 
 1. Truhe auf den Tisch, Öffnung oben.
 2. Schlitten senkrecht auf die Schiene drücken, bis beide Schnappfinger in die
@@ -284,7 +331,8 @@ Druckungenauigkeit (±0,1–0,2 mm) nachgewiesen.
 5. Deckel-Folger in den Führungskanal absenken; den Folger-Pressstift von innen
    durch den Folger in den Kurvenschlitz drücken.
 6. Beide Deckel-Übertragungsräder axial in -X in die Lagerböcke schieben, bis
-   der Bund innen anliegt; außen je Filamentstift 5 mm quer durch den Zapfen.
+   der Bund innen anliegt und der geschlitzte Schnappklips außen hinter dem
+   Lagerbock einrastet (kein Filamentstift nötig).
 7. Scherenarme je Ebene einsetzen; Boden-, Schlitten- und Mittelstifte mit dem
    Kopf innen einschnappen.
 8. Scheren-Eingangszahnrad **vor** der Plattform setzen: von +Y auf das obere
@@ -311,8 +359,12 @@ Druckungenauigkeit (±0,1–0,2 mm) nachgewiesen.
 11. Deckel-Baugruppe außerhalb vormontieren: Deckel umgedreht, Deckelkurbel von
     unten einlegen und 5,6 mm in +X in die Mitnehmertasche schieben; die
     Kurbel-Distanzhülse von unten in den Servicekanal zwischen Kurbel und
-    Deckelauge legen. (Bei aufgesetztem Deckel ist der Kanal geschlossen und die
-    Kurbel nicht mehr einsetzbar.)
+    Deckelauge legen. (Beide Teile sind getrennt, weil ihre Gesamtlänge von
+    11,0 + 15,8 = 26,8 mm größer als die 25,0-mm-Haubenöffnung ist und die
+    Kurbel zuerst 5,6 mm seitlich in die Tasche geschoben werden muss; bei
+    aufgesetztem Deckel ist der Kanal geschlossen. Die stehend gedruckten
+    Scharnierbohrungen beider Teile haben Ø2,30 mm CAD-Maß zum Ausgleich der
+    vertikalen FDM-Lochschrumpfung.)
 12. Deckel-Baugruppe etwa 108° geöffnet halten, 3 mm nach hinten (+Y) versetzt
     senkrecht absenken, dann nach vorn in den Eingriff mit dem Zwischenrad
     schieben, bis die Gelenkaugen fluchten. Das 198-mm-Scharnierfilament von

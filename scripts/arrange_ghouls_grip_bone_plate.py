@@ -20,7 +20,8 @@ PART_CLEARANCE = 10.0
 PLATE_X_OFFSET = 300.0
 
 # Target XY bounding-box minima in millimeters. The palm and forearm share
-# the upper row; the five fingers sit below them with a uniform gap.
+# the upper row; the five fingers sit below them with a uniform gap,
+# wrapping onto another row when needed.
 UPPER_ROW = ("forearm", "hand-palm")
 FINGER_ROW = (
     "hand-finger-thumb",
@@ -83,10 +84,10 @@ def _xy_bounds(
     xs, ys = [], []
     for vertex in vertices:
         x, y, z = (float(vertex.get(axis)) for axis in ("x", "y", "z"))
-        xs.append(transform[0] * x + transform[1] * y
-                  + transform[2] * z + transform[9])
-        ys.append(transform[3] * x + transform[4] * y
-                  + transform[5] * z + transform[10])
+        xs.append(transform[0] * x + transform[3] * y
+                  + transform[6] * z + transform[9])
+        ys.append(transform[1] * x + transform[4] * y
+                  + transform[7] * z + transform[10])
     return min(xs), min(ys), max(xs), max(ys)
 
 
@@ -128,10 +129,17 @@ def arrange(project: Path = PROJECT) -> None:
         current_bounds[name][3] - current_bounds[name][1]
         for name in UPPER_ROW
     ) + START_Y + PART_CLEARANCE
+    row_height = 0.0
     for name in FINGER_ROW:
+        width = current_bounds[name][2] - current_bounds[name][0]
+        height = current_bounds[name][3] - current_bounds[name][1]
+        if finger_x + width > BED_SIZE - EDGE_MARGIN:
+            finger_x = START_X
+            finger_y += row_height + PART_CLEARANCE
+            row_height = 0.0
         targets[name] = (finger_x, finger_y)
-        finger_x += (current_bounds[name][2] - current_bounds[name][0]
-                     + PART_CLEARANCE)
+        finger_x += width + PART_CLEARANCE
+        row_height = max(row_height, height)
 
     original_z = {}
     for name in PART_NAMES:

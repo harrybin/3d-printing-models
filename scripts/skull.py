@@ -194,7 +194,8 @@ def build_drive_knob(scale: float = 1.15, shaft_d: float = 8.0,
     angle = np.deg2rad(flat_angle)
     cross = fdm_joints.cross_pin_hole(
         14.0, axis=(-np.sin(angle), np.cos(angle), 0.0),
-        center=(0.0, 0.0, cross_pin_z))
+        center=(0.0, 0.0, cross_pin_z),
+        diameter_clearance=2.0 * 1.15 - fdm_joints.FILAMENT_NOMINAL_DIAMETER)
     return clean(difference(knob, [socket, cross]))
 
 

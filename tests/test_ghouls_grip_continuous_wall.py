@@ -104,10 +104,25 @@ class ContinuousWallTests(unittest.TestCase):
             self.assertLess(overlap(gears[0], rack), 0.001)
 
     def test_transfer_journals_can_be_inserted_axially(self):
+        from mesh_kit import cylinder, difference
         for y, angle in ((m.LID_TRANSFER_Y, 0.0), (m.LID_IDLER_Y, 0.0)):
             installed = place_gear(self.gear, y, angle)
-            for dx in np.linspace(8.5, 0.0, 61):
-                part = installed.copy()
+            # Seated pose clears the bearing block; pulling +0.6 mm in +X
+            # engages the integral split snap-clip against the outer face.
+            self.assertLess(overlap(installed, self.chest), 0.001)
+            pulled = installed.copy()
+            pulled.apply_translation([0.6, 0, 0])
+            self.assertGreater(overlap(pulled, self.chest), 0.02)
+            # With the split snap-clip compressed inside the Ø3.20 mm bore,
+            # the journal inserts cleanly along the full axial path.
+            outer = box((11.6, 10.0, 10.0), (-39.0, y, m.LID_HINGE_Z))
+            core = cylinder(1.48, 13.0,
+                            (-39.0, y, m.LID_HINGE_Z), (1, 0, 0))
+            ring = trimesh.boolean.difference([outer, core], engine="manifold")
+            compressed = trimesh.boolean.difference(
+                [installed, ring], engine="manifold")
+            for dx in np.linspace(7.5, 0.0, 61):
+                part = compressed.copy()
                 part.apply_translation([dx, 0, 0])
                 self.assertLess(overlap(part, self.chest), 0.001)
 

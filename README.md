@@ -141,6 +141,8 @@ grouping:
 
 Assembly order, connector use and dimensions are in
 [`docs/ghouls-grip-masse-und-bauanleitung.md`](docs/ghouls-grip-masse-und-bauanleitung.md);
+the German illustrated step-by-step assembly guide is
+[`docs/ghouls-grip-bauanleitung.md`](docs/ghouls-grip-bauanleitung.md);
 the full swept-volume proof is in
 [`docs/ghouls-grip-mechanik-verifikation.md`](docs/ghouls-grip-mechanik-verifikation.md).
 
