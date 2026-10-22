@@ -82,24 +82,24 @@ Die Längen sind dem bestehenden Maßvertrag entnommen.
 | 1 | 10 mm | Unterarm-Abtriebswelle außen quer sichern |
 | 1 | 16 mm | Handgelenk quer sichern |
 
-### Gedruckte Stifte sortieren
+### Gedruckte Stifte sortieren (4 optische Längengruppen + 1 Pressstift)
 
-Die 13 Schnappstifte sind nicht austauschbar. Zusammen mit dem massiven
-Folger-Pressstift sind es 14 gedruckte Stifte. Sortiere die Schnappstifte nach
-Klemmlänge, nicht nur nach Gesamtlänge; der Folger-Pressstift hat keine Rastschlitze.
+Insgesamt gibt es **14 gedruckte Stifte**: **13 geschlitzte Schnappstifte (Splinte)**
+mit Rastnase und **1 massiven Pressstift ohne Schlitz** (`pivot-pin-follower`).
+Wenn du die **13 geschlitzten Splinte** nebeneinander auf den Tisch legst,
+erkennst du mit bloßem Auge **vier Längengruppen** (**3 ganz kurze**, **2 kurze**,
+**5 lange**, **3 ganz lange**):
 
-| Funktion / Kennung im Projekt | Anzahl | Klemmlänge | Einbauort |
-| --- | ---: | ---: | --- |
-| `pivot-pin-floor` | 2 | 18,4 mm | Bodenlager der beiden Scherenebenen |
-| `pivot-pin-slider` | 2 | 11,2 mm | untere bewegliche Armenden am Schlitten |
-| `pivot-pin-centre` | 2 | 8,4 mm | Kreuzung der beiden Arme je Ebene |
-| `pivot-pin-gear` | 1 | 16,4 mm | oberer Festpunkt auf der Seite des Eingangszahnrads |
-| `pivot-pin-short` | 3 | 6,8 mm | gegenüberliegender oberer Festpunkt und beide oberen Langlochpunkte |
-| `pivot-pin-idler` | 3 | 11,4 mm | die drei Zwischenräder am Hubjoch |
-| `pivot-pin-follower` | 1 | Pressstift | Folger in der Kurvenbahn |
+| Optische Gruppe auf dem Tisch | Anzahl | Gesamtlänge (Klemmlänge) | Projektkennung | Wo gehört dieser Splint hin? |
+| --- | ---: | --- | --- | --- |
+| **1. Drei ganz kurze** (mit Schlitz) | **3×** | **10,0 mm** (6,8 mm) | `pivot-pin-short` (`fixed-0`, `slot-0`, `slot-1`) | **Abschnitt 8 (Hubjoch in Schere):** die **3 oberen Gelenke ohne Zahnrad** – 1× oberer Festpunkt vorn (`−Y`) und 2× obere Langlochpunkte vorn/hinten (`−Y` und `+Y`) |
+| **2. Zwei kurze** (mit Schlitz) | **2×** | **11,6 mm** (8,4 mm) | `pivot-pin-centre` (`centre-0`, `centre-1`) | **Abschnitt 5 (Scherenebenen):** die **2 mittleren Scheren-Kreuzungen** (je 1× vorn und hinten in der Mitte des X) |
+| **3. Fünf lange** (mit Schlitz, optisch fast gleich lang) | **5×** | **2× 14,4 mm** (11,2 mm)<br>**3× 14,6 mm** (11,4 mm) | `pivot-pin-slider` (2×)<br>`pivot-pin-idler` (3×) | **Abschnitt 5:** **2× (14,4 mm)** unten beweglich am **Schlitten** (vorn/hinten)<br>**Abschnitt 7:** **3× (14,6 mm)** für die **3 Zwischenräder** am Hubjoch *(0,2 mm Unterschied liegt im Axialspiel)* |
+| **4. Drei ganz lange** (mit Schlitz) | **3×** | **2× 21,6 mm** (18,4 mm)<br>**1× 19,6 mm** (16,4 mm) | `pivot-pin-floor` (2×)<br>`pivot-pin-gear` / `fixed-1` (1×) | **Abschnitt 5:** die **2 längsten (21,6 mm)** unten fest in die **Bodenlager** der Truhe (von innen nach außen)<br>**Abschnitt 8:** der **1 etwas kürzere (19,6 mm)** oben hinten (`+Y`) durch **Hubjoch, Schere und Eingangszahnrad** |
+| **Sonderstift ohne Schlitz** (massiv, mit Quetschrippen) | **1×** | **11,8 mm** (Presssitz) | `pivot-pin-follower` | **Abschnitt 4 (Deckel-Folger):** durch die Folger-Zahnstange in die Kurvenbahn des Schlittens (kein Gelenksplint!) |
 
-Schnappstifte von der Kopfseite durch die fluchtenden Bohrungen einschieben,
-bis die Rastnase hinter der Gegenfläche liegt. Nicht mit einem Hammer
+Schnappstifte immer von der Kopfseite durch die fluchtenden Bohrungen einschieben,
+bis die geschlitzte Rastnase hinter der Gegenfläche einrastet. Nicht mit einem Hammer
 einschlagen. Der Kopf darf das Gelenk nicht festklemmen.
 
 ## 3. Schlitten und Hauptantrieb montieren
@@ -131,8 +131,10 @@ die Zähne überspringen. Der Knauf ist ein Drehantrieb, kein Druckknopf.
 
 [![Schritt 4: Folger und beide Transferzahnräder vor und nach dem Einsetzen](images/ghouls-grip-montage-04.png)](images/ghouls-grip-montage-04.png)
 
-Senke die Folger-Zahnstange in ihren Führungskanal. Drücke den massiven
-Folger-Pressstift von innen durch den Folger in den Kurvenschlitz des Schlittens.
+Senke die Folger-Zahnstange in ihren Führungskanal. Drücke den **einzelnen
+massiven Folger-Pressstift (11,8 mm, ohne Längsschlitz, mit Quetschrippen)**
+von innen durch den Folger in den Kurvenschlitz des Schlittens. Verwechsle ihn
+nicht mit den beiden fast gleich langen, aber geschlitzten kurzen Scherensplinten.
 Die Rippen dieses Stifts bilden den vorgesehenen Presssitz.
 
 Schiebe beide Transferzahnräder axial in **−X** in ihre Lagerböcke, bis ihr
@@ -155,12 +157,14 @@ an. Die Arme verbinden unten je einen festen Bodenpunkt und einen beweglichen
 Schlittenpunkt; oben folgen ein Festpunkt und ein Langlochpunkt am Hubjoch.
 Die Bohrungssenkungen zeigen jeweils nach außen.
 
-Beginne in der flachen Scherenstellung (**18°**). Setze zuerst die beiden
-Bodenstifte ein, solange der mittlere Raum noch gut zugänglich ist:
-**vom Kisteninneren nach außen**, niemals durch die geschlossene Außenwand.
-Verbinde anschließend die unteren Schlittenpunkte und die mittleren
-Kreuzungen mit den jeweils zugeordneten Stiften. Die oberen Verbindungen
-bleiben bis zum Einsetzen des Hubjochs frei.
+Beginne in der flachen Scherenstellung (**18°**). Hier werden **6 Splinte aus
+drei verschiedenen Längengruppen** verbaut:
+
+1. **Unten fest im Truhenboden (`pivot-pin-floor`, 2× aus der Gruppe „drei ganz lange“, 21,6 mm – die beiden längsten Stifte überhaupt):** Zuerst einsetzen, solange der mittlere Raum noch gut zugänglich ist – **vom Kisteninneren nach außen** durch beide Wangen des Bodenlagers, niemals durch die geschlossene Außenwand.
+2. **Unten beweglich am Schlitten (`pivot-pin-slider`, 2× aus der Gruppe „fünf lange“, 14,4 mm):** Von innen nach außen durch das untere bewegliche Scherenauge und die Schlittenaufnahme stecken.
+3. **Scherenmitte (`pivot-pin-centre`, die kompletten „zwei kurzen“, 11,6 mm):** Von innen nach außen durch den mittleren Kreuzungspunkt der beiden Scherenarme je Ebene stecken.
+
+Die oberen vier Gelenkpunkte der Schere bleiben bis zum Einsetzen des Hubjochs (Abschnitt 8) frei.
 
 **Zwischenprüfung:** Beide Paare müssen gemeinsam und ohne seitliches
 Verziehen beweglich sein. Lose Teile dabei abstützen. Sind Bohrungen nicht
@@ -193,8 +197,10 @@ Lager und die passende Unterarm-D-Aufnahme. Sichere die Welle außen mit dem
 **10-mm-Filamentstift**.
 
 Setze die drei Zwischenräder an ihre Lagerstellen und sichere sie mit den
-drei zugehörigen Zwischenrad-Schnappstiften. Zusammen mit Scheren-Eingangsrad
-und Unterarm-Abtriebsrad entsteht die Fünf-Zahnrad-Kette.
+**verbleibenden 3 Splinten aus der Gruppe „fünf lange“ (`pivot-pin-idler`,
+14,6 mm)**. Ihre Köpfe tauchen in die flachen Senkungen der Zwischenräder ein.
+Zusammen mit Scheren-Eingangsrad und Unterarm-Abtriebsrad entsteht die
+Fünf-Zahnrad-Kette.
 
 **Zwischenprüfung:** Die drei Zwischenräder und das Abtriebsrad stehen in
 einer gemeinsamen Eingriffsebene. Die Welle ist gesichert, der Unterarm
@@ -214,9 +220,11 @@ Verbindungslinie der Zahnradachsen in den Eingriff.
 
 **Nicht einfach senkrecht in die Verzahnung drücken:** Die Achsverbindung
 liegt 64° zur Senkrechten; gerades Absenken würde Zahn auf Zahn treffen.
-Schließe nach dem Ausrichten die oberen Fest- und Langlochverbindungen:
-ein langer Zahnradstift auf der Eingangszahnradseite und drei kurze Stifte
-an den übrigen oberen Punkten.
+Schließe nach dem Ausrichten die vier oberen Gelenke mit den **letzten 4
+übrig gebliebenen Splinten**:
+
+- **1× der letzte „ganz lange“ Splint (`pivot-pin-gear` / `fixed-1`, 19,6 mm):** Oben hinten (**+Y**) durch Hubjoch-Lager, oberes Scherenauge **und** das Scheren-Eingangszahnrad.
+- **Alle „drei ganz kurzen“ Splinte (`pivot-pin-short`, 3× 10,0 mm):** In die übrigen drei oberen Gelenke ohne Zahnrad – **1×** oberer Festpunkt vorn (**−Y**, `fixed-0`) sowie **2×** obere Langlochpunkte vorn und hinten (**−Y** `slot-0` und **+Y** `slot-1`).
 
 **Zwischenprüfung:** Beide Scheren tragen das Joch. Die oberen beweglichen
 Punkte laufen in ihren Langlöchern; die fünf Zahnräder greifen ineinander.
@@ -259,6 +267,24 @@ Lege den Deckel umgedreht auf eine weiche Unterlage. Führe die Deckelkurbel
 von unten ein und schiebe sie **5,6 mm in +X** in ihre Mitnehmertasche.
 Lege die Distanzhülse von unten in den Servicekanal zwischen Kurbel und
 Deckelauge. Halte die losen Teile beim Wenden in Position.
+
+**Warum sind Deckelkurbel und Distanzhülse zwei getrennte Teile statt eines?**
+Die geschlossene Schutzhaube unter dem Deckel hat nur eine **25,0 mm breite
+Öffnung** (`x = −43,0 .. −18,0 mm`), während Kurbel (**11,0 mm**) und
+Distanzhülse (**15,8 mm**) zusammen **26,8 mm** lang sind. Außerdem muss der
+Mitnehmer der Kurbel seitlich (**5,6 mm in +X**) in die geschlossene Tasche der
+Haubenwand eingeschoben werden. Ein einteiliges Bauteil ließe sich deshalb
+geometrisch gar nicht in die Haube einsetzen: Erst wenn die kurze Kurbel nach
+rechts (+X) in die Tasche geschoben ist, wird dahinter (−X) der 15,8-mm-Raum
+frei, in den die Distanzhülse von unten eingelegt wird, um die Kurbel formschlüssig
+gegen Zurückrutschen zu sperren.
+
+**Hinweis zur Filamentbohrung:** Da Kurbel und Distanzhülse stehend gedruckt
+werden (Bohrung vertikal in Z mit 5 Wandlinien und 100 % Füllung), ist ihre
+CAD-Bohrung auf **Ø 2,30 mm** (`r = 1,15 mm`) vergrößert, damit das 1,75-mm-Filament
+genauso leichtgängig hindurchgleitet wie durch die horizontal gedruckten
+Deckelscharnieraugen. Falls ein älterer Druckstand mit Ø 2,00 mm vorliegt, die
+Bohrung beider Teile mit einem **2,0-mm-Bohrer** von Hand aufreiben.
 
 **Wichtig:** Erst danach den Deckel an die Truhe setzen. Bei montiertem Deckel
 ist der Servicekanal geschlossen und die Kurbel nicht mehr von unten einsetzbar.

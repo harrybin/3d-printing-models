@@ -1,153 +1,153 @@
 {
-  "baseline_project_sha256": "9ce825990d352a6f3551db2cf3db51bbb8f10a285d1e72cad99bdec22e4b6172",
+  "baseline_project_sha256": "88bb7c008d7aece4bea773f5a7627b18ec5075d4b7f04e48b530310e98726cd3",
   "source_sha256": {
     "gothic_chest.py": "92744f712c97ee6a03b975c5e34fecece4bd0b4bbe8b78d8e9b3e474a9ccc87e",
-    "mechanism.py": "f20b5d8de05948044bcd0d48db63b86cbca9f360254c91f58f529be70e697d98"
+    "mechanism.py": "064f123b529dd6e5bee360255415fcc169b121f15a98b7250500b5df6a176540"
   },
   "unchanged_meshes": {
-    "candy-dish": {
-      "mesh_sha256": "5727c5da51aabf49a77eb75fa3cfacadbd3842605f21d21dd3155fdb7e7af0a9",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 401.473000 -257.502000 19.485000"
-    },
-    "crank-spacer": {
-      "mesh_sha256": "f442100cd6bcd595e67770c418f637000633face7b0315b6e3fbca849cd66a6a",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 140.960000 -114.560000 7.900000"
-    },
-    "pivot-pin-follower": {
-      "mesh_sha256": "384e2a0ffda39018ccfbcfbee7dd44b423d6d850bad269a139f7b5155ac9578c",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 106.250000 -70.068000 2.675000"
-    },
-    "pivot-pin-idler-03": {
-      "mesh_sha256": "63550a95b091680376a4b636efafc16442c031083172d099770f8677f067e6bb",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 128.710000 -77.360000 2.675000"
-    },
-    "pivot-pin-idler-02": {
-      "mesh_sha256": "43585402899ea76debab3f314f920e11da2894d5ff37e8997b704fcbdf2282e4",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 128.710000 -97.960000 2.675000"
-    },
-    "pivot-pin-idler-01": {
-      "mesh_sha256": "684a06c1594b8758bb57dfc8e51995398efad9e7958395d6a32a8683682e5471",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 228.054000 -118.560000 2.675000"
-    },
-    "pivot-pin-short-03": {
-      "mesh_sha256": "131478ee0900081972fdc81e967e9968e9191facfe043f9daeb0ce0e57b50e85",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 213.110000 -115.888000 2.675000"
-    },
-    "pivot-pin-short-02": {
-      "mesh_sha256": "f6beee3118fbebe4532db6ebee50f23b2e1ecf539ab164ec89f789091d16dda9",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 199.610000 -115.888000 2.675000"
-    },
-    "pivot-pin-short-01": {
-      "mesh_sha256": "38e07fbaf633d9870ca5fcf0096272c077d73093af512c9be1e76a6d23443204",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 186.110000 -115.888000 2.675000"
-    },
-    "pivot-pin-gear": {
-      "mesh_sha256": "54d72ccf46f3bda74925c08e1438eaf55c223f738d057f8036b28936e37f7fb8",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 228.054000 -141.660000 2.675000"
-    },
-    "pivot-pin-centre-02": {
-      "mesh_sha256": "6295fb5b2bbebf95f1d83019fb14e447dd7b01fea1d2b83a4516f03a75ca5a58",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 142.210000 -128.860000 2.675000"
-    },
-    "pivot-pin-centre-01": {
-      "mesh_sha256": "6b04b8cc41d63819fae7d5c077442d65eb60b3d307d8e3d3980286f046884c03",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 142.210000 -79.060000 2.675000"
-    },
-    "pivot-pin-slider-02": {
-      "mesh_sha256": "ba780b1e7fcf03c2cb5832692749d0a6729ed4839d087b18f2bbc99425b06217",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 142.210000 -98.060000 2.675000"
-    },
-    "pivot-pin-slider-01": {
-      "mesh_sha256": "ed5729e8995dd015ee8b4aec11387f927b23f797fed0f10519c7ca6906bc844d",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 128.710000 -127.460000 2.675000"
-    },
-    "pivot-pin-floor-02": {
-      "mesh_sha256": "a7ea0715576c3c4259ad0b55ca0f39e7a9f942bffde3deef1b3b880d2277f114",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 233.050000 -168.260000 2.675000"
-    },
-    "pivot-pin-floor-01": {
-      "mesh_sha256": "ba99c77d5bb55acf100a4d62827fd9c4a5a4f2946bd66dd3cca84f4cdedca952",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 233.050000 -195.860000 2.675000"
-    },
-    "lid-transfer-gear-02": {
-      "mesh_sha256": "8b4e05a050e1b395c0fc32fe786dd74ff994c0cedbed752b36eed41ebc7a648d",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 171.760000 -130.060000 9.000000"
-    },
-    "lid-transfer-gear-01": {
-      "mesh_sha256": "49b6afb49bdd5b8ca6e9fc0e095c0a2a2c58723ffdd612cb3d4adcf3e0807130",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 156.560000 -130.060000 9.000000"
-    },
-    "lid-follower-rack": {
-      "mesh_sha256": "6e9bacab83949e17d057472ad5b8ffd88562a9092a7e3ea0ea529faec0314051",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 184.800000 -218.960000 7.000000"
-    },
-    "idler-gear-02": {
-      "mesh_sha256": "35bfb98da16f6139e784d5c62963327b9e7656394b786e7c0c95910f7c000534",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 110.730000 -112.658000 3.000000"
-    },
-    "idler-gear-03": {
-      "mesh_sha256": "939b1fbd9d216cb6e3fd513a7cc820f43a8e58c2879781539e8acccb8f2ab931",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 110.730000 -90.198000 3.000000"
-    },
-    "slider": {
-      "mesh_sha256": "3078547678b7cabb09c518535d388767fcf24ae863455d451707a24d83659251",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 73.150000 -227.600000 13.000000"
-    },
-    "forearm-output-gear": {
-      "mesh_sha256": "08b70a2aa52e9556611451fe5cbbd77af0edf2d3c967a0943f19280d1dd7e598",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 0.000000 -1.000000 0.000000 1.000000 0.000000 214.000497 -274.111500 37.500000"
-    },
-    "idler-gear-01": {
-      "mesh_sha256": "f9098996514412fb9455466067adc0550c83e31f1f217d5bb8ad04fa3565f3c9",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 209.330000 -246.993000 3.000000"
-    },
-    "scissor-arm-04": {
-      "mesh_sha256": "141f7537d1d6ae4ccea373019dd72d0ace0f5f2ecd870a0b529b36f0fc13d1ce",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 144.500000 -146.660000 2.000000"
-    },
     "drive-pinion": {
-      "mesh_sha256": "20d12effd15f37524b969182f6d3c0c8ee59290ba6ad3c4a5937b85526575951",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 167.200000 -259.130000 12.000000"
-    },
-    "scissor-arm-03": {
-      "mesh_sha256": "818179eed8c6917bbbdc77fbbecd06cbf1a19ae6657ca0b6f473d389ebc9410d",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 181.300000 -164.660000 2.000000"
+      "mesh_sha256": "376b6416d43501590c5af6c3de5833aabadf856910795eef3c3378c27ed5de7d",
+      "print_transform": "1 0 0 0 1 0 0 0 1 167.2 -259.13 14"
     },
     "lid-crank": {
-      "mesh_sha256": "d0960474a534f263b86710849ca850991cffddef2188f160519eeb722b0d926a",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 228.160000 -244.923000 4.000000"
+      "mesh_sha256": "a8237649a51d269599057d9a8757eaa24ad62778fd922d30850638f2de93ce3a",
+      "print_transform": "1 0 0 0 -1 1.2246468e-16 0 -1.2246468e-16 -1 228.16 -244.923 5.5"
     },
-    "platform": {
-      "mesh_sha256": "545e41e8440f4c11f963acdf3bcd68bc2c35aca296028fd7dc628a4f075b8fd8",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 54.750000 -115.900000 25.500000"
+    "idler-gear-03": {
+      "mesh_sha256": "d37df4e47e8824a489c04e303fbc77854bc64805cd5274b6bf4675919163bafc",
+      "print_transform": "1 0 0 0 1 0 0 0 1 111.478066 -104.858211 3"
     },
-    "scissor-drive-gear": {
-      "mesh_sha256": "362950662e2afdd661e7b1ec95c2b810f352fc1fbd49a9ac514178acd7eee37f",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 205.402000 -139.774000 5.000000"
+    "lid-transfer-gear-02": {
+      "mesh_sha256": "93efd6d1fe546eb9198543194262d3fe15c484a500efde8571d3572a892683a7",
+      "print_transform": "1 0 0 0 -1 1.2246468e-16 0 -1.2246468e-16 -1 171.76 -130.06 9"
+    },
+    "forearm-output-gear": {
+      "mesh_sha256": "174f4c8bf97f077ec5f6219fa2bc94e12d79f80d960ccc41d139e06bd08b9e86",
+      "print_transform": "1 0 0 0 0 -1 0 1 0 214.000497 -274.1115 37.5"
+    },
+    "idler-gear-02": {
+      "mesh_sha256": "b1ccf859cba195d1caef58932192551ab03a8bc9df81603630beb89fb3f8f49c",
+      "print_transform": "1 0 0 0 1 0 0 0 1 111.354208 -127.369618 3"
+    },
+    "pivot-pin-floor-01": {
+      "mesh_sha256": "893e0474db1d5c7096df3becdfd8dc56edadfb2395f31b540afd160630378d03",
+      "print_transform": "1 0 0 0 1 0 0 0 1 233.05 -195.86 2.67499995"
+    },
+    "pivot-pin-slider-01": {
+      "mesh_sha256": "c7406c59971935b5a6872274e31333313b5289ed887101e2325b2ce6c0cb37aa",
+      "print_transform": "1 0 0 0 1 0 0 0 1 128.71 -127.46 2.67499995"
+    },
+    "pivot-pin-slider-02": {
+      "mesh_sha256": "8ea174eab99b47bce591cc5bbd3e37b4d8aeff103ba422cc27cc3fc1298b8ec3",
+      "print_transform": "1 0 0 0 1 0 0 0 1 142.21 -98.06 2.67499995"
+    },
+    "pivot-pin-centre-01": {
+      "mesh_sha256": "6c58e09bafa01a5dac945c0b7d807fcb0795da98844100c50967b89de93c0014",
+      "print_transform": "1 0 0 0 1 0 0 0 1 157.634809 -97.634082 2.67499995"
+    },
+    "pivot-pin-centre-02": {
+      "mesh_sha256": "b6055640e44f3abcef6abb545257a56ef1c54155222d2e1d7eba085a71780709",
+      "print_transform": "1 0 0 0 1 0 0 0 1 142.21 -128.86 2.67499995"
+    },
+    "pivot-pin-gear": {
+      "mesh_sha256": "bdd5df547e8410c2bea8c1d233e3f2ac06b1d65b4e55192b75b5f6444e1eedd1",
+      "print_transform": "1 0 0 0 1 0 0 0 1 228.054 -141.66 2.67499995"
+    },
+    "pivot-pin-short-01": {
+      "mesh_sha256": "14f739c130c9b8512c5182f57e0e5c61d4b504ed894ae1908c0668025bc6aaaa",
+      "print_transform": "1 0 0 0 1 0 0 0 1 186.11 -115.888 2.67499995"
+    },
+    "pivot-pin-short-02": {
+      "mesh_sha256": "6c38e04ad150685d41003e8dcaa5ddab54b322723e1c9db7a1b12ef10fafd7c5",
+      "print_transform": "1 0 0 0 1 0 0 0 1 199.61 -115.888 2.67499995"
+    },
+    "pivot-pin-floor-02": {
+      "mesh_sha256": "db0ff506b9113cfca19eb5050370c11edde54a2b679c6bf44a7a96ca47f886d5",
+      "print_transform": "1 0 0 0 1 0 0 0 1 233.05 -168.26 2.67499995"
+    },
+    "idler-gear-01": {
+      "mesh_sha256": "18035817aab5570c095b0cca2cd36c97b4e1b9f1bcdee4cde2ee6e4afd99a633",
+      "print_transform": "1 0 0 0 1 0 0 0 1 209.33 -246.993 3"
     },
     "drive-skull-knob": {
-      "mesh_sha256": "690ff760198f23763ecdcd04300082de0d0afc6b44d2246243d05b404e54cf4a",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 339.237000 -257.434000 13.475000"
+      "mesh_sha256": "e8e9963c5a7068365313912cd13f7ecb1d0f7c6e6978e9e86ca8e6ed3b499ee3",
+      "print_transform": "1 0 0 0 1 0 0 0 1 391.44379 -208.57459 13.4750004"
+    },
+    "lid-transfer-gear-01": {
+      "mesh_sha256": "b9a30e84034f024ec6fdbf384c20739822a60de16b298191aee60d126be44ec7",
+      "print_transform": "1 0 0 0 -1 1.2246468e-16 0 -1.2246468e-16 -1 156.56 -130.06 9"
+    },
+    "scissor-drive-gear": {
+      "mesh_sha256": "ce313eca014017b9c2cefa01dc1a0231dd35e2c85a6236f9a2f96cebae156527",
+      "print_transform": "1 0 0 0 1 0 0 0 1 205.402 -139.774 5.75"
+    },
+    "chest": {
+      "mesh_sha256": "da83428e3557f6a414f48456b3add7e5a55aa22b0fbe35a55499adbb21058b9c",
+      "print_transform": "1 0 0 0 1 0 0 0 1 131.874178 88.9903403 49"
+    },
+    "scissor-arm-03": {
+      "mesh_sha256": "b71c630aef007f3fb5e7b0035b5e91cd8b7b5b838711caa9392f024ee3dc248f",
+      "print_transform": "1 0 0 0 1 0 0 0 1 181.3 -164.66 2"
+    },
+    "scissor-arm-01": {
+      "mesh_sha256": "3bf199e9bfaf30b4f29c9c91fa8ed764555b01149f7ec04cd96189a2ab0d4f2a",
+      "print_transform": "1 0 0 0 1 0 0 0 1 181.3 -200.66 2"
     },
     "forearm": {
       "mesh_sha256": "af0e90141336d078c73c256fed603c882d156659178636d7ea99ec1efca20e3e",
-      "print_transform": "1 0 0 0 1 0 0 0 1 381.897492 81.000000 25"
+      "print_transform": "1 0 0 0 1 0 0 0 1 381.897492 81 25"
     },
-    "lid": {
-      "mesh_sha256": "1579908548caba0e933b469ff3230167710c03b5adb041bce742bf5f3696c256",
-      "print_transform": "1 0 0 0 1 0 0 0 1 134.787664 197.957253 64.8929977"
-    },
-    "scissor-arm-01": {
-      "mesh_sha256": "4122e7bf73ad97dbb89b7d7dd865af853cd86952f407389c25cd510aeaeb4bf2",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 181.300000 -200.660000 2.000000"
-    },
-    "chest": {
-      "mesh_sha256": "78b3cd091aec611844a9aff7a467291855163969ff2ac2e7a26ac2eaff58dbfa",
-      "print_transform": "1 0 0 0 1 0 0 0 1 131.874178 88.9903403 49"
+    "slider": {
+      "mesh_sha256": "b9da3ca5af4dc2b6265a3ee153fed0cd72c3632e9a701c68e414c72be4e63735",
+      "print_transform": "1 0 0 0 1 0 0 0 1 70.9993159 -257.893152 10.3999996"
     },
     "scissor-arm-02": {
-      "mesh_sha256": "e5d8f3b6c3ded17f3cf4b91ef18670f05a930c9912477a049e270102fd051fb3",
-      "print_transform": "1.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 1.000000 181.300000 -182.660000 2.000000"
+      "mesh_sha256": "e171a8ead645a4efb66a27336d2a8df8d4f5d9d440f8698c993a023c93778b91",
+      "print_transform": "1 0 0 0 1 0 0 0 1 181.3 -182.66 2"
+    },
+    "lid": {
+      "mesh_sha256": "38a235e681bfa0d1470880f7f5b595734a6753dab13ee1a204ad147db6b783e7",
+      "print_transform": "1 0 0 0 1 0 0 0 1 134.787664 197.957253 64.8929977"
+    },
+    "lid-follower-rack": {
+      "mesh_sha256": "c59ff4d48d783d245dc30d478c99669156d27eaccdd2b8b55d4834787b931da3",
+      "print_transform": "1 0 0 0 1 0 0 0 1 184.8 -218.96 3"
+    },
+    "platform": {
+      "mesh_sha256": "1a97524d6c7c2275d6c9cc177a876033d3223f90a27bf93ba414b82fb7d59d8f",
+      "print_transform": "1 0 0 0 1 0 0 0 1 54.6560253 -139.62512 24.25"
+    },
+    "scissor-arm-04": {
+      "mesh_sha256": "8f52bbf8b76ea7ae74ba457312b9144ad6b46f18c4cbd065c1a1eb6da85028ec",
+      "print_transform": "1 0 0 0 1 0 0 0 1 144.5 -146.66 2"
+    },
+    "pivot-pin-follower": {
+      "mesh_sha256": "fa33ed7d24e5d2e3be84c56899ce4729febf92b92db37bbe659c88f0c6a7aa91",
+      "print_transform": "1 0 0 0 1 0 0 0 1 185.71623 -99.7731368 2.67499995"
+    },
+    "candy-dish": {
+      "mesh_sha256": "6b70f182e0e03c95fe620bf246d530bbf07c449c443cf53741d99a9a9007b85e",
+      "print_transform": "1 0 0 0 1 0 0 0 1 454.857015 -193.959941 19.8850002"
+    },
+    "pivot-pin-idler-01": {
+      "mesh_sha256": "98793f47fe60f384d862bd3fb3f7179a392584fc8af13030bd41b977475a6ae8",
+      "print_transform": "1 0 0 0 1 0 0 0 1 228.054 -118.56 2.67499995"
+    },
+    "crank-spacer": {
+      "mesh_sha256": "a04303b66c07f8fa16e0a03cf21db1aa175be50403f2d506b215af6cdd8deaaf",
+      "print_transform": "1 0 0 0 1 0 0 0 1 140.96 -114.56 7.9000001"
+    },
+    "pivot-pin-idler-02": {
+      "mesh_sha256": "c37387fe5ab430b541469c9ef4424d932a096d939e862492ce2ac7ef521f76f9",
+      "print_transform": "1 0 0 0 1 0 0 0 1 128.71 -97.96 2.67499995"
+    },
+    "pivot-pin-short-03": {
+      "mesh_sha256": "1fd0bc86dad9f9ff46181fc7feea6900d5ab0e31037d8f0874c592b21a44456a",
+      "print_transform": "1 0 0 0 1 0 0 0 1 213.11 -115.888 2.67499995"
+    },
+    "pivot-pin-idler-03": {
+      "mesh_sha256": "4ecc896f0b24e5679a602a8fb1c27a7c5b5b28798168966124f82be0fa048585",
+      "print_transform": "1 0 0 0 1 0 0 0 1 171.314366 -98.3030494 2.67499995"
     }
   }
 }

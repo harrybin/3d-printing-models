@@ -166,7 +166,11 @@ TRANSFER_CROSS_Z = _TRANSFER_OUTER_Z - 0.33 - 1.75 / 2.0
 # engaged in the lid socket (crank axial play ~0.2 + 0.2 mm).
 CRANK_SPACER_LEN = 43.0 - DRIVE_PITCH_R - 0.2
 CRANK_SPACER_R = 2.5
-CRANK_SPACER_BORE_R = 1.0
+# Both lid-crank and crank-spacer print with their hinge bore along vertical Z
+# at 5 wall loops and 100% infill; r = 1.15 mm (Ø 2.30 mm nominal CAD bore)
+# compensates for vertical inner-perimeter shrinkage so 1.75 mm filament slides
+# through with the same effective clearance as the horizontal lid hinge bores.
+CRANK_SPACER_BORE_R = 1.15
 LID_TOOTH_PHASE = 15.0
 # Slider cam: the follower pin climbs 7 mm during the first 6 mm of slider
 # travel (lid fully open), then dwells on a level track for the rest. The
@@ -702,7 +706,7 @@ def build_lid_crank() -> trimesh.Trimesh:
     coupling = box((5.0, 18.0, 2.6), (0.0, -7.0, 9.7))
     hub = cylinder(2.0, 11.0, (0.0, 0.0, 5.5))
     return clean(difference(union([gear, hub, coupling]), [
-        cylinder(2.0 / 2.0, 15.0, (0.0, 0.0, 5.5))
+        cylinder(CRANK_SPACER_BORE_R, 15.0, (0.0, 0.0, 5.5))
     ]))
 
 

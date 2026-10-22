@@ -272,7 +272,7 @@ def poses(theta: float) -> dict:
 # (name, length, hosts that must hold it, purpose)
 FILAMENT_PINS = (
     ("hinge", 198.0, ("chest", "lid", "lid-crank", "crank-spacer"),
-     "Deckelscharnier-Achse (Truhe Ø1.9, Deckel/Kurbel/Distanzhuelse Ø2.0)"),
+     "Deckelscharnier-Achse (Truhe Ø1.9, Deckel Ø1.98, Kurbel/Distanzhuelse Ø2.3)"),
     ("knob-cross", 14.0, ("drive-pinion", "drive-skull-knob"),
      "Querstift Schaedelknauf/Ritzelwelle"),
     ("transfer-input-journal", 5.0, ("lid-transfer-input",),

@@ -225,8 +225,8 @@ mitgeführt werden.
 | Plattform (Hubjoch) | 1 | 83,5 × 92,6 × 48,5 mm | Naturweiß |
 | Hauptantriebsritzel mit D-Welle | 1 | 55,8 × 55,7 × 28 mm | Naturweiß |
 | Deckel-Folger mit Zahnstange | 1 | 91 × 12,6 × 6 mm | Naturweiß |
-| Deckelkurbel (Segment mit Mitnehmer) | 1 | 9,2 × 20,6 × 11 mm | Naturweiß |
-| Kurbel-Distanzhülse (axiale Sicherung auf der Scharnierachse) | 1 | Ø5 × 15,8 mm, Bohrung Ø2,0 | Naturweiß |
+| Deckelkurbel (Segment mit Mitnehmer) | 1 | 9,2 × 20,6 × 11 mm, Bohrung Ø2,3 | Naturweiß |
+| Kurbel-Distanzhülse (axiale Sicherung auf der Scharnierachse) | 1 | Ø5 × 15,8 mm, Bohrung Ø2,3 | Naturweiß |
 | Deckel-Übertragungsrad mit Zapfen und Bund | 2 | Ø9,2 × 18 mm | Naturweiß |
 | Scheren-Eingangszahnrad | 1 | 25,8 × 25,8 × 11,5 mm | Naturweiß |
 | Zwischenrad | 3 | Ø16,5 × 6 mm | Naturweiß |
@@ -248,7 +248,7 @@ mitgeführt werden.
 
 | Stift | Länge | Bohrung | Ort |
 | --- | ---: | --- | --- |
-| Deckelscharnier | 198 mm | Ø1,9 Truhe / Ø1,98 Deckel | Scharnierachse, durch alle Knöchel |
+| Deckelscharnier | 198 mm | Ø1,9 Truhe / Ø1,98 Deckel / Ø2,3 Kurbel & Hülse (vertikal) | Scharnierachse, durch alle Knöchel |
 | Knauf-Querstift | 14 mm | Ø1,9 | Knauf und Ritzel-D-Welle |
 | Übertragungsrad-Sicherung | 2 × 5 mm | Ø1,9 | Zapfen außen am Lagerbock |
 | Abtriebswellen-Sicherung | 10 mm | Ø1,9 | D-Welle am Plattformlager |
@@ -310,8 +310,8 @@ mit `--blender` angegeben werden. Es werden keine neuen Druckdateien exportiert.
 ```
 
 Rendernachweis: Blender **5.2.2 LTS**, erfolgreicher PNG-Render, alle 42 Körper
-im Kamerabereich, Bild visuell geprüft. SHA-256 der unveränderten Quell-3MF:
-`de10f30372e22c0c1dc67924c2a56ef4f27aad21eb0e54615df067f3e784ab0c`.
+im Kamerabereich, Bild visuell geprüft. SHA-256 der Quell-3MF:
+`810d8e525bf2038dc930ba21cbacf278700f29d1ddbc420faad032fe8944f012`.
 Das Skript prüft außerdem die SHA-256-Werte aller drei Ghoul's-Grip-Modelldateien
 vor/nach dem Rendern. Projektionsdaten und Zwischenrender liegen ausschließlich
 unter `build/ghouls-grip-exploded/`.
@@ -355,8 +355,12 @@ unter `build/ghouls-grip-exploded/`.
 11. Deckel-Baugruppe außerhalb vormontieren: Deckel umgedreht, Deckelkurbel von
     unten einlegen und 5,6 mm in +X in die Mitnehmertasche schieben; die
     Kurbel-Distanzhülse von unten in den Servicekanal zwischen Kurbel und
-    Deckelauge legen. (Bei aufgesetztem Deckel ist der Kanal geschlossen und die
-    Kurbel nicht mehr einsetzbar.)
+    Deckelauge legen. (Beide Teile sind getrennt, weil ihre Gesamtlänge von
+    11,0 + 15,8 = 26,8 mm größer als die 25,0-mm-Haubenöffnung ist und die
+    Kurbel zuerst 5,6 mm seitlich in die Tasche geschoben werden muss; bei
+    aufgesetztem Deckel ist der Kanal geschlossen. Die stehend gedruckten
+    Scharnierbohrungen beider Teile haben Ø2,30 mm CAD-Maß zum Ausgleich der
+    vertikalen FDM-Lochschrumpfung.)
 12. Deckel-Baugruppe etwa 108° geöffnet halten, 3 mm nach hinten (+Y) versetzt
     senkrecht absenken, dann nach vorn in den Eingriff mit dem Zwischenrad
     schieben, bis die Gelenkaugen fluchten. Das 198-mm-Scharnierfilament von
