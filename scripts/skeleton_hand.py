@@ -267,7 +267,7 @@ def build_palm(skeleton: Skeleton) -> trimesh.Trimesh:
         forearm,
     ))
     side = np.array([1.0, 0.0, 0.0])
-    cutters.append(cylinder(1.9 / 2.0, WRIST_D + 14.0,
+    cutters.append(cylinder(1.15, WRIST_D + 14.0,
                             mount + forearm * WRIST_PIN_FROM_MOUNT, side))
     mcp_reliefs = []
     for ray in RAYS:

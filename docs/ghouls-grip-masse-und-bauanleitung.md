@@ -212,7 +212,7 @@ in ausreichend starkem Material.
 ## Stückliste
 
 Das Orca-Druckprojekt enthält **29 Teiltypen / 42 Druckobjekte** auf vier
-Platten. Dazu kommen **sechs nicht gedruckte Filamentstifte** (1,75-mm-PLA vom
+Platten. Dazu kommen **vier nicht gedruckte Filamentstifte** (1,75-mm-PLA ±0,02 mm vom
 Spulenrest), die in Kollisions- und Eingriffsprüfung als Ø1,75-Zylinder
 mitgeführt werden.
 
@@ -227,7 +227,7 @@ mitgeführt werden.
 | Deckel-Folger mit Zahnstange | 1 | 91 × 12,6 × 6 mm | Naturweiß |
 | Deckelkurbel (Segment mit Mitnehmer) | 1 | 9,2 × 20,6 × 11 mm, Bohrung Ø2,3 | Naturweiß |
 | Kurbel-Distanzhülse (axiale Sicherung auf der Scharnierachse) | 1 | Ø5 × 15,8 mm, Bohrung Ø2,3 | Naturweiß |
-| Deckel-Übertragungsrad mit Zapfen und Bund | 2 | Ø9,2 × 18 mm | Naturweiß |
+| Deckel-Übertragungsrad mit Bund und geschlitztem Schnappklips-Zapfen | 2 | Ø9,2 × 17,0 mm | Naturweiß |
 | Scheren-Eingangszahnrad | 1 | 25,8 × 25,8 × 11,5 mm | Naturweiß |
 | Zwischenrad | 3 | Ø16,5 × 6 mm | Naturweiß |
 | Unterarm-Abtriebsrad mit D-Welle | 1 | 25,8 × 75 × 25,8 mm | Naturweiß |
@@ -244,15 +244,18 @@ mitgeführt werden.
 | Totenkopf-Drehknopf | 1 | 48,5 × 55,1 × 27,0 mm | Gold (`#D4AF37`) |
 | Süßigkeitenschale (`candy-dish`, optional steckbar) | 1 | 48,0 × 55,0 × 39,0 mm | Gold (`#D4AF37`) |
 
-**Nicht gedruckte Teile (Filament Ø1,75 mm, abgelängt):**
+**Nicht gedruckte Teile (Filament Ø1,75 mm ± 0,02 mm, abgelängt):**
 
-| Stift | Länge | Bohrung | Ort |
+| Stift | Länge | Bohrung (CAD) | Ort |
 | --- | ---: | --- | --- |
 | Deckelscharnier | 198 mm | Ø1,9 Truhe / Ø1,98 Deckel / Ø2,3 Kurbel & Hülse (vertikal) | Scharnierachse, durch alle Knöchel |
-| Knauf-Querstift | 14 mm | Ø1,9 | Knauf und Ritzel-D-Welle |
-| Übertragungsrad-Sicherung | 2 × 5 mm | Ø1,9 | Zapfen außen am Lagerbock |
-| Abtriebswellen-Sicherung | 10 mm | Ø1,9 | D-Welle am Plattformlager |
-| Handgelenk | 16 mm | Ø1,9 | Unterarmzapfen und Handfläche |
+| Knauf-Querstift | 14 mm | Ø2,3 | Knauf und Ritzel-D-Welle |
+| Abtriebswellen-Sicherung | 10 mm | Ø2,3 | D-Welle am Plattformlager |
+| Handgelenk | 16 mm | Ø2,3 | Unterarmzapfen und Handfläche |
+
+*(Die beiden Deckel-Übertragungsräder `lid-transfer-gear-01/02` sichern sich
+über ihre integrierten geschlitzten Schnappklipse hinter den Ø3,2-Lagerböcken
+selbst und benötigen keine 5-mm-Filamentstücke mehr.)*
 
 Die frühere separate Sehnenführung, die starre Deckel-Hauptzahnstange und die
 Ø3-Pins sind entfallen.
@@ -270,7 +273,7 @@ Die frühere separate Sehnenführung, die starre Deckel-Hauptzahnstange und die
 | Süßigkeitenschale an Handfläche | 3 asymmetrische Ø3,0-mm-Unterseitenstifte an der Schale in bündigen Ø3,4-mm-Sacklöchern der Mittelhandknochen (0,4 mm Spiel) | optional nach den Fingern entlang der Schalennormale von oben in die Handfläche einstecken; ohne Schale bleibt die Knochenhand frei von abstehenden Stegen |
 | Deckel am Gehäuse | Filament 198 mm als Scharnierachse | von der Stirnseite durch alle Knöchel, Kurbel und Distanzhülse schieben |
 | Totenkopf am Hauptritzel | D-Welle + Filamentstift 14 mm | Knauf aufstecken, Querstift einsetzen |
-| Übertragungsräder | Zapfen Ø2,8 in Ø3,2-Lagerbock, Bund innen, Filamentstift 5 mm außen | axial in -X einschieben, Stift außen quer |
+| Übertragungsräder | geschlitzter Klips-Zapfen Ø2,8 (Rastnase Ø3,6) in Ø3,2-Lagerbock, Bund innen | axial in -X einschieben, bis die geschlitzte Rastnase außen hinter dem Lagerbock einrastet (kein 5-mm-Filamentstift nötig) |
 
 Alle Steckspiele, Rastnasen-Dehnungen, Einführwege und Zahnflankenspiele sind
 in [`ghouls-grip-montage-audit.md`](ghouls-grip-montage-audit.md) gegen die
@@ -288,7 +291,7 @@ zeigt alle **42 Druckkörper** aus `models/ghouls-grip-view.3mf`, Zustand
 Montageschritte unten; sie sind keine zusätzlichen Teilekennzeichen.
 Handfläche, fünf Finger, Unterarm und optionale Schale sind einzeln getrennt;
 Schnappstifte und Antriebsräder sind ihrer jeweiligen Baugruppe zugeordnet.
-Die sechs zugeschnittenen Filamentstifte sind nicht abgebildet, ihre Längen
+Die vier zugeschnittenen Filamentstifte sind nicht abgebildet, ihre Längen
 und Einsteckstellen stehen in den Tabellen oben und den Montageschritten.
 
 **Darstellung, keine Geometrieänderung:** Die Originalnetze werden ausschließlich
@@ -328,7 +331,8 @@ unter `build/ghouls-grip-exploded/`.
 5. Deckel-Folger in den Führungskanal absenken; den Folger-Pressstift von innen
    durch den Folger in den Kurvenschlitz drücken.
 6. Beide Deckel-Übertragungsräder axial in -X in die Lagerböcke schieben, bis
-   der Bund innen anliegt; außen je Filamentstift 5 mm quer durch den Zapfen.
+   der Bund innen anliegt und der geschlitzte Schnappklips außen hinter dem
+   Lagerbock einrastet (kein Filamentstift nötig).
 7. Scherenarme je Ebene einsetzen; Boden-, Schlitten- und Mittelstifte mit dem
    Kopf innen einschnappen.
 8. Scheren-Eingangszahnrad **vor** der Plattform setzen: von +Y auf das obere

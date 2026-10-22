@@ -274,15 +274,11 @@ FILAMENT_PINS = (
     ("hinge", 198.0, ("chest", "lid", "lid-crank", "crank-spacer"),
      "Deckelscharnier-Achse (Truhe Ø1.9, Deckel Ø1.98, Kurbel/Distanzhuelse Ø2.3)"),
     ("knob-cross", 14.0, ("drive-pinion", "drive-skull-knob"),
-     "Querstift Schaedelknauf/Ritzelwelle"),
-    ("transfer-input-journal", 5.0, ("lid-transfer-input",),
-     "Axialsicherung Deckel-Uebertragungsrad (Eingang)"),
-    ("transfer-idler-journal", 5.0, ("lid-transfer-idler",),
-     "Axialsicherung Deckel-Uebertragungsrad (Zwischenrad)"),
+     "Querstift Schaedelknauf/Ritzelwelle (Bohrung Ø2.3)"),
     ("forearm-retainer", 10.0, ("forearm-output-gear",),
-     "Axialsicherung Unterarm-D-Welle"),
+     "Axialsicherung Unterarm-D-Welle (Bohrung Ø2.3)"),
     ("wrist", 16.0, ("forearm", "hand-palm"),
-     "Handgelenk-Querstift"),
+     "Handgelenk-Querstift (Bohrung Ø2.3)"),
 )
 
 
@@ -305,13 +301,6 @@ def filament_segment(name: str, theta: float) -> np.ndarray:
         matrix = (_tmat(mechanism.DRIVE_AXIS + np.array(
             [0.0, mechanism.DRIVE_GEAR_Y[0] - mechanism.DRIVE_AXIS[1], 0.0]))
             @ _rot(90.0, [1, 0, 0]) @ _rot(-p["drive"], [0, 0, 1]))
-    elif name.startswith("transfer-"):
-        y, angle = ((mechanism.LID_TRANSFER_Y, p["opening"])
-                    if "input" in name else
-                    (mechanism.LID_IDLER_Y, -p["opening"]))
-        pts = seg((0.0, 0.0, mechanism.TRANSFER_CROSS_Z), (1.0, 0.0, 0.0))
-        matrix = (_tmat([-mechanism.DRIVE_PITCH_R, y, scene.HINGE_Z])
-                  @ _rot(angle, [1, 0, 0]) @ _rot(90.0, [0, 1, 0]))
     elif name == "forearm-retainer":
         pts = seg((0.0, mechanism.FOREARM_RETAINER_Y, 0.0), (1.0, 0.0, 0.0))
         matrix = _tmat(p["hinge"]) @ _rot(p["tilt"], [0, 1, 0])
@@ -682,6 +671,16 @@ def _no_snap_noses(slider: trimesh.Trimesh) -> trimesh.Trimesh:
     return out
 
 
+def _no_transfer_barbs(gear_mesh: trimesh.Trimesh, y_center: float) -> trimesh.Trimesh:
+    """Trim the compressed snap-clip overhang on the transfer journal."""
+    outer = box_between([-45.0, y_center - 5.0, scene.HINGE_Z - 5.0],
+                        [-33.2, y_center + 5.0, scene.HINGE_Z + 5.0])
+    core = rod(1.48, [-45.0, y_center, scene.HINGE_Z],
+               [-33.2, y_center, scene.HINGE_Z], sections=48)
+    ring = trimesh.boolean.difference([outer, core], engine="manifold")
+    return trimesh.boolean.difference([gear_mesh, ring], engine="manifold")
+
+
 def assembly_sweeps() -> list[dict]:
     rows = []
 
@@ -719,17 +718,18 @@ def assembly_sweeps() -> list[dict]:
         lambda p, t: ([p["drive-skull-knob"]],
                       {n: p[n] for n in ("chest", "drive-pinion")},
                       [((0, -1, 0), 20.0)]))
-    # Journal end (local z -14) must clear the block's inner face (-6):
-    # 8 mm + 0.5 mm margin; a longer pull would hit the chest knuckle.
-    for gear in ("lid-transfer-input", "lid-transfer-idler"):
-        run(f"{gear}: Zapfen axial in Lagerbock, dann nach oben",
+    # Split snap-clip tip (local z -12.8) must clear the block's inner face (-6):
+    # 6.8 mm + 0.7 mm margin; a longer pull would hit the chest knuckle.
+    for gear, gy in (("lid-transfer-input", mechanism.LID_TRANSFER_Y),
+                     ("lid-transfer-idler", mechanism.LID_IDLER_Y)):
+        run(f"{gear}: Klips-Zapfen axial in Lagerbock, dann nach oben",
             (18.0, 48.0, 78.0),
-            lambda p, t, g=gear: (
-                [p[g]],
+            lambda p, t, g=gear, y=gy: (
+                [_no_transfer_barbs(p[g], y)],
                 {n: m for n, m in _installed_before(p, 7).items()
                  if n != g and not (g == "lid-transfer-input"
                                     and n == "lid-transfer-idler")},
-                [((1, 0, 0), 8.5), ((0, 0, 1), None)]))
+                [((1, 0, 0), 7.5), ((0, 0, 1), None)]))
     for plane in (0, 1):
         run(f"Scherenarm-Paar Ebene {plane} senkrecht absenken",
             (18.0, 48.0, 78.0),
@@ -806,11 +806,11 @@ def part_play_check(theta: float = 48.0) -> list[dict]:
         ("Ritzel+Knauf axial (Y)", ["drive-pinion", "drive-skull-knob",
                                     ("knob-cross",)],
          ["chest"], ((0, 1, 0), (0, -1, 0))),
-        ("Uebertragungsrad Eingang axial (X)",
-         ["lid-transfer-input", ("transfer-input-journal",)], ["chest"],
+        ("Uebertragungsrad Eingang axial (X, Klips)",
+         ["lid-transfer-input"], ["chest"],
          ((1, 0, 0), (-1, 0, 0))),
-        ("Uebertragungsrad Zwischen axial (X)",
-         ["lid-transfer-idler", ("transfer-idler-journal",)], ["chest"],
+        ("Uebertragungsrad Zwischen axial (X, Klips)",
+         ["lid-transfer-idler"], ["chest"],
          ((1, 0, 0), (-1, 0, 0))),
         ("Abtriebsrad+Welle axial (Y)",
          ["forearm-output-gear", ("forearm-retainer",)],

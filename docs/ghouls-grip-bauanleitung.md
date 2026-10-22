@@ -2,8 +2,8 @@
 
 Diese Anleitung führt durch den Zusammenbau der vorhandenen **42 Druckteile**
 aus `models/ghouls-grip-print.3mf`. Die goldene Süßigkeitenschale ist optional;
-ohne sie werden 41 Druckteile montiert. Zusätzlich werden sechs Stücke
-PLA-Filament mit Ø1,75 mm als Achse bzw. Querstifte benötigt.
+ohne sie werden 41 Druckteile montiert. Zusätzlich werden vier Stücke
+PLA-Filament mit Ø1,75 mm (±0,02 mm) als Achse bzw. Querstifte benötigt.
 
 **Stand:** digital geprüfter Funktionsprototyp, kein physisch erprobter Bausatz.
 Passung, Axialsicherung und belasteter Dauerbetrieb müssen am tatsächlichen
@@ -57,7 +57,7 @@ beim Prüfen nicht in Scheren, Zahnräder oder Scharniere greifen.
 | 1 – Gehäuse | 1 schwarze Truhe |
 | 2 – Schlitten | 1 naturweißer Schlitten (geschlossener Kastenrahmen mit Querstreben, Zahnstange und verstärkter Kurvenbahn) |
 | 3 – Hauptantrieb | 1 Ritzel mit D-Welle, 1 goldener Totenkopfknauf |
-| 4 – Deckelantrieb | 1 Folger-Zahnstange, 2 Transferzahnräder mit Zapfen, 1 Folger-Pressstift |
+| 4 – Deckelantrieb | 1 Folger-Zahnstange, 2 Transferzahnräder mit geschlitztem Klips-Zapfen, 1 Folger-Pressstift |
 | 5 – Schere | 4 Arme, 1 Scheren-Eingangszahnrad; passende Gelenkstifte |
 | 6 – Hubjoch | 1 Plattform, 3 Zwischenräder, 1 Abtriebsrad mit D-Welle; passende Gelenkstifte |
 | 7 – Arm und Hand | 1 Unterarm, 1 Handfläche, 5 unterschiedliche Finger; optional 1 goldene Schale |
@@ -71,16 +71,19 @@ zuerst Stützreste, Orientierung und passende Stiftvariante prüfen.
 
 ### Filamentstifte zuschneiden
 
-Verwende gerades PLA-Filament Ø1,75 mm und entgrate die Schnittenden.
-Die Längen sind dem bestehenden Maßvertrag entnommen.
+Verwende gerades PLA-Filament Ø1,75 mm (±0,02 mm) und entgrate die Schnittenden.
+Alle Querbohrungen für Filamentstifte in den Mechanik-, Knauf-, Unterarm- und
+Handteilen sind im CAD auf **Ø 2,30 mm (`r = 1,15 mm`)** ausgelegt, um die
+Innenschrumpfung beim 5-Wand-/100-%-Füllungsdruck auszugleichen. Die beiden
+kleinen Deckel-Transferzahnräder benötigen **keinen** Filamentstift mehr, da
+ihre Lagerzapfen geschlitzte Schnappklipse (wie die Gelenksplinte) besitzen.
 
 | Anzahl | Länge je Stück | Verwendung |
 | ---: | ---: | --- |
 | 1 | 198 mm | Deckelscharnier, durch Truhe, Deckel, Kurbel und Distanzhülse |
-| 1 | 14 mm | Knauf und Hauptantriebswelle quer sichern |
-| 2 | 5 mm | Zapfen der beiden Deckel-Transferzahnräder quer sichern |
-| 1 | 10 mm | Unterarm-Abtriebswelle außen quer sichern |
-| 1 | 16 mm | Handgelenk quer sichern |
+| 1 | 14 mm | Knauf und Hauptantriebswelle quer sichern (Bohrung Ø2,30 mm) |
+| 1 | 10 mm | Unterarm-Abtriebswelle außen quer sichern (Bohrung Ø2,30 mm) |
+| 1 | 16 mm | Handgelenk quer sichern (Bohrung Ø2,30 mm) |
 
 ### Gedruckte Stifte sortieren (4 optische Längengruppen + 1 Pressstift)
 
@@ -143,10 +146,13 @@ heran (`y = 57,5 mm`), sodass er auch unter Last nicht nach innen aus der
 Führung rutschen kann. Verwechsle ihn nicht mit den geschlitzten
 Scherensplinten. Die Rippen dieses Stifts bilden den vorgesehenen Presssitz.
 
-Schiebe beide Transferzahnräder axial in **−X** in ihre Lagerböcke, bis ihr
-Bund innen anliegt. Sichere jeden außenliegenden Zapfen quer mit einem
-**5-mm-Filamentstift**. Die beiden Räder übertragen die Bewegung weiter zur
-später montierten Deckelkurbel.
+Schiebe beide Transferzahnräder (`Transfer 1` und `Transfer 2`) axial in **−X**
+durch ihre Lagerböcke, bis der Bund innen anliegt und die **integrierte
+geschlitzte Rastnase (Klips, wie bei den Gelenksplinten)** außen hinter dem
+Lagerbock hör-/spürbar einrastet. Ein kurzes 5-mm-Filamentstück wird hier
+**nicht** mehr benötigt (da sich Filament nicht umbiegen lässt und aus dem
+kleinen Zapfen wandern würde). Die beiden Räder übertragen die Bewegung weiter
+zur später montierten Deckelkurbel.
 
 **Zwischenprüfung:** Beim vorsichtigen Verschieben des Schlittens steigt der
 Folger zunächst an und bleibt anschließend auf dem oberen Abschnitt der

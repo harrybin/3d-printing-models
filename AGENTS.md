@@ -191,6 +191,16 @@ If behavior around print constraints, validation policy, or coordinate targeting
   per-material files. Optional part STLs do not replace these files.
 - Prefer separately printed, keyed color bodies over purge-heavy in-place
   multicolor when assembly, strength, and appearance remain acceptable.
+- Standard 3D-printing filament used as raw hinge/retainer wire is always
+  `1.75 mm ± 0.02 mm` in diameter (`1.73–1.77 mm`). Because multi-wall (especially
+  5-wall / 100%-infill) FDM parts shrink inner hole perimeters inward by `0.3–0.5 mm`
+  in diameter, size any bore or cross-hole that must accept `1.75 mm` filament at
+  `Ø 2.20–2.30 mm` (`r = 1.10–1.15 mm` in CAD), never `Ø 1.90 mm`. Furthermore,
+  raw `1.75 mm` filament cannot be bent like a metal cotter pin (`Splint`) and a
+  short (`~5 mm`) straight filament piece in a small rotating shaft (`<= Ø 4 mm`)
+  will work itself loose; use an integral split snap-clip (`Klipse`, matching the
+  reversible split-pin joints) instead of a short filament cross-pin on small
+  journals and transfer gears.
 - Material-separated parts must be physically assemblable after printing. Define
   and verify an insertion direction, assembly order, reachable retaining feature
   and collision-free insertion sweep for every cross-material joint. A static
