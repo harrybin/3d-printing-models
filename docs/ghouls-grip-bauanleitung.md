@@ -97,7 +97,7 @@ erkennst du mit bloßem Auge **vier Längengruppen** (**3 ganz kurze**, **2 kurz
 | --- | ---: | --- | --- | --- |
 | **1. Drei ganz kurze** (mit Schlitz) | **3×** | **10,0 mm** (6,8 mm) | `pivot-pin-short` (`fixed-0`, `slot-0`, `slot-1`) | **Abschnitt 8 (Hubjoch in Schere):** die **3 oberen Gelenke ohne Zahnrad** – 1× oberer Festpunkt vorn (`−Y`) und 2× obere Langlochpunkte vorn/hinten (`−Y` und `+Y`) |
 | **2. Zwei kurze** (mit Schlitz) | **2×** | **11,6 mm** (8,4 mm) | `pivot-pin-centre` (`centre-0`, `centre-1`) | **Abschnitt 5 (Scherenebenen):** die **2 mittleren Scheren-Kreuzungen** (je 1× vorn und hinten in der Mitte des X) |
-| **3. Fünf lange** (mit Schlitz, optisch fast gleich lang) | **5×** | **2× 14,4 mm** (11,2 mm)<br>**3× 14,6 mm** (11,4 mm) | `pivot-pin-slider` (2×)<br>`pivot-pin-idler` (3×) | **Abschnitt 5:** **2× (14,4 mm)** unten beweglich am **Schlitten** (vorn/hinten)<br>**Abschnitt 7:** **3× (14,6 mm)** für die **3 Zwischenräder** am Hubjoch *(0,2 mm Unterschied liegt im Axialspiel)* |
+| **3. Fünf lange** (mit Schlitz) | **5×** | **2× 14,4 mm** (11,2 mm)<br>**3× 16,5 mm** (11,35 mm, verstärkte Rastnase Ø 5,36 mm) | `pivot-pin-slider` (2×)<br>`pivot-pin-idler` (3×) | **Abschnitt 5:** **2× (14,4 mm)** unten beweglich am **Schlitten** (vorn/hinten)<br>**Abschnitt 7:** **3× (16,5 mm, mit längerer Spitze & mehr Anpressdruck)** für die **3 Zwischenräder** am Hubjoch |
 | **4. Drei ganz lange** (mit Schlitz) | **3×** | **2× 21,6 mm** (18,4 mm)<br>**1× 19,6 mm** (16,4 mm) | `pivot-pin-floor` (2×)<br>`pivot-pin-gear` / `fixed-1` (1×) | **Abschnitt 5:** die **2 längsten (21,6 mm)** unten fest in die **Bodenlager** der Truhe (von innen nach außen)<br>**Abschnitt 8:** der **1 etwas kürzere (19,6 mm)** oben hinten (`+Y`) durch **Hubjoch, Schere und Eingangszahnrad** |
 | **Sonderstift ohne Schlitz** (massiv, mit Quetschrippen) | **1×** | **13,1 mm** (Presssitz, Schaft 11,5 mm) | `pivot-pin-follower` | **Abschnitt 4 (Deckel-Folger):** durch die Folger-Zahnstange komplett durch die verstärkte Kurvenbahn des Schlittens bis fast an die Truheninnenwand (`y = 57,5 mm`, 0,5 mm vor der Wand bei `y = 58,0 mm`; kein Gelenksplint!) |
 
@@ -204,15 +204,21 @@ Das Zahnrad darf nicht nur lose auf der Armfläche aufliegen.
 [![Schritt 7: Hubjoch, Unterarm, D-Welle und Zwischenräder getrennt und vormontiert](images/ghouls-grip-montage-07.png)](images/ghouls-grip-montage-07.png)
 
 Lege die Plattform außerhalb der Truhe bereit. Setze den Unterarm zwischen
-die Lagerohren. Führe die D-Welle des Unterarm-Abtriebsrads axial durch die
-Lager und die passende Unterarm-D-Aufnahme. Sichere die Welle außen mit dem
-**10-mm-Filamentstift**.
+die Lagerohren. Führe die Welle des Unterarm-Abtriebsrads von der Zahnradseite
+(`+Y`) axial durch das **obere Lager der Zahnrad-Führungsschiene** (`y = 40,6..46,6 mm`),
+die beiden inneren Lagerohren und die passende Unterarm-D-Aufnahme: Zum Zahnrad
+hin (`y = +11..+53 mm`) ist der Schaft **rund (`Ø 6,0 mm`)**, damit er im oberen
+Führungslager der Zahnradschiene exakt geführt wird und das oberste Zahnrad sich
+nicht zur Seite wegdrücken kann; im Bereich des Unterarms und der Sicherung
+(`y = -22..+11 mm`) hat die Welle ihr formschlüssiges **D-Profil**. Sichere die
+Welle außen mit dem **10-mm-Filamentstift**.
 
 Setze die drei Zwischenräder an ihre Lagerstellen und sichere sie mit den
-**verbleibenden 3 Splinten aus der Gruppe „fünf lange“ (`pivot-pin-idler`,
-14,6 mm)**. Ihre Köpfe tauchen in die flachen Senkungen der Zwischenräder ein.
+**3 verstärkten langen Splinten aus der Gruppe „fünf lange“ (`pivot-pin-idler`,
+16,5 mm, mit längerer Einführspitze und erhöhtem Anpressdruck)**. Ihre Köpfe
+tauchen in die flachen Senkungen (`Ø 8,5 mm`) der Zwischenräder ein.
 Zusammen mit Scheren-Eingangsrad und Unterarm-Abtriebsrad entsteht die
-Fünf-Zahnrad-Kette.
+Fünf-Zahnrad-Kette in einer durchgehenden Führungsschiene.
 
 **Zwischenprüfung:** Die drei Zwischenräder und das Abtriebsrad stehen in
 einer gemeinsamen Eingriffsebene. Die Welle ist gesichert, der Unterarm

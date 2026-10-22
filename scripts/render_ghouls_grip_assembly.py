@@ -83,7 +83,7 @@ FRAMES = (
          labels=("platform", "forearm", "forearm-output-gear",
                  "idler-gear-1", "pivot-pin-idler-1"),
          action="Unterarm zwischen die Ohren; D-Welle durchschieben, 10-mm-Querstift setzen.",
-         check="3× langer Splint (Zwischenrad 14,6 mm, wie Schlittenstift) sichert die 3 Zwischenräder."),
+         check="Obere Führung stützt das Abtriebsrad; 3× langer Splint (16,5 mm) sichert die 3 Zwischenräder."),
     dict(step=8, slug="08", title="Hubjoch versetzt in die Schere einsetzen",
          pose="deployed", mode="join",
          labels=("platform", "scissor-drive-gear", "pivot-pin-fixed-1",

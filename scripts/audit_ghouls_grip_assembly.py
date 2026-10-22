@@ -718,8 +718,8 @@ def assembly_sweeps() -> list[dict]:
         lambda p, t: ([p["drive-skull-knob"]],
                       {n: p[n] for n in ("chest", "drive-pinion")},
                       [((0, -1, 0), 20.0)]))
-    # Split snap-clip tip (local z -12.8) must clear the block's inner face (-6):
-    # 6.8 mm + 0.7 mm margin; a longer pull would hit the chest knuckle.
+    # Split snap-clip tip (local z -13.15) must clear the block's inner face (-6):
+    # 7.15 mm + 0.65 mm margin; a longer pull would hit the chest knuckle.
     for gear, gy in (("lid-transfer-input", mechanism.LID_TRANSFER_Y),
                      ("lid-transfer-idler", mechanism.LID_IDLER_Y)):
         run(f"{gear}: Klips-Zapfen axial in Lagerbock, dann nach oben",
@@ -729,7 +729,7 @@ def assembly_sweeps() -> list[dict]:
                 {n: m for n, m in _installed_before(p, 7).items()
                  if n != g and not (g == "lid-transfer-input"
                                     and n == "lid-transfer-idler")},
-                [((1, 0, 0), 7.5), ((0, 0, 1), None)]))
+                [((1, 0, 0), 7.8), ((0, 0, 1), None)]))
     for plane in (0, 1):
         run(f"Scherenarm-Paar Ebene {plane} senkrecht absenken",
             (18.0, 48.0, 78.0),
@@ -871,17 +871,22 @@ def backlash_mm(thetas=(18.0, 48.0, 78.0)) -> list[dict]:
 
 # --------------------------------------------------------- analytic checks
 
-def split_pin_strain(grip: float) -> dict:
+def split_pin_strain(grip: float, variant: str = "") -> dict:
     catch = grip + mechanism.PIN_AXIAL_PLAY
-    slot_from = max(catch - mechanism.PIN_SLOT_REACH, 0.8)
-    length = catch - slot_from + mechanism.PIN_BARB_LAND / 2.0
+    slot_reach = (mechanism.IDLER_PIN_SLOT_REACH if variant == "idler"
+                  else mechanism.PIN_SLOT_REACH)
+    barb_land = (mechanism.IDLER_PIN_BARB_LAND if variant == "idler"
+                 else mechanism.PIN_BARB_LAND)
+    delta = (mechanism.IDLER_PIN_BARB_OFFSET if variant == "idler"
+             else mechanism.PIN_BARB_OFFSET)
+    slot_from = max(catch - slot_reach, 0.8)
+    length = catch - slot_from + barb_land / 2.0
     r = mechanism.PIN_D / 2.0
     half = mechanism.PIN_SLOT_W / 2.0
     xs, ys = np.meshgrid(np.linspace(half, r, 400), np.linspace(-r, r, 800))
     inside = (xs ** 2 + ys ** 2 <= r * r) & (ys >= mechanism.PIN_FLAT_Y)
     centroid = float(xs[inside].mean())
     c = max(r - centroid, centroid - half)
-    delta = mechanism.PIN_BARB_OFFSET
     strain = 3.0 * delta * c / length ** 2
     return {"grip": grip, "beam_l": length, "c": c, "delta": delta,
             "strain": strain, "ok": strain <= MAX_SNAP_STRAIN}
@@ -900,7 +905,7 @@ def analytic_checks() -> dict:
     out["barb"]["ok"] = (out["barb"]["insert_clear"] >= 0.05
                          and out["barb"]["catch_overlap"] >= 0.15
                          and out["barb"]["cbore_clear"] >= 0.2)
-    out["split"] = {v: split_pin_strain(g)
+    out["split"] = {v: split_pin_strain(g, v)
                     for v, g in mechanism.PIN_GRIPS.items() if v != "follower"}
     out["crush"] = {"interference": mechanism.PIN_CRUSH_R - bore_r}
     out["crush"]["ok"] = 0.05 <= out["crush"]["interference"] <= 0.25

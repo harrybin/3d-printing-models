@@ -42,6 +42,11 @@ PIN_HEAD_T = 1.6
 PIN_BARB_R = 2.55       # relaxed barb reach in the flex direction
 PIN_BARB_ARC_R = 2.2    # barb arc radius: 0.1 mm clearance once closed
 PIN_BARB_OFFSET = PIN_BARB_R - PIN_BARB_ARC_R   # 0.35 mm closure per half
+IDLER_PIN_BARB_R = 2.68
+IDLER_PIN_BARB_OFFSET = IDLER_PIN_BARB_R - PIN_BARB_ARC_R  # 0.48 mm closure (+52% catch overlap)
+IDLER_PIN_BARB_LAND = 0.7
+IDLER_PIN_BARB_CONE = 1.6
+IDLER_PIN_SLOT_REACH = 8.4
 PIN_CRUSH_R = 2.45      # follower-pin crush ribs: 0.15 mm interference
 PIN_BARB_LAND = 0.4
 PIN_BARB_CONE = 1.0
@@ -58,10 +63,13 @@ PIN_GRIPS = {
     "centre": 8.4,      # False arm 35..39, True arm 41..45 (cbore)
     "gear": 16.4,       # +plane top: lug, True arm, scissor-drive gear 47..53
     "short": 6.8,       # -plane top (lug + True cbore) and both slot pins
-    "idler": 11.4,      # idler 47..52 (head sunk 1 mm) plus rail 40.6..46.6
+    "idler": 11.35,     # idler 47..52 (head sunk 1 mm) plus rail 40.6..46.6
     "follower": 4.0,    # follower bar 46..50: crush-rib press pin, no barb
 }
-PIN_TAILS = {"follower": 7.5}   # plain tail to u 57.5 in the cam slot (0.5 mm short of chest wall u=58.0)
+PIN_TAILS = {
+    "idler": 1.0,       # extended split-pin nose behind the gear rail
+    "follower": 7.5,    # plain tail to u 57.5 in the cam slot (0.5 mm short of chest wall u=58.0)
+}
 PIN_QUANTITIES = {
     "floor": 2, "slider": 2, "centre": 2, "gear": 1,
     "short": 3, "idler": 3, "follower": 1,
@@ -95,14 +103,16 @@ HAND_PALM_ROLL = -75.0
 
 FOREARM_ENGAGE_THETA = THETA_MIN
 FOREARM_GEAR_Y = 50.0
+FOREARM_GEAR_RAIL_Y = 43.6
 FOREARM_INPUT_R = 12.0
 FOREARM_GEAR_R = 12.0
 FOREARM_SHAFT_D = 6.0
-FOREARM_BEARING_D = 7.2
+FOREARM_BEARING_D = 6.6
 FOREARM_SOCKET_D = 6.6
 FOREARM_SHAFT_FLAT_X = 1.7
 FOREARM_SOCKET_FLAT_X = 1.9
 FOREARM_SHAFT_Y_MIN = -22.0
+FOREARM_SHAFT_ROUND_Y_MIN = 11.0
 FOREARM_SHAFT_Y_MAX = 53.0
 FOREARM_RETAINER_Y = -19.5
 FOREARM_LENGTH = 34.0
@@ -160,16 +170,16 @@ _TRANSFER_INNER_Z = LID_TRANSFER_BEARING_X + LID_TRANSFER_BLOCK_W / 2.0 \
 _TRANSFER_OUTER_Z = _TRANSFER_INNER_Z - LID_TRANSFER_BLOCK_W
 TRANSFER_HUB_R = 2.2
 TRANSFER_HUB_LEN = -_TRANSFER_INNER_Z - 0.2
-TRANSFER_JOURNAL_R = 1.4
+TRANSFER_JOURNAL_R = 1.45
 TRANSFER_BORE_R = 1.6
 TRANSFER_BARB_ARC_R = 1.5
-TRANSFER_BARB_OFFSET = 0.3
+TRANSFER_BARB_OFFSET = 0.4
 TRANSFER_BARB_R = TRANSFER_BARB_ARC_R + TRANSFER_BARB_OFFSET
-TRANSFER_BARB_LAND = 0.7
-TRANSFER_BARB_CONE = 1.6
+TRANSFER_BARB_LAND = 0.9
+TRANSFER_BARB_CONE = 2.0
 TRANSFER_SLOT_W = 0.8
-TRANSFER_SLOT_ROOT_Z = -4.2
-TRANSFER_CATCH_Z = _TRANSFER_OUTER_Z - 0.55
+TRANSFER_SLOT_ROOT_Z = -4.8
+TRANSFER_CATCH_Z = _TRANSFER_OUTER_Z - 0.25
 TRANSFER_TIP_Z = TRANSFER_CATCH_Z - TRANSFER_BARB_LAND - TRANSFER_BARB_CONE
 TRANSFER_CROSS_Z = _TRANSFER_OUTER_Z - 0.33 - 1.75 / 2.0
 # Hinge-filament spacer between the lid crank (-x face at -DRIVE_PITCH_R) and
@@ -199,7 +209,7 @@ SLIDER_FINGER_U = (55.0, 56.6)
 SLIDER_NOSE_U = 59.4            # groove bottom u 60, groove z 8..12
 DRIVE_GEAR_Y = (-46.0, -54.0)
 
-IDLER_HEAD_CBORE_D = PIN_HEAD_D + 0.4
+IDLER_HEAD_CBORE_D = PIN_HEAD_D + 1.0
 IDLER_HEAD_CBORE_DEPTH = 1.0
 GEAR_RAIL_START = 14.0          # along the gear line from the fixed pin
 FIT = 0.4               # running clearance on printed sliding fits
@@ -594,17 +604,26 @@ def build_platform() -> trimesh.Trimesh:
     gear_vector = gear_end - gear_start
     gear_distance = float(np.linalg.norm(gear_vector[[0, 2]]))
     gear_unit = gear_vector / gear_distance
-    rail_from, rail_to = GEAR_RAIL_START, gear_distance - 4.0
+    rail_from, rail_to = GEAR_RAIL_START, gear_distance
     gear_rail = box((rail_to - rail_from, 6.0, 6.0), (0.0, 0.0, 0.0))
     gear_rail.apply_transform(trimesh.transformations.rotation_matrix(
         -np.arctan2(gear_vector[2], gear_vector[0]),
         (0.0, 1.0, 0.0),
     ))
     # The rail runs inboard of the gear plane (u 40.6..46.6) and starts clear
-    # of the True arm's swept band; idlers turn on snap pins through it.
+    # of the True arm's swept band; idlers turn on snap pins through it, and
+    # its top end carries a circular bearing boss for the output gear's round
+    # shaft journal so the topmost gear cannot deflect sideways under load.
     gear_rail.apply_translation(
         gear_start + gear_unit * (rail_from + rail_to) / 2.0
-        + np.array([0.0, -(FOREARM_GEAR_Y - 43.6), 0.0]))
+        + np.array([0.0, -(FOREARM_GEAR_Y - FOREARM_GEAR_RAIL_Y), 0.0]))
+    output_rail_bearing = union([
+        cylinder(6.2, 6.0,
+                 (ARM_HINGE_X, FOREARM_GEAR_RAIL_Y, ARM_HINGE_Z),
+                 (0.0, 1.0, 0.0)),
+        box((10.0, 6.0, ARM_HINGE_Z),
+            (ARM_HINGE_X, FOREARM_GEAR_RAIL_Y, ARM_HINGE_Z / 2.0)),
+    ])
 
     hinge_gussets = [
         box((3.2, 8.0, ARM_HINGE_Z - 13.0),
@@ -614,7 +633,8 @@ def build_platform() -> trimesh.Trimesh:
         for dx in (-6.4, 0.0, 6.4)
     ]
     body = union([*side_rails, *pivot_links, hinge_bridge, *fixed_lugs,
-                  *slot_beams, *arm_ears, gear_rail, *hinge_gussets])
+                  *slot_beams, *arm_ears, gear_rail, output_rail_bearing,
+                  *hinge_gussets])
     idler_bores = [
         cylinder(PIVOT_D / 2.0, 14.0, centre + np.array([0.0, -6.4, 0.0]),
                  (0.0, 1.0, 0.0))
@@ -628,7 +648,7 @@ def build_platform() -> trimesh.Trimesh:
     body = difference(body, [
         cylinder(
             FOREARM_BEARING_D / 2.0,
-            86.0,
+            96.0,
             (ARM_HINGE_X, 20.0, ARM_HINGE_Z),
             (0.0, 1.0, 0.0),
         ),
@@ -863,14 +883,21 @@ def build_forearm_output_gear() -> trimesh.Trimesh:
     ))
     gear.apply_translation((0.0, FOREARM_GEAR_Y, 0.0))
 
-    shaft_length = FOREARM_SHAFT_Y_MAX - FOREARM_SHAFT_Y_MIN
-    shaft = _d_prism(
+    d_length = FOREARM_SHAFT_ROUND_Y_MIN - FOREARM_SHAFT_Y_MIN
+    d_shaft = _d_prism(
         FOREARM_SHAFT_D,
-        shaft_length,
+        d_length,
         FOREARM_SHAFT_FLAT_X,
-        (0.0, (FOREARM_SHAFT_Y_MIN + FOREARM_SHAFT_Y_MAX) / 2.0, 0.0),
+        (0.0, (FOREARM_SHAFT_Y_MIN + FOREARM_SHAFT_ROUND_Y_MIN) / 2.0, 0.0),
     )
-    body = union([gear, shaft])
+    round_length = FOREARM_SHAFT_Y_MAX - FOREARM_SHAFT_ROUND_Y_MIN
+    round_shaft = cylinder(
+        FOREARM_SHAFT_D / 2.0,
+        round_length,
+        (0.0, (FOREARM_SHAFT_ROUND_Y_MIN + FOREARM_SHAFT_Y_MAX) / 2.0, 0.0),
+        (0.0, 1.0, 0.0),
+    )
+    body = union([gear, d_shaft, round_shaft])
     retainer_hole = cylinder(
         FILAMENT_BORE_R, 10.0,
         (0.0, FOREARM_RETAINER_Y, 0.0),
@@ -910,22 +937,25 @@ def build_forearm(length: float = FOREARM_LENGTH) -> trimesh.Trimesh:
     return clean(body)
 
 
-def _barb_half(side: float, catch: float) -> trimesh.Trimesh:
-    """One barb half: an r 2.2 arc offset outward by ``PIN_BARB_OFFSET``.
+def _barb_half(side: float, catch: float,
+               barb_offset: float = PIN_BARB_OFFSET,
+               barb_land: float = PIN_BARB_LAND,
+               barb_cone: float = PIN_BARB_CONE) -> trimesh.Trimesh:
+    """One barb half: an r 2.2 arc offset outward by ``barb_offset``.
 
     A revolved barb cannot work in a split pin: closing the halves only moves
     them in the flex direction, so its width in the slot plane would stay
     above the bore.  The offset arc instead becomes a centred r 2.2 circle
     (0.1 mm radial clearance in the Ø4.6 bore) once each half has closed by
-    the offset, while overhanging the bore edge by 0.25 mm when relaxed.
+    the offset, while overhanging the bore edge when relaxed.
     """
-    land_end = catch + PIN_BARB_LAND
-    cone_end = land_end + PIN_BARB_CONE
+    land_end = catch + barb_land
+    cone_end = land_end + barb_cone
     angles = np.linspace(0.0, 2.0 * np.pi, 48, endpoint=False)
     ring = np.column_stack([np.cos(angles), np.sin(angles)])
     points = []
     for z in (catch, land_end):
-        xy = ring * PIN_BARB_ARC_R + [side * PIN_BARB_OFFSET, 0.0]
+        xy = ring * PIN_BARB_ARC_R + [side * barb_offset, 0.0]
         points.append(np.column_stack([xy, np.full(len(xy), z)]))
     xy = ring * (PIN_D / 2.0 - 0.1)
     points.append(np.column_stack([xy, np.full(len(xy), cone_end)]))
@@ -935,20 +965,24 @@ def _barb_half(side: float, catch: float) -> trimesh.Trimesh:
     return intersection([barb, keep])
 
 
-def build_pin(grip: float, tail: float = 0.0) -> trimesh.Trimesh:
+def build_pin(grip: float, tail: float = 0.0,
+              barb_offset: float = PIN_BARB_OFFSET,
+              barb_land: float = PIN_BARB_LAND,
+              barb_cone: float = PIN_BARB_CONE,
+              slot_reach: float = PIN_SLOT_REACH) -> trimesh.Trimesh:
     """Split snap pivot pin along +Z, head underside at z = 0.
 
     ``grip`` is the stack thickness from the head underside to the face the
     barb catches on; the catch face sits ``PIN_AXIAL_PLAY`` beyond it.  The
     two halves, separated by a 1.4 mm slot, each carry an offset barb arc
-    (see ``_barb_half``) that overhangs the Ø4.6 bore by 0.25 mm; they flex
-    0.35 mm inward on insertion and spring out in the Ø6 counterbore.  The
-    0.4 mm flat at y = -1.6 is the print bed face; the slot plane is
-    perpendicular to it so the halves flex in the print plane.
+    (see ``_barb_half``) that overhangs the Ø4.6 bore; they flex inward on
+    insertion and spring out past the bore.  The 0.4 mm flat at y = -1.6 is
+    the print bed face; the slot plane is perpendicular to it so the halves
+    flex in the print plane.
     """
     r = PIN_D / 2.0
     catch = grip + PIN_AXIAL_PLAY
-    cone_end = catch + PIN_BARB_LAND + PIN_BARB_CONE
+    cone_end = catch + barb_land + barb_cone
     tip = cone_end + tail
     profile = [
         (0.0, -PIN_HEAD_T),
@@ -960,8 +994,12 @@ def build_pin(grip: float, tail: float = 0.0) -> trimesh.Trimesh:
         (0.0, tip),
     ]
     body = clean(trimesh.creation.revolve(np.asarray(profile), sections=64))
-    body = union([body, _barb_half(1.0, catch), _barb_half(-1.0, catch)])
-    slot_from = max(catch - PIN_SLOT_REACH, 0.8)
+    body = union([
+        body,
+        _barb_half(1.0, catch, barb_offset, barb_land, barb_cone),
+        _barb_half(-1.0, catch, barb_offset, barb_land, barb_cone),
+    ])
+    slot_from = max(catch - slot_reach, 0.8)
     cuts = [
         box((PIN_SLOT_W, 10.0, tip - slot_from + 1.0),
             (0.0, 0.0, (slot_from + tip + 1.0) / 2.0)),
@@ -1021,6 +1059,15 @@ def pin_print_pose(pin: trimesh.Trimesh) -> trimesh.Trimesh:
 def build_pin_variant(variant: str) -> trimesh.Trimesh:
     if variant == "follower":
         return build_press_pin(PIN_GRIPS[variant], PIN_TAILS[variant])
+    if variant == "idler":
+        return build_pin(
+            PIN_GRIPS[variant],
+            PIN_TAILS.get(variant, 0.0),
+            barb_offset=IDLER_PIN_BARB_OFFSET,
+            barb_land=IDLER_PIN_BARB_LAND,
+            barb_cone=IDLER_PIN_BARB_CONE,
+            slot_reach=IDLER_PIN_SLOT_REACH,
+        )
     return build_pin(PIN_GRIPS[variant], PIN_TAILS.get(variant, 0.0))
 
 

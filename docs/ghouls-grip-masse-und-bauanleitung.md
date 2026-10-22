@@ -227,16 +227,16 @@ mitgeführt werden.
 | Deckel-Folger mit Zahnstange | 1 | 91 × 12,6 × 6 mm | Naturweiß |
 | Deckelkurbel (Segment mit Mitnehmer) | 1 | 9,2 × 20,6 × 11 mm, Bohrung Ø2,3 | Naturweiß |
 | Kurbel-Distanzhülse (axiale Sicherung auf der Scharnierachse) | 1 | Ø5 × 15,8 mm, Bohrung Ø2,3 | Naturweiß |
-| Deckel-Übertragungsrad mit Bund und geschlitztem Schnappklips-Zapfen | 2 | Ø9,2 × 17,0 mm | Naturweiß |
+| Deckel-Übertragungsrad mit Bund und geschlitztem Schnappklips-Zapfen | 2 | Ø9,2 × 17,2 mm | Naturweiß |
 | Scheren-Eingangszahnrad | 1 | 25,8 × 25,8 × 11,5 mm | Naturweiß |
 | Zwischenrad | 3 | Ø16,5 × 6 mm | Naturweiß |
-| Unterarm-Abtriebsrad mit D-Welle | 1 | 25,8 × 75 × 25,8 mm | Naturweiß |
+| Unterarm-Abtriebsrad mit runder Lagerwelle + D-Welle | 1 | 25,8 × 75 × 25,8 mm | Naturweiß |
 | Schnappstift Ø4 Boden (Klemmlänge 18,4) | 2 | Ø7,5 × 21,6 mm | Naturweiß |
 | Schnappstift Ø4 Schlitten (11,2) | 2 | Ø7,5 × 14,4 mm | Naturweiß |
 | Schnappstift Ø4 Mitte (8,4) | 2 | Ø7,5 × 11,6 mm | Naturweiß |
 | Schnappstift Ø4 Zahnrad (16,4) | 1 | Ø7,5 × 19,6 mm | Naturweiß |
 | Schnappstift Ø4 kurz (6,8) | 3 | Ø7,5 × 10,0 mm | Naturweiß |
-| Schnappstift Ø4 Zwischenrad (11,4) | 3 | Ø7,5 × 14,6 mm | Naturweiß |
+| Schnappstift Ø4 Zwischenrad (11,35, verstärkter Anpressdruck) | 3 | Ø7,5 × 16,5 mm | Naturweiß |
 | Pressstift Ø4 Folger (Quetschrippen, verlängert bis fast an die Truhenwand) | 1 | Ø7,5 × 13,1 mm | Naturweiß |
 | Unterarm mit D-Nabe | 1 | 25,8 × 18 × 50 mm | Knochenbeige |
 | Handfläche (mit 3 bündigen Sacklöchern) | 1 | 67,8 × 96,4 × 25,2 mm | Knochenbeige |
@@ -267,7 +267,7 @@ Die frühere separate Sehnenführung, die starre Deckel-Hauptzahnstange und die
 | Scherenarme, Schlitten, Plattform, Zahnräder | 13 gedruckte Ø4-Schnappstifte in 6 Klemmlängen in Ø4,6-Bohrungen | geschlitzter Schaft mit Rastnase; von der Kopfseite einschieben, bis die Nase hinter der Gegenfläche einrastet (0,25 mm Hinterschnitt); zusammen mit dem separaten Folger-Pressstift 14 gedruckte Stifte |
 | Folger im Kurvenschlitz | massiver Ø4-Pressstift mit Quetschrippen | von innen durch den Folger in den Schlitz drücken |
 | Schlitten in der Schiene | zwei integrierte Schnappfinger | senkrecht aufdrücken, Finger rasten in die Nut |
-| Unterarm in Plattform | D-Welle des Abtriebsrads + Filamentstift 10 mm | Unterarm zwischen die Ohren, Welle axial einschieben, außen sichern |
+| Unterarm in Plattform | kombinierte Welle des Abtriebsrads (rund Ø6,0 im oberen Führungslager der Zahnradschiene + innerem Ohr, D-Profil im Unterarm) + Filamentstift 10 mm | Unterarm zwischen die Ohren, Welle durch das obere Führungslager der Zahnradschiene axial einschieben, außen sichern |
 | Handfläche am Unterarm | 11,6-mm-Zapfen in Ø12-Aufnahme + Filamentstift 16 mm | Querbohrungen fluchten lassen, Stift quer einsetzen |
 | Finger an Handfläche | 4-mm-MCP-Zapfen in 4,4-mm-Aufnahme (0,4 mm Durchmesserspiel) | vom freien Zapfenende her entlang der Achse zum Handteller aufschieben (Reihenfolge: Zeige-, Mittel-, Ring-, kleiner Finger, Daumen); das Knochenköpfchen ist ab 2,0 mm auf 7,0 mm Länge freigestellt (Ø8,6 mm bzw. Ø11,2 mm am Daumen), sodass der Steckkragen bündig anschließt |
 | Süßigkeitenschale an Handfläche | 3 asymmetrische Ø3,0-mm-Unterseitenstifte an der Schale in bündigen Ø3,4-mm-Sacklöchern der Mittelhandknochen (0,4 mm Spiel) | optional nach den Fingern entlang der Schalennormale von oben in die Handfläche einstecken; ohne Schale bleibt die Knochenhand frei von abstehenden Stegen |
