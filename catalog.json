@@ -83,7 +83,8 @@
         "docs/ghouls-grip-masse-und-bauanleitung.md",
         "docs/ghouls-grip-mechanik-verifikation.md",
         "docs/ghouls-grip-montage-audit.md",
-        "docs/ghouls-grip-quellen-und-lizenzen.md"
+        "docs/ghouls-grip-quellen-und-lizenzen.md",
+        "docs/images/ghouls-grip-explosionszeichnung.png"
       ],
       "license": "See LICENSE and model-specific source/license documentation; unchanged by migration",
       "status": "Existing files preserved; migration does not certify geometry or slicing"

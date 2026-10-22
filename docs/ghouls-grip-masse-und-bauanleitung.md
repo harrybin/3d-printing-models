@@ -274,6 +274,46 @@ Druckungenauigkeit (±0,1–0,2 mm) nachgewiesen.
 
 ## Montage
 
+### Explosionszeichnung
+
+[![Explosionszeichnung mit acht nummerierten Baugruppen und deutschen Montagehinweisen](images/ghouls-grip-explosionszeichnung.png)](images/ghouls-grip-explosionszeichnung.png)
+
+Die [Zeichnung in voller Auflösung (3200 × 2600 Pixel)](images/ghouls-grip-explosionszeichnung.png)
+zeigt alle **42 Druckkörper** aus `models/ghouls-grip-view.3mf`, Zustand
+`deployed`, in acht nummerierten Baugruppen. Die Nummern verweisen auf die
+Montageschritte unten; sie sind keine zusätzlichen Teilekennzeichen.
+Handfläche, fünf Finger, Unterarm und optionale Schale sind einzeln getrennt;
+Schnappstifte und Antriebsräder sind ihrer jeweiligen Baugruppe zugeordnet.
+Die sechs zugeschnittenen Filamentstifte sind nicht abgebildet, ihre Längen
+und Einsteckstellen stehen in den Tabellen oben und den Montageschritten.
+
+**Darstellung, keine Geometrieänderung:** Die Originalnetze werden ausschließlich
+für die Illustration verschoben; Orientierung, Form, STL- und 3MF-Dateien bleiben
+unverändert. Gestrichelte Pfeile zeigen die Explosionsachsen, **keine geprüften
+Montagepfade**. Insbesondere Plattform und Deckel werden nicht einfach gerade
+abgesenkt: Die erforderlichen Versätze und Eingriffsrichtungen bleiben wie in
+Schritt 9 bzw. 11–12 beschrieben. Die Darstellung ist nicht maßstäblich auszumessen
+und ersetzt keinen Passungs-/Kollisionsnachweis.
+
+Reproduzierbare Bildquelle: `scripts/render_ghouls_grip_exploded.py`.
+Das Skript liest das vorhandene Ansichtsprojekt, rendert dessen Netze mit Blender
+und setzt die deutschen Beschriftungen mit Pillow. Blender wird im PATH bzw.
+unter dem Windows-Standardinstallationsordner gesucht; ein anderer Pfad kann
+mit `--blender` angegeben werden. Es werden keine neuen Druckdateien exportiert.
+
+```powershell
+.\.venv\Scripts\python.exe scripts\render_ghouls_grip_exploded.py
+```
+
+Rendernachweis: Blender **5.2.2 LTS**, erfolgreicher PNG-Render, alle 42 Körper
+im Kamerabereich, Bild visuell geprüft. SHA-256 der unveränderten Quell-3MF:
+`de10f30372e22c0c1dc67924c2a56ef4f27aad21eb0e54615df067f3e784ab0c`.
+Das Skript prüft außerdem die SHA-256-Werte aller drei Ghoul's-Grip-Modelldateien
+vor/nach dem Rendern. Projektionsdaten und Zwischenrender liegen ausschließlich
+unter `build/ghouls-grip-exploded/`.
+
+### Montageschritte
+
 1. Truhe auf den Tisch, Öffnung oben.
 2. Schlitten senkrecht auf die Schiene drücken, bis beide Schnappfinger in die
    Nut einrasten. Er muss frei zwischen beiden Endlagen laufen.
