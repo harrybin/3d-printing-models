@@ -61,7 +61,7 @@ PIN_GRIPS = {
     "idler": 11.4,      # idler 47..52 (head sunk 1 mm) plus rail 40.6..46.6
     "follower": 4.0,    # follower bar 46..50: crush-rib press pin, no barb
 }
-PIN_TAILS = {"follower": 6.2}   # plain tail to u 56.2 in the cam slot
+PIN_TAILS = {"follower": 7.5}   # plain tail to u 57.5 in the cam slot (0.5 mm short of chest wall u=58.0)
 PIN_QUANTITIES = {
     "floor": 2, "slider": 2, "centre": 2, "gear": 1,
     "short": 3, "idler": 3, "follower": 1,
@@ -431,9 +431,11 @@ def slider_cam_path() -> list[tuple[float, float]]:
     """Follower-pin centreline in slider-local (x, z)."""
     start = FOLLOWER_X - RETRACTED_SLIDER_X
     end = FOLLOWER_X - slider_x(THETA_MAX)
-    # 1 mm level over-travel at both ends keeps the pin off the slot caps.
+    # 0.2 mm level over-travel at the retracted end (plus 0.3 mm slot clearance)
+    # and 1.0 mm at the deployed end keep the pin off the slot caps while
+    # preserving a thick 7.5 mm rear end pillar behind the slot.
     return [
-        (start - 1.0, FOLLOWER_PIN_Z),
+        (start - 0.2, FOLLOWER_PIN_Z),
         (start, FOLLOWER_PIN_Z),
         (start + LID_CAM_TRAVEL, FOLLOWER_PIN_Z + LID_OPEN_TRAVEL),
         (end + 1.0, FOLLOWER_PIN_Z + LID_OPEN_TRAVEL),
@@ -485,22 +487,34 @@ def build_slider() -> trimesh.Trimesh:
     parts.append(_box_span(18.0, 22.0, -SLIDER_SIDE_U, SLIDER_SIDE_U,
                            z0, 16.0))
 
-    # -Y: drive rack on a floor-skid web (stiff against pinion tooth load).
+    # -Y: drive rack on a floor-skid web extended to -103.5 to meet the rear crossbars.
     parts.append(_box_span(-72.0, 8.0, -54.0, -46.0, 13.0, 17.5))
     parts.append(_box_span(-72.0, 11.5, -53.0, -50.6, z0, 13.2))
+    parts.append(_box_span(-103.5, -72.0, -53.0, -50.6, z0, 13.2))
+    parts.append(_box_span(-103.5, -79.0, -53.0, -45.0, z0, 13.2))
     parts.extend(
         _box_span(x - 1.05, x + 1.05, -53.5, -46.5, 17.4, 19.9)
         for x in drive_rack_tooth_x()
     )
 
-    # +Y: lid cam plate.  The follower pin rides the slot: 7 mm rise over the
-    # first 10 mm of travel, then a level dwell.
-    parts.append(_box_span(-98.3, -33.0, 53.4, 56.6, z0, 23.0))
+    # Rear box-frame crossbars closing the open U-shape into a rigid frame.
+    parts.append(_box_span(-103.5, -95.5, -53.0, 42.6, z0, 13.2))
+    parts.append(_box_span(-86.5, -79.0, -53.0, 42.6, z0, 13.2))
+    parts.append(_box_span(-103.5, -79.0, 35.0, 42.6, z0, 13.2))
+    parts.append(_box_span(-86.5, -79.0, 42.6, 56.6, z0, 12.2))
+    parts.append(_box_span(-93.5, -86.5, 42.6, 52.4, z0, 5.4))
+
+    # +Y: reinforced lid cam plate (extended to -103.5, thickened to y=50.6..56.6).
+    parts.append(_box_span(-103.5, -33.0, 53.4, 56.6, z0, 23.0))
+    parts.append(_box_span(-103.5, -80.5, 52.4, 56.6, z0, 23.0))
+    parts.append(_box_span(-93.5, -79.0, 50.6, 56.6, z0, 16.8))
+    parts.append(_box_span(-56.0, -33.0, 50.6, 56.6, z0, 23.0))
+    parts.append(_box_span(-80.5, -56.0, 52.4, 56.6, z0, 16.8))
     parts.append(_box_span(-35.0, 11.5, 50.6, 53.0, z0, 23.0))
     parts.append(_box_span(-35.0, -33.0, 50.6, 56.6, z0, 23.0))
     path = slider_cam_path()
     for p0, p1 in zip(path[:-1], path[1:]):
-        cuts.append(_slot_xz(p0, p1, PIVOT_D, 55.0, 8.0))
+        cuts.append(_slot_xz(p0, p1, PIVOT_D, 53.6, 10.0))
 
     body = difference(union(parts), cuts)
     return clean(body)

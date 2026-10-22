@@ -221,7 +221,7 @@ mitgeführt werden.
 | Schatulle | 1 | 209,0 × 130,5 × 98,0 mm | Schwarz |
 | Deckel | 1 | 206,0 × 129,8 × 28,2 mm | Schwarz |
 | Scherenarm | 4 | 84 × 12 × 4 mm | Naturweiß |
-| Schlitten mit Zahnstange, Kurvenbahn und Schnappfingern | 1 | 120,3 × 118,8 × 20,8 mm | Naturweiß |
+| Schlitten mit Kastenrahmen-Querstreben, Zahnstange, verstärkter Kurvenbahn und Schnappfingern | 1 | 125,5 × 118,8 × 20,8 mm | Naturweiß |
 | Plattform (Hubjoch) | 1 | 83,5 × 92,6 × 48,5 mm | Naturweiß |
 | Hauptantriebsritzel mit D-Welle | 1 | 55,8 × 55,7 × 28 mm | Naturweiß |
 | Deckel-Folger mit Zahnstange | 1 | 91 × 12,6 × 6 mm | Naturweiß |
@@ -237,7 +237,7 @@ mitgeführt werden.
 | Schnappstift Ø4 Zahnrad (16,4) | 1 | Ø7,5 × 19,6 mm | Naturweiß |
 | Schnappstift Ø4 kurz (6,8) | 3 | Ø7,5 × 10,0 mm | Naturweiß |
 | Schnappstift Ø4 Zwischenrad (11,4) | 3 | Ø7,5 × 14,6 mm | Naturweiß |
-| Pressstift Ø4 Folger (Quetschrippen) | 1 | Ø7,5 × 11,8 mm | Naturweiß |
+| Pressstift Ø4 Folger (Quetschrippen, verlängert bis fast an die Truhenwand) | 1 | Ø7,5 × 13,1 mm | Naturweiß |
 | Unterarm mit D-Nabe | 1 | 25,8 × 18 × 50 mm | Knochenbeige |
 | Handfläche (mit 3 bündigen Sacklöchern) | 1 | 67,8 × 96,4 × 25,2 mm | Knochenbeige |
 | Fünf gekrümmte Finger (massive Gelenke) | je 1 | 33–59 mm | Knochenbeige |

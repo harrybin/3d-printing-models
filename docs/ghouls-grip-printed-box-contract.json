@@ -1,8 +1,8 @@
 {
-  "baseline_project_sha256": "88bb7c008d7aece4bea773f5a7627b18ec5075d4b7f04e48b530310e98726cd3",
+  "baseline_project_sha256": "2e1bc33122189c3734b36765636ca01bbad44f0d383b105162ced995b1de87c3",
   "source_sha256": {
     "gothic_chest.py": "92744f712c97ee6a03b975c5e34fecece4bd0b4bbe8b78d8e9b3e474a9ccc87e",
-    "mechanism.py": "064f123b529dd6e5bee360255415fcc169b121f15a98b7250500b5df6a176540"
+    "mechanism.py": "86f56523b021314c9223a9d9fb9b1e3f21a7bf32ea2324b06fcb3c826967dc91"
   },
   "unchanged_meshes": {
     "drive-pinion": {
@@ -98,7 +98,7 @@
       "print_transform": "1 0 0 0 1 0 0 0 1 381.897492 81 25"
     },
     "slider": {
-      "mesh_sha256": "b9da3ca5af4dc2b6265a3ee153fed0cd72c3632e9a701c68e414c72be4e63735",
+      "mesh_sha256": "9979dc513a5695e367a1ba3bec5e8b34e40920138308280a73c35668e2724b47",
       "print_transform": "1 0 0 0 1 0 0 0 1 70.9993159 -257.893152 10.3999996"
     },
     "scissor-arm-02": {
@@ -122,7 +122,7 @@
       "print_transform": "1 0 0 0 1 0 0 0 1 144.5 -146.66 2"
     },
     "pivot-pin-follower": {
-      "mesh_sha256": "fa33ed7d24e5d2e3be84c56899ce4729febf92b92db37bbe659c88f0c6a7aa91",
+      "mesh_sha256": "d1f7f791018b55eff8655bab5fe19acced32ff685638075400ca35646adac1d1",
       "print_transform": "1 0 0 0 1 0 0 0 1 185.71623 -99.7731368 2.67499995"
     },
     "candy-dish": {

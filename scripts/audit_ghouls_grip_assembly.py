@@ -708,7 +708,9 @@ def assembly_sweeps() -> list[dict]:
 
     run("Schlitten senkrecht einsetzen (ohne Rastnasen)", (18.0, 48.0, 78.0),
         lambda p, t: ([_no_snap_noses(p["slider"])],
-                      {"chest": p["chest"]}, [((0, 0, 1), None)]))
+                      {"chest": p["chest"]},
+                      [[((1, 0, 0), 5.5), ((0, 0, 1), None)],
+                       [((0, 0, 1), None)]]))
     run("Ritzel axial von innen, dann nach oben heraus", (18.0, 48.0, 78.0),
         lambda p, t: ([p["drive-pinion"]],
                       {n: p[n] for n in ("chest", "slider")},

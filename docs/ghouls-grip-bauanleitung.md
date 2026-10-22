@@ -55,7 +55,7 @@ beim Prüfen nicht in Scheren, Zahnräder oder Scharniere greifen.
 | Baugruppe im Bild | Teile bereitstellen |
 | --- | --- |
 | 1 – Gehäuse | 1 schwarze Truhe |
-| 2 – Schlitten | 1 naturweißer Schlitten mit Zahnstange und Kurvenbahn |
+| 2 – Schlitten | 1 naturweißer Schlitten (geschlossener Kastenrahmen mit Querstreben, Zahnstange und verstärkter Kurvenbahn) |
 | 3 – Hauptantrieb | 1 Ritzel mit D-Welle, 1 goldener Totenkopfknauf |
 | 4 – Deckelantrieb | 1 Folger-Zahnstange, 2 Transferzahnräder mit Zapfen, 1 Folger-Pressstift |
 | 5 – Schere | 4 Arme, 1 Scheren-Eingangszahnrad; passende Gelenkstifte |
@@ -96,7 +96,7 @@ erkennst du mit bloßem Auge **vier Längengruppen** (**3 ganz kurze**, **2 kurz
 | **2. Zwei kurze** (mit Schlitz) | **2×** | **11,6 mm** (8,4 mm) | `pivot-pin-centre` (`centre-0`, `centre-1`) | **Abschnitt 5 (Scherenebenen):** die **2 mittleren Scheren-Kreuzungen** (je 1× vorn und hinten in der Mitte des X) |
 | **3. Fünf lange** (mit Schlitz, optisch fast gleich lang) | **5×** | **2× 14,4 mm** (11,2 mm)<br>**3× 14,6 mm** (11,4 mm) | `pivot-pin-slider` (2×)<br>`pivot-pin-idler` (3×) | **Abschnitt 5:** **2× (14,4 mm)** unten beweglich am **Schlitten** (vorn/hinten)<br>**Abschnitt 7:** **3× (14,6 mm)** für die **3 Zwischenräder** am Hubjoch *(0,2 mm Unterschied liegt im Axialspiel)* |
 | **4. Drei ganz lange** (mit Schlitz) | **3×** | **2× 21,6 mm** (18,4 mm)<br>**1× 19,6 mm** (16,4 mm) | `pivot-pin-floor` (2×)<br>`pivot-pin-gear` / `fixed-1` (1×) | **Abschnitt 5:** die **2 längsten (21,6 mm)** unten fest in die **Bodenlager** der Truhe (von innen nach außen)<br>**Abschnitt 8:** der **1 etwas kürzere (19,6 mm)** oben hinten (`+Y`) durch **Hubjoch, Schere und Eingangszahnrad** |
-| **Sonderstift ohne Schlitz** (massiv, mit Quetschrippen) | **1×** | **11,8 mm** (Presssitz) | `pivot-pin-follower` | **Abschnitt 4 (Deckel-Folger):** durch die Folger-Zahnstange in die Kurvenbahn des Schlittens (kein Gelenksplint!) |
+| **Sonderstift ohne Schlitz** (massiv, mit Quetschrippen) | **1×** | **13,1 mm** (Presssitz, Schaft 11,5 mm) | `pivot-pin-follower` | **Abschnitt 4 (Deckel-Folger):** durch die Folger-Zahnstange komplett durch die verstärkte Kurvenbahn des Schlittens bis fast an die Truheninnenwand (`y = 57,5 mm`, 0,5 mm vor der Wand bei `y = 58,0 mm`; kein Gelenksplint!) |
 
 Schnappstifte immer von der Kopfseite durch die fluchtenden Bohrungen einschieben,
 bis die geschlitzte Rastnase hinter der Gegenfläche einrastet. Nicht mit einem Hammer
@@ -108,10 +108,13 @@ einschlagen. Der Kopf darf das Gelenk nicht festklemmen.
 
 [![Schritt 3a: Schlitten vor dem Einsetzen und auf den Bodenführungen](images/ghouls-grip-montage-03a.png)](images/ghouls-grip-montage-03a.png)
 
-Setze den Schlitten senkrecht auf die Bodenführungen. Drücke nur an stabilen
-Rahmenbereichen, bis beide integrierten Schnappfinger in die Nut greifen.
-Bewege ihn vorsichtig von Hand durch seinen Weg: Er soll geführt bleiben,
-aber ohne Verkanten gleiten.
+Setze den Schlitten leicht nach rechts (`+X`, ca. 5,5 mm vor die hintere
+Führungsrippe der Truhe) versetzt senkrecht auf die Bodenführungen, drücke nur
+an stabilen Rahmenbereichen, bis beide integrierten Schnappfinger in die Nut
+greifen, und schiebe ihn dann nach links (`−X`) in die Ausgangslage. Durch die
+beiden hinteren Querstreben bildet der Schlitten einen geschlossenen
+Kastenrahmen, der sich unter Last nicht aufbiegen kann. Bewege ihn vorsichtig
+von Hand durch seinen Weg: Er soll geführt bleiben, aber ohne Verkanten gleiten.
 
 [![Schritt 3b: Hauptantriebsritzel und Totenkopf getrennt und in Einbaulage](images/ghouls-grip-montage-03b.png)](images/ghouls-grip-montage-03b.png)
 
@@ -132,10 +135,13 @@ die Zähne überspringen. Der Knauf ist ein Drehantrieb, kein Druckknopf.
 [![Schritt 4: Folger und beide Transferzahnräder vor und nach dem Einsetzen](images/ghouls-grip-montage-04.png)](images/ghouls-grip-montage-04.png)
 
 Senke die Folger-Zahnstange in ihren Führungskanal. Drücke den **einzelnen
-massiven Folger-Pressstift (11,8 mm, ohne Längsschlitz, mit Quetschrippen)**
-von innen durch den Folger in den Kurvenschlitz des Schlittens. Verwechsle ihn
-nicht mit den beiden fast gleich langen, aber geschlitzten kurzen Scherensplinten.
-Die Rippen dieses Stifts bilden den vorgesehenen Presssitz.
+massiven Folger-Pressstift (13,1 mm Gesamtlänge, ohne Längsschlitz, mit
+Quetschrippen)** von innen durch den Folger in den verstärkten Kurvenschlitz
+des Schlittens. Der verlängerte Bolzen durchgreift die auf 6,0 mm verbreiterte
+Kurvenführung vollständig und reicht bis auf 0,5 mm an die Truheninnenwand
+heran (`y = 57,5 mm`), sodass er auch unter Last nicht nach innen aus der
+Führung rutschen kann. Verwechsle ihn nicht mit den geschlitzten
+Scherensplinten. Die Rippen dieses Stifts bilden den vorgesehenen Presssitz.
 
 Schiebe beide Transferzahnräder axial in **−X** in ihre Lagerböcke, bis ihr
 Bund innen anliegt. Sichere jeden außenliegenden Zapfen quer mit einem
