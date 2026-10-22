@@ -1,5 +1,5 @@
 {
-  "baseline_project_sha256": "3ebd5f345a5f11cf5c9836e2bed87979ceb7dda64b548071d10317d7df8dd362",
+  "baseline_project_sha256": "3f2af95455375d8d1f813c85fbf12c5326abc61d2f0bd7bb10734630aa3b2231",
   "source_sha256": {
     "gothic_chest.py": "92744f712c97ee6a03b975c5e34fecece4bd0b4bbe8b78d8e9b3e474a9ccc87e",
     "mechanism.py": "a0b79636d6b612cda49392988570df78cd1ff477c614fc13e2eba1a0c3d6ede5"
@@ -95,7 +95,7 @@
     },
     "forearm": {
       "mesh_sha256": "7b528154c2867d3b847d95ae43064c8989df0fb8bb478a46f93f8497e59c979b",
-      "print_transform": "1 0 0 0 1 0 0 0 1 381.897492 81 25"
+      "print_transform": "1 0 0 0 1 0 0 0 1 381.898000 81.000000 25"
     },
     "slider": {
       "mesh_sha256": "9979dc513a5695e367a1ba3bec5e8b34e40920138308280a73c35668e2724b47",
