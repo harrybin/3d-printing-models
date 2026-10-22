@@ -1,5 +1,9 @@
 # The Ghoul's Grip – Maße und Bauanleitung
 
+Für den Zusammenbau am Arbeitsplatz:
+**[Schritt-für-Schritt-Bauanleitung mit Explosionszeichnung, Stiftzuordnung und Zwischenprüfungen](ghouls-grip-bauanleitung.md)**.
+Dieses Dokument enthält den ergänzenden Maß- und Konstruktionsvertrag.
+
 ![Ausgefahren](images/ghouls-grip-deployed.png)
 ![Eingefahren](images/ghouls-grip-retracted.png)
 
@@ -257,7 +261,7 @@ Die frühere separate Sehnenführung, die starre Deckel-Hauptzahnstange und die
 
 | Verbindung | Verbinder | Montageprinzip |
 | --- | --- | --- |
-| Scherenarme, Schlitten, Plattform, Zahnräder | 14 gedruckte Ø4-Schnappstifte in 7 Klemmlängen in Ø4,6-Bohrungen | geschlitzter Schaft mit Rastnase; von der Kopfseite einschieben, bis die Nase hinter der Gegenfläche einrastet (0,25 mm Hinterschnitt) |
+| Scherenarme, Schlitten, Plattform, Zahnräder | 13 gedruckte Ø4-Schnappstifte in 6 Klemmlängen in Ø4,6-Bohrungen | geschlitzter Schaft mit Rastnase; von der Kopfseite einschieben, bis die Nase hinter der Gegenfläche einrastet (0,25 mm Hinterschnitt); zusammen mit dem separaten Folger-Pressstift 14 gedruckte Stifte |
 | Folger im Kurvenschlitz | massiver Ø4-Pressstift mit Quetschrippen | von innen durch den Folger in den Schlitz drücken |
 | Schlitten in der Schiene | zwei integrierte Schnappfinger | senkrecht aufdrücken, Finger rasten in die Nut |
 | Unterarm in Plattform | D-Welle des Abtriebsrads + Filamentstift 10 mm | Unterarm zwischen die Ohren, Welle axial einschieben, außen sichern |

@@ -78,6 +78,7 @@
         "models/ghouls-grip-view.3mf"
       ],
       "docs": [
+        "docs/ghouls-grip-bauanleitung.md",
         "docs/ghouls-grip-candy-audit.md",
         "docs/ghouls-grip-druckvalidierung.md",
         "docs/ghouls-grip-masse-und-bauanleitung.md",
