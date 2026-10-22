@@ -26,6 +26,11 @@ The failing model test and delivered print project are preserved unchanged.
 The catalog CI deliberately reports it instead of skipping it or changing
 geometry during a repository migration.
 
+The subsequent CI layout fix corrects the arranger's 3MF row-vector transform
+calculation and wraps the finger layout onto additional rows as needed to respect
+the bed margin. The regression remains enabled; the delivered print project and
+its slice evidence are unchanged by this script-only fix.
+
 ## Checks
 
 The independent installed-wheel suite ran 60 model tests and reproduced exactly

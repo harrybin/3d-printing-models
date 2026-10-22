@@ -34,6 +34,30 @@ def project_entries(path: Path) -> dict[str, bytes]:
 
 
 class BonePlateLayoutTests(unittest.TestCase):
+    def test_xy_bounds_uses_3mf_row_vector_transform(self) -> None:
+        model = ET.fromstring(f"""
+            <model xmlns="{CORE}"
+                   xmlns:p="http://schemas.microsoft.com/3dmanufacturing/production/2015/06">
+              <resources>
+                <object id="1"><components>
+                  <component objectid="2" p:path="/3D/Objects/part.model"/>
+                </components></object>
+              </resources>
+              <build><item objectid="1"
+                transform="0 1 0 -1 0 0 0 0 1 310 20 0"/></build>
+            </model>
+        """)
+        entries = {"3D/Objects/part.model": f"""
+            <model xmlns="{CORE}"><resources><object id="2"><mesh>
+              <vertices>
+                <vertex x="1" y="2" z="3"/>
+                <vertex x="4" y="6" z="8"/>
+              </vertices>
+            </mesh></object></resources></model>
+        """.encode()}
+        self.assertEqual(_xy_bounds(entries, model, "1"),
+                         (304.0, 21.0, 308.0, 24.0))
+
     def test_layout_is_centered_compact_and_idempotent(self) -> None:
         source = ROOT / "models" / "ghouls-grip-print.3mf"
         with tempfile.TemporaryDirectory() as directory:
@@ -79,6 +103,14 @@ class BonePlateLayoutTests(unittest.TestCase):
         for name, minimum in expected_minima.items():
             self.assertAlmostEqual(bounds_by_name[name][0], minimum[0], places=2)
             self.assertAlmostEqual(bounds_by_name[name][1], minimum[1], places=2)
+        self.assertAlmostEqual(bounds_by_name["hand-finger-ring"][0], 69.0,
+                               places=2)
+        self.assertGreaterEqual(
+            bounds_by_name["hand-finger-ring"][1],
+            max(bounds_by_name[name][3] for name in (
+                "hand-finger-thumb", "hand-finger-index", "hand-finger-middle"))
+            + PART_CLEARANCE - 0.01,
+        )
         for index, first_name in enumerate(PART_NAMES):
             first = bounds_by_name[first_name]
             for second_name in PART_NAMES[index + 1:]:
