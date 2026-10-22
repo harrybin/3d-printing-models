@@ -85,7 +85,20 @@
         "docs/ghouls-grip-mechanik-verifikation.md",
         "docs/ghouls-grip-montage-audit.md",
         "docs/ghouls-grip-quellen-und-lizenzen.md",
-        "docs/images/ghouls-grip-explosionszeichnung.png"
+        "docs/images/ghouls-grip-explosionszeichnung.png",
+        "docs/images/ghouls-grip-montage-02.png",
+        "docs/images/ghouls-grip-montage-03a.png",
+        "docs/images/ghouls-grip-montage-03b.png",
+        "docs/images/ghouls-grip-montage-04.png",
+        "docs/images/ghouls-grip-montage-05.png",
+        "docs/images/ghouls-grip-montage-06.png",
+        "docs/images/ghouls-grip-montage-07.png",
+        "docs/images/ghouls-grip-montage-08.png",
+        "docs/images/ghouls-grip-montage-09.png",
+        "docs/images/ghouls-grip-montage-10.png",
+        "docs/images/ghouls-grip-montage-11.png",
+        "docs/images/ghouls-grip-montage-12.png",
+        "docs/images/ghouls-grip-montage-bildfolge.png"
       ],
       "license": "See LICENSE and model-specific source/license documentation; unchanged by migration",
       "status": "Existing files preserved; migration does not certify geometry or slicing"

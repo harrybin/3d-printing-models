@@ -26,7 +26,26 @@ Von dieser Vorderseite aus gesehen zeigt +X nach rechts, −X nach links;
 +Z zeigt nach oben. Das Scharnier läuft quer von links nach rechts.
 Die Bezeichnungen bleiben auch beim Umdrehen des Deckels auf die Truhe bezogen.
 
+### So liest du die Schrittbilder
+
+Jeder Abschnitt von der Teilevorbereitung bis zum Trockenlauf hat eigene
+Modellbilder. **A** zeigt die neuen Teile getrennt, **B** das Ergebnis in
+Einbaulage. Beim Trockenlauf zeigen A und B stattdessen eingefahrenen und
+ausgefahrenen Zustand. Die türkisen Nummern gehören zur Legende direkt unter
+dem jeweiligen Bild, nicht zu den Baugruppennummern der Explosionszeichnung.
+
+Bereits zugeordnete Teile sind grau; neue Teile behalten ihre Materialfarbe.
+In den gekennzeichneten Detailansichten ist die Truhe ausgeblendet, damit
+Lager, Zahnradketten und Stifte sichtbar bleiben. Die Bildabstände sind zur
+Lesbarkeit vergrößert: **Steckrichtung und tatsächliche Versätze stehen im
+Text**. Filamentstifte sind nicht dargestellt. Alle Bilder lassen sich durch
+Anklicken in voller Auflösung öffnen.
+
+[Übersicht aller zwölf Schrittbilder](images/ghouls-grip-montage-bildfolge.png).
+
 ## 2. Teile und Arbeitsplatz vorbereiten
+
+[![Teilevorbereitung: getrennte Originalbauteile und Zielbaugruppe](images/ghouls-grip-montage-02.png)](images/ghouls-grip-montage-02.png)
 
 Lege die Teile auf einer weichen Unterlage aus. Hilfreich sind Seitenschneider,
 eine kleine Zange, Pinzette, Messschieber und feine Entgratwerkzeuge.
@@ -87,10 +106,14 @@ einschlagen. Der Kopf darf das Gelenk nicht festklemmen.
 
 **Bildgruppen 1–3 · ursprüngliche Montageschritte 1–4**
 
+[![Schritt 3a: Schlitten vor dem Einsetzen und auf den Bodenführungen](images/ghouls-grip-montage-03a.png)](images/ghouls-grip-montage-03a.png)
+
 Setze den Schlitten senkrecht auf die Bodenführungen. Drücke nur an stabilen
 Rahmenbereichen, bis beide integrierten Schnappfinger in die Nut greifen.
 Bewege ihn vorsichtig von Hand durch seinen Weg: Er soll geführt bleiben,
 aber ohne Verkanten gleiten.
+
+[![Schritt 3b: Hauptantriebsritzel und Totenkopf getrennt und in Einbaulage](images/ghouls-grip-montage-03b.png)](images/ghouls-grip-montage-03b.png)
 
 Führe das Hauptantriebsritzel **von innen** axial durch die Bohrung in der
 Vorderwand. Die Zähne müssen in die Schlittenzahnstange greifen.
@@ -105,6 +128,8 @@ die Zähne überspringen. Der Knauf ist ein Drehantrieb, kein Druckknopf.
 ## 4. Deckel-Folger und Transferzahnräder einsetzen
 
 **Bildgruppe 4 · ursprüngliche Montageschritte 5–6**
+
+[![Schritt 4: Folger und beide Transferzahnräder vor und nach dem Einsetzen](images/ghouls-grip-montage-04.png)](images/ghouls-grip-montage-04.png)
 
 Senke die Folger-Zahnstange in ihren Führungskanal. Drücke den massiven
 Folger-Pressstift von innen durch den Folger in den Kurvenschlitz des Schlittens.
@@ -122,6 +147,8 @@ Kurvenbahn. Er darf weder aus der Führung springen noch verkanten.
 ## 5. Beide Scherenebenen aufbauen
 
 **Bildgruppe 5 · ursprünglicher Montageschritt 7**
+
+[![Schritt 5: zwei Scherenpaare und untere Gelenkstifte bei 18 Grad](images/ghouls-grip-montage-05.png)](images/ghouls-grip-montage-05.png)
 
 Ordne je zwei Arme als gekreuztes Paar an den beiden seitlichen Scherenebenen
 an. Die Arme verbinden unten je einen festen Bodenpunkt und einen beweglichen
@@ -143,6 +170,8 @@ fluchtend, nicht mit dem Stift in Position hebeln.
 
 **Bildgruppe 5 · ursprünglicher Montageschritt 8**
 
+[![Schritt 6: Scheren-Eingangszahnrad bei 48 Grad vor dem Hubjoch einsetzen](images/ghouls-grip-montage-06.png)](images/ghouls-grip-montage-06.png)
+
 Bringe die abgestützte Schere für diesen Eingriff in die **48°-Stellung**.
 Schiebe das Eingangszahnrad von **+Y** auf das obere Armauge, richte seinen
 Passstift zum Armloch aus und setze es in Lage. Dieses Zahnrad muss **vor**
@@ -155,6 +184,8 @@ Das Zahnrad darf nicht nur lose auf der Armfläche aufliegen.
 ## 7. Hubjoch und Unterarm außerhalb vormontieren
 
 **Bildgruppen 6–7 · ursprünglicher Montageschritt 9**
+
+[![Schritt 7: Hubjoch, Unterarm, D-Welle und Zwischenräder getrennt und vormontiert](images/ghouls-grip-montage-07.png)](images/ghouls-grip-montage-07.png)
 
 Lege die Plattform außerhalb der Truhe bereit. Setze den Unterarm zwischen
 die Lagerohren. Führe die D-Welle des Unterarm-Abtriebsrads axial durch die
@@ -172,6 +203,8 @@ kann sich mit dem Abtriebsrad bewegen.
 ## 8. Hubjoch in die Schere einsetzen
 
 **Bildgruppe 6 · Fortsetzung des ursprünglichen Montageschritts 9**
+
+[![Schritt 8: Hubjochbaugruppe über der ausgefahrenen Schere und im Eingriff](images/ghouls-grip-montage-08.png)](images/ghouls-grip-montage-08.png)
 
 Bringe die abgestützte Schere in die ausgefahrene Stellung (**78°**).
 Halte die vormontierte Plattform zunächst **3 mm vom
@@ -192,6 +225,8 @@ Bei Widerstand wieder aus dem Eingriff nehmen und die Zahnstellung prüfen.
 ## 9. Handfläche, Finger und optionale Schale montieren
 
 **Bildgruppe 7 · ursprünglicher Montageschritt 10**
+
+[![Schritt 9: Handfläche, fünf Finger und optionale Schale getrennt und aufgesteckt](images/ghouls-grip-montage-09.png)](images/ghouls-grip-montage-09.png)
 
 Lass die Mechanik ausgefahren und abgestützt. Richte die Handfläche wie im
 Ansichtsprojekt aus: gegenüber dem Unterarm-Bezug um **−75° gerollt**.
@@ -218,6 +253,8 @@ lösbare Steckteile, **nicht verriegelt**; beim Kippen oder Zerlegen festhalten.
 
 **Bildgruppe 8 · ursprünglicher Montageschritt 11**
 
+[![Schritt 10: Deckelunterseite mit separater Kurbel und Distanzhülse sowie deren Einbaulage](images/ghouls-grip-montage-10.png)](images/ghouls-grip-montage-10.png)
+
 Lege den Deckel umgedreht auf eine weiche Unterlage. Führe die Deckelkurbel
 von unten ein und schiebe sie **5,6 mm in +X** in ihre Mitnehmertasche.
 Lege die Distanzhülse von unten in den Servicekanal zwischen Kurbel und
@@ -232,6 +269,8 @@ Scharnieraugen liegen auf derselben Achse.
 ## 11. Deckel ansetzen und Scharnierachse einführen
 
 **Bildgruppe 8 · ursprünglicher Montageschritt 12**
+
+[![Schritt 11: geöffnete Deckelbaugruppe vor dem Ansetzen und in Scharnierlage](images/ghouls-grip-montage-11.png)](images/ghouls-grip-montage-11.png)
 
 Bringe die Mechanik vorsichtig in die **48°-Scherenstellung**; der Deckelantrieb
 befindet sich dabei im geöffneten Zustand. Halte die Deckelbaugruppe etwa
@@ -250,8 +289,7 @@ nicht unabhängig gegen den Antrieb zu- oder aufklappen.
 
 ## 12. Trockenlauf und Abnahme
 
-![Zusammengebaute Truhe, ausgefahren](images/ghouls-grip-deployed.png)
-![Zusammengebaute Truhe, eingefahren](images/ghouls-grip-retracted.png)
+[![Schritt 12: vollständige Baugruppe eingefahren und ausgefahren für den Trockenlauf](images/ghouls-grip-montage-12.png)](images/ghouls-grip-montage-12.png)
 
 Teste zunächst **ohne Süßigkeiten und ohne Last**. Drehe ausschließlich den
 Totenkopf langsam über den vorgesehenen Weg von ungefähr 114° und danach
@@ -308,3 +346,22 @@ Das [Ansichtsprojekt](../models/ghouls-grip-view.3mf) enthält die Stellungen
 Die Explosionszeichnung zeigt unveränderte Originalnetze, ist aber keine
 maßstäbliche Montagelehre. Diese Anleitung ändert weder Geometrie noch
 [Druck-/Profilstatus](ghouls-grip-druckvalidierung.md).
+
+### Schrittbilder reproduzieren
+
+`scripts/render_ghouls_grip_assembly.py` liest ausschließlich die vorhandenen
+42 Körper in den drei Stellungen der Ansichts-3MF. Blender rendert daraus
+zwölf Bildpaare; Pillow ergänzt deutsche Legenden und die Gesamtübersicht.
+Es werden nur Präsentationsverschiebungen angewendet, keine Druckkörper
+verändert oder exportiert. Bei der Bildfolge wird nicht erneut gesliced.
+
+```powershell
+.\.venv\Scripts\python.exe scripts\render_ghouls_grip_assembly.py
+```
+
+Die Bilder liegen unter `docs/images/ghouls-grip-montage-02.png` bis
+`docs/images/ghouls-grip-montage-12.png` (Abschnitt 3 mit `03a` und `03b`).
+Die Übersicht heißt `docs/images/ghouls-grip-montage-bildfolge.png`.
+Rohbilder und Kameraprojektionen bleiben unter `build/ghouls-grip-assembly/`.
+Der Renderer prüft vollständige Teilezuordnung, Kameragrenzen, nichtleere Bilder
+und unveränderte SHA-256-Werte der drei Ghoul’s-Grip-Modelldateien.
