@@ -397,7 +397,7 @@ The GitHub Pages SPA is a lightweight STL/3MF viewer for files in `models/`.
 It uses the same browser renderer as the Copilot Canvas extension, so previews
 are consistent between the web and agent UI.
 
-### Funktionen
+### Features
 
 - 3D previews of **STL and 3MF** files in `models/`
 - Multi-plate 3MF files open in **All plates** mode by default, showing every
@@ -432,13 +432,13 @@ cannot launch a local desktop application.
 On mobile devices, the page uses a lower canvas pixel ratio and disables the
 previous automatic polling so large models load and render noticeably faster.
 
-### Neues Modell anfragen
+### Request a New Model
 
 For new parts or fit-critical changes, open an issue using the
 `.github/ISSUE_TEMPLATE/model-request.yml` template and attach photos,
 measurements in mm, material/color notes, and the definition of done.
 
-### PR-Ausgabe für Modellarbeit
+### PR Output for Model Work
 
 PRs resulting from these model issues should use
 `.github/pull_request_template.md`. The template requests:

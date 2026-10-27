@@ -196,7 +196,7 @@ If behavior around print constraints, validation policy, or coordinate targeting
   5-wall / 100%-infill) FDM parts shrink inner hole perimeters inward by `0.3–0.5 mm`
   in diameter, size any bore or cross-hole that must accept `1.75 mm` filament at
   `Ø 2.20–2.30 mm` (`r = 1.10–1.15 mm` in CAD), never `Ø 1.90 mm`. Furthermore,
-  raw `  1.75 mm` filament cannot be bent like a metal cotter pin and a
+  raw `1.75 mm` filament cannot be bent like a metal cotter pin and a
   short (`~5 mm`) straight filament piece in a small rotating shaft (`<= Ø 4 mm`)
   will work itself loose; use an integral split snap-clip, matching the
   reversible split-pin joints) instead of a short filament cross-pin on small

@@ -1,14 +1,14 @@
-# Ghoul's Grip - Mechanik-Verifikation
+# Ghoul's Grip - Mechanism Verification
 
-Ergebnis der Wand- und Bodenlagerkorrektur: **PASS**
+Result of the wall and floor-bearing correction: **PASS**
 
-Bodenlager als offene Doppelwangen um die unveränderten Armhüllen neu aufgebaut. Größtes aktuelles Arm-/Kisten-Schnittvolumen: 0.000082 mm³. Jeder einzelne Arm wird in allen 61 Zuständen geprüft; jede Überschneidung über 0,001 mm³ lässt den Nachweis scheitern. Das ist ein Geometrienachweis, kein Belastungs- oder PLA-Passungstest.
+The floor bearings were rebuilt as open double cheeks around the unchanged arm envelopes. Largest current arm/chest intersection volume: 0.000082 mm³. Each individual arm is checked in all 61 states; any intersection greater than 0.001 mm³ fails the verification. This proves geometry, not load capacity or PLA fit.
 
-Baseline-Beweis: Schatulle aus `f396e7a:models/ghouls-grip-view.3mf`, nur um die Ansichtsplatten-Verschiebung zurückversetzt, gegen dieselben unveränderten Scherenarme geprüft. Größte Verbesserung zum korrigierten Gehäuse: 462.644683 mm³.
+Baseline comparison: the chest from `f396e7a:models/ghouls-grip-view.3mf`, with only the view-plate offset reversed, was checked against the same unchanged scissor arms. Greatest improvement with the corrected enclosure: 462.644683 mm³.
 
-Geprüft wird die starre, manuell reversible Kraftkette: Drehbarer Totenkopf -> Antriebsritzel -> Schlittenzahnstange -> Doppelschere sowie Antriebsritzel -> Deckelzahnstange -> gefangener Deckelkurbelzapfen. Ein mitfahrendes Fünf-Zahnrad-Getriebe mit drei Zwischenrädern überträgt die Scherenarmdrehung auf den Unterarm. Es gibt keine Seile, Gummibänder, Federn oder Wickelspulen.
+The verification covers the rigid, manually reversible power train: rotating skull -> drive pinion -> slider rack -> double scissors, and drive pinion -> lid rack -> captured lid-crank pin. A moving five-gear train with three idler gears transfers scissor-arm rotation to the forearm. There are no cables, rubber bands, springs, or winding spools.
 
-| Nachweis | Ergebnis |
+| Check | Result |
 | --- | ---: |
 | Max. Pivot-Schließfehler | 0.000000 mm |
 | Kleinster Scherenkulissenrand | 1.000 mm |
@@ -61,15 +61,15 @@ Geprüft wird die starre, manuell reversible Kraftkette: Drehbarer Totenkopf -> 
 | Sweep arm-1-False_chest | 0.000 mm³ |
 | Sweep arm-1-True_chest | 0.000 mm³ |
 
-## Beseitigte Bestandskollision (Baseline nur als Vergleich)
+## Resolved Existing Collision (Baseline for Comparison Only)
 
-| Scherenwinkel / Pose | Paar | Baseline f396e7a | Aktuell |
+| Scissor angle / pose | Pair | Baseline f396e7a | Current |
 | --- | --- | ---: | ---: |
 | 18 Grad | scissors_chest (Bodenlager) | 424.376 mm³ | 0.000 mm³ |
 | 48 Grad | scissors_chest (Bodenlager) | 421.088 mm³ | 0.000 mm³ |
 | 78 Grad | scissors_chest (Bodenlager) | 462.645 mm³ | 0.000 mm³ |
 
-| Pose | Einzelpaar | Baseline f396e7a | Aktuell |
+| Pose | Individual pair | Baseline f396e7a | Current |
 | --- | --- | ---: | ---: |
 | 18 Grad | arm-0-False / chest (Bodenlager) | 212.188 mm³ | 0.000 mm³ |
 | 18 Grad | arm-1-False / chest (Bodenlager) | 212.188 mm³ | 0.000 mm³ |
@@ -78,11 +78,11 @@ Geprüft wird die starre, manuell reversible Kraftkette: Drehbarer Totenkopf -> 
 | 78 Grad | arm-0-False / chest (Bodenlager) | 231.322 mm³ | 0.000 mm³ |
 | 78 Grad | arm-1-False / chest (Bodenlager) | 231.322 mm³ | 0.000 mm³ |
 
-Die hintere Zahnstange läuft 14,854 mm weiter innen. Zwei gleich große Transferzahnräder übertragen mit zwei Drehsinnwechseln und Übersetzung 1:1 auf das unveränderte Deckelsegment. Die Kistenwand bleibt am ehemaligen Fenster durchgehend; alle 61 Scherenstellungen von 18 bis 78 Grad einschließlich 48 Grad werden gegen die reale Wand geprüft.
+The rear rack runs 14,854 mm farther inward. Two identical transfer gears transmit motion with two direction reversals and a 1:1 ratio to the unchanged lid sector. The chest wall is now continuous across the former opening; all 61 scissor positions from 18 to 78 degrees, including 48 degrees, are checked against the actual wall.
 
-## Gekoppelte Bewegung
+## Coupled Motion
 
-| Scherenwinkel | Totenkopf/Ritzel | Deckel | Unterarm |
+| Scissor angle | Skull/pinion | Lid | Forearm |
 | ---: | ---: | ---: | ---: |
 | 18° | 0.0° | -0.0° | -105.0° |
 | 19° | 0.8° | -7.2° | -104.0° |
@@ -146,6 +146,6 @@ Die hintere Zahnstange läuft 14,854 mm weiter innen. Zwei gleich große Transfe
 | 77° | 110.9° | -108.0° | -46.0° |
 | 78° | 113.5° | -108.0° | -45.0° |
 
-Der knochenfarbene Unterarm wird ohne Zahnrad von oben zwischen die beiden Lagerohren gesetzt. Anschließend wird das naturweiße Ausgangszahnrad mit seiner D-Welle von der Zahnradseite axial durch beide Rundlager und die passende D-Nabe des Unterarms geschoben. Ein 1,75-mm-Filamentstift im äußeren Querloch sichert die Welle gegen Herausrutschen; erst danach werden die Zwischenräder aufgesteckt.
+Insert the bone-colored forearm from above between the two bearing ears, without the gear attached. Then slide the natural-white output gear and its D-shaft axially from the gear side through both round bearings and the matching D-hub in the forearm. A 1.75-mm filament pin in the outer cross-hole secures the shaft against slipping out; install the idler gears only afterward.
 
-Die Finger bleiben als druckbare, vorgekrümmte PLA-Flexuren in der kompakten Greifpose. Die neue starre Kraftkette betätigt Deckel, Scherenhub und Unterarm; sie enthält bewusst keine vorgetäuschte Sehnenbetätigung.
+The fingers remain printable, pre-curved PLA flexures in the compact gripping pose. The new rigid power train actuates the lid, scissor lift, and forearm; it deliberately does not simulate tendon actuation.

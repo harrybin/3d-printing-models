@@ -1,18 +1,18 @@
-# Butterfly-Messer (`butterfly-messer`): OrcaSlicer-Druckvalidierung
+# Butterfly Knife (`butterfly-messer`): OrcaSlicer Print Validation
 
-## 1. Projekt- und Profilübersicht (`orcaslicer-print-validation`)
+## 1. Project and Profile Overview (`orcaslicer-print-validation`)
 
 - **Druckprojekt:** [`models/butterfly-messer-print.3mf`](../models/butterfly-messer-print.3mf)
-- **Ansichtsprojekt (3 Zustände):** [`models/butterfly-messer-view.3mf`](../models/butterfly-messer-view.3mf) (`0°` Geöffnet, `90°` Flip-Bewegung, `180°` Geschlossen & verriegelt)
-- **Einzel- und Vorschau-STLs:** [`models/butterfly-messer.stl`](../models/butterfly-messer.stl) sowie 14 druckorientierte Einzelteil-STLs `models/butterfly-messer-*.stl`
+- **View project (3 states):** [`models/butterfly-messer-view.3mf`](../models/butterfly-messer-view.3mf) (`0°` Open, `90°` flipping motion, `180°` closed & locked)
+- **Individual and preview STLs:** [`models/butterfly-messer.stl`](../models/butterfly-messer.stl) and 14 print-oriented individual-part STLs `models/butterfly-messer-*.stl`
 - **OrcaSlicer-Version:** OrcaSlicer CLI `2.3.2` (`C:\Program Files\OrcaSlicer\orca-slicer.exe`)
 - **Druckerprofil:** `Anycubic Kobra S1 0.4 nozzle`
-- **Druckbett:** `Textured PEI Plate` (`250 × 250 mm`)
-- **Prozessprofil:** `0.20mm Standard @Anycubic Kobra S1 0.4 nozzle` (`layer_height = 0.2 mm`, `first_layer_height = 0.2 mm`)
-- **Filamentprofil (2 ACE-Pro-Slots):** `Anycubic PLA @Anycubic Kobra S1 0.4 nozzle`
-  - Slot 1: **Silber-Grau PLA** (`#C0C7D0`) — Klinge & T-Latch (Platte 1)
-  - Slot 2: **Anthrazit PLA** (`#2D333B`) — 4× Griffschalen (`Safe` & `Bite`, je unten/oben), 4× D-Bolzen & 4× U-Clips (Platte 2)
-- **Globale Projekt-Standards (verifiziert):**
+- **Build plate:** `Textured PEI Plate` (`250 × 250 mm`)
+- **Process profile:** `0.20mm Standard @Anycubic Kobra S1 0.4 nozzle` (`layer_height = 0.2 mm`, `first_layer_height = 0.2 mm`)
+- **Filament profile (2 ACE Pro slots):** `Anycubic PLA @Anycubic Kobra S1 0.4 nozzle`
+  - Slot 1: **Silver-gray PLA** (`#C0C7D0`) — blade & T-latch (plate 1)
+  - Slot 2: **Anthracite PLA** (`#2D333B`) — 4 handle scales (`Safe` & `Bite`, lower/upper each), 4 D-bolts & 4 U-clips (plate 2)
+- **Verified global project standards:**
   - `seam_position = random`
   - `ironing_type = top`
   - `enable_support = 1` (`support_type = normal(auto)`, `support_threshold_angle = 30`, `support_on_build_plate_only = 1`, `support_critical_regions_only = 1`)
@@ -20,38 +20,38 @@
 
 ---
 
-## 2. Objekt-Overrides für Funktion, Schwunggewicht & Festigkeit
+## 2. Object Overrides for Function, Swing Weight & Strength
 
-| Bauteilgruppe | Objekte | Wandlinien (`wall_loops`) | Füllung (`sparse_infill_density`) | Füllmuster | Spezielle Einstellungen |
+| Part group | Objects | Wall loops (`wall_loops`) | Infill (`sparse_infill_density`) | Infill pattern | Special settings |
 | --- | ---: | ---: | ---: | --- | --- |
-| Klinge (`butterfly-messer-klinge`) | 1 | `4` (`1.6 mm`) | `60%` | `rectilinear` | Beidseitige 45°-Spachtelfase, stützfrei flach liegend |
-| T-Latch (`butterfly-messer-riegel`) | 1 | `4` (`1.6 mm`) | `100%` | `rectilinear` | Vollmaterial für hohe Zug- und Biegefestigkeit |
-| Griffschalen (`griff-safe/bite-unten/oben`) | 4 | `4` (`1.6 mm`) | `55%` | `gyroid` | Hohes Schwunggewicht für realistische Flip-Trägheit |
-| D-Bolzen & U-Clips (`bolzen-*`, `clip-*`) | 8 | `5` (`2.0 mm`) | `100%` | `rectilinear` | `brim_type = outer_only` (`2 mm`), gemeinsam mit den Griffschalen auf Platte 2 in Anthrazit PLA |
+| Blade (`butterfly-messer-klinge`) | 1 | `4` (`1.6 mm`) | `60%` | `rectilinear` | Double-sided 45° putty-blade bevel, laid flat without supports |
+| T-latch (`butterfly-messer-riegel`) | 1 | `4` (`1.6 mm`) | `100%` | `rectilinear` | Solid infill for high tensile and bending strength |
+| Handle scales (`griff-safe/bite-unten/oben`) | 4 | `4` (`1.6 mm`) | `55%` | `gyroid` | High swing weight for realistic flipping inertia |
+| D-bolts & U-clips (`bolzen-*`, `clip-*`) | 8 | `5` (`2.0 mm`) | `100%` | `rectilinear` | `brim_type = outer_only` (`2 mm`), printed with the handle scales on plate 2 in anthracite PLA |
 
 ---
 
-## 3. Verifizierte Slicing-Ergebnisse pro Druckplatte (0,00 g Support!)
+## 3. Verified Slicing Results per Build Plate (0.00 g Support!)
 
-Beide Druckplatten wurden mit aktiviertem automatischem Support (`enable_support = 1`) durch OrcaSlicer CLI geslict. Durch die selbsttragende Konstruktion (45°-Senkkegel in den unteren Griffschalen, Druck der oberen Griffschalen auf ihrer planen Innenseite `Z = 8.40 mm` mit 45°-Kegeldächern über den Zapfentaschen, sowie liegender Druck der D-Bolzen auf ihrer durchgehenden Abflachung mit 45°-Kopf-Übergang und 3-seitiger Clip-Nut) wird auf **keiner einzigen Platte Stützmaterial benötigt**:
+Both build plates were sliced with automatic supports enabled (`enable_support = 1`) using the OrcaSlicer CLI. Thanks to the self-supporting design (45° countersink cones in the lower handle scales; upper handle scales printed on their flat inner face at `Z = 8.40 mm` with 45° conical roofs over the pin pockets; and D-bolts printed on their continuous flat with a 45° head transition and three-sided clip groove), **no plate requires support material**:
 
-| Platte | Name / ACE-Pro-Farbe | Enthaltene Bauteile (14 gesamt) | Druckzeit | Filament (Gesamt) | Davon Support | Support-Vorschau |
+| Plate | Name / ACE Pro color | Included parts (14 total) | Print time | Filament (total) | Support | Support preview |
 | ---: | --- | --- | ---: | ---: | ---: | --- |
-| **1** | `Silber-Grau - Klinge & T-Latch` (`#C0C7D0`) | `klinge`, `riegel` (2 Teile) | `16m 35s` (`995 s`) | `4.30 g` (`1442.53 mm` / `3470 mm³`) | **`0.00 g`** (`0.00 mm`) | [`butterfly-messer-print-plate-1-supports.png`](images/butterfly-messer-print-plate-1-supports.png) |
-| **2** | `Anthrazit - 4x Griffschalen, 4x D-Bolzen & 4x U-Clips` (`#2D333B`) | 4× `griff-*`, 4× `bolzen-*`, 4× `clip-*` (12 Teile) | `1h 28m 52s` (`5332 s`) | `20.60 g` (`6905.86 mm` / `16610 mm³`) | **`0.00 g`** (`0.00 mm`) | [`butterfly-messer-print-plate-2-supports.png`](images/butterfly-messer-print-plate-2-supports.png) |
-| **Gesamt** | **2 sortenreine Farbplatten (kein Farbwechsel-Purge)** | **14 Bauteile** | **`1h 45m 27s` (`6327 s`)** | **`24.90 g` (`8348.39 mm` / `20080 mm³`)** | **`0.00 g`** | **Status: `verified`** |
+| **1** | `Silver-gray - blade & T-latch` (`#C0C7D0`) | `klinge`, `riegel` (2 parts) | `16m 35s` (`995 s`) | `4.30 g` (`1442.53 mm` / `3470 mm³`) | **`0.00 g`** (`0.00 mm`) | [`butterfly-messer-print-plate-1-supports.png`](images/butterfly-messer-print-plate-1-supports.png) |
+| **2** | `Anthracite - 4 handle scales, 4 D-bolts & 4 U-clips` (`#2D333B`) | 4× `griff-*`, 4× `bolzen-*`, 4× `clip-*` (12 parts) | `1h 28m 52s` (`5332 s`) | `20.60 g` (`6905.86 mm` / `16610 mm³`) | **`0.00 g`** (`0.00 mm`) | [`butterfly-messer-print-plate-2-supports.png`](images/butterfly-messer-print-plate-2-supports.png) |
+| **Total** | **2 single-color plates (no color-change purge)** | **14 parts** | **`1h 45m 27s` (`6327 s`)** | **`24.90 g` (`8348.39 mm` / `20080 mm³`)** | **`0.00 g`** | **Status: `verified`** |
 
 ---
 
-## 4. Vorschau- und Support-Nachweisbilder
+## 4. Preview and Support Evidence Images
 
-- **Komplettvorschau Ansichtsprojekt (`-view.3mf`, 3 Zustände):** [`docs/images/butterfly-messer-view-preview.png`](images/butterfly-messer-view-preview.png)
-- **Komplettvorschau Druckprojekt (`-print.3mf`, 3 Platten):** [`docs/images/butterfly-messer-print-preview.png`](images/butterfly-messer-print-preview.png)
-- **Kombinierte Präsentationsübersicht:** [`docs/images/butterfly-messer-presentation.png`](images/butterfly-messer-presentation.png)
+- **Full view-project preview (`-view.3mf`, 3 states):** [`docs/images/butterfly-messer-view-preview.png`](images/butterfly-messer-view-preview.png)
+- **Full print-project preview (`-print.3mf`, 3 plates):** [`docs/images/butterfly-messer-print-preview.png`](images/butterfly-messer-print-preview.png)
+- **Combined presentation overview:** [`docs/images/butterfly-messer-presentation.png`](images/butterfly-messer-presentation.png)
 
-![Butterfly-Messer Präsentationsübersicht](images/butterfly-messer-presentation.png)
+![Butterfly knife presentation overview](images/butterfly-messer-presentation.png)
 
-## 5. Verbleibende Praxishinweise für den Erstdruck
+## 5. Remaining Practical Notes for the First Print
 
-- **Rast-Sitz der U-Clips (`0.15 mm` Spiel):** Die 4 U-Clips auf Platte 3 sind für einen spielfreien Schnappsitz in der Bolzennut ausgelegt. Sollte das verwendete PLA stärker quellen, kann `CLIP_CLEARANCE` in [`scripts/butterfly_messer.py`](../scripts/butterfly_messer.py) von `0.15 mm` auf `0.20 mm` erhöht werden.
-- **Drehgelenk-Leichtgängigkeit (`0.30 mm` Radial- und Axialspiel):** Nach dem Abkühlen der Druckteile eventuelle Brim-Grate an den D-Bolzen sauber abziehen, damit Klinge und T-Latch völlig frei auf den Bolzenschäften rotieren.
+- **U-clip snap fit (`0.15 mm` clearance):** The 4 U-clips on plate 3 are designed to snap into the bolt grooves without play. If the PLA used expands more, `CLIP_CLEARANCE` in [`scripts/butterfly_messer.py`](../scripts/butterfly_messer.py) can be increased from `0.15 mm` to `0.20 mm`.
+- **Free pivot movement (`0.30 mm` radial and axial clearance):** After the printed parts cool, carefully remove any brim residue from the D-bolts so the blade and T-latch rotate freely on the bolt shafts.
