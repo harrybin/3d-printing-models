@@ -10,20 +10,20 @@ The verification covers the rigid, manually reversible power train: rotating sku
 
 | Check | Result |
 | --- | ---: |
-| Max. Pivot-Schließfehler | 0.000000 mm |
-| Kleinster Scherenkulissenrand | 1.000 mm |
-| Ritzel/Zahnstangen-Schließfehler | 0.000000 mm |
-| Deckelkurbel-Schließfehler | 0.000000 mm |
-| Kleinster Deckelzapfen-Kulissenrand | 1.000 mm |
-| Max. Zahnrad-Mittenfehler | 0.000000 mm |
-| Max. Zahnrad-Teilungsfehler | 0.162 mm |
-| Zwischenrad-Pinspiel | 0.400 mm |
-| Unterarm-Einsetzsweep | 0.000 mm³ |
-| D-Wellen-Einsetzsweep | 0.000 mm³ |
-| Hinterwand am ehemaligen Mechanikfenster | 100.000% massiv |
-| Totenkopf-Drehweg | 113.54° |
-| Einzelkörper je Druckteil | {'scissor-arm': 1, 'slider': 1, 'lid-follower-rack': 1, 'platform': 1, 'drive-pinion': 1, 'lid-crank': 1, 'crank-spacer': 1, 'lid-transfer-gear': 1, 'scissor-drive-gear': 1, 'idler-gear': 1, 'forearm-output-gear': 1, 'forearm': 1, 'chest': 1, 'lid': 1} |
-| Laufzeit | 323.2 s |
+| Max. pivot closure error | 0.000000 mm |
+| Minimum scissor-slot margin | 1.000 mm |
+| Pinion/rack closure error | 0.000000 mm |
+| Lid crank closure error | 0.000000 mm |
+| Minimum lid-pin slot margin | 1.000 mm |
+| Max. gear center-distance error | 0.000000 mm |
+| Max. gear pitch error | 0.162 mm |
+| Idler-pin clearance | 0.400 mm |
+| Forearm insertion sweep | 0.000 mm³ |
+| D-shaft insertion sweep | 0.000 mm³ |
+| Rear wall at former mechanism window | 100.000% solid |
+| Skull rotation travel | 113.54° |
+| Bodies per printed part | {'scissor-arm': 1, 'slider': 1, 'lid-follower-rack': 1, 'platform': 1, 'drive-pinion': 1, 'lid-crank': 1, 'crank-spacer': 1, 'lid-transfer-gear': 1, 'scissor-drive-gear': 1, 'idler-gear': 1, 'forearm-output-gear': 1, 'forearm': 1, 'chest': 1, 'lid': 1} |
+| Runtime | 323.2 s |
 | Sweep hand_chest | 0.000 mm³ |
 | Sweep hand_lid | 0.000 mm³ |
 | Sweep hand_platform | 0.000 mm³ |
@@ -65,18 +65,18 @@ The verification covers the rigid, manually reversible power train: rotating sku
 
 | Scissor angle / pose | Pair | Baseline f396e7a | Current |
 | --- | --- | ---: | ---: |
-| 18 Grad | scissors_chest (Bodenlager) | 424.376 mm³ | 0.000 mm³ |
-| 48 Grad | scissors_chest (Bodenlager) | 421.088 mm³ | 0.000 mm³ |
-| 78 Grad | scissors_chest (Bodenlager) | 462.645 mm³ | 0.000 mm³ |
+| 18 degrees | scissors_chest (floor bearing) | 424.376 mm³ | 0.000 mm³ |
+| 48 degrees | scissors_chest (floor bearing) | 421.088 mm³ | 0.000 mm³ |
+| 78 degrees | scissors_chest (floor bearing) | 462.645 mm³ | 0.000 mm³ |
 
 | Pose | Individual pair | Baseline f396e7a | Current |
 | --- | --- | ---: | ---: |
-| 18 Grad | arm-0-False / chest (Bodenlager) | 212.188 mm³ | 0.000 mm³ |
-| 18 Grad | arm-1-False / chest (Bodenlager) | 212.188 mm³ | 0.000 mm³ |
-| 48 Grad | arm-0-False / chest (Bodenlager) | 210.544 mm³ | 0.000 mm³ |
-| 48 Grad | arm-1-False / chest (Bodenlager) | 210.544 mm³ | 0.000 mm³ |
-| 78 Grad | arm-0-False / chest (Bodenlager) | 231.322 mm³ | 0.000 mm³ |
-| 78 Grad | arm-1-False / chest (Bodenlager) | 231.322 mm³ | 0.000 mm³ |
+| 18 degrees | arm-0-False / chest (floor bearing) | 212.188 mm³ | 0.000 mm³ |
+| 18 degrees | arm-1-False / chest (floor bearing) | 212.188 mm³ | 0.000 mm³ |
+| 48 degrees | arm-0-False / chest (floor bearing) | 210.544 mm³ | 0.000 mm³ |
+| 48 degrees | arm-1-False / chest (floor bearing) | 210.544 mm³ | 0.000 mm³ |
+| 78 degrees | arm-0-False / chest (floor bearing) | 231.322 mm³ | 0.000 mm³ |
+| 78 degrees | arm-1-False / chest (floor bearing) | 231.322 mm³ | 0.000 mm³ |
 
 The rear rack runs 14,854 mm farther inward. Two identical transfer gears transmit motion with two direction reversals and a 1:1 ratio to the unchanged lid sector. The chest wall is now continuous across the former opening; all 61 scissor positions from 18 to 78 degrees, including 48 degrees, are checked against the actual wall.
 

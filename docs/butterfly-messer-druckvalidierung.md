@@ -2,11 +2,11 @@
 
 ## 1. Project and Profile Overview (`orcaslicer-print-validation`)
 
-- **Druckprojekt:** [`models/butterfly-messer-print.3mf`](../models/butterfly-messer-print.3mf)
+- **Print project:** [`models/butterfly-messer-print.3mf`](../models/butterfly-messer-print.3mf)
 - **View project (3 states):** [`models/butterfly-messer-view.3mf`](../models/butterfly-messer-view.3mf) (`0°` Open, `90°` flipping motion, `180°` closed & locked)
 - **Individual and preview STLs:** [`models/butterfly-messer.stl`](../models/butterfly-messer.stl) and 14 print-oriented individual-part STLs `models/butterfly-messer-*.stl`
-- **OrcaSlicer-Version:** OrcaSlicer CLI `2.3.2` (`C:\Program Files\OrcaSlicer\orca-slicer.exe`)
-- **Druckerprofil:** `Anycubic Kobra S1 0.4 nozzle`
+- **OrcaSlicer version:** OrcaSlicer CLI `2.3.2` (`C:\Program Files\OrcaSlicer\orca-slicer.exe`)
+- **Printer profile:** `Anycubic Kobra S1 0.4 nozzle`
 - **Build plate:** `Textured PEI Plate` (`250 × 250 mm`)
 - **Process profile:** `0.20mm Standard @Anycubic Kobra S1 0.4 nozzle` (`layer_height = 0.2 mm`, `first_layer_height = 0.2 mm`)
 - **Filament profile (2 ACE Pro slots):** `Anycubic PLA @Anycubic Kobra S1 0.4 nozzle`

@@ -1,405 +1,396 @@
-# Ghoul’s Grip – Bauanleitung
+# Ghoul’s Grip – Assembly Instructions
 
-Diese Anleitung führt durch den Zusammenbau der vorhandenen **42 Druckteile**
-aus `models/ghouls-grip-print.3mf`. Die goldene Süßigkeitenschale ist optional;
-ohne sie werden 41 Druckteile montiert. Zusätzlich werden vier Stücke
-PLA-Filament mit Ø1,75 mm (±0,02 mm) als Achse bzw. Querstifte benötigt.
+These instructions guide you through assembling the **42 printed parts**
+in `models/ghouls-grip-print.3mf`. The gold candy dish is optional; without it,
+41 printed parts are assembled. Four additional pieces of Ø1.75 mm (±0.02 mm)
+PLA filament are required for the hinge and cross-pins.
 
-**Stand:** digital geprüfter Funktionsprototyp, kein physisch erprobter Bausatz.
-Passung, Axialsicherung und belasteter Dauerbetrieb müssen am tatsächlichen
-Druck geprüft werden. Es werden weder Federn noch Gummibänder, Seile oder
-Klebstoff für die beweglichen Verbindungen benötigt.
+**Status:** digitally verified functional prototype; not a physically tested kit.
+Fit, axial retention, and sustained operation under load must be tested on the
+actual print. No springs, rubber bands, cables, or adhesive are required for
+the moving connections.
 
-## 1. Übersicht und Orientierung
+## 1. Overview and Orientation
 
-[![Explosionszeichnung mit nummerierten Baugruppen](images/ghouls-grip-explosionszeichnung.png)](images/ghouls-grip-explosionszeichnung.png)
+[![Exploded view with numbered subassemblies](images/ghouls-grip-explosionszeichnung.png)](images/ghouls-grip-explosionszeichnung.png)
 
-[Explosionszeichnung in voller Auflösung öffnen](images/ghouls-grip-explosionszeichnung.png).
-Die Bildnummern 1–8 bezeichnen **Baugruppen**, nicht die untenstehenden
-Arbeitsschritte. Die gestrichelten Pfeile sind Darstellungsachsen, keine
-Einführpfade. Besonders Hubjoch und Deckel benötigen die beschriebenen Versätze.
-Die Filamentstifte sind im Bild nicht dargestellt.
+[Open the full-resolution exploded view](images/ghouls-grip-explosionszeichnung.png).
+Image numbers 1–8 identify **subassemblies**, not the work steps below. The
+dashed arrows show presentation axes, not insertion paths. In particular, the
+lift yoke and lid require the offsets described below. Filament pins are not
+shown in the image.
 
-Stelle die Truhe mit der Öffnung nach oben und der Totenkopf-Bohrung zu dir.
-„Vorn“ ist die Knaufseite (−Y), „hinten“ die Scharnierseite (+Y).
-Von dieser Vorderseite aus gesehen zeigt +X nach rechts, −X nach links;
-+Z zeigt nach oben. Das Scharnier läuft quer von links nach rechts.
-Die Bezeichnungen bleiben auch beim Umdrehen des Deckels auf die Truhe bezogen.
+Place the chest with its opening facing up and the skull bore toward you.
+“Front” is the knob side (−Y); “rear” is the hinge side (+Y). Viewed from the
+front, +X points right and −X points left; +Z points upward. The hinge runs
+across the chest from left to right. These directions remain chest-relative
+even when the lid is turned over.
 
-### So liest du die Schrittbilder
+### How to Read the Step Illustrations
 
-Jeder Abschnitt von der Teilevorbereitung bis zum Trockenlauf hat eigene
-Modellbilder. **A** zeigt die neuen Teile getrennt, **B** das Ergebnis in
-Einbaulage. Beim Trockenlauf zeigen A und B stattdessen eingefahrenen und
-ausgefahrenen Zustand. Die türkisen Nummern gehören zur Legende direkt unter
-dem jeweiligen Bild, nicht zu den Baugruppennummern der Explosionszeichnung.
+Each section, from parts preparation through the dry run, has its own model
+illustrations. **A** shows the new parts separately; **B** shows them in their
+installed positions. For the dry run, A and B instead show the retracted and
+deployed states. The turquoise numbers refer to the legend directly below each
+image, not to the subassembly numbers in the exploded view.
 
-Bereits zugeordnete Teile sind grau; neue Teile behalten ihre Materialfarbe.
-In den gekennzeichneten Detailansichten ist die Truhe ausgeblendet, damit
-Lager, Zahnradketten und Stifte sichtbar bleiben. Die Bildabstände sind zur
-Lesbarkeit vergrößert: **Steckrichtung und tatsächliche Versätze stehen im
-Text**. Filamentstifte sind nicht dargestellt. Alle Bilder lassen sich durch
-Anklicken in voller Auflösung öffnen.
+Parts already assigned to the assembly are gray; new parts retain their material
+colors. The chest is hidden in the marked detail views so the bearings, gear
+trains, and pins remain visible. Spacing in the illustrations is enlarged for
+clarity: **insertion directions and actual offsets are given in the text**.
+Filament pins are not shown. Click any image to open it at full resolution.
 
-[Übersicht aller zwölf Schrittbilder](images/ghouls-grip-montage-bildfolge.png).
+[Overview of all twelve step illustrations](images/ghouls-grip-montage-bildfolge.png).
 
-## 2. Teile und Arbeitsplatz vorbereiten
+## 2. Prepare the Parts and Work Area
 
-[![Teilevorbereitung: getrennte Originalbauteile und Zielbaugruppe](images/ghouls-grip-montage-02.png)](images/ghouls-grip-montage-02.png)
+[![Parts preparation: separate original components and target assembly](images/ghouls-grip-montage-02.png)](images/ghouls-grip-montage-02.png)
 
-Lege die Teile auf einer weichen Unterlage aus. Hilfreich sind Seitenschneider,
-eine kleine Zange, Pinzette, Messschieber und feine Entgratwerkzeuge.
-Schneide Filament und entferne Stützmaterial mit Abstand zu Fingern und Augen;
-beim Prüfen nicht in Scheren, Zahnräder oder Scharniere greifen.
+Lay out the parts on a soft surface. Useful tools include side cutters, small
+pliers, tweezers, calipers, and fine deburring tools. Cut filament and remove
+support material away from fingers and eyes; keep hands clear of the scissors,
+gears, and hinges during testing.
 
-| Baugruppe im Bild | Teile bereitstellen |
+| Subassembly in image | Parts to prepare |
 | --- | --- |
-| 1 – Gehäuse | 1 schwarze Truhe |
-| 2 – Schlitten | 1 naturweißer Schlitten (geschlossener Kastenrahmen mit Querstreben, Zahnstange und verstärkter Kurvenbahn) |
-| 3 – Hauptantrieb | 1 Ritzel mit D-Welle, 1 goldener Totenkopfknauf |
-| 4 – Deckelantrieb | 1 Folger-Zahnstange, 2 Transferzahnräder mit geschlitztem Klips-Zapfen, 1 Folger-Pressstift |
-| 5 – Schere | 4 Arme, 1 Scheren-Eingangszahnrad; passende Gelenkstifte |
-| 6 – Hubjoch | 1 Plattform, 3 Zwischenräder, 1 Abtriebsrad mit D-Welle; passende Gelenkstifte |
-| 7 – Arm und Hand | 1 Unterarm, 1 Handfläche, 5 unterschiedliche Finger; optional 1 goldene Schale |
-| 8 – Deckel | 1 schwarzer Deckel, 1 Deckelkurbel, 1 Kurbel-Distanzhülse |
+| 1 – Enclosure | 1 black chest |
+| 2 – Slider | 1 natural-white slider (closed box frame with crossbars, rack, and reinforced cam track) |
+| 3 – Main drive | 1 pinion with D-shaft, 1 gold skull knob |
+| 4 – Lid drive | 1 follower rack, 2 transfer gears with slotted clip journals, 1 follower press pin |
+| 5 – Scissors | 4 arms, 1 scissor input gear; matching pivot pins |
+| 6 – Lift yoke | 1 platform, 3 idler gears, 1 output gear with D-shaft; matching pivot pins |
+| 7 – Arm and hand | 1 forearm, 1 palm, 5 different fingers; optionally 1 gold dish |
+| 8 – Lid | 1 black lid, 1 lid crank, 1 crank spacer |
 
-Entferne Stützen und lose Grate besonders aus Zahnlücken, Schlittenführungen,
-Schnappschlitzen, D-Aufnahmen und Querbohrungen. An den Knochenübergängen keine
-Kerben einsägen: Die Fingergelenke sind absichtlich **massiv und unbeweglich**.
-Passflächen nicht pauschal aufbohren oder abschleifen. Klemmt eine Verbindung,
-zuerst Stützreste, Orientierung und passende Stiftvariante prüfen.
+Remove supports and loose burrs, especially from tooth gaps, slider guides,
+snap-pin slots, D-hubs, and cross-holes. Do not cut notches into bone transitions:
+the finger joints are intentionally **solid and immobile**. Do not routinely
+ream or sand mating surfaces. If a connection binds, first check for support
+residue, orientation, and the correct pin variant.
 
-### Filamentstifte zuschneiden
+### Cut the Filament Pins
 
-Verwende gerades PLA-Filament Ø1,75 mm (±0,02 mm) und entgrate die Schnittenden.
-Alle Querbohrungen für Filamentstifte in den Mechanik-, Knauf-, Unterarm- und
-Handteilen sind im CAD auf **Ø 2,30 mm (`r = 1,15 mm`)** ausgelegt, um die
-Innenschrumpfung beim 5-Wand-/100-%-Füllungsdruck auszugleichen. Die beiden
-kleinen Deckel-Transferzahnräder benötigen **keinen** Filamentstift mehr, da
-ihre Lagerzapfen geschlitzte Schnappklipse (wie die Gelenksplinte) besitzen.
+Use straight Ø1.75 mm (±0.02 mm) PLA filament and deburr the cut ends. All
+cross-holes for filament pins in the mechanism, knob, forearm, and hand parts
+are designed in CAD at **Ø 2.30 mm (`r = 1.15 mm`)** to compensate for inward
+hole shrinkage with 5 walls and 100% infill. The two small lid transfer gears
+no longer need filament pins because their bearing journals have slotted snap
+clips (like the pivot pins).
 
-| Anzahl | Länge je Stück | Verwendung |
+| Quantity | Length each | Use |
 | ---: | ---: | --- |
-| 1 | 198 mm | Deckelscharnier, durch Truhe, Deckel, Kurbel und Distanzhülse |
-| 1 | 14 mm | Knauf und Hauptantriebswelle quer sichern (Bohrung Ø2,30 mm) |
-| 1 | 10 mm | Unterarm-Abtriebswelle außen quer sichern (Bohrung Ø2,30 mm) |
-| 1 | 16 mm | Handgelenk quer sichern (Bohrung Ø2,30 mm) |
+| 1 | 198 mm | Lid hinge, through chest, lid, crank, and spacer |
+| 1 | 14 mm | Cross-secure knob and main drive shaft (Ø2.30 mm hole) |
+| 1 | 10 mm | Cross-secure forearm output shaft on the outside (Ø2.30 mm hole) |
+| 1 | 16 mm | Cross-secure wrist (Ø2.30 mm hole) |
 
-### Gedruckte Stifte sortieren (4 optische Längengruppen + 1 Pressstift)
+### Sort the Printed Pins (4 Visually Distinct Length Groups + 1 Press Pin)
 
-Insgesamt gibt es **14 gedruckte Stifte**: **13 geschlitzte Schnappstifte (Splinte)**
-mit Rastnase und **1 massiven Pressstift ohne Schlitz** (`pivot-pin-follower`).
-Wenn du die **13 geschlitzten Splinte** nebeneinander auf den Tisch legst,
-erkennst du mit bloßem Auge **vier Längengruppen** (**3 ganz kurze**, **2 kurze**,
-**5 lange**, **3 ganz lange**):
+There are **14 printed pins** in total: **13 slotted snap pins (cotter pins)**
+with locking barbs and **1 solid, unslotted press pin** (`pivot-pin-follower`).
+When you lay the **13 slotted pins** side by side, you can distinguish **four
+length groups** by eye (**3 very short**, **2 short**, **5 long**, **3 very long**):
 
-| Optische Gruppe auf dem Tisch | Anzahl | Gesamtlänge (Klemmlänge) | Projektkennung | Wo gehört dieser Splint hin? |
+| Visual group on the table | Quantity | Overall length (clamping length) | Project identifier | Where does this pin go? |
 | --- | ---: | --- | --- | --- |
-| **1. Drei ganz kurze** (mit Schlitz) | **3×** | **10,0 mm** (6,8 mm) | `pivot-pin-short` (`fixed-0`, `slot-0`, `slot-1`) | **Abschnitt 8 (Hubjoch in Schere):** die **3 oberen Gelenke ohne Zahnrad** – 1× oberer Festpunkt vorn (`−Y`) und 2× obere Langlochpunkte vorn/hinten (`−Y` und `+Y`) |
-| **2. Zwei kurze** (mit Schlitz) | **2×** | **11,6 mm** (8,4 mm) | `pivot-pin-centre` (`centre-0`, `centre-1`) | **Abschnitt 5 (Scherenebenen):** die **2 mittleren Scheren-Kreuzungen** (je 1× vorn und hinten in der Mitte des X) |
-| **3. Fünf lange** (mit Schlitz, optisch fast gleich lang) | **5×** | **2× 14,4 mm** (11,2 mm)<br>**3× 14,6 mm** (11,4 mm) | `pivot-pin-slider` (2×)<br>`pivot-pin-idler` (3×) | **Abschnitt 5:** **2× (14,4 mm)** unten beweglich am **Schlitten** (vorn/hinten)<br>**Abschnitt 7:** **3× (14,6 mm)** für die **3 Zwischenräder** am Hubjoch *(0,2 mm Unterschied liegt im Axialspiel)* |
-| **4. Drei ganz lange** (mit Schlitz) | **3×** | **2× 21,6 mm** (18,4 mm)<br>**1× 19,6 mm** (16,4 mm) | `pivot-pin-floor` (2×)<br>`pivot-pin-gear` / `fixed-1` (1×) | **Abschnitt 5:** die **2 längsten (21,6 mm)** unten fest in die **Bodenlager** der Truhe (von innen nach außen)<br>**Abschnitt 8:** der **1 etwas kürzere (19,6 mm)** oben hinten (`+Y`) durch **Hubjoch, Schere und Eingangszahnrad** |
-| **Sonderstift ohne Schlitz** (massiv, mit Quetschrippen) | **1×** | **13,1 mm** (Presssitz, Schaft 11,5 mm) | `pivot-pin-follower` | **Abschnitt 4 (Deckel-Folger):** durch die Folger-Zahnstange komplett durch die verstärkte Kurvenbahn des Schlittens bis fast an die Truheninnenwand (`y = 57,5 mm`, 0,5 mm vor der Wand bei `y = 58,0 mm`; kein Gelenksplint!) |
+| **1. Three very short** (slotted) | **3×** | **10.0 mm** (6.8 mm) | `pivot-pin-short` (`fixed-0`, `slot-0`, `slot-1`) | **Section 8 (lift yoke in scissors):** the **3 upper joints without gears**—1× upper front fixed point (`−Y`) and 2× upper front/rear slot points (`−Y` and `+Y`) |
+| **2. Two short** (slotted) | **2×** | **11.6 mm** (8.4 mm) | `pivot-pin-centre` (`centre-0`, `centre-1`) | **Section 5 (scissor layers):** the **2 center scissor crossings** (one each at the front and rear of the X) |
+| **3. Five long** (slotted, visually almost the same length) | **5×** | **2× 14.4 mm** (11.2 mm)<br>**3× 14.6 mm** (11.4 mm) | `pivot-pin-slider` (2×)<br>`pivot-pin-idler` (3×) | **Section 5:** **2× (14.4 mm)** moving at the bottom on the **slider** (front/rear)<br>**Section 7:** **3× (14.6 mm)** for the **3 idler gears** on the lift yoke *(0.2 mm difference is within the axial clearance)* |
+| **4. Three very long** (slotted) | **3×** | **2× 21.6 mm** (18.4 mm)<br>**1× 19.6 mm** (16.4 mm) | `pivot-pin-floor` (2×)<br>`pivot-pin-gear` / `fixed-1` (1×) | **Section 5:** the **2 longest (21.6 mm)** fixed at the bottom in the chest **floor bearings** (from inside outward)<br>**Section 8:** the **1 slightly shorter pin (19.6 mm)** at the upper rear (`+Y`) through the **lift yoke, scissors, and input gear** |
+| **Special pin without slot** (solid, with crush ribs) | **1×** | **13.1 mm** (press fit, shaft 11.5 mm) | `pivot-pin-follower` | **Section 4 (lid follower):** passes through the follower rack and the slider's reinforced cam track almost to the chest's inner wall (`y = 57.5 mm`, 0.5 mm from the wall at `y = 58.0 mm`; not a pivot pin!) |
 
-Schnappstifte immer von der Kopfseite durch die fluchtenden Bohrungen einschieben,
-bis die geschlitzte Rastnase hinter der Gegenfläche einrastet. Nicht mit einem Hammer
-einschlagen. Der Kopf darf das Gelenk nicht festklemmen.
+Always insert snap pins from the head side through the aligned holes until the
+slotted barb engages behind the opposing surface. Do not hammer them in. The
+head must not clamp the joint.
 
-## 3. Schlitten und Hauptantrieb montieren
+## 3. Assemble the Slider and Main Drive
 
-**Bildgruppen 1–3 · ursprüngliche Montageschritte 1–4**
+**Image groups 1–3 · original assembly steps 1–4**
 
-[![Schritt 3a: Schlitten vor dem Einsetzen und auf den Bodenführungen](images/ghouls-grip-montage-03a.png)](images/ghouls-grip-montage-03a.png)
+[![Step 3a: slider before installation and on the floor guides](images/ghouls-grip-montage-03a.png)](images/ghouls-grip-montage-03a.png)
 
-Setze den Schlitten leicht nach rechts (`+X`, ca. 5,5 mm vor die hintere
-Führungsrippe der Truhe) versetzt senkrecht auf die Bodenführungen, drücke nur
-an stabilen Rahmenbereichen, bis beide integrierten Schnappfinger in die Nut
-greifen, und schiebe ihn dann nach links (`−X`) in die Ausgangslage. Durch die
-beiden hinteren Querstreben bildet der Schlitten einen geschlossenen
-Kastenrahmen, der sich unter Last nicht aufbiegen kann. Bewege ihn vorsichtig
-von Hand durch seinen Weg: Er soll geführt bleiben, aber ohne Verkanten gleiten.
+Place the slider vertically onto the floor guides with a slight rightward offset
+(`+X`, about 5.5 mm in front of the chest's rear guide rib). Press only on
+sturdy frame areas until both integrated snap fingers engage in the groove, then
+slide it left (`−X`) into its starting position. The two rear crossbars make
+the slider a closed box frame that cannot bow under load. Carefully move it
+through its travel by hand: it should remain guided and slide without binding.
 
-[![Schritt 3b: Hauptantriebsritzel und Totenkopf getrennt und in Einbaulage](images/ghouls-grip-montage-03b.png)](images/ghouls-grip-montage-03b.png)
+[![Step 3b: main drive pinion and skull shown separately and installed](images/ghouls-grip-montage-03b.png)](images/ghouls-grip-montage-03b.png)
 
-Führe das Hauptantriebsritzel **von innen** axial durch die Bohrung in der
-Vorderwand. Die Zähne müssen in die Schlittenzahnstange greifen.
-Bringe den Schlitten in die geschlossene Ausgangsstellung, ohne ihn gewaltsam
-gegen einen Anschlag zu drücken. Stecke außen den Totenkopf mit senkrechtem
-Gesicht auf die D-Welle; sichere die fluchtenden Querbohrungen mit dem
-**14-mm-Filamentstift**.
+Insert the main drive pinion axially through the front-wall hole **from the
+inside**. Its teeth must engage the slider rack. Move the slider to its closed
+starting position without forcing it against a stop. Fit the skull onto the
+D-shaft from outside, with its face vertical; secure the aligned cross-holes
+with the **14-mm filament pin**.
 
-**Zwischenprüfung:** Eine kleine Knaufdrehung bewegt den Schlitten, ohne dass
-die Zähne überspringen. Der Knauf ist ein Drehantrieb, kein Druckknopf.
+**Intermediate check:** A small turn of the knob moves the slider without the
+teeth skipping. The knob is a rotary drive, not a push button.
 
-## 4. Deckel-Folger und Transferzahnräder einsetzen
+## 4. Install the Lid Follower and Transfer Gears
 
-**Bildgruppe 4 · ursprüngliche Montageschritte 5–6**
+**Image group 4 · original assembly steps 5–6**
 
-[![Schritt 4: Folger und beide Transferzahnräder vor und nach dem Einsetzen](images/ghouls-grip-montage-04.png)](images/ghouls-grip-montage-04.png)
+[![Step 4: follower and both transfer gears before and after installation](images/ghouls-grip-montage-04.png)](images/ghouls-grip-montage-04.png)
 
-Senke die Folger-Zahnstange in ihren Führungskanal. Drücke den **einzelnen
-massiven Folger-Pressstift (13,1 mm Gesamtlänge, ohne Längsschlitz, mit
-Quetschrippen)** von innen durch den Folger in den verstärkten Kurvenschlitz
-des Schlittens. Der verlängerte Bolzen durchgreift die auf 6,0 mm verbreiterte
-Kurvenführung vollständig und reicht bis auf 0,5 mm an die Truheninnenwand
-heran (`y = 57,5 mm`), sodass er auch unter Last nicht nach innen aus der
-Führung rutschen kann. Verwechsle ihn nicht mit den geschlitzten
-Scherensplinten. Die Rippen dieses Stifts bilden den vorgesehenen Presssitz.
+Lower the follower rack into its guide channel. From the inside, press the
+**single solid follower press pin (13.1 mm overall length, no longitudinal slot,
+with crush ribs)** through the follower and into the slider's reinforced cam
+slot. The extended pin fully spans the cam guide, widened to 6.0 mm, and
+reaches to within 0.5 mm of the chest's inner wall (`y = 57.5 mm`), so it cannot
+slip inward out of the guide under load. Do not confuse it with the slotted
+scissor pins. The ribs on this pin provide the intended press fit.
 
-Schiebe beide Transferzahnräder (`Transfer 1` und `Transfer 2`) axial in **−X**
-durch ihre Lagerböcke, bis der Bund innen anliegt und die **integrierte
-geschlitzte Rastnase (Klips, wie bei den Gelenksplinten)** außen hinter dem
-Lagerbock hör-/spürbar einrastet. Ein kurzes 5-mm-Filamentstück wird hier
-**nicht** mehr benötigt (da sich Filament nicht umbiegen lässt und aus dem
-kleinen Zapfen wandern würde). Die beiden Räder übertragen die Bewegung weiter
-zur später montierten Deckelkurbel.
+Slide both transfer gears (`Transfer 1` and `Transfer 2`) axially in **−X**
+through their bearing blocks until the shoulder seats inside and the
+**integrated slotted barb (clip, like the pivot pins)** audibly or perceptibly
+engages behind the bearing block on the outside. A short 5-mm piece of filament
+is **no longer** needed here (filament cannot bend around and would work its way
+out of the small journal). The two gears transmit motion to the lid crank,
+which is installed later.
 
-**Zwischenprüfung:** Beim vorsichtigen Verschieben des Schlittens steigt der
-Folger zunächst an und bleibt anschließend auf dem oberen Abschnitt der
-Kurvenbahn. Er darf weder aus der Führung springen noch verkanten.
+**Intermediate check:** When the slider is moved carefully, the follower first
+rises and then stays on the upper section of the cam track. It must not jump
+out of the guide or bind.
 
-## 5. Beide Scherenebenen aufbauen
+## 5. Assemble Both Scissor Layers
 
-**Bildgruppe 5 · ursprünglicher Montageschritt 7**
+**Image group 5 · original assembly step 7**
 
-[![Schritt 5: zwei Scherenpaare und untere Gelenkstifte bei 18 Grad](images/ghouls-grip-montage-05.png)](images/ghouls-grip-montage-05.png)
+[![Step 5: two scissor pairs and lower pivot pins at 18 degrees](images/ghouls-grip-montage-05.png)](images/ghouls-grip-montage-05.png)
 
-Ordne je zwei Arme als gekreuztes Paar an den beiden seitlichen Scherenebenen
-an. Die Arme verbinden unten je einen festen Bodenpunkt und einen beweglichen
-Schlittenpunkt; oben folgen ein Festpunkt und ein Langlochpunkt am Hubjoch.
-Die Bohrungssenkungen zeigen jeweils nach außen.
+Arrange two arms as a crossed pair in each of the two lateral scissor layers.
+At the bottom, the arms connect to one fixed floor point and one moving slider
+point; at the top, they connect to a fixed point and a slotted point on the
+lift yoke. The hole countersinks should face outward.
 
-Beginne in der flachen Scherenstellung (**18°**). Hier werden **6 Splinte aus
-drei verschiedenen Längengruppen** verbaut:
+Start with the scissors in the flat position (**18°**). Install **6 pins from
+three different length groups** here:
 
-1. **Unten fest im Truhenboden (`pivot-pin-floor`, 2× aus der Gruppe „drei ganz lange“, 21,6 mm – die beiden längsten Stifte überhaupt):** Zuerst einsetzen, solange der mittlere Raum noch gut zugänglich ist – **vom Kisteninneren nach außen** durch beide Wangen des Bodenlagers, niemals durch die geschlossene Außenwand.
-2. **Unten beweglich am Schlitten (`pivot-pin-slider`, 2× aus der Gruppe „fünf lange“, 14,4 mm):** Von innen nach außen durch das untere bewegliche Scherenauge und die Schlittenaufnahme stecken.
-3. **Scherenmitte (`pivot-pin-centre`, die kompletten „zwei kurzen“, 11,6 mm):** Von innen nach außen durch den mittleren Kreuzungspunkt der beiden Scherenarme je Ebene stecken.
+1. **Fixed at the bottom of the chest (`pivot-pin-floor`, 2× from the “three very long” group, 21.6 mm—the two longest pins):** Install first while the center is still easily accessible—insert **from the inside of the chest outward** through both cheeks of the floor bearing, never through the closed outer wall.
+2. **Moving at the bottom on the slider (`pivot-pin-slider`, 2× from the “five long” group, 14.4 mm):** Insert from inside outward through the lower moving scissor eye and slider mount.
+3. **Scissor center (`pivot-pin-centre`, both “two short” pins, 11.6 mm):** Insert from inside outward through the center crossing point of the two scissor arms in each layer.
 
-Die oberen vier Gelenkpunkte der Schere bleiben bis zum Einsetzen des Hubjochs (Abschnitt 8) frei.
+Leave the four upper scissor pivot points open until installing the lift yoke (Section 8).
 
-**Zwischenprüfung:** Beide Paare müssen gemeinsam und ohne seitliches
-Verziehen beweglich sein. Lose Teile dabei abstützen. Sind Bohrungen nicht
-fluchtend, nicht mit dem Stift in Position hebeln.
+**Intermediate check:** Both pairs must move together without sideways
+distortion. Support loose parts while doing so. If the holes are misaligned, do
+not lever them into position with the pin.
 
-## 6. Scheren-Eingangszahnrad vor dem Hubjoch setzen
+## 6. Install the Scissor Input Gear Before the Lift Yoke
 
-**Bildgruppe 5 · ursprünglicher Montageschritt 8**
+**Image group 5 · original assembly step 8**
 
-[![Schritt 6: Scheren-Eingangszahnrad bei 48 Grad vor dem Hubjoch einsetzen](images/ghouls-grip-montage-06.png)](images/ghouls-grip-montage-06.png)
+[![Step 6: install the scissor input gear at 48 degrees before the lift yoke](images/ghouls-grip-montage-06.png)](images/ghouls-grip-montage-06.png)
 
-Bringe die abgestützte Schere für diesen Eingriff in die **48°-Stellung**.
-Schiebe das Eingangszahnrad von **+Y** auf das obere Armauge, richte seinen
-Passstift zum Armloch aus und setze es in Lage. Dieses Zahnrad muss **vor**
-der Plattform eingesetzt werden; danach ist der Einführraum eingeschränkt.
-Die endgültige obere Gelenksicherung erfolgt beim Einbau des Hubjochs.
+For this step, move the supported scissors to the **48° position**. Slide the
+input gear onto the upper arm eye from **+Y**, align its locating pin with the
+arm hole, and seat it. This gear must be installed **before** the platform;
+access for insertion is restricted afterward. The upper joints are secured
+finally when the lift yoke is installed.
 
-**Zwischenprüfung:** Der Passstift sitzt im vorgesehenen Armloch.
-Das Zahnrad darf nicht nur lose auf der Armfläche aufliegen.
+**Intermediate check:** The locating pin is seated in the intended arm hole.
+The gear must not simply rest loose on the arm surface.
 
-## 7. Hubjoch und Unterarm außerhalb vormontieren
+## 7. Preassemble the Lift Yoke and Forearm Outside the Chest
 
-**Bildgruppen 6–7 · ursprünglicher Montageschritt 9**
+**Image groups 6–7 · original assembly step 9**
 
-[![Schritt 7: Hubjoch, Unterarm, D-Welle und Zwischenräder getrennt und vormontiert](images/ghouls-grip-montage-07.png)](images/ghouls-grip-montage-07.png)
+[![Step 7: lift yoke, forearm, D-shaft, and idler gears shown separately and preassembled](images/ghouls-grip-montage-07.png)](images/ghouls-grip-montage-07.png)
 
-Lege die Plattform außerhalb der Truhe bereit. Setze den Unterarm zwischen
-die Lagerohren. Führe die D-Welle des Unterarm-Abtriebsrads axial durch die
-Lager und die passende Unterarm-D-Aufnahme. Sichere die Welle außen mit dem
-**10-mm-Filamentstift**.
+Set the platform aside outside the chest. Place the forearm between the bearing
+ears. Pass the D-shaft of the forearm output gear axially through the bearings
+and the matching D-hub in the forearm. Secure the shaft on the outside with the
+**10-mm filament pin**.
 
-Setze die drei Zwischenräder an ihre Lagerstellen und sichere sie mit den
-**verbleibenden 3 Splinten aus der Gruppe „fünf lange“ (`pivot-pin-idler`,
-14,6 mm)**. Ihre Köpfe tauchen in die flachen Senkungen der Zwischenräder ein.
-Zusammen mit Scheren-Eingangsrad und Unterarm-Abtriebsrad entsteht die
-Fünf-Zahnrad-Kette.
+Install the three idler gears on their bearing points and secure them with the
+**remaining 3 pins from the “five long” group (`pivot-pin-idler`,
+14.6 mm)**. Their heads sit in the shallow countersinks in the idler gears.
+Together with the scissor input gear and forearm output gear, they form the
+five-gear train.
 
-**Zwischenprüfung:** Die drei Zwischenräder und das Abtriebsrad stehen in
-einer gemeinsamen Eingriffsebene. Die Welle ist gesichert, der Unterarm
-kann sich mit dem Abtriebsrad bewegen.
+**Intermediate check:** The three idler gears and the output gear share a
+common meshing plane. The shaft is secured, and the forearm can move with the
+output gear.
 
-## 8. Hubjoch in die Schere einsetzen
+## 8. Install the Lift Yoke in the Scissors
 
-**Bildgruppe 6 · Fortsetzung des ursprünglichen Montageschritts 9**
+**Image group 6 · continuation of original assembly step 9**
 
-[![Schritt 8: Hubjochbaugruppe über der ausgefahrenen Schere und im Eingriff](images/ghouls-grip-montage-08.png)](images/ghouls-grip-montage-08.png)
+[![Step 8: lift-yoke assembly above the deployed scissors and engaged](images/ghouls-grip-montage-08.png)](images/ghouls-grip-montage-08.png)
 
-Bringe die abgestützte Schere in die ausgefahrene Stellung (**78°**).
-Halte die vormontierte Plattform zunächst **3 mm vom
-Scheren-Eingangszahnrad weg**, in Richtung des ersten Zwischenrads, versetzt.
-Senke sie in dieser versetzten Lage ab. Schiebe sie erst danach entlang der
-Verbindungslinie der Zahnradachsen in den Eingriff.
+Move the supported scissors to the deployed position (**78°**). First offset
+the preassembled platform **3 mm away from the scissor input gear**, toward the
+first idler gear. Lower it in this offset position. Only then slide it into
+engagement along the line connecting the gear axes.
 
-**Nicht einfach senkrecht in die Verzahnung drücken:** Die Achsverbindung
-liegt 64° zur Senkrechten; gerades Absenken würde Zahn auf Zahn treffen.
-Schließe nach dem Ausrichten die vier oberen Gelenke mit den **letzten 4
-übrig gebliebenen Splinten**:
+**Do not simply press it vertically into the gear teeth:** the axis connection
+is at 64° to vertical; lowering it straight down would make tooth tips collide.
+After alignment, close the four upper joints with the **last 4 remaining pins**:
 
-- **1× der letzte „ganz lange“ Splint (`pivot-pin-gear` / `fixed-1`, 19,6 mm):** Oben hinten (**+Y**) durch Hubjoch-Lager, oberes Scherenauge **und** das Scheren-Eingangszahnrad.
-- **Alle „drei ganz kurzen“ Splinte (`pivot-pin-short`, 3× 10,0 mm):** In die übrigen drei oberen Gelenke ohne Zahnrad – **1×** oberer Festpunkt vorn (**−Y**, `fixed-0`) sowie **2×** obere Langlochpunkte vorn und hinten (**−Y** `slot-0` und **+Y** `slot-1`).
+- **1× the last “very long” pin (`pivot-pin-gear` / `fixed-1`, 19.6 mm):** At the upper rear (**+Y**), through the lift-yoke bearing, upper scissor eye, **and** scissor input gear.
+- **All “three very short” pins (`pivot-pin-short`, 3× 10.0 mm):** In the remaining three upper joints without gears—**1×** upper fixed point at the front (**−Y**, `fixed-0`) and **2×** upper slot points at front and rear (**−Y** `slot-0` and **+Y** `slot-1`).
 
-**Zwischenprüfung:** Beide Scheren tragen das Joch. Die oberen beweglichen
-Punkte laufen in ihren Langlöchern; die fünf Zahnräder greifen ineinander.
-Bei Widerstand wieder aus dem Eingriff nehmen und die Zahnstellung prüfen.
+**Intermediate check:** Both scissors support the yoke. The upper moving points
+travel in their slots; all five gears mesh. If you feel resistance, disengage
+the assembly and check the gear alignment.
 
-## 9. Handfläche, Finger und optionale Schale montieren
+## 9. Assemble the Palm, Fingers, and Optional Dish
 
-**Bildgruppe 7 · ursprünglicher Montageschritt 10**
+**Image group 7 · original assembly step 10**
 
-[![Schritt 9: Handfläche, fünf Finger und optionale Schale getrennt und aufgesteckt](images/ghouls-grip-montage-09.png)](images/ghouls-grip-montage-09.png)
+[![Step 9: palm, five fingers, and optional dish shown separately and assembled](images/ghouls-grip-montage-09.png)](images/ghouls-grip-montage-09.png)
 
-Lass die Mechanik ausgefahren und abgestützt. Richte die Handfläche wie im
-Ansichtsprojekt aus: gegenüber dem Unterarm-Bezug um **−75° gerollt**.
-Schiebe die Aufnahme auf den Unterarmzapfen, bis die Querbohrungen fluchten,
-und setze den **16-mm-Filamentstift** quer ein.
+Leave the mechanism deployed and supported. Orient the palm as in the view
+project: **rolled −75°** relative to the forearm datum. Slide the hub onto the
+forearm pin until the cross-holes align, then insert the **16-mm filament pin**
+crosswise.
 
-Stecke die Finger einzeln auf ihre jeweils passenden angewinkelten
-MCP-Zapfen. Reihenfolge: **Zeigefinger → Mittelfinger → Ringfinger →
-kleiner Finger → Daumen**. Führe jede Aufnahme vom freien Zapfenende entlang
-seiner Achse zum Handteller. Nicht senkrecht über alle Zapfen drücken und
-nicht an den Fingergelenken biegen. Die Steckkrägen schließen bündig an
-die freigestellten Mittelhandköpfchen an.
+Fit each finger individually onto its matching angled MCP pin. Order:
+**index finger → middle finger → ring finger → little finger → thumb**. Slide
+each hub from the free end of its pin along the pin axis toward the palm. Do not
+press the fingers vertically onto all the pins, and do not bend the finger
+joints. The collars seat flush against
+the exposed metacarpal heads.
 
-Optional: Richte die drei asymmetrisch angeordneten Unterseitenstifte der
-goldenen Schale zu den drei bündigen Sacklöchern der Handfläche aus.
-Stecke die Schale von oben entlang ihrer Öffnungsnormalen ein, ohne
-Finger oder Knochen als Hebel zu benutzen.
+Optional: Align the three asymmetrically positioned underside pins on the gold
+dish with the three flush blind holes in the palm. Insert the dish from above
+along its opening normal without using the fingers or bones as leverage.
 
-**Zwischenprüfung:** Handgelenk quer gesichert, alle fünf Finger korrekt
-zugeordnet, Schale ohne Spannung eingesetzt. Finger und Schale sind
-lösbare Steckteile, **nicht verriegelt**; beim Kippen oder Zerlegen festhalten.
+**Intermediate check:** The wrist is cross-secured, all five fingers are in the
+correct positions, and the dish is installed without stress. The fingers and
+dish are removable plug-in parts and are **not locked**; hold them in place
+when tilting or disassembling.
 
-## 10. Deckelkurbel und Distanzhülse am losen Deckel vormontieren
+## 10. Preassemble the Lid Crank and Spacer on the Loose Lid
 
-**Bildgruppe 8 · ursprünglicher Montageschritt 11**
+**Image group 8 · original assembly step 11**
 
-[![Schritt 10: Deckelunterseite mit separater Kurbel und Distanzhülse sowie deren Einbaulage](images/ghouls-grip-montage-10.png)](images/ghouls-grip-montage-10.png)
+[![Step 10: underside of lid with separate crank and spacer, and their installed positions](images/ghouls-grip-montage-10.png)](images/ghouls-grip-montage-10.png)
 
-Lege den Deckel umgedreht auf eine weiche Unterlage. Führe die Deckelkurbel
-von unten ein und schiebe sie **5,6 mm in +X** in ihre Mitnehmertasche.
-Lege die Distanzhülse von unten in den Servicekanal zwischen Kurbel und
-Deckelauge. Halte die losen Teile beim Wenden in Position.
+Place the lid upside down on a soft surface. Insert the lid crank from below
+and slide it **5.6 mm in +X** into its drive pocket. Place the spacer from
+below in the service channel between the crank and lid eye. Hold the loose parts
+in position when turning the assembly over.
 
-**Warum sind Deckelkurbel und Distanzhülse zwei getrennte Teile statt eines?**
-Die geschlossene Schutzhaube unter dem Deckel hat nur eine **25,0 mm breite
-Öffnung** (`x = −43,0 .. −18,0 mm`), während Kurbel (**11,0 mm**) und
-Distanzhülse (**15,8 mm**) zusammen **26,8 mm** lang sind. Außerdem muss der
-Mitnehmer der Kurbel seitlich (**5,6 mm in +X**) in die geschlossene Tasche der
-Haubenwand eingeschoben werden. Ein einteiliges Bauteil ließe sich deshalb
-geometrisch gar nicht in die Haube einsetzen: Erst wenn die kurze Kurbel nach
-rechts (+X) in die Tasche geschoben ist, wird dahinter (−X) der 15,8-mm-Raum
-frei, in den die Distanzhülse von unten eingelegt wird, um die Kurbel formschlüssig
-gegen Zurückrutschen zu sperren.
+**Why are the lid crank and spacer separate parts instead of one?** The closed
+protective hood under the lid has an opening only **25.0 mm wide**
+(`x = −43.0 .. −18.0 mm`), while the crank (**11.0 mm**) and spacer
+(**15.8 mm**) have a combined length of **26.8 mm**. In addition, the crank
+driver must slide sideways (**5.6 mm in +X**) into the closed pocket in the
+hood wall. A one-piece part therefore cannot be installed in the hood: only
+after the short crank has been slid right (+X) into the pocket does the 15.8-mm
+space behind it (−X) become available. The spacer is inserted from below into
+that space to positively prevent the crank from sliding back.
 
-**Hinweis zur Filamentbohrung:** Da Kurbel und Distanzhülse stehend gedruckt
-werden (Bohrung vertikal in Z mit 5 Wandlinien und 100 % Füllung), ist ihre
-CAD-Bohrung auf **Ø 2,30 mm** (`r = 1,15 mm`) vergrößert, damit das 1,75-mm-Filament
-genauso leichtgängig hindurchgleitet wie durch die horizontal gedruckten
-Deckelscharnieraugen. Falls ein älterer Druckstand mit Ø 2,00 mm vorliegt, die
-Bohrung beider Teile mit einem **2,0-mm-Bohrer** von Hand aufreiben.
+**Filament-hole note:** The crank and spacer are printed upright (hole vertical
+in Z, with 5 walls and 100% infill), so their CAD holes are enlarged to
+**Ø 2.30 mm** (`r = 1.15 mm`) to let the 1.75-mm filament slide through as
+easily as it does through the horizontally printed lid hinge eyes. If you have
+an older print with Ø 2.00 mm holes, ream both parts by hand with a
+**2.0-mm drill bit**.
 
-**Wichtig:** Erst danach den Deckel an die Truhe setzen. Bei montiertem Deckel
-ist der Servicekanal geschlossen und die Kurbel nicht mehr von unten einsetzbar.
+**Important:** Attach the lid to the chest only after this step. With the lid
+installed, the service channel is closed and the crank can no longer be inserted
+from below.
 
-**Zwischenprüfung:** Kurbelmitnehmer sitzt in der Tasche; Kurbel, Hülse und
-Scharnieraugen liegen auf derselben Achse.
+**Intermediate check:** The crank driver is seated in the pocket; the crank,
+spacer, and hinge eyes share the same axis.
 
-## 11. Deckel ansetzen und Scharnierachse einführen
+## 11. Fit the Lid and Insert the Hinge Pin
 
-**Bildgruppe 8 · ursprünglicher Montageschritt 12**
+**Image group 8 · original assembly step 12**
 
-[![Schritt 11: geöffnete Deckelbaugruppe vor dem Ansetzen und in Scharnierlage](images/ghouls-grip-montage-11.png)](images/ghouls-grip-montage-11.png)
+[![Step 11: open lid assembly before fitting and in hinge position](images/ghouls-grip-montage-11.png)](images/ghouls-grip-montage-11.png)
 
-Bringe die Mechanik vorsichtig in die **48°-Scherenstellung**; der Deckelantrieb
-befindet sich dabei im geöffneten Zustand. Halte die Deckelbaugruppe etwa
-**108° geöffnet** und zunächst **3 mm nach hinten (+Y)** versetzt.
-Senke sie ab und schiebe sie dann nach vorn in den Eingriff mit dem
-Transfer-Zwischenrad, bis die Gelenkaugen fluchten.
+Carefully move the mechanism to the **48° scissor position**; the lid drive is
+open in this position. Hold the lid assembly about **108° open** and offset it
+initially **3 mm to the rear (+Y)**. Lower it, then slide it forward to engage
+with the transfer idler gear until the hinge eyes align.
 
-Schiebe das **198-mm-Scharnierfilament von der Stirnseite** durch Truhe,
-Deckel, Kurbel und Distanzhülse. Stütze den Deckel währenddessen ab.
-Bei Widerstand die Augen ausrichten, nicht mit dem langen Filamentstift
-die Baugruppen zusammenzwingen. Die Hülse hält die Kurbel axial im Eingriff.
+Slide the **198-mm hinge filament in from the end** through the chest, lid,
+crank, and spacer. Support the lid while doing this. If there is resistance,
+align the eyes; do not force the assemblies together with the long filament pin.
+The spacer keeps the crank axially engaged.
 
-**Zwischenprüfung:** Achse vollständig eingeführt, Distanzhülse vorhanden,
-Deckelkurbel mit dem Deckel verbunden. Der Deckel wird vom Getriebe geführt;
-nicht unabhängig gegen den Antrieb zu- oder aufklappen.
+**Intermediate check:** The pin is fully inserted, the spacer is in place, and
+the lid crank is connected to the lid. The lid is guided by the gear train; do
+not open or close it independently against the drive.
 
-## 12. Trockenlauf und Abnahme
+## 12. Dry Run and Acceptance Check
 
-[![Schritt 12: vollständige Baugruppe eingefahren und ausgefahren für den Trockenlauf](images/ghouls-grip-montage-12.png)](images/ghouls-grip-montage-12.png)
+[![Step 12: complete assembly retracted and deployed for the dry run](images/ghouls-grip-montage-12.png)](images/ghouls-grip-montage-12.png)
 
-Teste zunächst **ohne Süßigkeiten und ohne Last**. Drehe ausschließlich den
-Totenkopf langsam über den vorgesehenen Weg von ungefähr 114° und danach
-genau zurück. Nicht über die Endlagen drehen.
+First test **without candy and without a load**. Slowly turn only the skull
+through its intended travel of approximately 114°, then turn it exactly back.
+Do not rotate past the end positions.
 
-- [ ] Der Deckel öffnet früh und bleibt frei vom Bewegungsraum der Hand.
-- [ ] Beide Scheren heben gleichmäßig; kein Arm streift an der Truhenwand.
-- [ ] Der Unterarm entfaltet sich mit dem Hub und faltet sich beim Rücklauf ein.
-- [ ] Die Hand samt optionaler Schale passt eingefahren vollständig hinein.
-- [ ] Kein Zahn überspringt, kein Stift wandert heraus, kein Schnappgelenk klemmt.
-- [ ] Der Deckel schließt ohne Druck von Hand; lose Finger und Schale bleiben sicher sitzen.
+- [ ] The lid opens early and clears the hand's range of motion.
+- [ ] Both scissors lift evenly; no arm rubs against the chest wall.
+- [ ] The forearm unfolds as the mechanism lifts and folds back during return.
+- [ ] The hand, including the optional dish, fits fully inside when retracted.
+- [ ] No teeth skip, no pin works its way out, and no snap joint binds.
+- [ ] The lid closes without being pushed by hand; loose fingers and dish remain seated.
 
-**Bei Knacken, starkem Widerstand oder Zahnüberspringen sofort stoppen.**
-Entlaste die Mechanik und behebe die Ursache, statt mehr Kraft am Knauf
-aufzubringen. Eine bestandene digitale Prüfung ersetzt diese Kontrolle am
-gedruckten Exemplar nicht. Keine bestätigte Nutzlast oder PLA-Dauerfestigkeit;
-nicht unbeaufsichtigt belasten.
+**Stop immediately if you hear cracking, feel strong resistance, or notice
+teeth skipping.** Release the mechanism and fix the cause instead of applying
+more force to the knob. Passing the digital checks does not replace this
+inspection of the printed part. No payload capacity or PLA fatigue life has
+been confirmed; do not leave it loaded unattended.
 
-Für Süßigkeiten nur verpackte Ware oder einen lebensmittelechten Einsatz
-verwenden. Ungeschütztes FDM-PLA ist nicht als lebensmittelecht zertifiziert.
-Nicht über die im geschlossenen Zustand verbleibende freie Höhe füllen.
+Use only packaged candy or a food-safe insert. Unprotected FDM PLA is not
+certified as food-safe. Do not fill above the free height available when closed.
 
-## 13. Typische Montageprobleme und Demontage
+## 13. Common Assembly Problems and Disassembly
 
-| Problem | Zuerst prüfen |
+| Problem | Check first |
 | --- | --- |
-| Schlitten klemmt | Stützreste in der Führung, beide Schnappfinger korrekt in der Nut, Rahmen nicht verkantet |
-| Schnappstift rastet nicht ein | passende Klemmlänge, fluchtende Bohrungen, freie Schlitzhälften; keinen kürzeren Stift erzwingen |
-| Hubjoch lässt sich nicht einsetzen | 78°-Stellung, Eingangszahnrad bereits gesetzt, 3-mm-Versatz vor dem Eingriff |
-| Deckelkurbel lässt sich nicht montieren | Deckel wieder abnehmen; Kurbel und Hülse müssen am losen Deckel vormontiert werden |
-| Deckelantrieb springt über | Transferzahnräder gesichert, Kurbelmitnehmer in Tasche, Distanzhülse eingesetzt |
-| Hand oder Finger passen nicht | passende D-/Zapfenausrichtung, Fingerzuordnung und freie Stützreste; Knochen nicht aufbiegen |
-| Stift wandert axial | Betrieb stoppen und Sicherung kontrollieren; besonders bei älteren gedruckten Bodenpins |
+| Slider binds | Support residue in the guide, both snap fingers correctly engaged in the groove, frame not skewed |
+| Snap pin does not engage | Correct clamping length, aligned holes, clear slot halves; do not force a shorter pin |
+| Lift yoke cannot be installed | 78° position, input gear already installed, 3-mm offset before engagement |
+| Lid crank cannot be installed | Remove the lid again; crank and spacer must be preassembled on the loose lid |
+| Lid drive skips | Transfer gears secured, crank driver in pocket, spacer installed |
+| Hand or fingers do not fit | Correct D-shaft/pin orientation, finger assignment, and cleared support residue; do not bend bones |
+| Pin moves axially | Stop operation and check retention; especially for older printed floor pins |
 
-Vor dem Zerlegen die Mechanik entlasten und Deckel sowie Hand abstützen.
-Schale abheben, Filamentstifte herausziehen und in umgekehrter Reihenfolge
-zerlegen. Schnappstifte von der Nasenseite durch Zusammendrücken der
-Schlitzhälften lösen, nicht mit Gewalt am Kopf herausreißen.
+Before disassembly, unload the mechanism and support the lid and hand. Remove
+the dish, pull out the filament pins, and disassemble in reverse order. Release
+snap pins from the barb side by squeezing the slotted halves together; do not
+force them out by pulling on the heads.
 
-**Ältere Druckstände:** Im Maßdokument sind frühere Bodenpins ohne neue
-Verriegelung beschrieben. Die aktuelle Stückliste verwendet Schnappstifte;
-beides nicht allein anhand der Farbe gleichsetzen. Bei unbekanntem Druckstand
-zuerst die Teile mit dem tatsächlich verwendeten Druckprojekt vergleichen.
+**Older print versions:** The dimensional document describes earlier floor
+pins without the newer locking feature. The current BOM uses snap pins; do not
+assume these versions are interchangeable based on color alone. If the print
+version is unknown, first compare the parts with the print project actually used.
 
-## Quellen und Grenzen
+## Sources and Limitations
 
-Maße, Steckrichtungen und Reihenfolge stammen aus der
-[Maß- und Konstruktionsdokumentation](ghouls-grip-masse-und-bauanleitung.md#montageschritte).
-Die für einzelne Eingriffe angegebenen Scherenstellungen stammen aus dem
-[Montageaudit, Abschnitte 5–6](ghouls-grip-montage-audit.md).
-Die Winkel sind **Scherenwinkel**, nicht Knaufwinkel.
-Das [Ansichtsprojekt](../models/ghouls-grip-view.3mf) enthält die Stellungen
-18°, 48° und 78° als räumliche Orientierungshilfe.
-Die Explosionszeichnung zeigt unveränderte Originalnetze, ist aber keine
-maßstäbliche Montagelehre. Diese Anleitung ändert weder Geometrie noch
-[Druck-/Profilstatus](ghouls-grip-druckvalidierung.md).
+Dimensions, insertion directions, and sequence are taken from the
+[dimensions and design documentation](ghouls-grip-masse-und-bauanleitung.md#assembly-steps).
+Scissor positions specified for individual operations are from the
+[assembly audit, Sections 5–6](ghouls-grip-montage-audit.md).
+The angles are **scissor angles**, not knob angles. The
+[view project](../models/ghouls-grip-view.3mf) includes the 18°, 48°, and 78°
+positions as a spatial reference. The exploded view shows unchanged original
+meshes but is not a scale assembly jig. These instructions change neither the
+geometry nor the [print/profile status](ghouls-grip-druckvalidierung.md).
 
-### Schrittbilder reproduzieren
+### Reproducing the Step Illustrations
 
-`scripts/render_ghouls_grip_assembly.py` liest ausschließlich die vorhandenen
-42 Körper in den drei Stellungen der Ansichts-3MF. Blender rendert daraus
-zwölf Bildpaare; Pillow ergänzt deutsche Legenden und die Gesamtübersicht.
-Es werden nur Präsentationsverschiebungen angewendet, keine Druckkörper
-verändert oder exportiert. Bei der Bildfolge wird nicht erneut gesliced.
+`scripts/render_ghouls_grip_assembly.py` reads only the existing 42 bodies in
+the three positions in the view 3MF. Blender renders twelve image pairs;
+Pillow adds English legends and the overview. Only presentation offsets are
+applied; no print bodies are changed or exported. The illustration sequence is
+not sliced again.
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\render_ghouls_grip_assembly.py
 ```
 
-Die Bilder liegen unter `docs/images/ghouls-grip-montage-02.png` bis
-`docs/images/ghouls-grip-montage-12.png` (Abschnitt 3 mit `03a` und `03b`).
-Die Übersicht heißt `docs/images/ghouls-grip-montage-bildfolge.png`.
-Rohbilder und Kameraprojektionen bleiben unter `build/ghouls-grip-assembly/`.
-Der Renderer prüft vollständige Teilezuordnung, Kameragrenzen, nichtleere Bilder
-und unveränderte SHA-256-Werte der drei Ghoul’s-Grip-Modelldateien.
+The images are in `docs/images/ghouls-grip-montage-02.png` through
+`docs/images/ghouls-grip-montage-12.png` (Section 3 uses `03a` and `03b`).
+The overview is
+`docs/images/ghouls-grip-montage-bildfolge.png`. Raw images and camera
+projections remain under `build/ghouls-grip-assembly/`. The renderer checks
+complete part assignment, camera bounds, nonempty images, and unchanged SHA-256
+values for the three Ghoul’s-Grip model files.

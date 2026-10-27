@@ -1,84 +1,82 @@
-# Pfeffermühlen-Mahlwerk: Einsatz (Antriebskupplung)
+# Pepper Mill Grinder: Insert (Drive Coupling)
 
 Generator: `scripts/pfeffermuehle_mahlwerk_einsatz.py`
 Output: `models/pfeffermuehle-mahlwerk-einsatz.stl`
-Referenzfotos: `model-sources/pfeffermuehle-mahlwerk/` (Index: `_index.png`)
+Reference photos: `model-sources/pfeffermuehle-mahlwerk/` (index: `_index.png`)
 
-## Funktion
+## Function
 
-Der Fünfkant-Antriebsschaft des Mahlwerks wird zentrisch durch den Einsatz
-gesteckt (volles Durchgangsloch, vom Nutzer explizit bestätigt trotz
-resultierender dünnerer Restwand). Der Einsatz ist zylindrisch. Unter dem runden Kragen am oberen Ende sitzen
-4 halbrunde Nasen (90° versetzt), die in die
-vierfach geschwungene ("Kleeblatt") Vertiefung im Mahlwerk-Gehäuse einrasten
-(sichtbar auf Bild-Kachel 02, geprägt "CRUSHGRIND CO"). Damit dreht sich der
-Einsatz mit dem Fünfkant mit und überträgt das Drehmoment über die Nasen auf
-das Mahlwerk-Gehäuse/den Mahlstein.
+The grinder's pentagonal drive shaft passes through the center of the insert
+(a full through-hole, explicitly confirmed by the user despite the resulting
+thinner remaining wall). The insert is cylindrical. Beneath the round collar at
+the top are 4 semicircular lugs (spaced 90° apart), which engage with the
+four-lobed ("cloverleaf") recess in the grinder housing (visible in image tile
+02, embossed "CRUSHGRIND CO"). This makes the insert turn with the pentagonal
+shaft and transfer torque through the lugs to the grinder housing/burr.
 
-## Referenzkachel-Zuordnung (Contact Sheet)
+## Reference Tile Mapping (Contact Sheet)
 
-| Kachel | Datei | Zeigt |
+| Tile | File | Shows |
 | --- | --- | --- |
-| 00 | `...165635927.jpg` | Fünfkant-Schaft am Mahlwerk, Messschieber 5,75 mm (Schlüsselweite) |
-| 01 | `...170606863.jpg` | Bohrung im alten (beschädigten) Einsatz, Messschieber 7,06 mm |
-| 02 | `...170541868.jpg` | Unterseite des alten Einsatzes/Gehäuses, 4-Nasen-Kleeblattmuster, Prägung "CRUSHGRIND CO" |
-| 03 | `...165523655.jpg` | Bruchstück-Detail, Messschieber 8,88 mm (Zuordnung unsicher) |
-| 04 | `...165440445.jpg` | Gesamthöhe Mahlwerk/altes Teil, Messschieber 17,01 mm |
-| 05 | `...170527313.jpg` | Alter Einsatz, Außenmaß, Messschieber 12,59 mm |
-| 06 | `...170742712.jpg` | Abgebrochenes Fragment des alten Einsatzes, Wandstärke 2,12 mm |
+| 00 | `...165635927.jpg` | Pentagonal shaft on grinder, calipers 5,75 mm (across flats) |
+| 01 | `...170606863.jpg` | Hole in old (damaged) insert, calipers 7,06 mm |
+| 02 | `...170541868.jpg` | Underside of old insert/housing, 4-lug cloverleaf pattern, embossed "CRUSHGRIND CO" |
+| 03 | `...165523655.jpg` | Broken fragment detail, calipers 8,88 mm (uncertain attribution) |
+| 04 | `...165440445.jpg` | Overall height of grinder/old part, calipers 17,01 mm |
+| 05 | `...170527313.jpg` | Old insert, external dimension, calipers 12,59 mm |
+| 06 | `...170742712.jpg` | Broken fragment of old insert, wall thickness 2,12 mm |
 
-## Maßtabelle
+## Dimension Table
 
-| Maß | Wert | Quelle | Status |
+| Dimension | Value | Source | Status |
 | --- | --- | --- | --- |
-| Gesamthöhe Einsatz | 17,0 mm | Nutzerangabe, bestätigt durch Kachel 04 (17,01 mm) | gemessen/bestätigt |
-| Fünfkant Schlüsselweite (Schaft) | 5,75 mm | Kachel 00 | gemessen |
-| Fünfkant-Bohrung im Einsatz (Ziel) | 6,00 mm SW (Diagonale 6,31 mm) | 5,75 mm + 0,25 mm Spiel (nahe CrushGrind-Standard ~6 mm, siehe Recherche) | abgeleitet |
-| Alter Einsatz Außen-Ø (max.) | 12,59 mm | Kachel 05 | gemessen |
-| Bohrung im beschädigten Fragment | 7,06 mm | Kachel 01 | gemessen, aber **kein Konstruktionsmaß** - laut Nutzer hatte der alte, intakte Einsatz überall mind. 1 mm Wandstärke; 7,06 mm ist die durch den Bruch aufgeweitete Öffnung, nicht die ursprüngliche Bohrung |
-| Wandstärke Bruchstück | 2,12 mm | Kachel 06 | gemessen (Referenz für Mindestwandstärke) |
-| Nasen-Muster | 4 Nasen, 90° versetzt | Kachel 02, vom Nutzer bestätigt | bestätigt |
-| Länge Nase inklusive Kragen | 7,08 mm | Nutzerangabe | gemessen/bestätigt |
-| Kragenhöhe | 2,0 mm | Nutzerbestätigte Standardannahme | Annahme |
+| Overall insert height | 17,0 mm | user statement, confirmed by tile 04 (17,01 mm) | measured/confirmed |
+| Pentagonal shaft across flats | 5,75 mm | tile 00 | measured |
+| Pentagonal hole in insert (target) | 6,00 mm across flats (diagonal 6,31 mm) | 5,75 mm + 0,25 mm clearance (near CrushGrind standard ~6 mm, see research) | derived |
+| Old insert outer Ø (max.) | 12,59 mm | tile 05 | measured |
+| Hole in damaged fragment | 7,06 mm | tile 01 | measured, but **not a design dimension** - according to the user, the old intact insert had at least 1 mm wall thickness everywhere; 7,06 mm is the opening widened by the break, not the original hole |
+| Broken fragment wall thickness | 2,12 mm | tile 06 | measured (reference for minimum wall thickness) |
+| Lug pattern | 4 lugs, spaced 90° apart | tile 02, confirmed by user | confirmed |
+| Lug length including collar | 7,08 mm | user statement | measured/confirmed |
+| Collar height | 2,0 mm | user-confirmed standard assumption | assumption |
 
-## Konstruktionsentscheidungen (neu, nicht 1:1 vom alten Teil übernommen)
+## Design Decisions (new, not copied 1:1 from the old part)
 
-- Schaft: Ø 9,0 mm, bis 9,92 mm Höhe glatt zylindrisch
-- Nasenzone: 4 voneinander getrennte Rundnasen, je Radius 1,65 mm mit
-  Mittelpunkten auf dem Schaftradius (4,5 mm). Jede Nase überlappt den
-  zylindrischen Schaft um 1,65 mm, die Nasen grenzen jedoch nicht
-  aneinander. Das entspricht den vier separaten runden Vertiefungen auf
-  Kachel 02. Die Nasen sind 5,08 mm hoch; zusammen mit dem Kragen
-  entsprechen sie dem gemessenen Maß von 7,08 mm.
-  - Spitzenradius (durch eine Nase): 6,15 mm (Ø 12,3 mm Hüllkreis)
-  - Zwischen den Nasen bleibt der Schaft bei Radius 4,50 mm sichtbar; die
-    runden Nasen berühren sich nicht.
-- Kragen: runde Deckscheibe, Ø 12,3 mm x 2,0 mm hoch, bündig über den Nasen
-- Fünfkant-Durchgangsloch: 6,0 mm Schlüsselweite, volle Höhe 17 mm durchgehend
-- Resultierende Mindestwandstärke um die Fünfkant-Bohrung: 1,35 mm am
-  zylindrischen Schaft; an Nasenspitze/Kragen 3,00 mm. Die Mindestwandstärke
-  von 1 mm ist damit erfüllt.
+- Shaft: Ø 9,0 mm, smooth cylindrical up to a height of 9,92 mm
+- Lug zone: 4 separate round lugs, each with a radius of 1,65 mm and centers
+  on the shaft radius (4,5 mm). Each lug overlaps the cylindrical shaft by
+  1,65 mm, but the lugs do not touch one another. This matches the four
+  separate round recesses in tile 02. The lugs are 5,08 mm high; together with
+  the collar, they match the measured dimension of 7,08 mm.
+  - Tip radius (through a lug): 6,15 mm (Ø 12,3 mm circumscribed circle)
+  - Between the lugs, the shaft remains visible at radius 4,50 mm; the round
+    lugs do not touch.
+- Collar: round cap disc, Ø 12,3 mm x 2,0 mm high, flush over the lugs
+- Pentagonal through-hole: 6,0 mm across flats, continuous through the full 17 mm height
+- Resulting minimum wall thickness around the pentagonal hole: 1,35 mm at the
+  cylindrical shaft; 3,00 mm at the lug tips/collar. This meets the 1 mm
+  minimum wall thickness.
 
-Die Höhenaufteilung folgt der bestätigten Nasenlänge inklusive Kragen:
-9,92 mm glatter Schaft + 5,08 mm Nasenzone + 2,00 mm Kragen = 17,00 mm.
+The height distribution follows the confirmed lug length including collar:
+9,92 mm smooth shaft + 5,08 mm lug zone + 2,00 mm collar = 17,00 mm.
 
-## Recherche
+## Research
 
-CrushGrind-Mahlwerke verwenden üblicherweise einen Fünfkant-Schaft mit
-~6 mm Schlüsselweite als Kupplungs-Standard (öffentliche Herstellerangaben,
-z. B. crushgrind.ca/pages/instructions). Das bestätigt die gewählte
-6,0-mm-Zielbohrung als sinnvolles, leicht übermaßiges Spielpassmaß zum
-gemessenen 5,75-mm-Schaft.
+CrushGrind grinders typically use a pentagonal shaft with ~6 mm across flats as
+the coupling standard (public manufacturer information, e.g.
+crushgrind.ca/pages/instructions). This supports the selected 6,0-mm target
+hole as a sensible, slightly oversize clearance fit for the measured
+5,75-mm shaft.
 
-## Druckbarkeit
+## Printability
 
-- Material: PLA/PETG, 0,4 mm Düse
-- Mindestwandstärke überall >= 1,35 mm (deutlich über 0,8 mm Baseline)
-- Ausgangsmodell (Schaft unten): 0,2 % unsupported
-  (`mesh_tool.py overhang`), praktisch vollständig selbsttragend.
-- Druckorientierte Datei `models/pfeffermuehle-mahlwerk-einsatz-druckorientiert.stl`
-  (Kragen unten, Schaft oben): 33,9 % unsupported; für diese bewusst
-  gewünschte Orientierung sind Stützstrukturen erforderlich.
-- Naht/Deckflächen (>=89°) 55,17 mm² - flache Deck-/Bodenflächen, unkritisch
-- Mesh: watertight, manifold, euler_number 0 (korrekt für ein durchgehendes
-  Loch), keine degenerierten Facetten
+- Material: PLA/PETG, 0,4 mm nozzle
+- Minimum wall thickness everywhere >= 1,35 mm (well above the 0,8 mm baseline)
+- Original model (shaft down): 0,2 % unsupported
+  (`mesh_tool.py overhang`), almost entirely self-supporting.
+- Print-oriented file `models/pfeffermuehle-mahlwerk-einsatz-druckorientiert.stl`
+  (collar down, shaft up): 33,9 % unsupported; supports are required for this
+  intentionally chosen orientation.
+- Seam/top surfaces (>=89°) 55,17 mm² - flat top/bottom surfaces, uncritical
+- Mesh: watertight, manifold, euler_number 0 (correct for a through-hole), no
+  degenerate facets
