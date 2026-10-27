@@ -379,7 +379,7 @@ geometry nor the [print/profile status](ghouls-grip-druckvalidierung.md).
 
 `scripts/render_ghouls_grip_assembly.py` reads only the existing 42 bodies in
 the three positions in the view 3MF. Blender renders twelve image pairs;
-Pillow adds English legends and the overview. Only presentation offsets are
+Pillow adds German legends and the overview. Only presentation offsets are
 applied; no print bodies are changed or exported. The illustration sequence is
 not sliced again.
 

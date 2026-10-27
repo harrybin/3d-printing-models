@@ -141,7 +141,7 @@ Missing: none; excess: none; pin-count discrepancies: none.
 | lid-transfer-idler: insert journal axially into bearing block, then move upward | [18.0] | - |
 | Lower scissor-arm pair, layer 0, vertically | [18.0] | - |
 | Lower scissor-arm pair, layer 1, vertically | [18.0] | - |
-| Scissor drive gear: insert locating pin into arm hole, then move upward | [48.0] | - |
+| Scissor drive gear: withdraw locating pin from arm hole, then lift (reverse for assembly) | [48.0] | - |
 | Lower platform assembly offset, then engage radially | [78.0] | - |
 | Fit hand axially onto forearm pin | [78.0] | - |
 | Lid crank on loose lid: from below, then +X into pocket | [48.0] | - |

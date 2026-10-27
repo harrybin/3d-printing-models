@@ -64,8 +64,8 @@ All 12 moving or inserted parts were checked in [`scripts/butterfly_messer.py`](
 ## 4. Kinematic Verification Across the Full Swing Range (`0° .. 180°`)
 
 - **Handle rotation (`theta_safe`, `theta_bite` from `0°` to `180°` in `5°` steps = 37 states):**
-  - The Safe handle rotates about `(0.0, +10.20 mm)` around `+Y` from `0°` (open) to `+180°` (closed).
-  - The Bite handle rotates about `(0.0, -10.20 mm)` around `-Y` from `0°` (open) to `-180°` (closed).
+  - The Safe handle rotates about the Z axis through `(x=0.0, y=+10.20 mm)` from `0°` (open) to `+180°` (closed), sweeping through the `+Y` side.
+  - The Bite handle rotates about the Z axis through `(x=0.0, y=-10.20 mm)` from `0°` (open) to `-180°` (closed), sweeping through the `-Y` side.
   - **Result:** Across all 37 angular positions, pairwise manifold intersection volume between the blade, Safe-handle assembly, Bite-handle assembly, and T-latch is exactly **`0.000000 mm³`** (`PASS`).
 - **T-latch swing range when closed (`theta = 180°`, `phi_latch` from `0°` to `90°` in `5°` steps = 19 states):**
   - The T-latch rotates freely about the rear Bite bolt `(-108.50 mm, -10.20 mm)` from the open longitudinal position (`0°`) to the locked transverse position (`90°`) over the Safe handle.
