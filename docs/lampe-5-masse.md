@@ -1,123 +1,119 @@
-# Lampe „5“ – Maße und Annahmen
+# Number “5” Lamp – Dimensions and Assumptions
 
-## Verbindliche Maße
+## Confirmed Dimensions
 
-| Merkmal | Wert | Quelle | Sicherheit |
+| Feature | Value | Source | Confidence |
 | --- | ---: | --- | --- |
-| Gesamthöhe | 240 mm | Nutzerangabe im PR-Kommentar | exakt |
-| Rahmentiefe | 40 mm | Nutzerangabe in Issue #21 | exakt |
-| Gesamttiefe montiert | 42 mm | 40 mm Rahmen + 2 mm aufliegende Leuchtfläche | exakt |
-| Transparenter, wandseitiger Tiefenanteil | 20 mm | Nutzerangabe in Issue #21 | exakt |
-| Schwarzer, frontseitiger Tiefenanteil | 20 mm | Nutzerangabe in Issue #21 | exakt |
-| Auflagebreite der L-/T-Schenkel | 3 mm | Nutzerkorrektur 15.09.2026 | exakt |
-| Stromanschluss | entfällt vorerst | Nutzerkommentar in Issue #21 | exakt |
-| Aufkleber/Logos | entfallen | Nutzerkommentar im PR | exakt |
+| Overall height | 240 mm | user statement in PR comment | exact |
+| Frame depth | 40 mm | user statement in Issue #21 | exact |
+| Overall assembled depth | 42 mm | 40 mm frame + 2 mm overlaid illuminated panel | exact |
+| Transparent, wall-side depth portion | 20 mm | user statement in Issue #21 | exact |
+| Black, front-side depth portion | 20 mm | user statement in Issue #21 | exact |
+| Bearing width of L/T legs | 3 mm | user correction 15.09.2026 | exact |
+| Power connection | omitted for now | user comment in Issue #21 | exact |
+| Stickers/logos | omitted | user comment in PR | exact |
 
-## Aus dem Referenzbild abgeleitet
+## Derived from the Reference Image
 
-Der einzelne Bildanhang war über die bereitgestellte URL im Arbeitscontainer
-nicht herunterladbar (der weitergeleitete Asset-Host war nicht auflösbar).
-Deshalb wurde kein pixelgenauer Umriss behauptet. Der parametrisierte Umriss
-übernimmt die im sichtbaren Bild eindeutigen Merkmale:
+The single image attachment could not be downloaded in the work container from
+the provided URL (the redirected asset host could not be resolved). Therefore,
+no pixel-accurate outline is claimed. The parameterized outline incorporates
+features that are clearly visible in the image:
 
-- klar lesbare Ziffer 5 mit gerundetem oberen Balken und großer unterer Rundung,
-- vier weiße Leuchtfelder,
-- drei geschwungene, durchgehende Trennstege,
-- fließende Übergänge der Stege in den Außenrahmen,
-- aus dem Bild geschätzte Breite von etwa 172 mm bei 240 mm Höhe.
+- clearly legible number 5 with a rounded top bar and large lower curve,
+- four white illuminated panels,
+- three curved, continuous dividers,
+- smooth transitions from the dividers into the outer frame,
+- image-estimated width of about 172 mm at a height of 240 mm.
 
-Die linke Verbindung und der mittlere Anker des unteren Trennstegs wurden am
-15.09.2026 auf Nutzeranweisung weiter nach unten verlegt und als durchgehende
-S-Kurve geglättet. Dadurch wird Leuchtsegment 3 größer und Leuchtsegment 4
-kleiner.
+At the user's request on 15.09.2026, the left connection and center anchor of
+the lower divider were moved farther down and smoothed into a continuous S-curve.
+This makes illuminated segment 3 larger and segment 4 smaller.
 
-Der linke Anschluss bleibt mit dem Mittelsteg verbunden; ein zuvor freier,
-runder Endpunkt wurde entfernt. Die S-Kurve selbst ist kompakt zwischen diesem
-Anschluss und dem tieferliegenden rechten Rahmenanschluss ausgeführt.
+The left connection remains joined to the middle divider; a previously free,
+rounded endpoint was removed. The S-curve itself is compactly shaped between
+this connection and the lower right frame connection.
 
-Die Anschlüsse des unteren Trennstegs folgen der markierten Zielansicht vom
-15.09.2026: links deutlich tiefer am Außenrahmen, rechts tief in der unteren
-rechten Rundung. Beide verlaufen über die Außenkontur hinaus und werden vom
-Rahmen glatt beschnitten.
+The lower divider connections follow the marked target view from 15.09.2026:
+the left one is much lower on the outer frame, and the right one is deep in the
+lower-right curve. Both extend beyond the outer contour and are cleanly trimmed
+by the frame.
 
-Der linke Anschluss wurde danach unterhalb des zuvor sichtbaren Innenstummels
-an die Außenkontur verlegt; sein Steg startet außerhalb der Kontur und wird
-glatt beschnitten.
+The left connection was then moved to the outer contour below the previously
+visible inner stub; its divider starts outside the contour and is cleanly
+trimmed.
 
-Der untere Trennsteg verbindet ausschließlich die zwei vom Nutzer markierten
-Anschlüsse. Seine S-Kurve ist auf diesen Zwischenraum gestaucht und schneidet
-die Innenkontur nicht erneut.
+The lower divider connects only the two connections marked by the user. Its
+S-curve is compressed into this space and does not intersect the inner contour
+again.
 
-Der mittlere Trennsteg ist als ausgeprägte S-Kurve mit zwei
-Rahmenanschlüssen ausgeführt. Seine Anschlüsse, der Außenrahmen, die
-Stegbreite und die vierteilige Leuchtflächen-Aufteilung sind dabei festgelegt;
-nur die Bézier-Griffe der Kurve dürfen zur optischen Anpassung verändert
-werden.
+The middle divider is shaped as a pronounced S-curve with two frame connections.
+Its connections, the outer frame, divider width, and four-part illuminated
+panel layout are fixed; only the curve's Bézier handles may be changed for
+visual adjustment.
 
-Die Auslenkung der mittleren S-Kurve wurde danach etwa halbiert, ohne die
-beiden Rahmenanschlüsse oder die Segmentanzahl zu verschieben.
+The deflection of the middle S-curve was then reduced by about half, without
+moving either frame connection or changing the number of segments.
 
-Die linke Rückenlinie der Ziffer wurde oberhalb des mittleren Knickpunkts
-geglättet: Sie bleibt leicht geschwungen, enthält aber keine Einbuchtungen.
+The left back contour of the number was smoothed above the central bend: it
+remains slightly curved but has no indentations.
 
-Die rechte Außenkontur wurde am höheren Übergang oberhalb der unteren Rundung
-geglättet. Die darunterliegende Rundung bleibt unverändert, damit sie keinen
-unerwünschten Bauch erhält.
+The right outer contour was smoothed at the higher transition above the lower
+curve. The curve below remains unchanged so that it does not develop an
+undesired bulge.
 
-Der Übergang vom oberen Balken in die rechte Außenflanke ist mit einem kurzen,
-tangentialen Bogen abgerundet.
+The transition from the top bar to the right outer flank is rounded with a
+short, tangent arc.
 
-Die 3-mm-Auflagen folgen der gerundeten Offsetkontur der Rahmen- und
-Trennstegstruktur. Zusätzliche positive Anschlussverstärkungen werden nicht
-verwendet, damit die Auflagen an den Rahmenkontakten nicht in die
-Leuchtkammern ausbeulen.
-## Fertigungsannahmen
+The 3-mm supports follow the rounded offset contour of the frame and divider
+structure. No additional positive connection reinforcements are used, so the
+supports do not bulge into the illuminated chambers at the frame contacts.
 
-| Merkmal | Wert | Status |
+## Manufacturing Assumptions
+
+| Feature | Value | Status |
 | --- | ---: | --- |
-| Außenrahmenbreite in der Frontalebene | 1.0 mm | Nutzerkorrektur 15.09.2026 |
-| Trennstegbreite in der Frontalebene | 1.0 mm | Nutzerkorrektur 15.09.2026 |
-| Leuchtflächenstärke | 2.0 mm | druckbare Annahme |
-| Allgemeines Spiel der Leuchtflächen | 0.30 mm | Kobra-S1-Basiswert |
-| Auflagenstärke | 2.0 mm | druckbare Annahme |
+| Outer frame width in the front plane | 1.0 mm | user correction 15.09.2026 |
+| Divider width in the front plane | 1.0 mm | user correction 15.09.2026 |
+| Illuminated panel thickness | 2.0 mm | printable assumption |
+| General illuminated-panel clearance | 0.30 mm | Kobra S1 baseline value |
+| Support thickness | 2.0 mm | printable assumption |
 
-Die Ausgabe besteht aus zwei Druckdateien:
+The output consists of two print files:
 
-- `models/lampe-5-rahmen.3mf` enthält den transparenten Rückrahmen und den
-  schwarzen Frontrahmen als getrennte Materialobjekte in gemeinsamer Lage.
-- `models/lampe-5-leuchtflaechen.stl` enthält eine zusammenhängende,
-  durchscheinende Leuchtplatte, die mit 0,30 mm Spiel in den Rahmen passt.
+- `models/lampe-5-rahmen.3mf` contains the transparent rear frame and the black
+  front frame as separate material objects in the same position.
+- `models/lampe-5-leuchtflaechen.stl` contains a single translucent illuminated
+  panel that fits in the frame with 0,30 mm clearance.
 
-Die schwarzen Auflagen liegen bei Z=39–40 mm und schließen bündig mit der
-Rahmenvorderseite ab. Die 2-mm-Leuchtfläche wird von hinten eingelegt, liegt
-mit ihrer Vorderseite bei Z=38 mm an den Auflagen an und endet bei Z=36 mm.
-Zwölf kleine schwarze Rastnasen an der inneren Rahmenkante liegen bei
-Z=35,6–36,0 mm. Jede Nase ist eine 0,8 mm breite Wandlasche mit einem 0,6 mm
-tiefen Rahmenfuß und ragt nur 0,40 mm in die Öffnung. Dadurch bleiben die
-Nasen an der senkrechten Rahmeninnenseite verbunden und halten die Platte nach
-dem Einrasten gegen ein Herausfallen nach hinten.
-Die drei inneren Stege sind vollständig entfernt; nur ihre 1 mm hohen,
-schwarzen Auflageflächen bleiben erhalten und gliedern die durchgehende
-Leuchtplatte optisch. Der Außenrahmen bleibt über die volle Tiefe Z=20–40 mm
-erhalten.
+The black supports are at Z=39–40 mm and are flush with the front of the frame.
+The 2-mm illuminated panel is inserted from the rear; its front face rests on
+the supports at Z=38 mm and its back ends at Z=36 mm. Twelve small black
+retaining tabs on the inner frame edge are at Z=35,6–36,0 mm. Each tab is a
+0,8 mm wide wall flap with a 0,6 mm deep frame foot and projects only 0,40 mm
+into the opening. This keeps the tabs connected to the vertical inner frame
+surface and retains the panel against falling out backward once snapped into
+place.
+The three inner dividers have been removed completely; only their 1 mm high
+black support surfaces remain to visually subdivide the continuous illuminated
+panel. The outer frame remains intact across its full depth of Z=20–40 mm.
 
-Für den Druck ist die Rahmen-3MF um die X-Achse gewendet: Das schwarze
-Frontrahmen-Material liegt bei Z=0–20 mm auf dem Druckbett und wird zuerst
-gedruckt; der transparente Rückrahmen liegt darüber bei Z=20–40 mm.
+For printing, the frame 3MF is flipped around the X axis: the black front-frame
+material is on the build plate at Z=0–20 mm and prints first; the transparent
+rear frame is above it at Z=20–40 mm.
 
-Rahmen und Leuchtflächen passen jeweils auf das 250 × 250 mm Druckbett. Bei
-240 mm Bauteilhöhe bleiben jedoch nur 5 mm Rand pro Seite; Skirt oder Brim muss
-entsprechend schmal eingestellt werden. Der schwarze Rahmenteil enthält an den
-3-mm-Auflagen kurze Brücken und sollte mit aktivierter Brückenerkennung
-gedruckt werden. Die einteilige Leuchtfläche wird zentriert gedruckt und passt
-innerhalb des 250 × 250 mm Druckbetts.
+The frame and illuminated panels each fit on the 250 × 250 mm build plate. At a
+part height of 240 mm, however, only 5 mm of margin remain on each side, so the
+skirt or brim must be set accordingly narrow. The black frame part has short
+bridges at the 3-mm supports and should be printed with bridge detection
+enabled. The one-piece illuminated panel is printed centered and fits within
+the 250 × 250 mm build plate.
 
-## Renderkontrolle
+## Render Check
 
-Die Ansichten werden reproduzierbar mit
-`python scripts/render_lampe_5.py` aus derselben parametrischen Geometrie wie
-die Druckdateien erzeugt.
+The views are reproducibly generated from the same parametric geometry as the
+print files using `python scripts/render_lampe_5.py`.
 
-![Rahmendatei mit transparentem und schwarzem Bereich](images/lampe-5-rahmen.png)
+![Frame file with transparent and black sections](images/lampe-5-rahmen.png)
 
-![Leuchtflächen nebeneinander auf dem Druckbett](images/lampe-5-leuchtflaechen-druckbett.png)
+![Illuminated panels side by side on the build plate](images/lampe-5-leuchtflaechen-druckbett.png)

@@ -1,78 +1,76 @@
-# Gothic-Truhe: Relief-Quellen, Lizenzen und Druckvalidierung
+# Gothic Chest: Relief Sources, Licenses, and Print Validation
 
-Stand: Sculpting-Durchgang "organischer, fotorealistischer" Reliefs.
+Status: sculpting pass for "organic, photorealistic" reliefs.
 Betrifft `scripts/gothic_chest.py`, `scripts/blender_chest_reliefs.py`,
 `assets/gothic-chest-reliefs/*.npz`.
 
-## 1. Asset-Recherche und Lizenzentscheidung
+## 1. Asset Research and License Decision
 
-**Ergebnis: kein geeignetes, lizenzgeprüftes Asset gefunden — prozedural in
-Blender skulptiert.**
+**Result: no suitable, license-verified asset found — sculpted procedurally in
+Blender.**
 
-Gesucht wurde nach plan verwendbaren Flachreliefs (gotisches Ornament,
-Totenkopf, Drache, Schlange) mit klarer, derivat- und
-weiterverbreitungsfreundlicher Lizenz:
+The search looked for suitable flat reliefs (Gothic ornament, skull, dragon,
+snake) under a clear license permitting derivatives and redistribution:
 
-| Quelle | Ergebnis | Grund der Ablehnung |
+| Source | Result | Reason for rejection |
 | --- | --- | --- |
-| Sketchfab CC0-Sammlungen | Treffer, aber Rundplastiken | Vollplastische Scans, kein Basrelief; Umbau zu `z = f(x, y)` entspricht einer Neumodellierung |
-| Smithsonian Open Access | nicht zugänglich | API/Download mit HTTP 403 geblockt |
-| Scan the World / MyMiniFactory | Treffer | Lizenz überwiegend CC-BY-NC bzw. unklar, keine gesicherte Derivat-/Redistributionsfreigabe |
-| Thingiverse (CC0-Filter) | Treffer | Lizenzangaben inkonsistent zum tatsächlichen Upload, nicht verifizierbar |
-| Wikimedia Commons `Category:STL files` | wenige Treffer | keine gotischen Kreaturenreliefs in nutzbarer Qualität |
-| awesome-cc0 / öffentliche CC0-Listen | keine Treffer | kein passendes Motiv |
+| Sketchfab CC0 collections | matches, but full sculptures | Full 3D scans, not bas-reliefs; conversion to `z = f(x, y)` would amount to remodeling |
+| Smithsonian Open Access | inaccessible | API/download blocked with HTTP 403 |
+| Scan the World / MyMiniFactory | matches | predominantly CC-BY-NC or unclear licensing, with no verified permission for derivatives/redistribution |
+| Thingiverse (CC0 filter) | matches | license information inconsistent with the actual upload and unverifiable |
+| Wikimedia Commons `Category:STL files` | few matches | no Gothic creature reliefs in usable quality |
+| awesome-cc0 / public CC0 lists | no matches | no suitable motif |
 
-Es wird folglich **kein fremdes Asset verwendet, keine Attributionspflicht**.
-Sämtliche Geometrie ist Eigenerzeugnis dieses Repos und unterliegt der
-Repo-Lizenz.
+Accordingly, **no third-party asset is used and no attribution is required**.
+All geometry was created by this repository and is subject to the repository
+license.
 
-### Abgeleitetes Asset im Repo
+### Derived Asset in the Repository
 
-`assets/gothic-chest-reliefs/{front,rear,side,lid}.npz` + `manifest.json` sind
-zwischengespeicherte, auf 0..1 normalisierte Höhenfelder (Panel-Raster ca.
-0.58–0.65 mm). Sie sind reproduzierbar über:
+`assets/gothic-chest-reliefs/{front,rear,side,lid}.npz` + `manifest.json` are
+cached height fields normalized to 0..1 (panel grid approx. 0.58–0.65 mm). They
+can be reproduced with:
 
 ```powershell
 & "C:\Program Files\Blender Foundation\Blender 5.2\blender.exe" `
     --background --python scripts\blender_chest_reliefs.py
 ```
 
-Der Cache existiert nur, damit der Truhengenerator ohne Blender läuft.
+The cache exists only so that the chest generator can run without Blender.
 
 ## 2. Pipeline
 
-1. **Blender 5.2 headless** (`scripts/blender_chest_reliefs.py`): Motive aus
-   Metaball-Ketten (`ball`/`blob`/`chain`/`membrane`), Noise-Displacement,
-   Smooth-Shading → organische, verschmolzene Massen statt gestapelter
-   Primitive.
-2. **Höhenfeld-Extraktion** per BVH-Raycast von oben; Hohlformen (Augenhöhlen,
-   Nasenöffnung, Schläfengruben) werden 2D im Höhenfeld gesenkt.
-   *Nicht* per Blender-Boolean: der EXACT-Solver kippt bei dutzenden
-   überlappenden Ellipsoiden die Innen/Außen-Parität und zerstörte das Relief
-   (24 269 → 3 957 Faces).
-3. **Solid-Erzeugung** in `gothic_chest.py` (`_heightfield_solid`):
-   Binomial-Glättung, Rand auf 0 geklemmt, geschlossenes Gitterprisma mit
-   0.4 mm Rückenplatte.
-4. **Platzierung**: 45°-Scherung `y += z` → jedes Basrelief `z = f(x, y)` hat
-   danach konstruktionsbedingt keinen Überhang > 45°.
+1. **Blender 5.2 headless** (`scripts/blender_chest_reliefs.py`): motifs from
+   Metaball chains (`ball`/`blob`/`chain`/`membrane`), noise displacement,
+   smooth shading → organic, fused masses instead of stacked primitives.
+2. **Height-field extraction** via BVH raycast from above; cavities (eye sockets,
+   nose opening, temple depressions) are lowered in 2D in the height field.
+   *Not* with Blender Boolean: the EXACT solver flips interior/exterior parity
+   with dozens of overlapping ellipsoids and destroyed the relief (24 269 →
+   3 957 faces).
+3. **Solid generation** in `gothic_chest.py` (`_heightfield_solid`):
+   binomial smoothing, boundary clamped to 0, closed grid prism with a 0.4 mm
+   backing plate.
+4. **Placement**: 45° shear `y += z` → each bas-relief `z = f(x, y)` is
+   geometrically guaranteed to have no overhang > 45° afterward.
 
-## 3. Motivinventar
+## 3. Motif Inventory
 
-| Ort | Motive | Erhaben / vertieft | Tiefe | Restmaterial |
+| Location | Motifs | Raised / recessed | Depth | Remaining material |
 | --- | --- | --- | --- | --- |
-| Vorderwand | 2 Totenköpfe mit Schlangen, Ranken, 4 Voluten | erhaben, geschert | bis 2.43 mm über der Wand | Wand unberührt |
-| Rückwand | zentraler Brustkorb, 2 konfrontierte Wyvern (Kopf, Hörner, Zähne, Klauen, Flughaut), Voluten, Ranken | erhaben, geschert | bis 2.37 mm | Wand unberührt |
-| Seitenwände (2×) | Totenkopf mit Schlange, Voluten, Ranke | erhaben, geschert | bis 2.77 mm | Wand unberührt |
-| Deckel | geflügelter Totenkopf-Kartusche mit Schlangen und Voluten | erhaben, geschert | bis 3.0 mm | Deckel unberührt |
-| Pilaster (8 Außenflächen, je 3 Kanneluren) | gotische Kannelur | **vertieft** | 1.2 mm | 5.0 mm Stock → **3.8 mm**, über dem 1.8-mm-Minimum |
+| Front wall | 2 skulls with snakes, vines, 4 volutes | raised, sheared | up to 2.43 mm above the wall | wall untouched |
+| Rear wall | central rib cage, 2 facing wyverns (head, horns, teeth, claws, wings), volutes, vines | raised, sheared | up to 2.37 mm | wall untouched |
+| Side walls (2×) | skull with snake, volutes, vine | raised, sheared | up to 2.77 mm | wall untouched |
+| Lid | winged skull cartouche with snakes and volutes | raised, sheared | up to 3.0 mm | lid untouched |
+| Pilasters (8 outer faces, 3 flutes each) | Gothic fluting | **recessed** | 1.2 mm | 5.0 mm stock → **3.8 mm**, above the 1.8-mm minimum |
 
-Die Kanneluren sind senkrechte Kapseln mit kugeligen Enden: keine waagerechte
-Decke, keine scharfe Hinterschneidung — darum stützfrei.
+The flutes are vertical capsules with spherical ends: no horizontal ceiling, no
+sharp undercut — therefore no supports are needed.
 
-Die 2.0-mm-Wandfelder selbst werden **nicht** graviert: mit der
-sparsam getunten Schale bliebe dort unter 1.8 mm Restmaterial.
+The 2.0-mm wall panels themselves are **not** engraved: with the shell tuned
+for minimal material, less than 1.8 mm of material would remain there.
 
-## 4. Validierung
+## 4. Validation
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\gothic_chest.py
@@ -88,31 +86,31 @@ sparsam getunten Schale bliebe dort unter 1.8 mm Restmaterial.
 # Ran 6 tests - OK
 ```
 
-(Die `WARN not centered`-Meldung ist gewollt: die Truhe wird vom Exporter
-platziert.)
+(The `WARN not centered` message is intentional: the chest is positioned by
+the exporter.)
 
-## 5. Stütz-Gate (entscheidend)
+## 5. Support Gate (decisive)
 
-`scripts/audit_chest_support.py` erzeugt ein **identisches**
-OrcaSlicer-Projekt für Kontrolle und Dekoration — gleiche Prozess-, Maschinen-
-und Supporteinstellungen (automatischer Tree-Support aktiv), einziger
-Unterschied ist die Geometrie. Danach wird im G-Code die Pfadanzahl und die
-Summe der positiven E-Deltas unter `;TYPE:Support` /
-`;TYPE:Support interface` gezählt.
+`scripts/audit_chest_support.py` creates **identical**
+OrcaSlicer projects for the control and decorated versions — same process,
+machine, and support settings (automatic tree supports enabled); geometry is
+the only difference. The path count and sum of positive E deltas are then
+counted in the G-code under `;TYPE:Support` /
+`;TYPE:Support interface`.
 
-| Variante | Support-Pfade | Support-E | Filament |
+| Variant | Support paths | Support E | Filament |
 | --- | --- | --- | --- |
-| `build_chest(include_decoration=False)` (Kontrolle) | 71 | 82.376 | 188.61 g |
-| skulptierte Truhe | **71** | **82.376** | 196.51 g |
+| `build_chest(include_decoration=False)` (control) | 71 | 82.376 | 188.61 g |
+| sculpted chest | **71** | **82.376** | 196.51 g |
 
-**PASS — exakt stützneutral.** Der gesamte Support entsteht an Scharnier- und
-Deckelauflagen, nicht am Relief. Zum Vergleich der früher gemessene
-vollvertiefte Entwurf: 245 Pfade / 569.21 E.
+**PASS — exactly support-neutral.** All support is generated at the hinge and
+lid supports, not on the relief. For comparison, the previously measured
+fully recessed design: 245 paths / 569.21 E.
 
-Artefakte: `build/ornament-audit/audit-control.3mf`,
+Artifacts: `build/ornament-audit/audit-control.3mf`,
 `audit-sculpted.3mf`, `audit-*-slice/plate_1.gcode`, `audit-*-slice.log`.
 
-## 6. Bewertungs-Renders
+## 6. Evaluation Renders
 
 - `build/ornament-audit/render-chest-front.png`
 - `build/ornament-audit/render-chest-rear.png`
@@ -120,17 +118,16 @@ Artefakte: `build/ornament-audit/audit-control.3mf`,
 - `build/ornament-audit/render-chest-hero.png`
 - `build/ornament-audit/render-lid-top.png`
 - `build/ornament-audit/render-lid-raking.png`
-- Höhenfeld-/Hillshade-Previews: `height-*.png`, `shade-*.png`
+- Height-field/hillshade previews: `height-*.png`, `shade-*.png`
 
-## 7. Restrisiko
+## 7. Remaining Risks
 
-- Die Wyvern sind das schwächste Motiv: Kopf, Hörner und Flughaut lesen sich
-  klar, die Klauen bleiben bei 0.6 mm Düsenbreite grenzwertig fein.
-- Die Reliefspitzen liegen bei 2.4–3.0 mm; ein Nachschärfen der Tiefe würde das
-  Stütz-Gate erneut erfordern.
-- Der `.npz`-Cache muss nach jeder Blender-Änderung neu erzeugt werden, sonst
-  divergieren Skript und Geometrie.
-- Die lokale 28,2-mm-Deckelhöhe stammt von der geschlossenen Schutzhaube über
-  Yoke und Deckelkurbel, nicht von einer global verdickten Deckelschale. Die
-  Haube besitzt eine 2,0-mm-Dachhaut und eine nur nach innen offene
-  Montagekavität.
+- The wyverns are the weakest motif: the head, horns, and wings read clearly,
+  but the claws are borderline fine at a 0.6 mm nozzle width.
+- Relief peaks are 2.4–3.0 mm high; increasing their depth would require
+  repeating the support gate.
+- The `.npz` cache must be regenerated after every Blender change; otherwise,
+  the script and geometry will diverge.
+- The local 28,2-mm lid height comes from the closed protective cover over the
+  yoke and lid crank, not from a globally thickened lid shell. The cover has a
+  2,0-mm roof skin and an installation cavity open only to the inside.

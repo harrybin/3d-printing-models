@@ -1,18 +1,18 @@
-# Butterfly-Messer (`butterfly-messer`): Asset-Recherche & Lizenzentscheidung
+# Butterfly Knife (`butterfly-messer`): Asset Research & License Decision
 
-## 1. Suchergebnisse wiederverwendbarer 3D-Assets (`research-reusable-3d-assets`)
+## 1. Search Results for Reusable 3D Assets (`research-reusable-3d-assets`)
 
-Vor der Konstruktion wurde nach bestehenden Open-Source-SCAD-/CAD-/STL-Modellen für druckbare Balisong-/Butterfly-Messer und Trainer gesucht:
+Before modeling, existing open-source SCAD/CAD/STL models for printable Balisong/butterfly knives and trainers were searched:
 
-| Quelle / Repository | Autor | Lizenz | Geometrische Eignung | Entscheidung |
+| Source / repository | Author | License | Geometric suitability | Decision |
 | --- | --- | --- | --- | --- |
-| [ferretallicA/balisong-v2](https://github.com/ferretallicA/balisong-v2) (`balisong.scad`) | ferretallicA | Keine Lizenzdatei im Repository (`All Rights Reserved` per GitHub-Standard) | OpenSCAD-Balisong mit einfachen zylindrischen Pins, ohne klassische Skelett-Lochung (5 große + 6×2 kleine Bohrungen), ohne integrierten Zen-Pin-Anschlag und ohne werkzeuglose D-Bolzen/U-Clip-Sicherung | **Nur Referenz (`reference-only`)** — keine Lizenz zur Weiterverbreitung/Bearbeitung |
-| [j557/balisong](https://github.com/j557/balisong) (`main.scad`, `balisong.stl`) | j557 | Keine Lizenzdatei im Repository (`All Rights Reserved` per GitHub-Standard) | Print-in-Place-Prototyp ohne getrennte Mehrfarb-Baugruppen, ohne Spachtel-/Kratzer-Schneide und ohne rastbaren T-Latch | **Nur Referenz (`reference-only`)** — unklare Lizenz & abweichende Funktionsarchitektur |
+| [ferretallicA/balisong-v2](https://github.com/ferretallicA/balisong-v2) (`balisong.scad`) | ferretallicA | No license file in repository (`All Rights Reserved` by GitHub default) | OpenSCAD Balisong with simple cylindrical pins, without the classic skeletonized hole pattern (5 large + 6×2 small holes), integrated Zen-pin stop, or tool-free D-bolt/U-clip retention | **Reference only (`reference-only`)** — no license to redistribute or modify |
+| [j557/balisong](https://github.com/j557/balisong) (`main.scad`, `balisong.stl`) | j557 | No license file in repository (`All Rights Reserved` by GitHub default) | Print-in-place prototype without separate multicolor assemblies, a putty/scraper edge, or a locking T-latch | **Reference only (`reference-only`)** — unclear license and different functional architecture |
 
-## 2. Gewählte Strategie (`asset_strategy = rebuild`, `modeling_route = python`)
+## 2. Selected Strategy (`asset_strategy = rebuild`, `modeling_route = python`)
 
-- **Strategie:** Vollständige parametrische Neukonstruktion (`rebuild`) in [`scripts/butterfly_messer.py`](../scripts/butterfly_messer.py) auf Basis:
-  1. des vom Benutzer bereitgestellten Referenzfotos ([`model-sources/archiv/butterfly-messer-referenzfotos-index.png`](../model-sources/archiv/butterfly-messer-referenzfotos-index.png), Kachel `00`),
-  2. publizierter Standard-Balisong-Abmessungen (Benchmade 42 / klassisches 5-Loch-Edelstahl-Balisong mit T-Latch) und
-  3. der im Benutzer-Interview festgelegten FDM-Konstruktionsparameter für den **Anycubic Kobra S1 Combo + ACE Pro**.
-- **Warum Python statt Blender (`modeling_route = python`):** Alle 14 Bauteile sind technisch-funktionale, toleranzkritische Geometrien (Drehgelenke mit `0.30 mm` Radialspiel, verdrehgesicherte D-Bolzen, rastende U-Clips mit `0.15 mm` Sitz, Zen-Pin-Anschlaggeometrie für `0°` und `180°`, sowie eine beidseitig im 45°-Winkel gefaste Spachtel-/Kratzer-Klinge).
+- **Strategy:** Complete parametric rebuild (`rebuild`) in [`scripts/butterfly_messer.py`](../scripts/butterfly_messer.py), based on:
+  1. the reference photo provided by the user ([`model-sources/archiv/butterfly-messer-referenzfotos-index.png`](../model-sources/archiv/butterfly-messer-referenzfotos-index.png), tile `00`),
+  2. published standard Balisong dimensions (Benchmade 42 / classic 5-hole stainless-steel Balisong with T-latch), and
+  3. FDM design parameters for the **Anycubic Kobra S1 Combo + ACE Pro** established during the user interview.
+- **Why Python rather than Blender (`modeling_route = python`):** All 14 parts have technical, functional, tolerance-critical geometry (pivots with `0.30 mm` radial clearance, anti-rotation D-bolts, snap-fit U-clips with `0.15 mm` fit, Zen-pin stop geometry for `0°` and `180°`, and a putty/scraper blade with a double-sided 45° bevel).

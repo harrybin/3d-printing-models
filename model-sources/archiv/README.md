@@ -1,17 +1,17 @@
-# Archiv der Referenzbilder
+# Reference Image Archive
 
-Die Rohfotos und Analyse-Renderings wurden entfernt, nachdem die zugehoerigen
-Modelle fertig waren. Erhalten bleiben die nummerierten Kontaktblaetter, damit
-die Kachelnummern in den Massdokumenten unter `docs/` weiterhin nachvollziehbar
-sind.
+The source photos and analysis renders were removed after their corresponding
+models were completed. The numbered contact sheets are retained so that the
+tile numbers referenced in the measurement documents under `docs/` remain
+traceable.
 
 ## duschscharnier_ersatz-referenzfotos-index.png
 
-Kontaktblatt der 25 Referenzfotos zu `models/duschscharnier_ersatz.stl`
-(Generator: `scripts/duschscharnier_ersatz.py`, Masse:
+Contact sheet of the 25 reference photos for `models/duschscharnier_ersatz.stl`
+(generator: `scripts/duschscharnier_ersatz.py`, measurements:
 `docs/duschscharnier_ersatz_masse.md`).
 
-| Kachel | Originaldatei |
+| Tile | Original file |
 | ---: | --- |
 | 00 | model-sources/PXL_20260813_201653591.jpg |
 | 01 | model-sources/PXL_20260813_201713762.jpg |
@@ -41,11 +41,11 @@ Kontaktblatt der 25 Referenzfotos zu `models/duschscharnier_ersatz.stl`
 
 ## duschscharnier_ersatz-analyse-index.png
 
-Kontaktblatt der Analyse-Artefakte (Schieblehren-Overlays aus
-`scripts/mess_hilfe.py`, STL-Renderings und Videostandbilder aus
+Contact sheet of analysis artifacts (caliper overlays from
+`scripts/mess_hilfe.py`, STL renders, and video stills from
 `scripts/render_vergleich.py`).
 
-| Kachel | Originaldatei |
+| Tile | Original file |
 | ---: | --- |
 | 00-07 | model-sources/analyse/late_00.png .. late_07.png |
 | 08 | model-sources/analyse/PXL_20260813_202536941_ruler.png |
@@ -56,86 +56,85 @@ Kontaktblatt der Analyse-Artefakte (Schieblehren-Overlays aus
 
 ## waeschespinne-reduzierring-referenzfotos-index.png
 
-Kontaktblatt der vier Referenzfotos zu
+Contact sheet of the four reference photos for
 `models/waeschespinne-reduzierring-67-50.2.stl` (Generator:
-`scripts/waeschespinne_reduzierring.py`, Maße:
+`scripts/waeschespinne_reduzierring.py`, measurements:
 `docs/waeschespinne-reduzierring-masse.md`).
 
-Hinweis: Die auf diesen Fotos abgelesenen Durchmesser sind überholt. Gültig sind
-die neu benutzerbestätigten Maße 50,20 mm (Mast) und 67,00 mm (Hülse) vom
-2026-09-27; die zwischenzeitliche 60,00-mm-Hülsenannahme ist ebenfalls überholt.
+Note: The diameters read from these photos are outdated. The valid dimensions
+are the newly user-confirmed 50,20 mm (pole) and 67,00 mm (sleeve) from
+2026-09-27; the interim 60,00-mm sleeve assumption is also outdated.
 
-| Kachel | Originaldatei | Nachweis |
+| Tile | Original file | Evidence |
 | ---: | --- | --- |
-| 00 | PXL_20260916_153058161.jpg | Mast-Außendurchmesser, Fotoablesung 43,04 mm (überholt) |
-| 01 | PXL_20260916_153113313.jpg | Hülsen-Innendurchmesser, Fotoablesung 60,48 mm (überholt) |
-| 02 | PXL_20260916_153155947.jpg | schwarzer Fehldruck, Messung 35,85 mm |
-| 03 | PXL_20260916_153218515.jpg | schwarzer Fehldruck, Messung 52,11 mm |
+| 00 | PXL_20260916_153058161.jpg | Pole outer diameter, photo reading 43,04 mm (outdated) |
+| 01 | PXL_20260916_153113313.jpg | Sleeve inner diameter, photo reading 60,48 mm (outdated) |
+| 02 | PXL_20260916_153155947.jpg | Black failed print, measurement 35,85 mm |
+| 03 | PXL_20260916_153218515.jpg | Black failed print, measurement 52,11 mm |
 
 ## modellauto-reifen-referenzfotos-index.png
 
-Modellauto-Ersatzreifen (`scripts/modellauto_reifen.py`,
-`docs/modellauto-reifen-masse.md`). Fotos vom 2026-10-10.
+Model-car replacement tire (`scripts/modellauto_reifen.py`,
+`docs/modellauto-reifen-masse.md`). Photos from 2026-10-10.
 
-| Kachel | Originaldatei | Nachweis |
+| Tile | Original file | Evidence |
 | ---: | --- | --- |
-| 00 | PXL_20261010_115638099.jpg | Felgenbreite axial 23,20 mm |
-| 01 | PXL_20261010_115826962.jpg | Wandstärke Originalreifen-Bruchstück 2,05 mm |
-| 02 | PXL_20261010_115705004.jpg | vorderer Felgenring Ø 22,54 mm |
-| 03 | PXL_20261010_115723187.jpg | Übersicht Achse, intakter Reifen, Felge ohne Reifen |
-| 04 | PXL_20261010_115612975.jpg | Rippenkranz Ø 33,74 mm |
-| 05 | PXL_20261010_115756377.jpg | umlaufender Ring im Rippenkranz 2,29 mm |
+| 00 | PXL_20261010_115638099.jpg | Axial rim width 23,20 mm |
+| 01 | PXL_20261010_115826962.jpg | Original tire fragment wall thickness 2,05 mm |
+| 02 | PXL_20261010_115705004.jpg | Front rim ring Ø 22,54 mm |
+| 03 | PXL_20261010_115723187.jpg | Overview of axle, intact tire, and rim without tire |
+| 04 | PXL_20261010_115612975.jpg | Rib ring Ø 33,74 mm |
+| 05 | PXL_20261010_115756377.jpg | Circumferential ring in rib ring, 2,29 mm |
 
-Neue Kontaktblaetter erzeugt man mit
+Create new contact sheets with
 `python scripts/make_contact_sheet.py <bildordner> --out model-sources/archiv/<modell>-index.png`.
 
 ## Ghoul's Grip
 
-Die zwei Konzeptbilder bleiben waehrend der Prototypenphase unter
-`model-sources/ghouls-grip/`; das nummerierte Kontaktblatt ist `_index.png`.
+The two concept images remain under `model-sources/ghouls-grip/` during
+prototyping; the numbered contact sheet is `_index.png`.
 
-| Kachel | Originaldatei | Verwendung |
+| Tile | Original file | Use |
 | ---: | --- | --- |
-| 00 | 01-blueprint-concept.jpg | Stil, Scherenhub, Totenkopf-Ausloeser |
-| 01 | 02-render-concept.jpg | Materialwirkung, offene Suessigkeiten-Hand |
+| 00 | 01-blueprint-concept.jpg | Style, scissor motion, skull trigger |
+| 01 | 02-render-concept.jpg | Material appearance, open candy hand |
 
 ## drache-referenzfotos-index.png
 
-Kontaktblatt der 25 aus dem Referenzvideo (`PXL_20261014_105222309.mp4`) extrahierten Standbilder zu `models/drache-view.3mf`, `models/drache-print.3mf` und `models/drache.stl` (Generatoren: `scripts/build_drache_blender.py` und `scripts/drache.py`, Maße: `docs/drache-masze.md`, Prüfbericht: `docs/drache-montage-und-kollisionspruefung.md`).
+Contact sheet of the 25 stills extracted from the reference video (`PXL_20261014_105222309.mp4`) for `models/drache-view.3mf`, `models/drache-print.3mf`, and `models/drache.stl` (generators: `scripts/build_drache_blender.py` and `scripts/drache.py`, measurements: `docs/drache-masze.md`, verification report: `docs/drache-montage-und-kollisionspruefung.md`).
 
-| Kachel | Originaldatei | Nachweis / Perspektive |
+| Tile | Original file | Evidence / perspective |
 | ---: | --- | --- |
-| 00 | frame_01_f0000.jpg | Vorderansicht schräg rechts mit 2-Euro-Münze |
-| 01 | frame_02_f0032.jpg | Vorderansicht mit 2-Euro-Münze |
-| 02 | frame_03_f0064.jpg | Haupt-Vorderansicht mit 2-Euro-Münze (Kalibrierreferenz 25,75 mm) |
-| 03 | frame_04_f0096.jpg | Schrägansicht rechts vorn |
-| 04 | frame_05_f0128.jpg | Seitenansicht rechts |
-| 05 | frame_06_f0160.jpg | Seitenansicht rechts hinten |
-| 06 | frame_07_f0192.jpg | Rück-/Seitenansicht rechts |
-| 07 | frame_08_f0224.jpg | Rückansicht mit roter/schwarzer Schwanzflosse (weggelassener Fabrikcode `41204AFS`) |
-| 08 | frame_09_f0256.jpg | Rückansicht schräg links |
-| 09 | frame_10_f0288.jpg | Schrägansicht hinten links, Rückenkamm-Noppen |
-| 10 | frame_11_f0320.jpg | Seitenansicht links hinten |
-| 11 | frame_12_f0352.jpg | Seitenansicht links |
-| 12 | frame_13_f0384.jpg | Haupt-Seitenansicht links (Längen- und Höhenkalibrierung) |
-| 13 | frame_14_f0416.jpg | Schrägansicht links vorn |
-| 14 | frame_15_f0448.jpg | Vorderansicht schräg links |
-| 15 | frame_16_f0480.jpg | Vorderansicht Augen & Ohrenhörner |
-| 16 | frame_17_f0512.jpg | Schrägansicht oben vorn |
-| 17 | frame_18_f0544.jpg | Draufsicht schräg, Flügelspannweite & Sattelkragen |
-| 18 | frame_19_f0576.jpg | Detailaufnahme rote Schwanzflossen-Prothese mit weißem Schädel-Emblem |
-| 19 | frame_20_f0608.jpg | Detailaufnahme Schwanzflosse & Flügelkante |
-| 20 | frame_21_f0640.jpg | Detailaufnahme Kopf & grüne Augen |
-| 21 | frame_22_f0672.jpg | Detailaufnahme Brust, Vorderpfoten & Krallen |
-| 22 | frame_23_f0704.jpg | Schrägansicht von oben mit 2-Euro-Münze |
-| 23 | frame_24_f0736.jpg | Draufsicht Gesamtproportionen mit 2-Euro-Münze |
-| 24 | frame_25_f0768.jpg | Abschlussansicht mit 2-Euro-Münze |
+| 00 | frame_01_f0000.jpg | Oblique front view from the right with 2-euro coin |
+| 01 | frame_02_f0032.jpg | Front view with 2-euro coin |
+| 02 | frame_03_f0064.jpg | Main front view with 2-euro coin (25,75 mm calibration reference) |
+| 03 | frame_04_f0096.jpg | Oblique front-right view |
+| 04 | frame_05_f0128.jpg | Right-side view |
+| 05 | frame_06_f0160.jpg | Right rear-side view |
+| 06 | frame_07_f0192.jpg | Rear/right-side view |
+| 07 | frame_08_f0224.jpg | Rear view with red/black tail fin (omitted factory code `41204AFS`) |
+| 08 | frame_09_f0256.jpg | Oblique rear-left view |
+| 09 | frame_10_f0288.jpg | Oblique rear-left view, dorsal spikes |
+| 10 | frame_11_f0320.jpg | Rear-left side view |
+| 11 | frame_12_f0352.jpg | Left-side view |
+| 12 | frame_13_f0384.jpg | Main left-side view (length and height calibration) |
+| 13 | frame_14_f0416.jpg | Oblique front-left view |
+| 14 | frame_15_f0448.jpg | Oblique front view from the left |
+| 15 | frame_16_f0480.jpg | Front view of eyes & ear horns |
+| 16 | frame_17_f0512.jpg | Oblique front/top view |
+| 17 | frame_18_f0544.jpg | Oblique top view, wingspan & saddle collar |
+| 18 | frame_19_f0576.jpg | Close-up of red tail-fin prosthesis with white skull emblem |
+| 19 | frame_20_f0608.jpg | Close-up of tail fin & wing edge |
+| 20 | frame_21_f0640.jpg | Close-up of head & green eyes |
+| 21 | frame_22_f0672.jpg | Close-up of chest, front paws & claws |
+| 22 | frame_23_f0704.jpg | Oblique top view with 2-euro coin |
+| 23 | frame_24_f0736.jpg | Overall proportions from above with 2-euro coin |
+| 24 | frame_25_f0768.jpg | Final view with 2-euro coin |
 
 ## butterfly-messer-referenzfotos-index.png
 
-Kontaktblatt des Referenzfotos zu `models/butterfly-messer-view.3mf`, `models/butterfly-messer-print.3mf` und `models/butterfly-messer.stl` (Generator: `scripts/butterfly_messer.py`, Quellen & Lizenzen: `docs/butterfly-messer-quellen-und-lizenzen.md`, Maße & Mechanik: `docs/butterfly-messer-masse-und-mechanik.md`, Druckvalidierung: `docs/butterfly-messer-druckvalidierung.md`).
+Contact sheet of the reference photo for `models/butterfly-messer-view.3mf`, `models/butterfly-messer-print.3mf`, and `models/butterfly-messer.stl` (generator: `scripts/butterfly_messer.py`, sources & licenses: `docs/butterfly-messer-quellen-und-lizenzen.md`, dimensions & mechanics: `docs/butterfly-messer-masse-und-mechanik.md`, print validation: `docs/butterfly-messer-druckvalidierung.md`).
 
-| Kachel | Originaldatei | Nachweis / Perspektive |
+| Tile | Original file | Evidence / perspective |
 | ---: | --- | --- |
-| 00 | 01-referenz-balisong.png | Klassisches skelettiertes Edelstahl-Butterfly-Messer (geschlossen & verriegelt oben auf schwarzem Etui, geöffnet mit T-Latch unten) |
-
+| 00 | 01-referenz-balisong.png | Classic skeletonized stainless-steel butterfly knife (closed & locked at the top on a black case, open with T-latch at the bottom) |
