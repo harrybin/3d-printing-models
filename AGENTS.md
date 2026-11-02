@@ -179,20 +179,44 @@ If behavior around print constraints, validation policy, or coordinate targeting
   S1/nozzle/process/filament profiles when OrcaSlicer is available. Record print
   time and material only from a successful slice.
 - Generated OrcaSlicer 3MF projects MUST always use layer height `<= 0.16 mm`
-  (`layer_height=0.16` default), random seam placement (`seam_position=random`),
-  ironing on all top surfaces (`ironing_type=top`), and enabled automatic tree
-  supports (`enable_support=1`, `support_type=tree(auto)`) with a 1-layer Z
+  (`layer_height=0.16` default), random seam placement (`seam_position=random` /
+  UI **"Nahtposition: Zufall"**), ironing on all top surfaces (`ironing_type=top`,
+  which is the exact internal OrcaSlicer / AnycubicSlicerNext enum for UI
+  **"Bügeln: Alle Oberflächen" / "All top surfaces"** — never use `"all"` or
+  `"all solid"`, which are invalid and disable ironing), and enabled automatic
+  tree supports (`enable_support=1`, `support_type=tree(auto)`) with a 1-layer Z
   contact distance (`support_top_z_distance=0.16`,
   `support_bottom_z_distance=0.16`, matching `layer_height`) for easy support
   removal after printing, unless a documented part-specific reason requires an
   exception. Support stays on so that a zero-support slice is proven geometry,
   never a disabled setting.
-- New complex assemblies use exactly two 3MF deliverables:
-  `models/<name>-view.3mf` contains the fully assembled object, with separate
-  plates for other meaningful mechanism states; `models/<name>-print.3mf`
-  contains the complete print BOM. Group parts of each material/color together
-  and use multiple plates as needed instead of splitting the project into
-  per-material files. Optional part STLs do not replace these files.
+- **3MF `Metadata/project_settings.config` persistence rule (GUI & CLI parity):**
+  In OrcaSlicer / AnycubicSlicerNext 3MF archives, `different_settings_to_system`
+  is an array ordered `[process_overrides, machine_overrides, filament_1_overrides, ...]`.
+  Every custom process setting (`seam_position`, `ironing_type`, `layer_height`,
+  `wall_loops`, `enable_support`, `support_type`, etc.) **MUST** be listed in
+  `different_settings_to_system[0]` (semicolon-separated) in addition to setting
+  its key-value pair in `Metadata/project_settings.config`. Leaving
+  `different_settings_to_system[0]` empty (or placing process keys in index `1`)
+  causes GUI slicers to discard the project's process overrides and revert to
+  system defaults (`seam_position=aligned`, `ironing_type=no ironing`). When
+  exporting via `orca-slicer.exe --export-3mf`, also normalize
+  `"version": "2.0.0.3"`, `"print_settings_id": "0.16mm Standard @Anycubic Kobra S1 0.4 nozzle"`,
+  `Application = BambuStudio-2.0.0.3` in `3D/3dmodel.model`, and strip newer
+  OrcaSlicer-only keys not recognized by AnycubicSlicerNext `2.0.0.3` so the 3MF
+  loads without version warnings or dropped settings.
+- **Minimal 3MF-only deliverable policy (`-view.3mf` + `-print.3mf` only):**
+  New and revised 3MF-capable models and multi-variant projects produce **only**
+  the two 3MF deliverables `models/<name>-view.3mf` (assembled presentation /
+  multi-state view) and `models/<name>-print.3mf` (complete print BOM with Kobra
+  S1 profiles, filament mapping, and process overrides). Do **not** export
+  standalone `models/*.stl` variant files, duplicate single-part STLs, or
+  separate STL test coupons when the geometry already lives in the `-print.3mf`
+  and `-view.3mf` deliverables; keep `catalog.json` `outputs` for such models
+  restricted to `models/<name>-print.3mf` and `models/<name>-view.3mf` (existing
+  legacy STL entries for older untouched models remain intact until revised).
+  Group parts of each material/color together and use multiple plates as needed
+  instead of splitting the project into per-material files.
 - Prefer separately printed, keyed color bodies over purge-heavy in-place
   multicolor when assembly, strength, and appearance remain acceptable.
 - Standard 3D-printing filament used as raw hinge/retainer wire is always

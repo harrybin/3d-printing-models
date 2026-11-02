@@ -118,9 +118,10 @@ CONNECTOR_CLEARANCE = 0.12  # per-side clearance between saddle and hood
 BODY_NET_LENGTH = MAX_TOTAL_LENGTH - CONNECTOR_LENGTH  # 232.00 mm modular step per channel
 
 # Saddle & Hood cross-section parameters (YZ plane, scaled to 6.80 mm outer width & Ø 4.30 mm bore)
-Y_SADDLE_SPINE = 1.45  # 2.90 mm wide flush front face on Z = 0.00 mm
+# Updated for 100% self-supporting overhangs (>= 47.4° everywhere) and wide 1.03 mm first-layer bed feet on +X hood:
+Y_SADDLE_SPINE = 1.15  # 2.30 mm wide flush front face on Z = 0.00 mm (widens +X hood Z=0 bed feet to 1.03 mm/side)
 Y_SADDLE_BASE = 2.50   # Inner saddle half-width (leaves 0.35 mm saddle wall around R=2.15 bore and 0.78 mm outer hood cheek)
-Z_SADDLE_SHOULDER = 1.32  # >= 45° slope from (1.45, 0) to (2.70, 1.32) even at T-key rib -> 0.00 g support
+Z_SADDLE_SHOULDER = 1.68  # >= 47.4° slope from (1.15, 0) to (2.70, 1.68) even at T-key rib -> 0.00 g support in all slicers
 Z_SADDLE_APEX = 5.40
 
 # Vertical T-key rib (locks ±X when pressed on from the front)
@@ -131,8 +132,8 @@ KEY_SLOT_DEPTH = 0.22      # widens hood slot from ±2.62 to ±2.84 mm
 
 # Horizontal snap-detent bead along Z (clicks when pressed on from the front)
 Z_SNAP_BEAD = 3.35
-SNAP_BEAD_PROTRUSION = 0.18  # y_bead = 2.68 mm > 2.62 mm hood throat -> 0.06 mm/side click interference
-SNAP_GROOVE_DEPTH = 0.20     # y_groove = 2.82 mm > 2.68 mm -> 0.14 mm seated clearance (0.0000 mm^3 collision)
+SNAP_BEAD_PROTRUSION = 0.16  # y_bead = 2.66 mm > 2.62 mm hood throat -> 0.04 mm/side click interference (>= 63.4° slope)
+SNAP_GROOVE_DEPTH = 0.18     # y_groove = 2.80 mm > 2.66 mm -> 0.14 mm seated clearance (0.0000 mm^3 collision)
 
 
 @dataclass(frozen=True)
@@ -219,10 +220,10 @@ def _male_outer_profile_yz(delta_y_key: float = 0.0) -> np.ndarray:
     y_spine = Y_SADDLE_SPINE
     y_base = Y_SADDLE_BASE + delta_y_key
     y_bead = y_base + (SNAP_BEAD_PROTRUSION if delta_y_key >= 0.0 else 0.0)
-    z_sh = Z_SADDLE_SHOULDER
-    z_b0 = Z_SNAP_BEAD - 0.32
+    z_sh = Z_SADDLE_SHOULDER + 1.10 * max(0.0, delta_y_key)
+    z_b0 = Z_SNAP_BEAD - 0.42
     z_b1 = Z_SNAP_BEAD
-    z_b2 = Z_SNAP_BEAD + 0.32
+    z_b2 = Z_SNAP_BEAD + 0.42
 
     pts = [
         (-y_spine, 0.0),
@@ -248,9 +249,9 @@ def _female_socket_profile_yz(clearance: float = CONNECTOR_CLEARANCE, delta_y_ke
     y_base = Y_SADDLE_BASE + c + delta_y_key
     y_groove = y_base + SNAP_GROOVE_DEPTH
     z_sh = max(0.25, Z_SADDLE_SHOULDER - 0.15)
-    z_b0 = Z_SNAP_BEAD - 0.40
+    z_b0 = Z_SNAP_BEAD - 0.48
     z_b1 = Z_SNAP_BEAD
-    z_b2 = Z_SNAP_BEAD + 0.40
+    z_b2 = Z_SNAP_BEAD + 0.48
 
     pts = [
         (-y_spine, -0.20),
@@ -938,8 +939,45 @@ def build_print_3mf(variant_meshes: dict[str, trimesh.Trimesh], out_path: Path) 
 
         proj_key = "Metadata/project_settings.config"
         project = json.loads(entries[proj_key].decode("utf-8"))
+        # Strip OrcaSlicer 2.4.2-only keys that AnycubicSlicerNext 2.0.0.3 flags as unrecognized
+        # when loading 3MF project settings, and set version="2.0.0.3" for full cross-slicer compatibility:
+        unrecognized_acnext_keys = {
+            "activate_air_filtration_during_print", "activate_air_filtration_on_completion",
+            "additional_fan_full_speed_layer", "bed_temperature_formula", "bridge_line_width",
+            "brim_use_efc_outline", "chamber_minimal_temperature", "close_additional_fan_first_x_layers",
+            "combine_brims", "compatible_machine_expression_group", "compatible_printers_condition",
+            "compatible_process_expression_group", "elefant_foot_layers_density", "enable_power_loss_recovery",
+            "enable_tower_interface_cooldown_during_tower", "enable_tower_interface_features",
+            "enable_wrapping_detection", "extruder_ams_count", "extruder_printable_area",
+            "extruder_printable_height", "extruder_type", "filament_adaptive_volumetric_speed",
+            "filament_adhesiveness_category", "filament_change_extrusion_role_gcode", "filament_change_length",
+            "filament_cooling_before_tower", "filament_extruder_variant", "filament_flush_temp",
+            "filament_flush_volumetric_speed", "filament_ironing_flow", "filament_ironing_inset",
+            "filament_ironing_spacing", "filament_ironing_speed", "filament_printable", "filament_self_index",
+            "filament_tower_interface_pre_extrusion_dist", "filament_tower_interface_pre_extrusion_length",
+            "filament_tower_interface_print_temp", "filament_tower_interface_purge_volume",
+            "filament_tower_ironing_area", "file_start_gcode", "first_x_layer_fan_speed",
+            "fuzzy_skin_layers_between_ripple_offset", "fuzzy_skin_ripple_offset",
+            "fuzzy_skin_ripples_per_layer", "grab_length", "gyroid_optimized",
+            "initial_layer_travel_acceleration", "initial_layer_travel_jerk", "input_shaping_damp_x",
+            "input_shaping_damp_y", "input_shaping_emit", "input_shaping_freq_x", "input_shaping_freq_y",
+            "input_shaping_type", "ironing_angle_fixed", "lightning_overhang_angle", "lightning_prune_angle",
+            "lightning_straightening_angle", "long_retractions_when_ec", "master_extruder_id",
+            "nozzle_flush_dataset", "parallel_printheads_bed_exclude_areas", "parallel_printheads_count",
+            "part_cooling_fan_min_pwm", "physical_extruder_map", "prime_tower_enable_framework",
+            "prime_tower_flat_ironing", "prime_tower_infill_gap", "prime_tower_skip_points",
+            "print_extruder_id", "print_extruder_variant", "printer_extruder_id", "printer_extruder_variant",
+            "process_change_extrusion_role_gcode", "process_settings_id", "relative_bridge_angle",
+            "retraction_distances_when_ec", "support_object_skip_flush", "support_parallel_printheads",
+            "tool_change_on_wipe_tower", "use_3mf", "volumetric_speed_coefficients", "wall_maximum_deviation",
+            "wall_maximum_resolution", "wrapping_detection_gcode", "wrapping_detection_layers",
+            "wrapping_exclude_area", "zaa_dont_alternate_fill_direction", "zaa_enabled", "zaa_min_z",
+            "zaa_minimize_perimeter_height",
+        }
+        for uk in unrecognized_acnext_keys:
+            project.pop(uk, None)
+
         process_overrides = {
-            "curr_bed_type": "Textured PEI Plate",
             "layer_height": "0.16",
             "initial_layer_print_height": "0.2",
             "wall_loops": "2",
@@ -965,6 +1003,9 @@ def build_print_3mf(variant_meshes: dict[str, trimesh.Trimesh], out_path: Path) 
             "only_one_wall_top": "0",
         }
         project.update(process_overrides)
+        project["curr_bed_type"] = "Textured PEI Plate"
+        project["version"] = "2.0.0.3"
+        project["print_settings_id"] = "0.16mm Standard @Anycubic Kobra S1 0.4 nozzle"
         colors = [WHITE_PLA.color_hex.upper()]
         profile_name = FILAMENT_PRESET.stem
         for key, value in list(project.items()):
@@ -979,33 +1020,48 @@ def build_print_3mf(variant_meshes: dict[str, trimesh.Trimesh], out_path: Path) 
         project["filament_settings_id"] = [profile_name]
         project["filament_type"] = ["PLA"]
         project["filament_map"] = ["1"]
-        project["filament_self_index"] = ["1"]
-        project["filament_printable"] = ["3"]
         project["filament_is_support"] = ["0"]
-        project["print_extruder_id"] = ["1"]
-        project["printer_extruder_id"] = ["1"]
-        project["process_settings_id"] = BASE_PROCESS.stem
+        project["inherits_group"] = ["", "", ""]
 
-        changed = set(project.get("different_settings_to_system", ["", "", ""])[1].split(";"))
-        changed.update(process_overrides.keys())
-        changed.update({
+        # CRITICAL: In OrcaSlicer / AnycubicSlicerNext 3MF schema:
+        #   different_settings_to_system[0] = process overrides (seam_position, ironing_type, layer_height, wall_loops, etc.)
+        #   different_settings_to_system[1] = machine overrides (curr_bed_type, extruder_colour, etc.)
+        #   different_settings_to_system[2] = filament 1 overrides (default_filament_colour, filament_settings_id, etc.)
+        proc_changed = set(process_overrides.keys())
+        mach_changed = {
+            "curr_bed_type",
             "default_filament_colour",
             "default_filament_profile",
             "extruder_colour",
+            "flush_volumes_matrix",
+            "flush_volumes_vector",
+        }
+        fil_changed = {
+            "default_filament_colour",
             "filament_colour",
             "filament_settings_id",
             "filament_map",
-            "filament_self_index",
             "filament_type",
-            "flush_volumes_matrix",
-            "flush_volumes_vector",
-            "print_extruder_id",
-            "printer_extruder_id",
-        })
-        current = project.get("different_settings_to_system", ["", "", ""])
-        current[1] = ";".join(sorted(changed - {""}))
-        project["different_settings_to_system"] = current
+        }
+        project["different_settings_to_system"] = [
+            ";".join(sorted(proc_changed)),
+            ";".join(sorted(mach_changed)),
+            ";".join(sorted(fil_changed)),
+        ]
         entries[proj_key] = json.dumps(project, indent=2).encode("utf-8")
+        if "3D/3dmodel.model" in entries:
+            entries["3D/3dmodel.model"] = entries["3D/3dmodel.model"].replace(
+                b"BambuStudio-02.06.00.51", b"BambuStudio-2.0.0.3"
+            )
+        entries["Metadata/slice_info.config"] = (
+            '<?xml version="1.0" encoding="UTF-8"?>\n'
+            "<config>\n"
+            "  <header>\n"
+            '    <header_item key="X-ACNext-Client-Type" value="slicer"/>\n'
+            '    <header_item key="X-ACNext-Client-Version" value="2.0.0.3 20260904033713"/>\n'
+            "  </header>\n"
+            "</config>\n"
+        ).encode("utf-8")
 
         mod_key = "Metadata/model_settings.config"
         root = ET.fromstring(entries[mod_key])
@@ -1515,9 +1571,6 @@ def main() -> None:
         vmesh = manifold_to_trimesh(vm)
         variant_manifolds[slug] = vm
         variant_meshes[slug] = vmesh
-        stl_out = MODELS / f"{slug}.stl"
-        export_ascii_stl(vmesh, stl_out, solid_name=slug.replace("-", "_"))
-        print(f"Exported ASCII STL: {stl_out}")
 
         if left_conn or right_conn:
             dm = build_channel_manifold(
@@ -1527,28 +1580,6 @@ def main() -> None:
                 total_length_override=demo_total_len,
             )
             demo_meshes[slug] = manifold_to_trimesh(dm)
-
-    # Also export the default middle segment at `models/kabelkanal-3-5mm.stl`
-    stl_path = MODELS / "kabelkanal-3-5mm.stl"
-    export_ascii_stl(
-        variant_meshes["kabelkanal-3-5mm-mitte-beidseitig"],
-        stl_path,
-        solid_name="kabelkanal_3_5mm",
-    )
-    print(f"Exported primary ASCII STL: {stl_path}")
-
-    # Export a short 35.0 mm Fit-Test Coupon (`models/kabelkanal-3-5mm-teststueck-35mm.stl`)
-    # including both connectors so the user can test-print cable snap-in & joint fit in ~4 minutes (~0.7 g PLA).
-    coupon_m = build_channel_manifold(
-        body_net_length=COUPON_TOTAL_LENGTH - CONNECTOR_LENGTH,
-        left_connector=True,
-        right_connector=True,
-        total_length_override=COUPON_TOTAL_LENGTH,
-    )
-    coupon_mesh = manifold_to_trimesh(coupon_m)
-    coupon_stl_path = MODELS / "kabelkanal-3-5mm-teststueck-35mm.stl"
-    export_ascii_stl(coupon_mesh, coupon_stl_path, solid_name="kabelkanal_3_5mm_teststueck_35mm")
-    print(f"Exported 35.0 mm fit-test coupon ASCII STL: {coupon_stl_path}")
 
     print_3mf_path = MODELS / "kabelkanal-3-5mm-print.3mf"
     view_3mf_path = MODELS / "kabelkanal-3-5mm-view.3mf"

@@ -107,15 +107,8 @@
       "slug": "kabelkanal-3-5mm",
       "generator": "scripts/kabelkanal_3_5mm.py",
       "outputs": [
-        "models/kabelkanal-3-5mm-10cm-rechts.stl",
-        "models/kabelkanal-3-5mm-abschluss-links.stl",
-        "models/kabelkanal-3-5mm-abschluss-rechts.stl",
-        "models/kabelkanal-3-5mm-einzeln-ohne-verbindung.stl",
-        "models/kabelkanal-3-5mm-mitte-beidseitig.stl",
         "models/kabelkanal-3-5mm-print.3mf",
-        "models/kabelkanal-3-5mm-teststueck-35mm.stl",
-        "models/kabelkanal-3-5mm-view.3mf",
-        "models/kabelkanal-3-5mm.stl"
+        "models/kabelkanal-3-5mm-view.3mf"
       ],
       "docs": [
         "docs/kabelkanal-3-5mm-masstabelle.md",
@@ -126,7 +119,7 @@
         "docs/images/kabelkanal-3-5mm-view-preview.png"
       ],
       "license": "MIT",
-      "status": "Verified 5-variant parametric generator (4x 242.0 mm + 1x 100.0 mm right-connector + 35.0 mm test coupon, Ø 4.30 mm bore, 3.20 mm compliant rear slot) and OrcaSlicer 2.3.1 slice (0.00 g support)"
+      "status": "Verified 5-variant parametric 3MF-only generator (models/kabelkanal-3-5mm-print.3mf & models/kabelkanal-3-5mm-view.3mf: 4x 242.0 mm + 1x 100.0 mm right-connector, Ø 4.30 mm bore, 3.20 mm compliant rear slot) and OrcaSlicer 2.3.1 slice (0.00 g support)"
     },
     {
       "slug": "lampe-5",
