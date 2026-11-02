@@ -295,18 +295,60 @@ def _build_tapered_prism_x(
     return out
 
 
-def build_channel_manifold(body_net_length: float = BODY_NET_LENGTH) -> m3d.Manifold:
-    """Construct one connectable 3.5 mm cable channel segment as a watertight Manifold.
+VARIANT_SPECS: list[tuple[str, bool, bool, str]] = [
+    (
+        "kabelkanal-3-5mm-abschluss-links",
+        False,
+        True,
+        "Abschlusskanal links (links glatt ohne Verbindung, Verbindung nur rechts +X)",
+    ),
+    (
+        "kabelkanal-3-5mm-mitte-beidseitig",
+        True,
+        True,
+        "Mittelkanal (Verbindung links -X Sattel & rechts +X Ueberwurf-Kappe)",
+    ),
+    (
+        "kabelkanal-3-5mm-abschluss-rechts",
+        True,
+        False,
+        "Abschlusskanal rechts (Verbindung nur links -X Sattel, rechts glatt ohne Verbindung)",
+    ),
+    (
+        "kabelkanal-3-5mm-einzeln-ohne-verbindung",
+        False,
+        False,
+        "Einzel-/Kurzkanal ohne Verbindungen (links & rechts glatt, 242 mm Maximallaenge)",
+    ),
+]
 
-    Coordinate system (centered on the print bed):
-      - Total X span: [-total_len/2, +total_len/2], where total_len = body_net_length + CONNECTOR_LENGTH.
-      - `-X` end (`[x_min, x_shoulder]`): Inner/Lower Saddle (`Aufrast-Sattel`) with vertical T-key rib.
-      - Main slim closed-front D-body spans `[x_shoulder, x_max]`.
-      - `+X` end (`[x_max - SOCKET_DEPTH, x_max]`): Outer/Upper Saddle Hood (`Aufrast-Kappe`) that drops
-        straight down from the front (`-Z`) onto the previous segment's `-X` Saddle in the same motion
-        as clipping the channel onto the cable!
+
+def build_channel_manifold(
+    body_net_length: float = BODY_NET_LENGTH,
+    *,
+    left_connector: bool = True,
+    right_connector: bool = True,
+    total_length_override: float | None = None,
+) -> m3d.Manifold:
+    """Construct one 3.5 mm cable channel segment variant as a watertight Manifold.
+
+    Coordinate system (centered on the print bed along X):
+      - Total X span: `[-total_len/2, +total_len/2]`, default `total_len = 242.00 mm` (`MAX_TOTAL_LENGTH`)
+        for all four variants so every variant uses the maximum printable bed length.
+      - `left_connector=True` (`-X` end, `[x_min, x_shoulder]`): Inner Saddle (`Aufrast-Sattel`, 10.00 mm)
+        with vertical T-key rib (`Quersteg`) and horizontal snap-bead (`Rastleiste`).
+      - `left_connector=False` (`-X` end): Clean full-profile end at `x_min` without saddle step,
+        with continuous cable bore and rear snap-in slot.
+      - `right_connector=True` (`+X` end, `[x_max - SOCKET_DEPTH, x_max]`): Outer Saddle Hood (`Aufrast-Kappe`,
+        10.10 mm) that presses straight down from the front (`-Z`) onto a mating `-X` Saddle.
+      - `right_connector=False` (`+X` end): Clean full-profile end at `x_max` without hood recess,
+        with continuous cable bore and rear snap-in slot.
     """
-    total_len = body_net_length + CONNECTOR_LENGTH
+    total_len = (
+        float(total_length_override)
+        if total_length_override is not None
+        else float(body_net_length + CONNECTOR_LENGTH)
+    )
     x_min = -0.5 * total_len
     x_shoulder = x_min + CONNECTOR_LENGTH
     x_max = +0.5 * total_len
@@ -314,54 +356,55 @@ def build_channel_manifold(body_net_length: float = BODY_NET_LENGTH) -> m3d.Mani
     outer_yz = _outer_profile_yz()
     cavity_yz = _inner_cavity_profile_yz()
 
-    # 1. Main body outer solid from x_shoulder to x_max
-    main_body = _extrude_yz_along_x(outer_yz, x_shoulder, x_max)
+    # 1. Main body outer solid: starts at x_shoulder if left_connector is present, else at x_min
+    x_body_start = x_shoulder if left_connector else x_min
+    solid = _extrude_yz_along_x(outer_yz, x_body_start, x_max)
 
-    # 2. `-X` Inner/Lower Saddle from x_min to x_shoulder + 0.40 mm (overlap into main body)
-    # Includes a 0.80 mm lead-in bevel at the tip and a vertical T-key rib centered at
-    # x_key = x_shoulder - KEY_OFFSET_FROM_SHOULDER that locks ±X once the hood is pressed on from -Z.
-    x_key = x_shoulder - KEY_OFFSET_FROM_SHOULDER
-    tip_yz = _male_outer_profile_yz(delta_y_key=-0.20)
-    nom_yz = _male_outer_profile_yz(delta_y_key=0.0)
-    key_yz = _male_outer_profile_yz(delta_y_key=KEY_RIB_PROTRUSION)
+    # 2. Optional `-X` Inner Saddle from x_min to x_shoulder + 0.40 mm (overlap into main body)
+    if left_connector:
+        x_key = x_shoulder - KEY_OFFSET_FROM_SHOULDER
+        tip_yz = _male_outer_profile_yz(delta_y_key=-0.20)
+        nom_yz = _male_outer_profile_yz(delta_y_key=0.0)
+        key_yz = _male_outer_profile_yz(delta_y_key=KEY_RIB_PROTRUSION)
 
-    male_tip = _build_tapered_prism_x(
-        [(x_min, tip_yz), (x_min + 0.80, nom_yz)],
-        substeps=5,
-    )
-    male_shaft = _extrude_yz_along_x(nom_yz, x_min + 0.75, x_shoulder + 0.40)
-    male_key_rib = _build_tapered_prism_x(
-        [
-            (x_key - KEY_HALF_LEN, nom_yz),
-            (x_key - 0.55, key_yz),
-            (x_key + 0.55, key_yz),
-            (x_key + KEY_HALF_LEN, nom_yz),
-        ],
-        substeps=6,
-    )
-    solid = main_body + male_tip + male_shaft + male_key_rib
+        male_tip = _build_tapered_prism_x(
+            [(x_min, tip_yz), (x_min + 0.80, nom_yz)],
+            substeps=5,
+        )
+        male_shaft = _extrude_yz_along_x(nom_yz, x_min + 0.75, x_shoulder + 0.40)
+        male_key_rib = _build_tapered_prism_x(
+            [
+                (x_key - KEY_HALF_LEN, nom_yz),
+                (x_key - 0.55, key_yz),
+                (x_key + 0.55, key_yz),
+                (x_key + KEY_HALF_LEN, nom_yz),
+            ],
+            substeps=6,
+        )
+        solid = solid + male_tip + male_shaft + male_key_rib
 
-    # 3. Subtract the `+X` Outer/Upper Saddle Hood cavity at [x_max - SOCKET_DEPTH, x_max + 0.2]
-    x_socket_start = x_max - SOCKET_DEPTH
-    x_socket_key = x_max - KEY_OFFSET_FROM_SHOULDER
-    sock_nom_yz = _female_socket_profile_yz(clearance=CONNECTOR_CLEARANCE, delta_y_key=0.0)
-    sock_key_yz = _female_socket_profile_yz(
-        clearance=CONNECTOR_CLEARANCE, delta_y_key=KEY_SLOT_DEPTH
-    )
+    # 3. Optional `+X` Outer Saddle Hood cavity at [x_max - SOCKET_DEPTH, x_max + 0.2]
+    if right_connector:
+        x_socket_start = x_max - SOCKET_DEPTH
+        x_socket_key = x_max - KEY_OFFSET_FROM_SHOULDER
+        sock_nom_yz = _female_socket_profile_yz(clearance=CONNECTOR_CLEARANCE, delta_y_key=0.0)
+        sock_key_yz = _female_socket_profile_yz(
+            clearance=CONNECTOR_CLEARANCE, delta_y_key=KEY_SLOT_DEPTH
+        )
 
-    socket_main = _extrude_yz_along_x(sock_nom_yz, x_socket_start, x_max + 0.20)
-    socket_key_slot = _build_tapered_prism_x(
-        [
-            (x_socket_key - KEY_HALF_LEN - 0.22, sock_nom_yz),
-            (x_socket_key - 0.65, sock_key_yz),
-            (x_socket_key + 0.65, sock_key_yz),
-            (x_socket_key + KEY_HALF_LEN + 0.22, sock_nom_yz),
-        ],
-        substeps=6,
-    )
-    solid = solid - (socket_main + socket_key_slot)
+        socket_main = _extrude_yz_along_x(sock_nom_yz, x_socket_start, x_max + 0.20)
+        socket_key_slot = _build_tapered_prism_x(
+            [
+                (x_socket_key - KEY_HALF_LEN - 0.22, sock_nom_yz),
+                (x_socket_key - 0.65, sock_key_yz),
+                (x_socket_key + 0.65, sock_key_yz),
+                (x_socket_key + KEY_HALF_LEN + 0.22, sock_nom_yz),
+            ],
+            substeps=6,
+        )
+        solid = solid - (socket_main + socket_key_slot)
 
-    # 4. Subtract the continuous Ø 3.90 mm cable bore and rear snap-in slot (on flat back Z=0)
+    # 4. Subtract the continuous Ø 3.86 mm cable bore and rear snap-in slot
     # along the entire length [x_min - 0.50, x_max + 0.50]
     cable_cut = _extrude_yz_along_x(cavity_yz, x_min - 0.50, x_max + 0.50)
     solid = solid - cable_cut
@@ -396,33 +439,81 @@ def export_ascii_stl(mesh: trimesh.Trimesh, path: Path, solid_name: str = "kabel
 # ---------------------------------------------------------------------------
 # Mechanical, Clearance & Assembly Verification Suite
 # ---------------------------------------------------------------------------
-def verify_cable_channel_and_joint(m_single: m3d.Manifold, mesh: trimesh.Trimesh) -> dict:
-    """Run comprehensive mesh, feature-probe, cable-fit, and two-segment joint checks."""
+def verify_cable_channel_and_joint(
+    variant_manifolds: dict[str, m3d.Manifold],
+    variant_meshes: dict[str, trimesh.Trimesh],
+) -> dict:
+    """Run comprehensive mesh, feature-probe, cable-fit, and multi-variant joint checks."""
+    m_single = variant_manifolds["kabelkanal-3-5mm-mitte-beidseitig"]
+    mesh = variant_meshes["kabelkanal-3-5mm-mitte-beidseitig"]
     bounds = mesh.bounds
     extents = mesh.extents
 
-    # 1. Basic mesh integrity
-    assert mesh.is_watertight, "Channel mesh must be watertight"
-    assert mesh.is_winding_consistent, "Channel mesh must have consistent winding"
-    deg_count = int(len(mesh.faces) - np.count_nonzero(mesh.nondegenerate_faces()))
-    assert deg_count == 0, f"Expected 0 degenerate faces, found {deg_count}"
-
-    # 2. Volume probes at mid-channel (X = 0.0 mm):
-    #    - Bore center (Y=0, Z=Z_BORE_CENTER): must be EMPTY (0.0 mm^3 intersection with Ø 3.50 mm cable)
-    #    - Closed Front Arch (Y=0, Z=6.60..7.30): must be 100% SOLID
-    #    - Flat Rear Mounting Pads (Y=±3.60, Z=0.20..1.20): must be 100% SOLID
-    #    - Rear Snap-In Slot (Y=0, Z=0.00..1.00): must be EMPTY (open on the flat back!)
     cable_rod = _extrude_yz_along_x(
         np.array([
             (0.5 * CABLE_DIAMETER * math.cos(2.0 * math.pi * i / 48),
              Z_BORE_CENTER + 0.5 * CABLE_DIAMETER * math.sin(2.0 * math.pi * i / 48))
             for i in range(48)
         ]),
-        -120.0,
-        +120.0,
+        -120.5,
+        +120.5,
     )
+
+    variant_stats: dict[str, dict] = {}
+    for slug, left_conn, right_conn, desc in VARIANT_SPECS:
+        vm = variant_manifolds[slug]
+        vmesh = variant_meshes[slug]
+        assert vmesh.is_watertight, f"{slug} must be watertight"
+        assert vmesh.is_winding_consistent, f"{slug} must have consistent winding"
+        v_deg = int(len(vmesh.faces) - np.count_nonzero(vmesh.nondegenerate_faces()))
+        assert v_deg == 0, f"{slug}: expected 0 degenerate faces, found {v_deg}"
+        assert int(vmesh.euler_number) == 2, f"{slug}: expected euler_number 2, got {vmesh.euler_number}"
+        assert abs(float(vmesh.extents[0]) - MAX_TOTAL_LENGTH) < 1e-2, f"{slug}: expected 242.0 mm length, got {vmesh.extents[0]}"
+        v_cable_col = (vm ^ cable_rod).volume()
+        assert v_cable_col == 0.0, f"{slug}: 3.5 mm cable collides with bore: {v_cable_col}"
+
+        # Verify end-feature presence/absence with volume probes:
+        # - left_outer_cheek_probe: X in [-119, -113], Y in [2.90, 3.50], Z in [1.80, 4.30] (9.0 mm^3 box)
+        #   Outside the -X saddle (max Y = 2.78 mm at key rib), inside full outer wall (Y = 3.60 mm).
+        # - right_inner_hood_probe: X in [+113, +119], Y in [2.05, 2.50], Z in [1.50, 3.80] (6.21 mm^3 box)
+        #   Inside the +X hood pocket (Y up to 2.62 mm), inside solid side wall when hood is omitted.
+        left_outer_cheek_probe = m3d.Manifold.cube([6.0, 0.50, 2.50], False).translate([-119.0, 3.00, 1.80])
+        right_inner_hood_probe = m3d.Manifold.cube([6.0, 0.45, 2.30], False).translate([+113.0, 2.05, 1.50])
+        left_outer_vol = (vm ^ left_outer_cheek_probe).volume()
+        right_inner_vol = (vm ^ right_inner_hood_probe).volume()
+        if left_conn:
+            assert left_outer_vol == 0.0, f"{slug}: left -X saddle should have recessed outer cheek (0 mm^3), got {left_outer_vol}"
+        else:
+            assert abs(left_outer_vol - 7.5) < 1e-1, f"{slug}: clean left end must have full outer cheek (7.5 mm^3), got {left_outer_vol}"
+        if right_conn:
+            assert right_inner_vol == 0.0, f"{slug}: right +X hood should have open inner saddle pocket (0 mm^3), got {right_inner_vol}"
+        else:
+            assert abs(right_inner_vol - 6.21) < 1e-1, f"{slug}: clean right end must have solid inner wall (6.21 mm^3), got {right_inner_vol}"
+
+        variant_stats[slug] = {
+            "description": desc,
+            "left_connector": left_conn,
+            "right_connector": right_conn,
+            "facets": int(len(vmesh.faces)),
+            "vertices": int(len(vmesh.vertices)),
+            "extents_mm": [round(float(x), 3) for x in vmesh.extents],
+            "volume_mm3": round(float(vmesh.volume), 2),
+            "watertight": bool(vmesh.is_watertight),
+            "euler_number": int(vmesh.euler_number),
+            "degenerate_faces": v_deg,
+        }
+
+    # Check 3-segment chain: abschluss-links (x=0) + mitte-beidseitig (x=232) + abschluss-rechts (x=464)
+    m_left_end = variant_manifolds["kabelkanal-3-5mm-abschluss-links"]
+    m_mid = variant_manifolds["kabelkanal-3-5mm-mitte-beidseitig"].translate([BODY_NET_LENGTH, 0.0, 0.0])
+    m_right_end = variant_manifolds["kabelkanal-3-5mm-abschluss-rechts"].translate([2.0 * BODY_NET_LENGTH, 0.0, 0.0])
+    chain_col_left_mid = (m_left_end ^ m_mid).volume()
+    chain_col_mid_right = (m_mid ^ m_right_end).volume()
+    assert chain_col_left_mid == 0.0, f"Collision between abschluss-links and mitte-beidseitig: {chain_col_left_mid}"
+    assert chain_col_mid_right == 0.0, f"Collision between mitte-beidseitig and abschluss-rechts: {chain_col_mid_right}"
+
+    deg_count = int(len(mesh.faces) - np.count_nonzero(mesh.nondegenerate_faces()))
     cable_collision_vol = (m_single ^ cable_rod).volume()
-    assert cable_collision_vol == 0.0, f"3.5 mm cable collides with channel bore: {cable_collision_vol} mm^3"
 
     # Prove closed front wall at mid-channel (X in [-5, +5], Y in [-0.6, +0.6], Z in [0.15, 0.85]) is SOLID
     front_wall_probe = m3d.Manifold.cube([10.0, 1.2, 0.7], False).translate([-5.0, -0.6, 0.15])
@@ -495,8 +586,11 @@ def verify_cable_channel_and_joint(m_single: m3d.Manifold, mesh: trimesh.Trimesh
         "cable_bore_collision_mm3": round(float(cable_collision_vol), 4),
         "joint_cable_collision_mm3": round(float(joint_cable_collision), 4),
         "seated_joint_collision_mm3": round(float(seated_inter), 4),
+        "chain_left_mid_collision_mm3": round(float(chain_col_left_mid), 4),
+        "chain_mid_right_collision_mm3": round(float(chain_col_mid_right), 4),
         "axial_x_lock_interference_mm3": round(float(axial_lock_vol), 4),
         "peak_front_snap_click_interference_mm3": round(float(peak_detent_engagement), 4),
+        "variants": variant_stats,
         "sweep_steps": sweep_steps,
     }
 
@@ -704,24 +798,29 @@ def write_3mf(
             )
 
 
-def build_print_3mf(channel_mesh: trimesh.Trimesh, out_path: Path) -> None:
-    """Create `models/kabelkanal-3-5mm-print.3mf` with two connectable segments on Plate 1.
+def build_print_3mf(variant_meshes: dict[str, trimesh.Trimesh], out_path: Path) -> None:
+    """Create `models/kabelkanal-3-5mm-print.3mf` with all 4 max-length variants on Plate 1.
 
-    - Placed at X = 125.0 mm (centered on 250 mm bed -> X in [4.0, 246.0] mm)
-    - Segment A at Y = 114.0 mm, Segment B at Y = 136.0 mm (22.0 mm center-to-center spacing)
+    - All 4 variants are 242.0 mm long (`X in [4.0, 246.0] mm` centered at `X = 125.0 mm` on the 250 mm bed):
+      1. `kabelkanal-3-5mm-abschluss-links` at `Y = 98.0 mm` (links glatt, Verbindung nur rechts `+X`)
+      2. `kabelkanal-3-5mm-mitte-beidseitig` at `Y = 116.0 mm` (Verbindung links `-X` & rechts `+X`)
+      3. `kabelkanal-3-5mm-abschluss-rechts` at `Y = 134.0 mm` (Verbindung nur links `-X`, rechts glatt)
+      4. `kabelkanal-3-5mm-einzeln-ohne-verbindung` at `Y = 152.0 mm` (keine Verbindungen, 242 mm Maximallänge)
     - Configured for Anycubic Kobra S1 0.4 mm nozzle, Textured PEI Plate, White PLA (Slot 1),
       0.16 mm layer height, random seam, top ironing, and automatic tree supports (0.16 mm Z gap).
     """
     import tempfile
 
-    plate_names = ["Platte 1 - 2x Kabelkanal 3.5 mm Weiss (je 242 mm, steckbar)"]
+    plate_names = ["Platte 1 - Alle 4 Varianten Kabelkanal 3.5 mm Weiss (je 242 mm)"]
     layout_xy = {
-        "kabelkanal-3-5mm-segment-a": (0, (125.0, 114.0)),
-        "kabelkanal-3-5mm-segment-b": (0, (125.0, 136.0)),
+        "kabelkanal-3-5mm-abschluss-links": (0, (125.0, 98.0)),
+        "kabelkanal-3-5mm-mitte-beidseitig": (0, (125.0, 116.0)),
+        "kabelkanal-3-5mm-abschluss-rechts": (0, (125.0, 134.0)),
+        "kabelkanal-3-5mm-einzeln-ohne-verbindung": (0, (125.0, 152.0)),
     }
     scene_items = []
     for name, (_plate_idx, (lx, ly)) in layout_xy.items():
-        placed = channel_mesh.copy()
+        placed = variant_meshes[name].copy()
         cx, cy = 0.5 * (placed.bounds[0, :2] + placed.bounds[1, :2])
         placed.apply_translation([lx - cx, ly - cy, -placed.bounds[0, 2]])
         scene_items.append((name, placed, WHITE_PLA, None))
@@ -893,7 +992,7 @@ def build_print_3mf(channel_mesh: trimesh.Trimesh, out_path: Path) -> None:
             "materialColorHex": WHITE_PLA.color_hex,
             "bedType": "Textured PEI Plate",
             "plateCount": "1",
-            "objectCount": "2",
+            "objectCount": "4",
         }.items():
             ET.SubElement(meta_root, "metadata", name=k, value=val)
         entries[METADATA_ENTRY] = ET.tostring(meta_root, encoding="utf-8", xml_declaration=True)
@@ -922,12 +1021,16 @@ def _to_installed_wall_mesh(mesh: trimesh.Trimesh) -> trimesh.Trimesh:
 
 
 def build_view_3mf(
-    m_full: trimesh.Trimesh,
-    m_demo: trimesh.Trimesh,
+    variant_meshes: dict[str, trimesh.Trimesh],
+    demo_meshes: dict[str, trimesh.Trimesh],
     demo_net_length: float,
     out_path: Path,
 ) -> None:
-    """Create `models/kabelkanal-3-5mm-view.3mf` with 3 assembly-state plates in installed wall orientation."""
+    """Create `models/kabelkanal-3-5mm-view.3mf` with 3 assembly-state plates in installed wall orientation:
+    - Plate 1: All 4 full-length (242.0 mm) variants side-by-side in installed wall orientation.
+    - Plate 2: 3-segment system (Abschluss links + Mittelkanal + Abschluss rechts) during front-to-back (`-Z`) press-on.
+    - Plate 3: 3-segment system fully snapped & locked onto the continuous 3.5 mm cable.
+    """
     cable_mat = filament_slot(slot=2, name="3.5 mm Kabel (Referenz)", material="PLA", color_hex="#2F7DE1")
     mat_list = [WHITE_PLA, cable_mat]
     material_slots = {WHITE_PLA: 0, cable_mat: 1}
@@ -938,43 +1041,62 @@ def build_view_3mf(
          z_bore_wall + 0.5 * CABLE_DIAMETER * math.sin(2.0 * math.pi * i / 36))
         for i in range(36)
     ])
-    cable_m = _extrude_yz_along_x(cable_pts, -0.5 * demo_net_length - 25.0, +1.5 * demo_net_length + 15.0)
+    cable_m = _extrude_yz_along_x(cable_pts, -1.5 * demo_net_length - 12.0, +1.5 * demo_net_length + 12.0)
     cable_mesh = manifold_to_trimesh(cable_m)
 
     plate_names = [
-        "Zustand 1 - Schlankes Einzelsegment (242 mm, 7.2x5.2 mm, Sichtseite vorne geschlossen)",
-        "Zustand 2 - Von vorne in einem Zug aufstecken (-Z Aufrast-Ueberblattung)",
-        "Zustand 3 - Aufgerastet & verriegelt mit eingeclipstem 3.5 mm Kabel",
+        "Zustand 1 - Alle 4 Varianten im Ueberblick (je 242 mm Maximallaenge)",
+        "Zustand 2 - Von vorne in einem Zug aufstecken (Abschluss links + Mitte + Abschluss rechts)",
+        "Zustand 3 - Komplett aufgerastet (Links + Mitte + Rechts) mit 3.5 mm Kabel",
     ]
     pitch = 300.0
-    m_full_wall = _to_installed_wall_mesh(m_full)
-    m_demo_wall = _to_installed_wall_mesh(m_demo)
 
-    p1_seg = m_full_wall.copy().apply_translation([125.0, 125.0, 0.0])
-    # State 2: Segment A (`+X` Hood) positioned at dz = +6.5 mm above Segment B (`-X` Saddle on wall + cable)
-    # showing how it presses straight down in `-Z` ("von vorne in einem Zug")!
-    p2_seg_a = m_demo_wall.copy().apply_translation([125.0 + pitch - 0.5 * demo_net_length, 125.0, 6.5])
-    p2_seg_b = m_demo_wall.copy().apply_translation([125.0 + pitch + 0.5 * demo_net_length, 125.0, 0.0])
-    p3_seg_a = m_demo_wall.copy().apply_translation([125.0 - 0.5 * demo_net_length, 125.0 - pitch, 0.0])
-    p3_seg_b = m_demo_wall.copy().apply_translation([125.0 + 0.5 * demo_net_length, 125.0 - pitch, 0.0])
-    p3_cable = cable_mesh.copy().apply_translation([125.0 - 0.5 * demo_net_length, 125.0 - pitch, 0.0])
-
-    objects = [
-        ("state1-kabelkanal-242mm", p1_seg, WHITE_PLA, None),
-        ("state2-kabelkanal-segment-a", p2_seg_a, WHITE_PLA, None),
-        ("state2-kabelkanal-segment-b", p2_seg_b, WHITE_PLA, None),
-        ("state3-kabelkanal-segment-a-gesteckt", p3_seg_a, WHITE_PLA, None),
-        ("state3-kabelkanal-segment-b-gesteckt", p3_seg_b, WHITE_PLA, None),
-        ("state3-kabel-3-5mm", p3_cable, cable_mat, None),
+    # Plate 1: All 4 full-length 242 mm variants in installed wall orientation
+    p1_y_positions = [
+        ("state1-abschluss-links-242mm", "kabelkanal-3-5mm-abschluss-links", 98.0),
+        ("state1-mitte-beidseitig-242mm", "kabelkanal-3-5mm-mitte-beidseitig", 116.0),
+        ("state1-abschluss-rechts-242mm", "kabelkanal-3-5mm-abschluss-rechts", 134.0),
+        ("state1-einzeln-ohne-verbindung-242mm", "kabelkanal-3-5mm-einzeln-ohne-verbindung", 152.0),
     ]
-    object_plates = {
-        "state1-kabelkanal-242mm": 0,
-        "state2-kabelkanal-segment-a": 1,
-        "state2-kabelkanal-segment-b": 1,
-        "state3-kabelkanal-segment-a-gesteckt": 2,
-        "state3-kabelkanal-segment-b-gesteckt": 2,
-        "state3-kabel-3-5mm": 2,
-    }
+    objects: list[tuple[str, trimesh.Trimesh, filament_slot, list[float] | None]] = []
+    object_plates: dict[str, int] = {}
+    for obj_name, slug, py in p1_y_positions:
+        placed = _to_installed_wall_mesh(variant_meshes[slug]).apply_translation([125.0, py, 0.0])
+        objects.append((obj_name, placed, WHITE_PLA, None))
+        object_plates[obj_name] = 0
+
+    # Plate 2: 3-segment system (Abschluss links at -demo_net_length, Mitte dropping in -Z at 0, Abschluss rechts at +demo_net_length)
+    d_left = _to_installed_wall_mesh(demo_meshes["kabelkanal-3-5mm-abschluss-links"])
+    d_mid = _to_installed_wall_mesh(demo_meshes["kabelkanal-3-5mm-mitte-beidseitig"])
+    d_right = _to_installed_wall_mesh(demo_meshes["kabelkanal-3-5mm-abschluss-rechts"])
+
+    p2_left = d_left.copy().apply_translation([125.0 + pitch - demo_net_length, 125.0, 6.5])
+    p2_mid = d_mid.copy().apply_translation([125.0 + pitch, 125.0, 3.2])
+    p2_right = d_right.copy().apply_translation([125.0 + pitch + demo_net_length, 125.0, 0.0])
+    p2_cable = cable_mesh.copy().apply_translation([125.0 + pitch, 125.0, 0.0])
+    for obj_name, m_obj, mat in (
+        ("state2-abschluss-links", p2_left, WHITE_PLA),
+        ("state2-mitte-beidseitig", p2_mid, WHITE_PLA),
+        ("state2-abschluss-rechts", p2_right, WHITE_PLA),
+        ("state2-kabel-3-5mm", p2_cable, cable_mat),
+    ):
+        objects.append((obj_name, m_obj, mat, None))
+        object_plates[obj_name] = 1
+
+    # Plate 3: 3-segment system fully seated on the cable
+    p3_left = d_left.copy().apply_translation([125.0 - demo_net_length, 125.0 - pitch, 0.0])
+    p3_mid = d_mid.copy().apply_translation([125.0, 125.0 - pitch, 0.0])
+    p3_right = d_right.copy().apply_translation([125.0 + demo_net_length, 125.0 - pitch, 0.0])
+    p3_cable = cable_mesh.copy().apply_translation([125.0, 125.0 - pitch, 0.0])
+    for obj_name, m_obj, mat in (
+        ("state3-abschluss-links-gesteckt", p3_left, WHITE_PLA),
+        ("state3-mitte-beidseitig-gesteckt", p3_mid, WHITE_PLA),
+        ("state3-abschluss-rechts-gesteckt", p3_right, WHITE_PLA),
+        ("state3-kabel-3-5mm", p3_cable, cable_mat),
+    ):
+        objects.append((obj_name, m_obj, mat, None))
+        object_plates[obj_name] = 2
+
     write_3mf(
         out_path,
         objects,
@@ -1016,7 +1138,7 @@ def slice_and_update_metadata(print_3mf_path: Path, view_3mf_path: Path, slice_d
             f"stdout={res.stdout[-1000:]}\nstderr={res.stderr[-1000:]}"
         )
 
-    plate_titles = ["Platte 1 - 2x Kabelkanal 3.5 mm Weiss (je 242 mm, steckbar)"]
+    plate_titles = ["Platte 1 - Alle 4 Varianten Kabelkanal 3.5 mm Weiss (je 242 mm)"]
     indexed_paths = [
         (p, _filament_index(p.read_text(encoding="utf-8", errors="replace")))
         for p in gcodes
@@ -1056,7 +1178,7 @@ def slice_and_update_metadata(print_3mf_path: Path, view_3mf_path: Path, slice_d
         "supportThresholdAngleDeg": "30",
         "seamPosition": "random",
         "ironingType": "top",
-        "objectCount": "2",
+        "objectCount": "4",
         "plateCount": "1",
         "filamentUsageByColor": json.dumps(per_color, sort_keys=True, separators=(",", ":")),
         "plateDetails": json.dumps(plate_details, sort_keys=True, separators=(",", ":")),
@@ -1082,7 +1204,7 @@ def slice_and_update_metadata(print_3mf_path: Path, view_3mf_path: Path, slice_d
         target_values = dict(overall)
         if target_3mf == view_3mf_path:
             target_values["plateCount"] = "3"
-            target_values["objectCount"] = "6"
+            target_values["objectCount"] = "12"
         for k, val in target_values.items():
             if k not in fields:
                 fields[k] = ET.SubElement(root, "metadata", name=k)
@@ -1113,8 +1235,8 @@ def slice_and_update_metadata(print_3mf_path: Path, view_3mf_path: Path, slice_d
 # Offscreen Vedo Rendering (Project Previews, Support Path & Presentation)
 # ---------------------------------------------------------------------------
 def render_all_previews(
-    m_full: trimesh.Trimesh,
-    m_demo: trimesh.Trimesh,
+    variant_meshes: dict[str, trimesh.Trimesh],
+    demo_meshes: dict[str, trimesh.Trimesh],
     demo_net_length: float,
     slice_dir: Path,
     slice_stats: dict,
@@ -1130,7 +1252,7 @@ def render_all_previews(
     time_s = int(slice_stats["estimatedPrintTimeSeconds"])
     time_str = f"{time_s // 3600}h {(time_s % 3600) // 60:02d}m {time_s % 60:02d}s"
 
-    # 1. Print project preview: `docs/images/kabelkanal-3-5mm-print-preview.png`
+    # 1. Print project preview: `docs/images/kabelkanal-3-5mm-print-preview.png` (All 4 variants on Plate 1)
     plt_print = vedo.Plotter(offscreen=True, size=(1600, 1000), bg="#1B1F27")
     bed = vedo.Box(pos=(125.0, 125.0, -0.6), length=250.0, width=250.0, height=1.2).c("#2C323D").alpha(0.95)
     grid_lines = []
@@ -1138,17 +1260,28 @@ def render_all_previews(
         grid_lines.append(vedo.Line((g, 0, 0.05), (g, 250, 0.05), c="#3E4656", lw=1))
         grid_lines.append(vedo.Line((0, g, 0.05), (250, g, 0.05), c="#3E4656", lw=1))
 
-    seg_a = m_full.copy().apply_translation([125.0, 114.0, 0.0])
-    seg_b = m_full.copy().apply_translation([125.0, 136.0, 0.0])
-    v_a = vedo.Mesh([seg_a.vertices, seg_a.faces]).c("#F4F5F7").lighting("plastic")
-    v_b = vedo.Mesh([seg_b.vertices, seg_b.faces]).c("#F4F5F7").lighting("plastic")
+    plate_y_order = [
+        ("kabelkanal-3-5mm-abschluss-links", 98.0),
+        ("kabelkanal-3-5mm-mitte-beidseitig", 116.0),
+        ("kabelkanal-3-5mm-abschluss-rechts", 134.0),
+        ("kabelkanal-3-5mm-einzeln-ohne-verbindung", 152.0),
+    ]
+    placed_print_meshes = []
+    v_print_actors = []
+    v_ghost_actors = []
+    for slug, py in plate_y_order:
+        pm = variant_meshes[slug].copy().apply_translation([125.0, py, 0.0])
+        placed_print_meshes.append(pm)
+        v_print_actors.append(vedo.Mesh([pm.vertices, pm.faces]).c("#F4F5F7").lighting("plastic"))
+        v_ghost_actors.append(vedo.Mesh([pm.vertices, pm.faces]).c("#DDE2EA").alpha(0.85).lighting("plastic"))
+
     title_print = vedo.Text2D(
-        f"kabelkanal-3-5mm-print.3mf  |  Plate 1: 2x 242.0 mm (460.0 mm net)  |  White PLA  |  "
+        f"kabelkanal-3-5mm-print.3mf  |  Plate 1: Alle 4 Varianten (je 242.0 mm)  |  White PLA  |  "
         f"{fil_g:.2f} g  |  {time_str}  |  Support: {sup_g:.2f} g",
-        pos="top-left", s=0.95, c="white", bg="#11151C", alpha=0.85,
+        pos="top-left", s=0.92, c="white", bg="#11151C", alpha=0.85,
     )
     plt_print.show(
-        bed, *grid_lines, v_a, v_b, title_print,
+        bed, *grid_lines, *v_print_actors, title_print,
         camera={
             "pos": (125.0, -75.0, 155.0),
             "focalPoint": (125.0, 125.0, 4.0),
@@ -1164,14 +1297,12 @@ def render_all_previews(
     sup_segs = support_segments(gcode_p1)
     sup_act = support_actor(sup_segs)
     plt_sup = vedo.Plotter(offscreen=True, size=(1600, 1000), bg="#15181F")
-    v_a_ghost = vedo.Mesh([seg_a.vertices, seg_a.faces]).c("#DDE2EA").alpha(0.85).lighting("plastic")
-    v_b_ghost = vedo.Mesh([seg_b.vertices, seg_b.faces]).c("#DDE2EA").alpha(0.85).lighting("plastic")
     sup_badge = vedo.Text2D(
-        f"Plate 1 G-code Support Verification  |  enable_support=1 tree(auto)  |  "
+        f"Plate 1 G-code Support Verification (4 Varianten je 242 mm)  |  enable_support=1 tree(auto)  |  "
         f"Support path segments: {len(sup_segs)}  |  Support material: {sup_g:.2f} g (NO SUPPORTS REQUIRED)",
-        pos="top-left", s=0.9, c="#5CE08A", bg="#10141B", alpha=0.9,
+        pos="top-left", s=0.88, c="#5CE08A", bg="#10141B", alpha=0.9,
     )
-    actors = [bed, *grid_lines, v_a_ghost, v_b_ghost, sup_badge]
+    actors = [bed, *grid_lines, *v_ghost_actors, sup_badge]
     if sup_act is not None:
         actors.append(sup_act)
     plt_sup.show(
@@ -1187,31 +1318,37 @@ def render_all_previews(
     plt_sup.close()
 
     # 3. View project preview + high-detail presentation render (4-panel composite):
-    #    Panel 0 (Top-Left): Full 242.0 mm channel segment (closed, smooth front dome facing up)
-    #    Panel 1 (Top-Right): End-to-end connector before plugging (Male inverted-U V-rail tongue & Female socket)
-    #    Panel 2 (Bottom-Left): Plugged & click-locked state from the visible front (100% closed, flush hairline joint!)
-    #    Panel 3 (Bottom-Right): Bottom/Rear view (`hinten abgeflacht`) showing the rear cable insertion slot
-    #                            (`2.70 mm` snap throat), flat wall-mounting pads, and inserted Ø 3.5 mm cable!
+    #    Panel 0 (Top-Left): All 4 full-length (242.0 mm) variants side-by-side in installed wall orientation
+    #    Panel 1 (Top-Right): Front-to-back press-on motion ("von vorne in einem Zug aufstecken")
+    #    Panel 2 (Bottom-Left): Assembled & locked from the visible front (smooth 7.2x5.2 mm profile)
+    #    Panel 3 (Bottom-Right): Rear view (`hinten abgeflacht`) with 2.75 mm rear cable slot & flat wall pads
     plt_pres = vedo.Plotter(N=4, offscreen=True, size=(2000, 1300), bg="#1C2029", sharecam=False)
 
-    m_full_wall = _to_installed_wall_mesh(m_full)
-    m_demo_wall = _to_installed_wall_mesh(m_demo)
+    m_demo_mid = demo_meshes["kabelkanal-3-5mm-mitte-beidseitig"]
+    m_demo_wall = _to_installed_wall_mesh(m_demo_mid)
     z_bore_wall = OUTER_HEIGHT - Z_BORE_CENTER
 
-    v_full = vedo.Mesh([m_full_wall.vertices, m_full_wall.faces]).c("#F4F5F7").lighting("plastic")
+    p0_actors = []
+    for slug, py in [
+        ("kabelkanal-3-5mm-abschluss-links", -27.0),
+        ("kabelkanal-3-5mm-mitte-beidseitig", -9.0),
+        ("kabelkanal-3-5mm-abschluss-rechts", +9.0),
+        ("kabelkanal-3-5mm-einzeln-ohne-verbindung", +27.0),
+    ]:
+        mw = _to_installed_wall_mesh(variant_meshes[slug]).apply_translation([0.0, py, 0.0])
+        p0_actors.append(vedo.Mesh([mw.vertices, mw.faces]).c("#F4F5F7").lighting("plastic"))
+
     t0 = vedo.Text2D(
-        "1. Schlankes Profil (7.2 x 5.2 mm, 242.0 mm lang) - Sichtseite vorne geschlossen",
-        pos="top-left", s=0.82, c="white", bg="#11151C", alpha=0.85,
+        "1. Alle 4 Varianten (je 242.0 mm): Abschluss links | Mitte (beidseitig) | Abschluss rechts | Einzeln (ohne Verb.)",
+        pos="top-left", s=0.78, c="white", bg="#11151C", alpha=0.85,
     )
     plt_pres.at(0).show(
-        v_full, t0,
-        camera={"pos": (-45.0, -195.0, 125.0), "focalPoint": (0.0, 0.0, 2.6), "viewup": (0.0, 0.0, 1.0)},
+        *p0_actors, t0,
+        camera={"pos": (-35.0, -210.0, 145.0), "focalPoint": (0.0, 0.0, 2.6), "viewup": (0.0, 0.0, 1.0)},
         resetcam=False,
     )
 
     # Panel 1: Front-to-back press-on motion ("von vorne in einem Zug aufstecken"):
-    # Segment B (right) is already on the cable/wall (Z_wall=0); Segment A (left, carrying the +X Hood)
-    # is positioned at dz = +6.0 mm right above Segment B's -X Saddle, ready to press straight down in -Z!
     half_demo_total = 0.5 * (demo_net_length + CONNECTOR_LENGTH)
     cable_wall_pts = np.array([
         (0.5 * CABLE_DIAMETER * math.cos(2.0 * math.pi * i / 40),
@@ -1225,8 +1362,8 @@ def render_all_previews(
     v_right_pre = vedo.Mesh([seg_right_base.vertices, seg_right_base.faces]).c("#E3E8F0").lighting("plastic")
     v_cable_pre = vedo.Mesh([cable_pre.vertices, cable_pre.faces]).c("#2F7DE1").lighting("plastic")
     t1 = vedo.Text2D(
-        "2. Von vorne in einem Zug aufstecken (-Z): Ueberwurf-Kappe rastet ueber Sattel & Quersteg",
-        pos="top-left", s=0.82, c="white", bg="#11151C", alpha=0.85,
+        "2. Von vorne in einem Zug aufstecken (-Z): Ueberwurf-Kappe (+X) rastet ueber Sattel (-X) & Quersteg",
+        pos="top-left", s=0.80, c="white", bg="#11151C", alpha=0.85,
     )
     plt_pres.at(1).show(
         v_left_pre, v_right_pre, v_cable_pre, t1,
@@ -1242,7 +1379,7 @@ def render_all_previews(
     v_cable = vedo.Mesh([cable_mated.vertices, cable_mated.faces]).c("#2F7DE1").lighting("plastic")
     t2 = vedo.Text2D(
         "3. Aufgerastet (Sichtseite vorne): Schlankes 7.2x5.2 mm Profil, buendiger Uebergang",
-        pos="top-left", s=0.82, c="white", bg="#11151C", alpha=0.85,
+        pos="top-left", s=0.80, c="white", bg="#11151C", alpha=0.85,
     )
     plt_pres.at(2).show(
         v_left_m, v_right_m, v_cable, t2,
@@ -1256,15 +1393,15 @@ def render_all_previews(
          Z_BORE_CENTER + 0.5 * CABLE_DIAMETER * math.sin(2.0 * math.pi * i / 40))
         for i in range(40)
     ])
-    seg_left_back = m_demo.copy().apply_translation([-(half_demo_total - CONNECTOR_LENGTH), 0.0, 0.0])
-    seg_right_back = m_demo.copy().apply_translation([+(half_demo_total), 0.0, 0.0])
+    seg_left_back = m_demo_mid.copy().apply_translation([-(half_demo_total - CONNECTOR_LENGTH), 0.0, 0.0])
+    seg_right_back = m_demo_mid.copy().apply_translation([+(half_demo_total), 0.0, 0.0])
     cable_back = manifold_to_trimesh(_extrude_yz_along_x(cable_print_pts, -25.0, +42.0))
     v_left_b = vedo.Mesh([seg_left_back.vertices, seg_left_back.faces]).c("#F4F5F7").lighting("plastic")
     v_right_b = vedo.Mesh([seg_right_back.vertices, seg_right_back.faces]).c("#E5EAF2").lighting("plastic")
     v_cable_b = vedo.Mesh([cable_back.vertices, cable_back.faces]).c("#2F7DE1").lighting("plastic")
     t3 = vedo.Text2D(
         "4. Rueckseite (hinten abgeflacht): 2.75 mm Kabel-Einclipsoeffnung hinten + flache Auflage",
-        pos="top-left", s=0.82, c="white", bg="#11151C", alpha=0.85,
+        pos="top-left", s=0.80, c="white", bg="#11151C", alpha=0.85,
     )
     plt_pres.at(3).show(
         v_left_b, v_right_b, v_cable_b, t3,
@@ -1281,37 +1418,64 @@ def render_all_previews(
 
 def main() -> None:
     t0 = time.perf_counter()
-    print("Building 3.5 mm flat-backed connectable cable channel (242.0 mm total / 230.0 mm net)...")
-    m_full = build_channel_manifold(body_net_length=BODY_NET_LENGTH)
-    mesh_full = manifold_to_trimesh(m_full)
+    print("Building all 4 variants of the 3.5 mm cable channel (each 242.0 mm max bed length)...")
+    variant_manifolds: dict[str, m3d.Manifold] = {}
+    variant_meshes: dict[str, trimesh.Trimesh] = {}
 
-    # Short 75 mm net segment used on Plates 2 & 3 of view.3mf so two connected segments fit on one 250 mm view plate
-    demo_net_len = 75.0
-    m_demo = build_channel_manifold(body_net_length=demo_net_len)
-    mesh_demo = manifold_to_trimesh(m_demo)
+    demo_net_len = 70.0
+    demo_total_len = demo_net_len + CONNECTOR_LENGTH  # 80.0 mm
+    demo_meshes: dict[str, trimesh.Trimesh] = {}
 
+    for slug, left_conn, right_conn, _desc in VARIANT_SPECS:
+        vm = build_channel_manifold(
+            body_net_length=BODY_NET_LENGTH,
+            left_connector=left_conn,
+            right_connector=right_conn,
+            total_length_override=MAX_TOTAL_LENGTH,
+        )
+        vmesh = manifold_to_trimesh(vm)
+        variant_manifolds[slug] = vm
+        variant_meshes[slug] = vmesh
+        stl_out = MODELS / f"{slug}.stl"
+        export_ascii_stl(vmesh, stl_out, solid_name=slug.replace("-", "_"))
+        print(f"Exported ASCII STL: {stl_out}")
+
+        if left_conn or right_conn:
+            dm = build_channel_manifold(
+                body_net_length=demo_net_len,
+                left_connector=left_conn,
+                right_connector=right_conn,
+                total_length_override=demo_total_len,
+            )
+            demo_meshes[slug] = manifold_to_trimesh(dm)
+
+    # Also export the default middle segment at `models/kabelkanal-3-5mm.stl`
     stl_path = MODELS / "kabelkanal-3-5mm.stl"
+    export_ascii_stl(
+        variant_meshes["kabelkanal-3-5mm-mitte-beidseitig"],
+        stl_path,
+        solid_name="kabelkanal_3_5mm",
+    )
+    print(f"Exported primary ASCII STL: {stl_path}")
+
     print_3mf_path = MODELS / "kabelkanal-3-5mm-print.3mf"
     view_3mf_path = MODELS / "kabelkanal-3-5mm-view.3mf"
     slice_dir = BUILD_DIR / "slices"
 
-    export_ascii_stl(mesh_full, stl_path)
-    print(f"Exported ASCII STL: {stl_path}")
-
-    report = verify_cable_channel_and_joint(m_full, mesh_full)
+    report = verify_cable_channel_and_joint(variant_manifolds, variant_meshes)
     print("Verification summary:")
     for k, v in report.items():
-        if k != "sweep_steps":
+        if k not in ("sweep_steps", "variants"):
             print(f"  {k}: {v}")
 
-    build_print_3mf(mesh_full, print_3mf_path)
-    build_view_3mf(mesh_full, mesh_demo, demo_net_len, view_3mf_path)
+    build_print_3mf(variant_meshes, print_3mf_path)
+    build_view_3mf(variant_meshes, demo_meshes, demo_net_len, view_3mf_path)
     print(f"Built 3MF deliverables:\n  {print_3mf_path}\n  {view_3mf_path}")
 
     slice_stats = slice_and_update_metadata(print_3mf_path, view_3mf_path, slice_dir)
     print(f"OrcaSlicer verified slice stats: {slice_stats}")
 
-    render_all_previews(mesh_full, mesh_demo, demo_net_len, slice_dir, slice_stats)
+    render_all_previews(variant_meshes, demo_meshes, demo_net_len, slice_dir, slice_stats)
     report["orca_slice"] = slice_stats
     report["elapsed_s"] = round(time.perf_counter() - t0, 2)
 
