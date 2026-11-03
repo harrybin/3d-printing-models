@@ -71,6 +71,7 @@ stale slices or previews.
 - **Run final verification suites and post-slice renders in parallel:** Once `models/ghouls-grip-print.3mf` and `models/ghouls-grip-view.3mf` are generated, run the four independent verification suites (`unittest discover -s tests`, `verify_ghouls_grip_candy.py`, `audit_ghouls_grip_assembly.py`, `verify_ghouls_grip_mechanics.py`) concurrently. Likewise, defer `slice_ghouls_grip.ps1` to the end and then run `update_ghouls_grip_slice_metadata.py`, `render_ghouls_grip.py`, `render_ghouls_grip_print_projects.py`, and `render_ghouls_grip_supports.py` in parallel.
 - **Fast-path discovery, support-free slot orientation, and single-slice discipline:**
   - Read only the target generator, changed instructions, and directly relevant `docs/` measurement files; never scan unrelated `scripts/*.py` models or run whole-repository inventories, and always re-check edited measurement/instruction docs instead of blindly trusting memory. Stop immediately and report if a runtime permission block prevents writing or executing a required file instead of retrying denied commands.
+  - When consecutive user messages refine fit parameters or add/adjust model variants, collect and implement all pending geometry and variant changes together in one script update before entering the validation phase. Use fast analytic/mesh checks (`watertight`, `euler_number`, volume probes, `mesh_tool.py overhang`) while iterating, rerun only checks invalidated by a scoped geometry edit, and reserve full-plate 3MF packaging, OrcaSlicer CLI slicing, catalog verification, and presentation rendering for one consolidated final pass.
   - In OrcaSlicer `tree(auto)` (`enable_support=1`), `TreeSupport` cantilever detection flags internal closing bridges inside bottom-open tunnels wider than `~2.7 mm` (`tree_support_branch_diameter + 2 * support_object_xy_distance`) even when internal gothic roof angles exceed `70°`. For channels, clips, or housings with a longitudinal slot/recess on one flat face and a closed opposite face, orient the closed face on `Z = 0` (with `>= 45°` outer bevels) and the slotted/recessed face upward (`+Z`, flattened via `ironing_type=top`) so cavities have no closing ceiling during printing (`0.00 g` support on first slice). When an internal roof cannot be avoided, validate support behavior once on a short (`~30 mm`) section and run `mesh_tool.py overhang` before invoking a full-plate OrcaSlicer CLI slice + render pass.
 
 - Create environment:
@@ -126,8 +127,8 @@ the known pre-migration plate-layout failure is documented in
 ## Architecture Boundaries
 
 - `scripts/`: parametric geometry definitions, boolean operations, reference-image tooling (`make_contact_sheet.py`) and the shared mesh CLI (`mesh_tool.py`).
-- `models/`: generated STL outputs (ASCII STL expected).
-- `.github/skills/`: task-specialized behavior used by agents for STL creation, editing, and validation.
+- `models/`: generated 3MF deliverables (`models/<stem>-print.3mf` and `models/<stem>-view.3mf` by default; legacy ASCII STL files are retained only for untouched older models or when explicitly requested).
+- `.github/skills/`: task-specialized behavior used by agents for STL/3MF creation, editing, and validation.
 - `.blend` files may preserve organic modeling sources, but Python scripts and
   measurement docs remain authoritative for fit-critical geometry.
 
@@ -178,20 +179,47 @@ If behavior around print constraints, validation policy, or coordinate targeting
   S1/nozzle/process/filament profiles when OrcaSlicer is available. Record print
   time and material only from a successful slice.
 - Generated OrcaSlicer 3MF projects MUST always use layer height `<= 0.16 mm`
-  (`layer_height=0.16` default), random seam placement (`seam_position=random`),
-  ironing on all top surfaces (`ironing_type=top`), and enabled automatic tree
-  supports (`enable_support=1`, `support_type=tree(auto)`) with a 1-layer Z
+  (`layer_height=0.16` default), random seam placement (`seam_position=random` /
+  UI **"Nahtposition: Zufall"**), ironing on all top surfaces (`ironing_type=top`,
+  which is the exact internal OrcaSlicer / AnycubicSlicerNext enum for UI
+  **"Bügeln: Alle Oberflächen" / "All top surfaces"** — never use `"all"` or
+  `"all solid"`, which are invalid and disable ironing), and enabled automatic
+  tree supports (`enable_support=1`, `support_type=tree(auto)`) with a 1-layer Z
   contact distance (`support_top_z_distance=0.16`,
   `support_bottom_z_distance=0.16`, matching `layer_height`) for easy support
   removal after printing, unless a documented part-specific reason requires an
   exception. Support stays on so that a zero-support slice is proven geometry,
   never a disabled setting.
-- New complex assemblies use exactly two 3MF deliverables:
-  `models/<name>-view.3mf` contains the fully assembled object, with separate
-  plates for other meaningful mechanism states; `models/<name>-print.3mf`
-  contains the complete print BOM. Group parts of each material/color together
-  and use multiple plates as needed instead of splitting the project into
-  per-material files. Optional part STLs do not replace these files.
+- **3MF `Metadata/project_settings.config` persistence rule (GUI & CLI parity):**
+  In OrcaSlicer / AnycubicSlicerNext 3MF archives, `different_settings_to_system`
+  is an array ordered `[process_overrides, machine_overrides, filament_1_overrides, ...]`.
+  Every custom process setting (`seam_position`, `ironing_type`, `layer_height`,
+  `wall_loops`, `enable_support`, `support_type`, etc.) **MUST** be listed in
+  `different_settings_to_system[0]` (semicolon-separated) in addition to setting
+  its key-value pair in `Metadata/project_settings.config`. Leaving
+  `different_settings_to_system[0]` empty (or placing process keys in index `1`)
+  causes GUI slicers to discard the project's process overrides and revert to
+  system defaults (`seam_position=aligned`, `ironing_type=no ironing`). When
+  exporting via `orca-slicer.exe --export-3mf`, also normalize
+  `"version": "2.0.0.3"`, `"print_settings_id": "0.16mm Standard @Anycubic Kobra S1 0.4 nozzle"`,
+  `Application = BambuStudio-2.0.0.3` in `3D/3dmodel.model`, and strip newer
+  OrcaSlicer-only keys not recognized by AnycubicSlicerNext `2.0.0.3` so the 3MF
+  loads without version warnings or dropped settings.
+- **Minimal 3MF-only deliverable policy (`<stem>-view.3mf` + `<stem>-print.3mf` only):**
+  Default model deliverables are **exclusively** the two 3MF files
+  `models/<stem>-view.3mf` (assembled presentation / multi-state view) and
+  `models/<stem>-print.3mf` (complete print BOM with Kobra S1 machine profile,
+  filament mapping, and process overrides). Do **not** generate or retain
+  standalone `models/*.stl` exports, per-variant STLs, STL fit coupons, or extra
+  3MF projects unless explicitly requested by the user or briefly required as a
+  temporary build intermediate (which must be cleaned up before finishing).
+  Validate mesh manifoldness, overhangs, and clearances directly in memory (or on
+  the 3MF meshes) during generation, keep `catalog.json` `outputs` restricted to
+  `models/<stem>-print.3mf` and `models/<stem>-view.3mf`, and keep only the
+  directly required preview/support screenshots under `docs/images/` without
+  touching unrelated files. Group parts of each material/color together and use
+  multiple plates as needed instead of splitting the project into per-material
+  files.
 - Prefer separately printed, keyed color bodies over purge-heavy in-place
   multicolor when assembly, strength, and appearance remain acceptable.
 - Standard 3D-printing filament used as raw hinge/retainer wire is always
@@ -300,12 +328,12 @@ If behavior around print constraints, validation policy, or coordinate targeting
 | Multi-view outer-envelope recovery | accepted silhouettes from several views | `visual-hull-envelope-fit` | `image-relief-vectorize`, `photo-anchor-candidate-fit` | Use visual hulls only for outer-envelope guidance, not hidden or mating geometry. |
 | Rebuild-vs-mutate decision | stable local boundary plus frozen trusted geometry | `partial-rebuild-instead-of-mutate` | `photo-anchor-candidate-fit`, `visual-hull-envelope-fit`, `create-ascii-stl` | If a local region is structurally wrong, rebuild that region from the script instead of continuing STL mutation. |
 | Source of geometry edits | parametric scripts in `scripts/` | `create-ascii-stl` | `edit-stl-transform`, `photo-anchor-candidate-fit` | Regenerate from script instead of hand-editing STL facets. |
-| STL vs 3MF decision | confirmed material/color semantics | `stl-create-edit-interview` | `create-ascii-stl`, `stl-from-image-measurements`, `optimize-stl-for-print`, `anycubic-kobra-s1-ace-pro-profile` | Distinct material/color regions require a 3MF deliverable; STL is only for merged single-region output. |
-| Complex-project print handoff | complete BOM plus material/object process intent | `orcaslicer-project-workflow` | `multimaterial-assembly-packaging`, `anycubic-kobra-s1-ace-pro-profile` | Deliver an assembled `-view.3mf` and one Kobra-S1 settings-bearing `-print.3mf` with all filament mappings; group same-color parts on shared plates and use multiple plates as needed. |
+| STL vs 3MF decision | confirmed material/color & project semantics | `stl-create-edit-interview` | `create-ascii-stl`, `stl-from-image-measurements`, `optimize-stl-for-print`, `anycubic-kobra-s1-ace-pro-profile` | Default deliverables are `models/<stem>-print.3mf` and `models/<stem>-view.3mf` only; do not generate or retain standalone STL files or extra 3MF projects unless explicitly requested. |
+| Complex-project print handoff | complete BOM plus material/object process intent | `orcaslicer-project-workflow` | `multimaterial-assembly-packaging`, `anycubic-kobra-s1-ace-pro-profile` | Deliver an assembled `-view.3mf` and one Kobra-S1 settings-bearing `-print.3mf` with all filament mappings and `different_settings_to_system[0]` process overrides; group same-color parts on shared plates and use multiple plates as needed. |
 | Coordinate convention | mesh coordinates and user intent | `validate-stl-mesh` | `edit-stl-transform`, `optimize-stl-for-print` | Auto-detect center-origin vs corner-origin unless the user specifies it. |
-| Mesh proof and feature existence | `scripts/mesh_tool.py` checks | `validate-stl-mesh` | `stl-from-image-measurements`, `photo-anchor-candidate-fit` | Prove ambiguous internal features with probes/slices, not screenshots alone. |
-| Final model image in chat | exact final STL/3MF output | `create-ascii-stl` | `edit-stl-transform`, `stl-from-image-measurements`, `optimize-stl-for-print` | Post an inline rendered image in the final chat response; a canvas preview or path alone is not enough. |
-| STL canvas preview | written output path under `models/` | `create-ascii-stl` | `edit-stl-transform`, `stl-from-image-measurements`, `validate-stl-mesh`, `optimize-stl-for-print` | Also preview written STL outputs in the canvas; for 3MF-first outputs, report the 3MF path and preview an STL counterpart when available. |
+| Mesh proof and feature existence | `scripts/mesh_tool.py` / in-memory checks | `validate-stl-mesh` | `stl-from-image-measurements`, `photo-anchor-candidate-fit` | Prove ambiguous internal features with probes/slices, not screenshots alone. |
+| Final model image in chat | exact final 3MF/STL output | `create-ascii-stl` | `edit-stl-transform`, `stl-from-image-measurements`, `optimize-stl-for-print` | Post an inline rendered image in the final chat response; a canvas preview or path alone is not enough. |
+| STL canvas preview | written output path under `models/` | `create-ascii-stl` | `edit-stl-transform`, `stl-from-image-measurements`, `validate-stl-mesh`, `optimize-stl-for-print` | Preview `models/<stem>-view.3mf` (or `-print.3mf`) directly in the STL Canvas (`stlPath`); do not generate extra STL counterparts just for previewing. |
 | Optional helper libraries | repo support status | `.github/skills/README.md` | all skills | Mark non-default helpers such as `scikit-image` or `shapely` explicitly as optional where applicable. |
 | Reusable online assets | original source and explicit license | `research-reusable-3d-assets` | `research-part-specs`, `stl-from-image-measurements` | Search before original modeling; unclear or incompatible licenses are reference-only. |
 | Python vs Blender routing | feature type and frozen datums | `blender-assisted-modeling` | `create-ascii-stl`, `stl-from-image-measurements`, `research-reusable-3d-assets` | Python owns fit geometry; Blender owns approved organic/visual regions, and realistic or sculptural requests move to Blender with a prior license-compatible asset search instead of more primitives. |

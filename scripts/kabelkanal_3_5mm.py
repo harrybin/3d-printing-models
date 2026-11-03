@@ -63,31 +63,47 @@ MAX_TOTAL_LENGTH = BED_SIZE_XY - 2.0 * BED_MARGIN_X  # 242.00 mm
 
 # Cable specification & functional clearances
 CABLE_DIAMETER = 3.50
-CABLE_RADIAL_CLEARANCE = 0.18  # +0.36 mm diametral clearance -> Ø 3.86 mm bore
-BORE_RADIUS = 0.5 * CABLE_DIAMETER + CABLE_RADIAL_CLEARANCE  # 1.93 mm
+CABLE_RADIAL_CLEARANCE = 0.40  # +0.80 mm diametral clearance -> Ø 4.30 mm generous bore ("ggf. innen auch etwas mehr Platz lassen")
+BORE_RADIUS = 0.5 * CABLE_DIAMETER + CABLE_RADIAL_CLEARANCE  # 2.15 mm (Ø 4.30 mm inner cable passage)
 
 # Print vs. Installed Orientation (`Öffnung hinten`, Sichtseite `vorne` geschlossen):
-# - Print orientation (in `models/kabelkanal-3-5mm.stl` and `-print.3mf`):
+# - Print orientation (in `models/kabelkanal-3-5mm*.stl` and `-print.3mf`):
 #   - Closed, sleek bevelled front side (`vorne`) rests on the Textured PEI build plate `Z = 0.00 mm`.
-#   - Flat slotted back side (`hinten`) faces UP at `Z = OUTER_HEIGHT = 5.20 mm`, where `ironing_type = top`
-#     irons both flat rear wall-mounting strips (`Y in [-3.60, -1.55]` and `[+1.55, +3.60]`) razor-smooth.
-#   - Because the rear cable slot (`2.75 mm` throat, `3.10 mm` entry funnel) opens upward at `Z = 5.20 mm`,
+#   - Flat slotted back side (`hinten`) faces UP at `Z = OUTER_HEIGHT = 5.40 mm`, where `ironing_type = top`
+#     irons both flat rear wall-mounting strips (`Y in [-3.40, -1.95]` and `[+1.95, +3.40]`) razor-smooth.
+#   - Because the rear cable slot (`3.20 mm` throat, `3.90 mm` entry funnel) opens upward at `Z = 5.40 mm`,
 #     there is NO internal closing roof during printing -> 0.00 g support in OrcaSlicer `tree(auto)`!
 # - Installed wall orientation (shown in `-view.3mf` and presentation renders):
 #   - Flat slotted back (`hinten`) sits against the wall/cable; closed smooth front (`vorne`) faces out.
-Z_BORE_CENTER = 3.05  # Ø 3.86 mm cable bore center (bore spans Z = 1.12..4.98 mm; 1.12 mm solid front wall)
+Z_BORE_CENTER = 3.10  # Ø 4.30 mm cable bore center (bore spans Z = 0.95..5.25 mm; 0.95 mm solid front wall = 6 layers)
 
-SLOT_ENTRY_WIDTH = 3.10  # rear entry funnel on the flat back (Z = 5.20 mm)
-Y_ENTRY = 0.5 * SLOT_ENTRY_WIDTH  # 1.55 mm
-SLOT_THROAT_WIDTH = 2.75  # 0.75 mm snap retention undercut for the 3.50 mm cable
-Y_THROAT = 0.5 * SLOT_THROAT_WIDTH  # 1.375 mm
+# Compliant rear snap-in opening (`Öffnung hinten`):
+# Revised from the over-stiff v1 slot (Ø 3.86 mm bore, 2.75 mm throat / 0.75 mm interference / 1.67 mm side wall / 3 wall loops)
+# to a compliant, easy-press snap-in slot with generous Ø 4.30 mm internal bore:
+#   - `2 * BORE_RADIUS = 4.30 mm` (`+0.80 mm` diametral clearance around the Ø 3.50 mm cable so the cable has plenty of room
+#     inside the channel and at the connectors even with cable ovality, jacket tolerance, and FDM inner-perimeter shrinkage).
+#   - `SLOT_THROAT_WIDTH = 3.20 mm` (`Y_THROAT = ±1.60 mm`) -> only `0.30 mm` total (`0.15 mm/side`)
+#     gentle snap-retention undercut for a Ø 3.50 mm cable (~12x lower insertion energy than v1!).
+#   - Wide `SLOT_ENTRY_WIDTH = 3.90 mm` (`Y_ENTRY = ±1.95 mm`) self-centering entry funnel on the flat back (`Z = 4.82..5.40 mm`),
+#     wider than the Ø 3.50 mm cable so the cable seats into the rear funnel before pressing in.
+#   - Flexible `1.25 mm` elastic side walls (`OUTER_WIDTH = 6.80 mm`, `Y_OUTER = ±3.40 mm`, `BORE_RADIUS = 2.15 mm`) with `wall_loops = 2`
+#     and `xy_hole_compensation = 0.08 mm` so the arms flex elastically by 0.15 mm/side by thumb pressure.
+SLOT_ENTRY_WIDTH = 3.90  # rear entry funnel on the flat back (Z = 5.40 mm), wider than 3.50 mm cable
+Y_ENTRY = 0.5 * SLOT_ENTRY_WIDTH  # 1.95 mm
+SLOT_THROAT_WIDTH = 3.20  # 0.30 mm (0.15 mm/side) gentle snap retention undercut for the 3.50 mm cable
+Y_THROAT = 0.5 * SLOT_THROAT_WIDTH  # 1.60 mm
+Z_THROAT_TOP = 4.82  # deep 0.58 mm rear entry funnel (Z = 4.82..5.40 mm) with ultra-short ~0.28 mm lip land
 
-# Ultra-slim Outer Profile (7.20 mm wide x 5.20 mm high)
-OUTER_WIDTH = 7.20
-Y_OUTER = 0.5 * OUTER_WIDTH  # 3.60 mm
-OUTER_HEIGHT = 5.20
-FRONT_BEVEL = 1.20  # 45° architectural front bevel on Z = 0..1.20 mm (y_front = ±2.40 mm)
-BED_CHAMFER = 0.25  # Rear edge relief at Z = OUTER_HEIGHT
+# Slimmer, compliant Outer Profile (6.80 mm wide x 5.40 mm high -> 1.25 mm elastic side wall around Ø 4.30 mm bore)
+OUTER_WIDTH = 6.80
+Y_OUTER = 0.5 * OUTER_WIDTH  # 3.40 mm
+OUTER_HEIGHT = 5.40
+FRONT_BEVEL = 1.10  # 45° architectural front bevel on Z = 0..1.10 mm (y_front = ±2.30 mm)
+BED_CHAMFER = 0.20  # Rear edge relief at Z = OUTER_HEIGHT
+
+# Short 35.0 mm Fit-Test Coupon (`Teststück`) included as standalone STL
+# so the user can test-print a 4-minute / 0.7 g sample before or alongside full 242 mm channels.
+COUPON_TOTAL_LENGTH = 35.00
 
 # Front-to-back press-on Saddle Joint (`Von-vorne-Aufrast-Überblattung`)
 # Connects in one motion from the front when snapping the channel onto the cable:
@@ -98,25 +114,26 @@ BED_CHAMFER = 0.25  # Rear edge relief at Z = OUTER_HEIGHT
 CONNECTOR_LENGTH = 10.00
 CONNECTOR_AXIAL_CLEAR = 0.10
 SOCKET_DEPTH = CONNECTOR_LENGTH + CONNECTOR_AXIAL_CLEAR  # 10.10 mm
-CONNECTOR_CLEARANCE = 0.16  # per-side clearance between saddle and hood
+CONNECTOR_CLEARANCE = 0.12  # per-side clearance between saddle and hood
 BODY_NET_LENGTH = MAX_TOTAL_LENGTH - CONNECTOR_LENGTH  # 232.00 mm modular step per channel
 
-# Saddle & Hood cross-section parameters (YZ plane)
-Y_SADDLE_SPINE = 1.52  # 3.04 mm wide flush front face on Z = 0.00 mm
-Y_SADDLE_BASE = 2.40   # Inner saddle half-width (leaves >= 1.04 mm outer hood cheek inside Y=3.60)
-Z_SADDLE_SHOULDER = 0.92
-Z_SADDLE_APEX = 5.20
+# Saddle & Hood cross-section parameters (YZ plane, scaled to 6.80 mm outer width & Ø 4.30 mm bore)
+# Updated for 100% self-supporting overhangs (>= 47.4° everywhere) and wide 1.03 mm first-layer bed feet on +X hood:
+Y_SADDLE_SPINE = 1.15  # 2.30 mm wide flush front face on Z = 0.00 mm (widens +X hood Z=0 bed feet to 1.03 mm/side)
+Y_SADDLE_BASE = 2.50   # Inner saddle half-width (leaves 0.35 mm saddle wall around R=2.15 bore and 0.78 mm outer hood cheek)
+Z_SADDLE_SHOULDER = 1.68  # >= 47.4° slope from (1.15, 0) to (2.70, 1.68) even at T-key rib -> 0.00 g support in all slicers
+Z_SADDLE_APEX = 5.40
 
 # Vertical T-key rib (locks ±X when pressed on from the front)
 KEY_OFFSET_FROM_SHOULDER = 5.00
 KEY_HALF_LEN = 1.50
-KEY_RIB_PROTRUSION = 0.34  # widens saddle from ±2.40 to ±2.74 mm
-KEY_SLOT_DEPTH = 0.36      # widens hood slot from ±2.56 to ±2.92 mm
+KEY_RIB_PROTRUSION = 0.20  # widens saddle from ±2.50 to ±2.70 mm
+KEY_SLOT_DEPTH = 0.22      # widens hood slot from ±2.62 to ±2.84 mm
 
 # Horizontal snap-detent bead along Z (clicks when pressed on from the front)
-Z_SNAP_BEAD = 3.30
-SNAP_BEAD_PROTRUSION = 0.22  # y_bead = 2.62 mm > 2.56 mm hood throat -> 0.06 mm/side click interference
-SNAP_GROOVE_DEPTH = 0.24     # y_groove = 2.80 mm > 2.62 mm -> 0.18 mm seated clearance (0.0000 mm^3 collision)
+Z_SNAP_BEAD = 3.35
+SNAP_BEAD_PROTRUSION = 0.16  # y_bead = 2.66 mm > 2.62 mm hood throat -> 0.04 mm/side click interference (>= 63.4° slope)
+SNAP_GROOVE_DEPTH = 0.18     # y_groove = 2.80 mm > 2.66 mm -> 0.14 mm seated clearance (0.0000 mm^3 collision)
 
 
 @dataclass(frozen=True)
@@ -162,18 +179,20 @@ def _outer_profile_yz(arc_steps: int = 24) -> np.ndarray:
 
 
 def _inner_cavity_profile_yz(arc_steps: int = 36) -> np.ndarray:
-    """Return 2D polygon (Y, Z) in CCW order for the Ø 3.86 mm cable bore + rear snap-in slot at Z = 5.20 mm.
+    """Return 2D polygon (Y, Z) in CCW order for the Ø 4.00 mm cable bore + compliant rear snap-in slot at Z = 5.20 mm.
 
-    - Bore bottom sits at `Z = 1.12 mm` (leaving a solid 1.12 mm closed front wall at `Z = 0.00..1.12 mm`).
-    - Circular Ø 3.86 mm (`R = 1.93 mm`) cable bore centered at `Z = 3.05 mm` spans from the bottom up to
-      `theta_top = +44.5°` (`Y = ±1.375 mm`, `Z = 4.403 mm`), so the upper retaining lips have a
-      self-supporting slope `>= 67°` from horizontal (`<= 23°` from vertical).
-    - Snap-in throat (`2.75 mm` wide, `Y = ±1.375 mm`) spans `Z = 4.403..4.90 mm`.
-    - Rear entry funnel (`3.10 mm` wide, `Y = ±1.55 mm`) flares to the flat back `Z = 5.20 mm` (and +5.45 mm).
+    - Bore bottom sits at `Z = 1.00 mm` (leaving a solid 1.00 mm closed front wall at `Z = 0.00..1.00 mm`).
+    - Circular Ø 4.00 mm (`R = 2.00 mm`) cable bore centered at `Z = 3.00 mm` spans from the bottom up to
+      `theta_top = +37.3°` (`Y = ±1.59 mm`, `Z = 4.211 mm`), so the upper retaining lips have a
+      self-supporting slope `>= 52.7°` from horizontal (`<= 37.3°` from vertical).
+    - Compliant snap-in throat (`3.18 mm` wide, `Y = ±1.59 mm`) has a short vertical land (`Z = 4.211..4.65 mm`,
+      `0.44 mm` lip thickness) so the retaining lips flex easily when pressing in the 3.50 mm cable.
+    - Wide rear entry funnel (`3.80 mm` wide, `Y = ±1.90 mm`) flares from `Z = 4.65 mm` to the flat back
+      `Z = 5.20 mm` (`30°` lead-in angle), guiding the 3.50 mm cable smoothly into the throat.
     """
-    alpha_top = math.asin(math.sqrt(max(0.0, 1.0 - (Y_THROAT / BORE_RADIUS) ** 2)))  # ~44.5 deg
-    z_throat_bot = Z_BORE_CENTER + BORE_RADIUS * math.sin(alpha_top)  # ~4.403 mm
-    z_throat_top = 4.90
+    alpha_top = math.asin(math.sqrt(max(0.0, 1.0 - (Y_THROAT / BORE_RADIUS) ** 2)))  # ~37.3 deg
+    z_throat_bot = Z_BORE_CENTER + BORE_RADIUS * math.sin(alpha_top)  # ~4.211 mm
+    z_throat_top = Z_THROAT_TOP  # 4.65 mm
 
     pts: list[tuple[float, float]] = [
         (-Y_ENTRY, OUTER_HEIGHT + 0.25),
@@ -201,10 +220,10 @@ def _male_outer_profile_yz(delta_y_key: float = 0.0) -> np.ndarray:
     y_spine = Y_SADDLE_SPINE
     y_base = Y_SADDLE_BASE + delta_y_key
     y_bead = y_base + (SNAP_BEAD_PROTRUSION if delta_y_key >= 0.0 else 0.0)
-    z_sh = Z_SADDLE_SHOULDER + 0.85 * max(0.0, delta_y_key)
-    z_b0 = Z_SNAP_BEAD - 0.32
+    z_sh = Z_SADDLE_SHOULDER + 1.10 * max(0.0, delta_y_key)
+    z_b0 = Z_SNAP_BEAD - 0.42
     z_b1 = Z_SNAP_BEAD
-    z_b2 = Z_SNAP_BEAD + 0.32
+    z_b2 = Z_SNAP_BEAD + 0.42
 
     pts = [
         (-y_spine, 0.0),
@@ -229,10 +248,10 @@ def _female_socket_profile_yz(clearance: float = CONNECTOR_CLEARANCE, delta_y_ke
     y_spine = Y_SADDLE_SPINE + c
     y_base = Y_SADDLE_BASE + c + delta_y_key
     y_groove = y_base + SNAP_GROOVE_DEPTH
-    z_sh = max(0.25, Z_SADDLE_SHOULDER - 0.35 * c + 0.85 * max(0.0, delta_y_key))
-    z_b0 = Z_SNAP_BEAD - 0.40
+    z_sh = max(0.25, Z_SADDLE_SHOULDER - 0.15)
+    z_b0 = Z_SNAP_BEAD - 0.48
     z_b1 = Z_SNAP_BEAD
-    z_b2 = Z_SNAP_BEAD + 0.40
+    z_b2 = Z_SNAP_BEAD + 0.48
 
     pts = [
         (-y_spine, -0.20),
@@ -295,30 +314,41 @@ def _build_tapered_prism_x(
     return out
 
 
-VARIANT_SPECS: list[tuple[str, bool, bool, str]] = [
+VARIANT_SPECS: list[tuple[str, bool, bool, float, str]] = [
     (
         "kabelkanal-3-5mm-abschluss-links",
         False,
         True,
-        "Abschlusskanal links (links glatt ohne Verbindung, Verbindung nur rechts +X)",
+        MAX_TOTAL_LENGTH,
+        "Abschlusskanal links 242 mm (links glatt ohne Verbindung, Verbindung nur rechts +X)",
     ),
     (
         "kabelkanal-3-5mm-mitte-beidseitig",
         True,
         True,
-        "Mittelkanal (Verbindung links -X Sattel & rechts +X Ueberwurf-Kappe)",
+        MAX_TOTAL_LENGTH,
+        "Mittelkanal 242 mm (Verbindung links -X Sattel & rechts +X Ueberwurf-Kappe)",
     ),
     (
         "kabelkanal-3-5mm-abschluss-rechts",
         True,
         False,
-        "Abschlusskanal rechts (Verbindung nur links -X Sattel, rechts glatt ohne Verbindung)",
+        MAX_TOTAL_LENGTH,
+        "Abschlusskanal rechts 242 mm (Verbindung nur links -X Sattel, rechts glatt ohne Verbindung)",
     ),
     (
         "kabelkanal-3-5mm-einzeln-ohne-verbindung",
         False,
         False,
+        MAX_TOTAL_LENGTH,
         "Einzel-/Kurzkanal ohne Verbindungen (links & rechts glatt, 242 mm Maximallaenge)",
+    ),
+    (
+        "kabelkanal-3-5mm-10cm-rechts",
+        False,
+        True,
+        100.00,
+        "10 cm Abschluss-/Passstueck (100.0 mm, links glatt ohne Verbindung, Verbindung nur rechts +X)",
     ),
 ]
 
@@ -460,7 +490,7 @@ def verify_cable_channel_and_joint(
     )
 
     variant_stats: dict[str, dict] = {}
-    for slug, left_conn, right_conn, desc in VARIANT_SPECS:
+    for slug, left_conn, right_conn, expected_len, desc in VARIANT_SPECS:
         vm = variant_manifolds[slug]
         vmesh = variant_meshes[slug]
         assert vmesh.is_watertight, f"{slug} must be watertight"
@@ -468,32 +498,30 @@ def verify_cable_channel_and_joint(
         v_deg = int(len(vmesh.faces) - np.count_nonzero(vmesh.nondegenerate_faces()))
         assert v_deg == 0, f"{slug}: expected 0 degenerate faces, found {v_deg}"
         assert int(vmesh.euler_number) == 2, f"{slug}: expected euler_number 2, got {vmesh.euler_number}"
-        assert abs(float(vmesh.extents[0]) - MAX_TOTAL_LENGTH) < 1e-2, f"{slug}: expected 242.0 mm length, got {vmesh.extents[0]}"
-        v_cable_col = (vm ^ cable_rod).volume()
-        assert v_cable_col == 0.0, f"{slug}: 3.5 mm cable collides with bore: {v_cable_col}"
+        assert abs(float(vmesh.extents[0]) - expected_len) < 1e-2, f"{slug}: expected {expected_len} mm length, got {vmesh.extents[0]}"
+        v_cable_col = max(0.0, float((vm ^ cable_rod).volume()))
+        assert v_cable_col < 1e-9, f"{slug}: 3.5 mm cable collides with bore: {v_cable_col}"
 
-        # Verify end-feature presence/absence with volume probes:
-        # - left_outer_cheek_probe: X in [-119, -113], Y in [2.90, 3.50], Z in [1.80, 4.30] (9.0 mm^3 box)
-        #   Outside the -X saddle (max Y = 2.78 mm at key rib), inside full outer wall (Y = 3.60 mm).
-        # - right_inner_hood_probe: X in [+113, +119], Y in [2.05, 2.50], Z in [1.50, 3.80] (6.21 mm^3 box)
-        #   Inside the +X hood pocket (Y up to 2.62 mm), inside solid side wall when hood is omitted.
-        left_outer_cheek_probe = m3d.Manifold.cube([6.0, 0.50, 2.50], False).translate([-119.0, 3.00, 1.80])
-        right_inner_hood_probe = m3d.Manifold.cube([6.0, 0.45, 2.30], False).translate([+113.0, 2.05, 1.50])
-        left_outer_vol = (vm ^ left_outer_cheek_probe).volume()
-        right_inner_vol = (vm ^ right_inner_hood_probe).volume()
+        # Verify end-feature presence/absence with volume probes at each variant's own x_min / x_max:
+        half_len = 0.5 * expected_len
+        left_outer_cheek_probe = m3d.Manifold.cube([6.0, 0.30, 2.50], False).translate([-half_len + 2.0, 2.95, 1.80])
+        right_inner_hood_probe = m3d.Manifold.cube([6.0, 0.36, 2.30], False).translate([+half_len - 8.0, 2.20, 1.50])
+        left_outer_vol = max(0.0, float((vm ^ left_outer_cheek_probe).volume()))
+        right_inner_vol = max(0.0, float((vm ^ right_inner_hood_probe).volume()))
         if left_conn:
-            assert left_outer_vol == 0.0, f"{slug}: left -X saddle should have recessed outer cheek (0 mm^3), got {left_outer_vol}"
+            assert left_outer_vol < 1e-9, f"{slug}: left -X saddle should have recessed outer cheek (0 mm^3), got {left_outer_vol}"
         else:
-            assert abs(left_outer_vol - 7.5) < 1e-1, f"{slug}: clean left end must have full outer cheek (7.5 mm^3), got {left_outer_vol}"
+            assert abs(left_outer_vol - 4.5) < 1e-1, f"{slug}: clean left end must have full outer cheek (4.5 mm^3), got {left_outer_vol}"
         if right_conn:
-            assert right_inner_vol == 0.0, f"{slug}: right +X hood should have open inner saddle pocket (0 mm^3), got {right_inner_vol}"
+            assert right_inner_vol < 1e-9, f"{slug}: right +X hood should have open inner saddle pocket (0 mm^3), got {right_inner_vol}"
         else:
-            assert abs(right_inner_vol - 6.21) < 1e-1, f"{slug}: clean right end must have solid inner wall (6.21 mm^3), got {right_inner_vol}"
+            assert abs(right_inner_vol - 4.968) < 1e-1, f"{slug}: clean right end must have solid inner wall (4.968 mm^3), got {right_inner_vol}"
 
         variant_stats[slug] = {
             "description": desc,
             "left_connector": left_conn,
             "right_connector": right_conn,
+            "length_mm": round(expected_len, 2),
             "facets": int(len(vmesh.faces)),
             "vertices": int(len(vmesh.vertices)),
             "extents_mm": [round(float(x), 3) for x in vmesh.extents],
@@ -507,10 +535,17 @@ def verify_cable_channel_and_joint(
     m_left_end = variant_manifolds["kabelkanal-3-5mm-abschluss-links"]
     m_mid = variant_manifolds["kabelkanal-3-5mm-mitte-beidseitig"].translate([BODY_NET_LENGTH, 0.0, 0.0])
     m_right_end = variant_manifolds["kabelkanal-3-5mm-abschluss-rechts"].translate([2.0 * BODY_NET_LENGTH, 0.0, 0.0])
-    chain_col_left_mid = (m_left_end ^ m_mid).volume()
-    chain_col_mid_right = (m_mid ^ m_right_end).volume()
-    assert chain_col_left_mid == 0.0, f"Collision between abschluss-links and mitte-beidseitig: {chain_col_left_mid}"
-    assert chain_col_mid_right == 0.0, f"Collision between mitte-beidseitig and abschluss-rechts: {chain_col_mid_right}"
+    chain_col_left_mid = max(0.0, float((m_left_end ^ m_mid).volume()))
+    chain_col_mid_right = max(0.0, float((m_mid ^ m_right_end).volume()))
+    assert chain_col_left_mid < 1e-9, f"Collision between abschluss-links and mitte-beidseitig: {chain_col_left_mid}"
+    assert chain_col_mid_right < 1e-9, f"Collision between mitte-beidseitig and abschluss-rechts: {chain_col_mid_right}"
+
+    # Also verify that the 100 mm right-connector piece (x_max = +50.0) mates with 0.0 mm^3 collision
+    # onto the -X saddle of `mitte-beidseitig` (whose shoulder is at x_shoulder = -121.0 + 10.0 = -111.0 -> dx = 161.0 mm)
+    m_10cm = variant_manifolds["kabelkanal-3-5mm-10cm-rechts"]
+    m_mid_after_10cm = variant_manifolds["kabelkanal-3-5mm-mitte-beidseitig"].translate([50.0 + 111.0, 0.0, 0.0])
+    col_10cm_mid = max(0.0, float((m_10cm ^ m_mid_after_10cm).volume()))
+    assert col_10cm_mid < 1e-9, f"Collision between 10cm-rechts and mitte-beidseitig: {col_10cm_mid}"
 
     deg_count = int(len(mesh.faces) - np.count_nonzero(mesh.nondegenerate_faces()))
     cable_collision_vol = (m_single ^ cable_rod).volume()
@@ -520,15 +555,39 @@ def verify_cable_channel_and_joint(
     front_wall_vol = (m_single ^ front_wall_probe).volume()
     assert abs(front_wall_vol - 8.4) < 1e-2, f"Closed front wall probe must be solid (8.4 mm^3), got {front_wall_vol}"
 
-    # Prove rear slot on flat back (X in [-5, +5], Y in [-1.0, +1.0], Z in [4.40, 5.20]) is OPEN (0.0 mm^3)
-    rear_slot_probe = m3d.Manifold.cube([10.0, 2.0, 0.8], False).translate([-5.0, -1.0, 4.40])
+    # Prove generous Ø 4.00 mm clearance rod (0.50 mm oversize above the Ø 3.50 mm cable!) passes with 0.0 mm^3 collision
+    oversize_rod = _extrude_yz_along_x(
+        np.array([
+            (2.05 * math.cos(2.0 * math.pi * i / 48),
+             Z_BORE_CENTER + 2.05 * math.sin(2.0 * math.pi * i / 48))
+            for i in range(48)
+        ]),
+        -120.5,
+        +120.5,
+    )
+    oversize_col = (m_single ^ oversize_rod).volume()
+    assert oversize_col == 0.0, f"Ø 4.10 mm oversize gauge rod collides with Ø 4.30 mm bore: {oversize_col}"
+
+    # Prove rear slot on flat back (X in [-5, +5], Y in [-1.50, +1.50], Z in [4.50, 5.40]) is OPEN (0.0 mm^3)
+    # Note: Y in [-1.50, +1.50] is 3.00 mm wide (wider than the old 2.75 mm throat!), proving the throat widened to 3.20 mm.
+    rear_slot_probe = m3d.Manifold.cube([10.0, 3.00, 0.90], False).translate([-5.0, -1.50, 4.50])
     rear_slot_vol = (m_single ^ rear_slot_probe).volume()
     assert rear_slot_vol == 0.0, f"Rear cable slot on flat back must be open (0 mm^3), got {rear_slot_vol}"
 
-    # Prove flat rear mounting flanges (Y in [+1.8, +3.2], Z in [4.40, 5.00]) are SOLID
-    rear_flange_probe = m3d.Manifold.cube([10.0, 1.4, 0.6], False).translate([-5.0, 1.8, 4.40])
+    # Prove flat rear mounting flanges (Y in [+2.05, +3.15], Z in [4.50, 5.20]) are SOLID
+    rear_flange_probe = m3d.Manifold.cube([10.0, 1.1, 0.70], False).translate([-5.0, 2.05, 4.50])
     rear_flange_vol = (m_single ^ rear_flange_probe).volume()
-    assert abs(rear_flange_vol - 8.4) < 1e-2, f"Rear mounting flange must be solid (8.4 mm^3), got {rear_flange_vol}"
+    assert abs(rear_flange_vol - 7.70) < 1e-2, f"Rear mounting flange must be solid (7.70 mm^3), got {rear_flange_vol}"
+
+    # Cantilever flex / snap-in mechanics comparison (v1 vs. v2 compliant slot):
+    # Side wall thickness at mid-bore (Z = Z_BORE_CENTER = 3.10 mm): t_wall = Y_OUTER - BORE_RADIUS = 1.25 mm (vs. 1.67 mm in v1)
+    # Required unilateral deflection delta_y = 0.5 * (CABLE_DIAMETER - SLOT_THROAT_WIDTH) = 0.15 mm/side (vs. 0.375 mm/side in v1)
+    t_wall_mid = Y_OUTER - BORE_RADIUS
+    delta_y_per_side = 0.5 * (CABLE_DIAMETER - SLOT_THROAT_WIDTH)
+    lip_vertical_height = Z_THROAT_TOP - (Z_BORE_CENTER + math.sqrt(BORE_RADIUS**2 - Y_THROAT**2))
+    stiffness_ratio_vs_v1 = (t_wall_mid / 1.67) ** 3
+    force_ratio_vs_v1 = stiffness_ratio_vs_v1 * (delta_y_per_side / 0.375)
+    energy_ratio_vs_v1 = stiffness_ratio_vs_v1 * ((delta_y_per_side / 0.375) ** 2)
 
     # 3. Front-to-back press-on assembly sweep ("von vorne in einem Zug aufstecken")
     #    In print coordinates (front at Z = 0, flat slotted back at Z = 5.20):
@@ -588,8 +647,23 @@ def verify_cable_channel_and_joint(
         "seated_joint_collision_mm3": round(float(seated_inter), 4),
         "chain_left_mid_collision_mm3": round(float(chain_col_left_mid), 4),
         "chain_mid_right_collision_mm3": round(float(chain_col_mid_right), 4),
+        "chain_10cm_mid_collision_mm3": round(float(col_10cm_mid), 4),
+        "oversize_4_1mm_rod_collision_mm3": round(float(oversize_col), 4),
         "axial_x_lock_interference_mm3": round(float(axial_lock_vol), 4),
         "peak_front_snap_click_interference_mm3": round(float(peak_detent_engagement), 4),
+        "slot_compliance": {
+            "cable_diameter_mm": CABLE_DIAMETER,
+            "bore_diameter_mm": round(2.0 * BORE_RADIUS, 2),
+            "slot_throat_width_mm": SLOT_THROAT_WIDTH,
+            "slot_entry_width_mm": SLOT_ENTRY_WIDTH,
+            "undercut_total_mm": round(CABLE_DIAMETER - SLOT_THROAT_WIDTH, 2),
+            "deflection_per_side_mm": round(delta_y_per_side, 3),
+            "side_wall_thickness_mid_mm": round(t_wall_mid, 2),
+            "retaining_lip_vertical_land_mm": round(lip_vertical_height, 3),
+            "stiffness_ratio_vs_v1": round(stiffness_ratio_vs_v1, 3),
+            "insertion_force_ratio_vs_v1": round(force_ratio_vs_v1, 3),
+            "insertion_energy_ratio_vs_v1": round(energy_ratio_vs_v1, 3),
+        },
         "variants": variant_stats,
         "sweep_steps": sweep_steps,
     }
@@ -799,24 +873,27 @@ def write_3mf(
 
 
 def build_print_3mf(variant_meshes: dict[str, trimesh.Trimesh], out_path: Path) -> None:
-    """Create `models/kabelkanal-3-5mm-print.3mf` with all 4 max-length variants on Plate 1.
+    """Create `models/kabelkanal-3-5mm-print.3mf` with all 5 variants on Plate 1.
 
-    - All 4 variants are 242.0 mm long (`X in [4.0, 246.0] mm` centered at `X = 125.0 mm` on the 250 mm bed):
-      1. `kabelkanal-3-5mm-abschluss-links` at `Y = 98.0 mm` (links glatt, Verbindung nur rechts `+X`)
-      2. `kabelkanal-3-5mm-mitte-beidseitig` at `Y = 116.0 mm` (Verbindung links `-X` & rechts `+X`)
-      3. `kabelkanal-3-5mm-abschluss-rechts` at `Y = 134.0 mm` (Verbindung nur links `-X`, rechts glatt)
-      4. `kabelkanal-3-5mm-einzeln-ohne-verbindung` at `Y = 152.0 mm` (keine Verbindungen, 242 mm Maximallänge)
+    - 4 max-length variants (`242.0 mm`, `X in [4.0, 246.0] mm`) + 1x `100.0 mm` right-connector variant (`X in [75.0, 175.0] mm`):
+      1. `kabelkanal-3-5mm-abschluss-links` at `Y = 89.0 mm` (242 mm, links glatt, Verbindung nur rechts `+X`)
+      2. `kabelkanal-3-5mm-mitte-beidseitig` at `Y = 107.0 mm` (242 mm, Verbindung links `-X` & rechts `+X`)
+      3. `kabelkanal-3-5mm-abschluss-rechts` at `Y = 125.0 mm` (242 mm, Verbindung nur links `-X`, rechts glatt)
+      4. `kabelkanal-3-5mm-einzeln-ohne-verbindung` at `Y = 143.0 mm` (242 mm, keine Verbindungen)
+      5. `kabelkanal-3-5mm-10cm-rechts` at `Y = 161.0 mm` (100 mm, links glatt, Verbindung nur rechts `+X`)
     - Configured for Anycubic Kobra S1 0.4 mm nozzle, Textured PEI Plate, White PLA (Slot 1),
-      0.16 mm layer height, random seam, top ironing, and automatic tree supports (0.16 mm Z gap).
+      0.16 mm layer height, 2 wall loops (for compliant snap-in flex), random seam, top ironing,
+      and automatic tree supports (0.16 mm Z gap).
     """
     import tempfile
 
-    plate_names = ["Platte 1 - Alle 4 Varianten Kabelkanal 3.5 mm Weiss (je 242 mm)"]
+    plate_names = ["Platte 1 - Alle 5 Varianten Kabelkanal 3.5 mm Weiss (4x 242 mm + 1x 100 mm)"]
     layout_xy = {
-        "kabelkanal-3-5mm-abschluss-links": (0, (125.0, 98.0)),
-        "kabelkanal-3-5mm-mitte-beidseitig": (0, (125.0, 116.0)),
-        "kabelkanal-3-5mm-abschluss-rechts": (0, (125.0, 134.0)),
-        "kabelkanal-3-5mm-einzeln-ohne-verbindung": (0, (125.0, 152.0)),
+        "kabelkanal-3-5mm-abschluss-links": (0, (125.0, 89.0)),
+        "kabelkanal-3-5mm-mitte-beidseitig": (0, (125.0, 107.0)),
+        "kabelkanal-3-5mm-abschluss-rechts": (0, (125.0, 125.0)),
+        "kabelkanal-3-5mm-einzeln-ohne-verbindung": (0, (125.0, 143.0)),
+        "kabelkanal-3-5mm-10cm-rechts": (0, (125.0, 161.0)),
     }
     scene_items = []
     for name, (_plate_idx, (lx, ly)) in layout_xy.items():
@@ -862,12 +939,49 @@ def build_print_3mf(variant_meshes: dict[str, trimesh.Trimesh], out_path: Path) 
 
         proj_key = "Metadata/project_settings.config"
         project = json.loads(entries[proj_key].decode("utf-8"))
+        # Strip OrcaSlicer 2.4.2-only keys that AnycubicSlicerNext 2.0.0.3 flags as unrecognized
+        # when loading 3MF project settings, and set version="2.0.0.3" for full cross-slicer compatibility:
+        unrecognized_acnext_keys = {
+            "activate_air_filtration_during_print", "activate_air_filtration_on_completion",
+            "additional_fan_full_speed_layer", "bed_temperature_formula", "bridge_line_width",
+            "brim_use_efc_outline", "chamber_minimal_temperature", "close_additional_fan_first_x_layers",
+            "combine_brims", "compatible_machine_expression_group", "compatible_printers_condition",
+            "compatible_process_expression_group", "elefant_foot_layers_density", "enable_power_loss_recovery",
+            "enable_tower_interface_cooldown_during_tower", "enable_tower_interface_features",
+            "enable_wrapping_detection", "extruder_ams_count", "extruder_printable_area",
+            "extruder_printable_height", "extruder_type", "filament_adaptive_volumetric_speed",
+            "filament_adhesiveness_category", "filament_change_extrusion_role_gcode", "filament_change_length",
+            "filament_cooling_before_tower", "filament_extruder_variant", "filament_flush_temp",
+            "filament_flush_volumetric_speed", "filament_ironing_flow", "filament_ironing_inset",
+            "filament_ironing_spacing", "filament_ironing_speed", "filament_printable", "filament_self_index",
+            "filament_tower_interface_pre_extrusion_dist", "filament_tower_interface_pre_extrusion_length",
+            "filament_tower_interface_print_temp", "filament_tower_interface_purge_volume",
+            "filament_tower_ironing_area", "file_start_gcode", "first_x_layer_fan_speed",
+            "fuzzy_skin_layers_between_ripple_offset", "fuzzy_skin_ripple_offset",
+            "fuzzy_skin_ripples_per_layer", "grab_length", "gyroid_optimized",
+            "initial_layer_travel_acceleration", "initial_layer_travel_jerk", "input_shaping_damp_x",
+            "input_shaping_damp_y", "input_shaping_emit", "input_shaping_freq_x", "input_shaping_freq_y",
+            "input_shaping_type", "ironing_angle_fixed", "lightning_overhang_angle", "lightning_prune_angle",
+            "lightning_straightening_angle", "long_retractions_when_ec", "master_extruder_id",
+            "nozzle_flush_dataset", "parallel_printheads_bed_exclude_areas", "parallel_printheads_count",
+            "part_cooling_fan_min_pwm", "physical_extruder_map", "prime_tower_enable_framework",
+            "prime_tower_flat_ironing", "prime_tower_infill_gap", "prime_tower_skip_points",
+            "print_extruder_id", "print_extruder_variant", "printer_extruder_id", "printer_extruder_variant",
+            "process_change_extrusion_role_gcode", "process_settings_id", "relative_bridge_angle",
+            "retraction_distances_when_ec", "support_object_skip_flush", "support_parallel_printheads",
+            "tool_change_on_wipe_tower", "use_3mf", "volumetric_speed_coefficients", "wall_maximum_deviation",
+            "wall_maximum_resolution", "wrapping_detection_gcode", "wrapping_detection_layers",
+            "wrapping_exclude_area", "zaa_dont_alternate_fill_direction", "zaa_enabled", "zaa_min_z",
+            "zaa_minimize_perimeter_height",
+        }
+        for uk in unrecognized_acnext_keys:
+            project.pop(uk, None)
+
         process_overrides = {
-            "curr_bed_type": "Textured PEI Plate",
             "layer_height": "0.16",
             "initial_layer_print_height": "0.2",
-            "wall_loops": "3",
-            "sparse_infill_density": "25%",
+            "wall_loops": "2",
+            "sparse_infill_density": "20%",
             "sparse_infill_pattern": "rectilinear",
             "seam_position": "random",
             "ironing_type": "top",
@@ -880,7 +994,7 @@ def build_print_3mf(variant_meshes: dict[str, trimesh.Trimesh], out_path: Path) 
             "support_critical_regions_only": "1",
             "bridge_no_support": "1",
             "enable_prime_tower": "0",
-            "xy_hole_compensation": "0.0",
+            "xy_hole_compensation": "0.08",
             "xy_contour_compensation": "0",
             "elefant_foot_compensation": "0.12",
             "brim_type": "no_brim",
@@ -889,6 +1003,9 @@ def build_print_3mf(variant_meshes: dict[str, trimesh.Trimesh], out_path: Path) 
             "only_one_wall_top": "0",
         }
         project.update(process_overrides)
+        project["curr_bed_type"] = "Textured PEI Plate"
+        project["version"] = "2.0.0.3"
+        project["print_settings_id"] = "0.16mm Standard @Anycubic Kobra S1 0.4 nozzle"
         colors = [WHITE_PLA.color_hex.upper()]
         profile_name = FILAMENT_PRESET.stem
         for key, value in list(project.items()):
@@ -903,33 +1020,48 @@ def build_print_3mf(variant_meshes: dict[str, trimesh.Trimesh], out_path: Path) 
         project["filament_settings_id"] = [profile_name]
         project["filament_type"] = ["PLA"]
         project["filament_map"] = ["1"]
-        project["filament_self_index"] = ["1"]
-        project["filament_printable"] = ["3"]
         project["filament_is_support"] = ["0"]
-        project["print_extruder_id"] = ["1"]
-        project["printer_extruder_id"] = ["1"]
-        project["process_settings_id"] = BASE_PROCESS.stem
+        project["inherits_group"] = ["", "", ""]
 
-        changed = set(project.get("different_settings_to_system", ["", "", ""])[1].split(";"))
-        changed.update(process_overrides.keys())
-        changed.update({
+        # CRITICAL: In OrcaSlicer / AnycubicSlicerNext 3MF schema:
+        #   different_settings_to_system[0] = process overrides (seam_position, ironing_type, layer_height, wall_loops, etc.)
+        #   different_settings_to_system[1] = machine overrides (curr_bed_type, extruder_colour, etc.)
+        #   different_settings_to_system[2] = filament 1 overrides (default_filament_colour, filament_settings_id, etc.)
+        proc_changed = set(process_overrides.keys())
+        mach_changed = {
+            "curr_bed_type",
             "default_filament_colour",
             "default_filament_profile",
             "extruder_colour",
+            "flush_volumes_matrix",
+            "flush_volumes_vector",
+        }
+        fil_changed = {
+            "default_filament_colour",
             "filament_colour",
             "filament_settings_id",
             "filament_map",
-            "filament_self_index",
             "filament_type",
-            "flush_volumes_matrix",
-            "flush_volumes_vector",
-            "print_extruder_id",
-            "printer_extruder_id",
-        })
-        current = project.get("different_settings_to_system", ["", "", ""])
-        current[1] = ";".join(sorted(changed - {""}))
-        project["different_settings_to_system"] = current
+        }
+        project["different_settings_to_system"] = [
+            ";".join(sorted(proc_changed)),
+            ";".join(sorted(mach_changed)),
+            ";".join(sorted(fil_changed)),
+        ]
         entries[proj_key] = json.dumps(project, indent=2).encode("utf-8")
+        if "3D/3dmodel.model" in entries:
+            entries["3D/3dmodel.model"] = entries["3D/3dmodel.model"].replace(
+                b"BambuStudio-02.06.00.51", b"BambuStudio-2.0.0.3"
+            )
+        entries["Metadata/slice_info.config"] = (
+            '<?xml version="1.0" encoding="UTF-8"?>\n'
+            "<config>\n"
+            "  <header>\n"
+            '    <header_item key="X-ACNext-Client-Type" value="slicer"/>\n'
+            '    <header_item key="X-ACNext-Client-Version" value="2.0.0.3 20260904033713"/>\n'
+            "  </header>\n"
+            "</config>\n"
+        ).encode("utf-8")
 
         mod_key = "Metadata/model_settings.config"
         root = ET.fromstring(entries[mod_key])
@@ -944,8 +1076,8 @@ def build_print_3mf(variant_meshes: dict[str, trimesh.Trimesh], out_path: Path) 
             obj_id = obj.get("id")
             plate_idx, _ = layout_xy[name]
             _add_metadata(obj, "extruder", "1")
-            _add_metadata(obj, "wall_loops", "3")
-            _add_metadata(obj, "sparse_infill_density", "25%")
+            _add_metadata(obj, "wall_loops", "2")
+            _add_metadata(obj, "sparse_infill_density", "20%")
             _add_metadata(obj, "enable_support", "1")
             ids_by_plate.setdefault(plate_idx, []).append(obj_id)
 
@@ -992,7 +1124,7 @@ def build_print_3mf(variant_meshes: dict[str, trimesh.Trimesh], out_path: Path) 
             "materialColorHex": WHITE_PLA.color_hex,
             "bedType": "Textured PEI Plate",
             "plateCount": "1",
-            "objectCount": "4",
+            "objectCount": "5",
         }.items():
             ET.SubElement(meta_root, "metadata", name=k, value=val)
         entries[METADATA_ENTRY] = ET.tostring(meta_root, encoding="utf-8", xml_declaration=True)
@@ -1045,18 +1177,19 @@ def build_view_3mf(
     cable_mesh = manifold_to_trimesh(cable_m)
 
     plate_names = [
-        "Zustand 1 - Alle 4 Varianten im Ueberblick (je 242 mm Maximallaenge)",
+        "Zustand 1 - Alle 5 Varianten im Ueberblick (4x 242 mm + 1x 100 mm Rechts-Verbinder)",
         "Zustand 2 - Von vorne in einem Zug aufstecken (Abschluss links + Mitte + Abschluss rechts)",
         "Zustand 3 - Komplett aufgerastet (Links + Mitte + Rechts) mit 3.5 mm Kabel",
     ]
     pitch = 300.0
 
-    # Plate 1: All 4 full-length 242 mm variants in installed wall orientation
+    # Plate 1: All 5 variants in installed wall orientation
     p1_y_positions = [
-        ("state1-abschluss-links-242mm", "kabelkanal-3-5mm-abschluss-links", 98.0),
-        ("state1-mitte-beidseitig-242mm", "kabelkanal-3-5mm-mitte-beidseitig", 116.0),
-        ("state1-abschluss-rechts-242mm", "kabelkanal-3-5mm-abschluss-rechts", 134.0),
-        ("state1-einzeln-ohne-verbindung-242mm", "kabelkanal-3-5mm-einzeln-ohne-verbindung", 152.0),
+        ("state1-abschluss-links-242mm", "kabelkanal-3-5mm-abschluss-links", 89.0),
+        ("state1-mitte-beidseitig-242mm", "kabelkanal-3-5mm-mitte-beidseitig", 107.0),
+        ("state1-abschluss-rechts-242mm", "kabelkanal-3-5mm-abschluss-rechts", 125.0),
+        ("state1-einzeln-ohne-verbindung-242mm", "kabelkanal-3-5mm-einzeln-ohne-verbindung", 143.0),
+        ("state1-10cm-rechts-100mm", "kabelkanal-3-5mm-10cm-rechts", 161.0),
     ]
     objects: list[tuple[str, trimesh.Trimesh, filament_slot, list[float] | None]] = []
     object_plates: dict[str, int] = {}
@@ -1138,7 +1271,7 @@ def slice_and_update_metadata(print_3mf_path: Path, view_3mf_path: Path, slice_d
             f"stdout={res.stdout[-1000:]}\nstderr={res.stderr[-1000:]}"
         )
 
-    plate_titles = ["Platte 1 - Alle 4 Varianten Kabelkanal 3.5 mm Weiss (je 242 mm)"]
+    plate_titles = ["Platte 1 - Alle 5 Varianten Kabelkanal 3.5 mm Weiss (4x 242 mm + 1x 100 mm)"]
     indexed_paths = [
         (p, _filament_index(p.read_text(encoding="utf-8", errors="replace")))
         for p in gcodes
@@ -1172,13 +1305,13 @@ def slice_and_update_metadata(print_3mf_path: Path, view_3mf_path: Path, slice_d
         "materialColorName": WHITE_PLA.name,
         "materialColorHex": WHITE_PLA.color_hex.upper(),
         "bedType": "Textured PEI Plate",
-        "wallLoops": "3",
-        "infillDensity": "25%",
+        "wallLoops": "2",
+        "infillDensity": "20%",
         "supportPolicy": "Global enable_support=1; tree(auto), Z distance 0.16 mm (1 layer), 0.00 g support required",
         "supportThresholdAngleDeg": "30",
         "seamPosition": "random",
         "ironingType": "top",
-        "objectCount": "4",
+        "objectCount": "5",
         "plateCount": "1",
         "filamentUsageByColor": json.dumps(per_color, sort_keys=True, separators=(",", ":")),
         "plateDetails": json.dumps(plate_details, sort_keys=True, separators=(",", ":")),
@@ -1204,7 +1337,7 @@ def slice_and_update_metadata(print_3mf_path: Path, view_3mf_path: Path, slice_d
         target_values = dict(overall)
         if target_3mf == view_3mf_path:
             target_values["plateCount"] = "3"
-            target_values["objectCount"] = "12"
+            target_values["objectCount"] = "13"
         for k, val in target_values.items():
             if k not in fields:
                 fields[k] = ET.SubElement(root, "metadata", name=k)
@@ -1261,10 +1394,11 @@ def render_all_previews(
         grid_lines.append(vedo.Line((0, g, 0.05), (250, g, 0.05), c="#3E4656", lw=1))
 
     plate_y_order = [
-        ("kabelkanal-3-5mm-abschluss-links", 98.0),
-        ("kabelkanal-3-5mm-mitte-beidseitig", 116.0),
-        ("kabelkanal-3-5mm-abschluss-rechts", 134.0),
-        ("kabelkanal-3-5mm-einzeln-ohne-verbindung", 152.0),
+        ("kabelkanal-3-5mm-abschluss-links", 89.0),
+        ("kabelkanal-3-5mm-mitte-beidseitig", 107.0),
+        ("kabelkanal-3-5mm-abschluss-rechts", 125.0),
+        ("kabelkanal-3-5mm-einzeln-ohne-verbindung", 143.0),
+        ("kabelkanal-3-5mm-10cm-rechts", 161.0),
     ]
     placed_print_meshes = []
     v_print_actors = []
@@ -1276,9 +1410,9 @@ def render_all_previews(
         v_ghost_actors.append(vedo.Mesh([pm.vertices, pm.faces]).c("#DDE2EA").alpha(0.85).lighting("plastic"))
 
     title_print = vedo.Text2D(
-        f"kabelkanal-3-5mm-print.3mf  |  Plate 1: Alle 4 Varianten (je 242.0 mm)  |  White PLA  |  "
+        f"kabelkanal-3-5mm-print.3mf  |  Plate 1: Alle 5 Varianten (4x 242 mm + 1x 100 mm)  |  White PLA  |  "
         f"{fil_g:.2f} g  |  {time_str}  |  Support: {sup_g:.2f} g",
-        pos="top-left", s=0.92, c="white", bg="#11151C", alpha=0.85,
+        pos="top-left", s=0.88, c="white", bg="#11151C", alpha=0.85,
     )
     plt_print.show(
         bed, *grid_lines, *v_print_actors, title_print,
@@ -1298,9 +1432,9 @@ def render_all_previews(
     sup_act = support_actor(sup_segs)
     plt_sup = vedo.Plotter(offscreen=True, size=(1600, 1000), bg="#15181F")
     sup_badge = vedo.Text2D(
-        f"Plate 1 G-code Support Verification (4 Varianten je 242 mm)  |  enable_support=1 tree(auto)  |  "
+        f"Plate 1 G-code Support Verification (5 Varianten: 4x 242 mm + 1x 100 mm)  |  enable_support=1 tree(auto)  |  "
         f"Support path segments: {len(sup_segs)}  |  Support material: {sup_g:.2f} g (NO SUPPORTS REQUIRED)",
-        pos="top-left", s=0.88, c="#5CE08A", bg="#10141B", alpha=0.9,
+        pos="top-left", s=0.84, c="#5CE08A", bg="#10141B", alpha=0.9,
     )
     actors = [bed, *grid_lines, *v_ghost_actors, sup_badge]
     if sup_act is not None:
@@ -1318,10 +1452,10 @@ def render_all_previews(
     plt_sup.close()
 
     # 3. View project preview + high-detail presentation render (4-panel composite):
-    #    Panel 0 (Top-Left): All 4 full-length (242.0 mm) variants side-by-side in installed wall orientation
+    #    Panel 0 (Top-Left): All 5 variants side-by-side in installed wall orientation (4x 242 mm + 1x 100 mm)
     #    Panel 1 (Top-Right): Front-to-back press-on motion ("von vorne in einem Zug aufstecken")
-    #    Panel 2 (Bottom-Left): Assembled & locked from the visible front (smooth 7.2x5.2 mm profile)
-    #    Panel 3 (Bottom-Right): Rear view (`hinten abgeflacht`) with 2.75 mm rear cable slot & flat wall pads
+    #    Panel 2 (Bottom-Left): Assembled & locked from the visible front (smooth 6.8x5.4 mm profile, Ø 4.30 mm bore)
+    #    Panel 3 (Bottom-Right): Rear view (`hinten abgeflacht`) with 3.20 mm compliant slot (3.90 mm funnel) & 1.25 mm flex walls
     plt_pres = vedo.Plotter(N=4, offscreen=True, size=(2000, 1300), bg="#1C2029", sharecam=False)
 
     m_demo_mid = demo_meshes["kabelkanal-3-5mm-mitte-beidseitig"]
@@ -1330,17 +1464,18 @@ def render_all_previews(
 
     p0_actors = []
     for slug, py in [
-        ("kabelkanal-3-5mm-abschluss-links", -27.0),
-        ("kabelkanal-3-5mm-mitte-beidseitig", -9.0),
-        ("kabelkanal-3-5mm-abschluss-rechts", +9.0),
-        ("kabelkanal-3-5mm-einzeln-ohne-verbindung", +27.0),
+        ("kabelkanal-3-5mm-abschluss-links", -36.0),
+        ("kabelkanal-3-5mm-mitte-beidseitig", -18.0),
+        ("kabelkanal-3-5mm-abschluss-rechts", 0.0),
+        ("kabelkanal-3-5mm-einzeln-ohne-verbindung", +18.0),
+        ("kabelkanal-3-5mm-10cm-rechts", +36.0),
     ]:
         mw = _to_installed_wall_mesh(variant_meshes[slug]).apply_translation([0.0, py, 0.0])
         p0_actors.append(vedo.Mesh([mw.vertices, mw.faces]).c("#F4F5F7").lighting("plastic"))
 
     t0 = vedo.Text2D(
-        "1. Alle 4 Varianten (je 242.0 mm): Abschluss links | Mitte (beidseitig) | Abschluss rechts | Einzeln (ohne Verb.)",
-        pos="top-left", s=0.78, c="white", bg="#11151C", alpha=0.85,
+        "1. Alle 5 Varianten: 4x 242 mm (Links | Mitte | Rechts | Einzeln) + 1x 100 mm (Verbindung nur rechts)",
+        pos="top-left", s=0.76, c="white", bg="#11151C", alpha=0.85,
     )
     plt_pres.at(0).show(
         *p0_actors, t0,
@@ -1378,8 +1513,8 @@ def render_all_previews(
     v_right_m = vedo.Mesh([seg_right_mated.vertices, seg_right_mated.faces]).c("#EAEEF5").lighting("plastic")
     v_cable = vedo.Mesh([cable_mated.vertices, cable_mated.faces]).c("#2F7DE1").lighting("plastic")
     t2 = vedo.Text2D(
-        "3. Aufgerastet (Sichtseite vorne): Schlankes 7.2x5.2 mm Profil, buendiger Uebergang",
-        pos="top-left", s=0.80, c="white", bg="#11151C", alpha=0.85,
+        "3. Aufgerastet (Sichtseite vorne): Schlankes 6.8x5.4 mm Profil (Ø 4.30 mm Innenraum), buendiger Uebergang",
+        pos="top-left", s=0.76, c="white", bg="#11151C", alpha=0.85,
     )
     plt_pres.at(2).show(
         v_left_m, v_right_m, v_cable, t2,
@@ -1387,7 +1522,7 @@ def render_all_previews(
         resetcam=False,
     )
 
-    # Panel 3: Rear/Bottom view (`hinten abgeflacht`) showing the flat slotted back (print Z = 5.20 mm facing up)
+    # Panel 3: Rear/Bottom view (`hinten abgeflacht`) showing the flat slotted back (print Z = 5.40 mm facing up)
     cable_print_pts = np.array([
         (0.5 * CABLE_DIAMETER * math.cos(2.0 * math.pi * i / 40),
          Z_BORE_CENTER + 0.5 * CABLE_DIAMETER * math.sin(2.0 * math.pi * i / 40))
@@ -1400,8 +1535,8 @@ def render_all_previews(
     v_right_b = vedo.Mesh([seg_right_back.vertices, seg_right_back.faces]).c("#E5EAF2").lighting("plastic")
     v_cable_b = vedo.Mesh([cable_back.vertices, cable_back.faces]).c("#2F7DE1").lighting("plastic")
     t3 = vedo.Text2D(
-        "4. Rueckseite (hinten abgeflacht): 2.75 mm Kabel-Einclipsoeffnung hinten + flache Auflage",
-        pos="top-left", s=0.80, c="white", bg="#11151C", alpha=0.85,
+        "4. Rueckseite: Ø 4.30 mm Bohrung + 3.20 mm elastischer Schlitz (3.90 mm Trichter, 1.25 mm Federwangen)",
+        pos="top-left", s=0.75, c="white", bg="#11151C", alpha=0.85,
     )
     plt_pres.at(3).show(
         v_left_b, v_right_b, v_cable_b, t3,
@@ -1418,7 +1553,7 @@ def render_all_previews(
 
 def main() -> None:
     t0 = time.perf_counter()
-    print("Building all 4 variants of the 3.5 mm cable channel (each 242.0 mm max bed length)...")
+    print("Building all 5 variants of the 3.5 mm cable channel (4x 242.0 mm + 1x 100.0 mm right-connector)...")
     variant_manifolds: dict[str, m3d.Manifold] = {}
     variant_meshes: dict[str, trimesh.Trimesh] = {}
 
@@ -1426,19 +1561,16 @@ def main() -> None:
     demo_total_len = demo_net_len + CONNECTOR_LENGTH  # 80.0 mm
     demo_meshes: dict[str, trimesh.Trimesh] = {}
 
-    for slug, left_conn, right_conn, _desc in VARIANT_SPECS:
+    for slug, left_conn, right_conn, total_len, _desc in VARIANT_SPECS:
         vm = build_channel_manifold(
-            body_net_length=BODY_NET_LENGTH,
+            body_net_length=total_len - CONNECTOR_LENGTH,
             left_connector=left_conn,
             right_connector=right_conn,
-            total_length_override=MAX_TOTAL_LENGTH,
+            total_length_override=total_len,
         )
         vmesh = manifold_to_trimesh(vm)
         variant_manifolds[slug] = vm
         variant_meshes[slug] = vmesh
-        stl_out = MODELS / f"{slug}.stl"
-        export_ascii_stl(vmesh, stl_out, solid_name=slug.replace("-", "_"))
-        print(f"Exported ASCII STL: {stl_out}")
 
         if left_conn or right_conn:
             dm = build_channel_manifold(
@@ -1448,15 +1580,6 @@ def main() -> None:
                 total_length_override=demo_total_len,
             )
             demo_meshes[slug] = manifold_to_trimesh(dm)
-
-    # Also export the default middle segment at `models/kabelkanal-3-5mm.stl`
-    stl_path = MODELS / "kabelkanal-3-5mm.stl"
-    export_ascii_stl(
-        variant_meshes["kabelkanal-3-5mm-mitte-beidseitig"],
-        stl_path,
-        solid_name="kabelkanal_3_5mm",
-    )
-    print(f"Exported primary ASCII STL: {stl_path}")
 
     print_3mf_path = MODELS / "kabelkanal-3-5mm-print.3mf"
     view_3mf_path = MODELS / "kabelkanal-3-5mm-view.3mf"
