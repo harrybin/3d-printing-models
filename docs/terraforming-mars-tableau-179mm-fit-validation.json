@@ -1,0 +1,1006 @@
+{
+  "source": "model-sources/terraforming-mars-tableau/terraforming-mars-tableau-179mm.3mf",
+  "source_sha256": "fb017fdd8bc1ef03faac8a431af10b39c6d1fc842391db4fb9cf50e121e43c3d",
+  "coupons_sha256": "f2cd5082b5705df9b6b88963f716be752641be23a481abd9d7f663cfed2d23ef",
+  "output": "models/terraforming-mars-tableau-179mm-loch1-zapfen3.3mf",
+  "output_sha256": "bbe777436d9af56f55875cf00df18dbfee49e5a0531c94c98a5895ab76892f37",
+  "selected_pair": {
+    "hole_marks": 1,
+    "pin_marks": 3,
+    "hole_diameter_mm": 3.0,
+    "pin_diameter_mm": 2.6,
+    "diametral_clearance_mm": 0.3999999999999999
+  },
+  "coupon_mesh_measurements": [
+    {
+      "role": "one-notch socket",
+      "x_mm": -10,
+      "xy_diameters_mm": [
+        3.0,
+        3.0
+      ]
+    },
+    {
+      "role": "one-notch socket",
+      "x_mm": 10,
+      "xy_diameters_mm": [
+        3.0,
+        3.0
+      ]
+    },
+    {
+      "role": "three-notch pin",
+      "x_mm": -10,
+      "xy_diameters_mm": [
+        2.60000039,
+        2.5999999
+      ]
+    },
+    {
+      "role": "three-notch pin",
+      "x_mm": 10,
+      "xy_diameters_mm": [
+        2.60000039,
+        2.5999999
+      ]
+    }
+  ],
+  "scale_policy": "Panels remain scaled 179/172; selected physical fit diameters are NOT scaled again.",
+  "short_side_mm": 179.0,
+  "socket_depth_mm": 2.6017441860465116,
+  "socket_floor_mm": 0.5203488372093024,
+  "pin_projection_mm": 2.4976744186046513,
+  "axial_clearance_mm": 0.1040697674418607,
+  "changed_archive_members": [
+    "3D/Objects/Body1_1.model",
+    "3D/Objects/Vorderseite - PLA Transparent (Startprofil)_3.model",
+    "3D/Objects/Body1_2.model"
+  ],
+  "print_settings_preserved_byte_for_byte": true,
+  "plate_component_build_and_assembly_transforms_preserved_byte_for_byte": true,
+  "changes": {
+    "3D/Objects/Body1_1.model": [
+      {
+        "source": {
+          "center_mm": [
+            0.0,
+            -86.4819752
+          ],
+          "xy_diameters_mm": [
+            3.12209302,
+            3.1220929999999925
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      },
+      {
+        "source": {
+          "center_mm": [
+            0.0,
+            86.4819752
+          ],
+          "xy_diameters_mm": [
+            3.12209302,
+            3.1220929999999925
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      },
+      {
+        "source": {
+          "center_mm": [
+            -117.1825565,
+            -86.4819752
+          ],
+          "xy_diameters_mm": [
+            3.1220929999999925,
+            3.1220929999999925
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      },
+      {
+        "source": {
+          "center_mm": [
+            -117.1825565,
+            0.0
+          ],
+          "xy_diameters_mm": [
+            3.1220929999999925,
+            3.12209302
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      },
+      {
+        "source": {
+          "center_mm": [
+            -117.1825565,
+            86.4819752
+          ],
+          "xy_diameters_mm": [
+            3.1220929999999925,
+            3.1220929999999925
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      },
+      {
+        "source": {
+          "center_mm": [
+            117.1825565,
+            -86.4819752
+          ],
+          "xy_diameters_mm": [
+            3.1220929999999925,
+            3.1220929999999925
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      },
+      {
+        "source": {
+          "center_mm": [
+            117.1825565,
+            0.0
+          ],
+          "xy_diameters_mm": [
+            3.1220929999999925,
+            3.12209302
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      },
+      {
+        "source": {
+          "center_mm": [
+            117.1825565,
+            86.4819752
+          ],
+          "xy_diameters_mm": [
+            3.1220929999999925,
+            3.1220929999999925
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      }
+    ],
+    "3D/Objects/Vorderseite - PLA Transparent (Startprofil)_3.model": [
+      {
+        "source": {
+          "center_mm": [
+            0.0,
+            -86.4819752
+          ],
+          "xy_diameters_mm": [
+            3.12209302,
+            3.1220929999999925
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      },
+      {
+        "source": {
+          "center_mm": [
+            0.0,
+            86.4819752
+          ],
+          "xy_diameters_mm": [
+            3.12209302,
+            3.1220929999999925
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      },
+      {
+        "source": {
+          "center_mm": [
+            -117.1825565,
+            -86.4819752
+          ],
+          "xy_diameters_mm": [
+            3.1220929999999925,
+            3.1220929999999925
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      },
+      {
+        "source": {
+          "center_mm": [
+            -117.1825565,
+            0.0
+          ],
+          "xy_diameters_mm": [
+            3.1220929999999925,
+            3.12209302
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      },
+      {
+        "source": {
+          "center_mm": [
+            -117.1825565,
+            86.4819752
+          ],
+          "xy_diameters_mm": [
+            3.1220929999999925,
+            3.1220929999999925
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      },
+      {
+        "source": {
+          "center_mm": [
+            117.1825565,
+            -86.4819752
+          ],
+          "xy_diameters_mm": [
+            3.1220929999999925,
+            3.1220929999999925
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      },
+      {
+        "source": {
+          "center_mm": [
+            117.1825565,
+            0.0
+          ],
+          "xy_diameters_mm": [
+            3.1220929999999925,
+            3.12209302
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      },
+      {
+        "source": {
+          "center_mm": [
+            117.1825565,
+            86.4819752
+          ],
+          "xy_diameters_mm": [
+            3.1220929999999925,
+            3.1220929999999925
+          ],
+          "z_mm": 1.0406976744186047
+        },
+        "target_diameter_mm": 3.0,
+        "changed_vertices": 48
+      }
+    ],
+    "3D/Objects/Body1_2.model": [
+      {
+        "source": {
+          "center_mm": [
+            0.0,
+            -86.48197915
+          ],
+          "xy_diameters_mm": [
+            2.70581384,
+            2.705812299999991
+          ],
+          "z_mm": -0.20813953488372094
+        },
+        "target_diameter_mm": 2.6,
+        "changed_vertices": 169
+      },
+      {
+        "source": {
+          "center_mm": [
+            0.0,
+            86.48197915
+          ],
+          "xy_diameters_mm": [
+            2.70581384,
+            2.705812299999991
+          ],
+          "z_mm": -0.20813953488372094
+        },
+        "target_diameter_mm": 2.6,
+        "changed_vertices": 169
+      },
+      {
+        "source": {
+          "center_mm": [
+            -117.1825605,
+            -86.48197915
+          ],
+          "xy_diameters_mm": [
+            2.705812999999992,
+            2.705812299999991
+          ],
+          "z_mm": -0.20813953488372094
+        },
+        "target_diameter_mm": 2.6,
+        "changed_vertices": 169
+      },
+      {
+        "source": {
+          "center_mm": [
+            -117.1825565,
+            0.0
+          ],
+          "xy_diameters_mm": [
+            2.9139569999999964,
+            2.91395344
+          ],
+          "z_mm": -0.20813953488372094
+        },
+        "target_diameter_mm": 2.6,
+        "changed_vertices": 192
+      },
+      {
+        "source": {
+          "center_mm": [
+            -117.1825605,
+            86.48197915
+          ],
+          "xy_diameters_mm": [
+            2.705812999999992,
+            2.705812299999991
+          ],
+          "z_mm": -0.20813953488372094
+        },
+        "target_diameter_mm": 2.6,
+        "changed_vertices": 169
+      },
+      {
+        "source": {
+          "center_mm": [
+            117.1825605,
+            -86.48197915
+          ],
+          "xy_diameters_mm": [
+            2.705812999999992,
+            2.705812299999991
+          ],
+          "z_mm": -0.20813953488372094
+        },
+        "target_diameter_mm": 2.6,
+        "changed_vertices": 169
+      },
+      {
+        "source": {
+          "center_mm": [
+            117.1825605,
+            0.0
+          ],
+          "xy_diameters_mm": [
+            2.705812999999992,
+            2.70581384
+          ],
+          "z_mm": -0.20813953488372094
+        },
+        "target_diameter_mm": 2.6,
+        "changed_vertices": 169
+      },
+      {
+        "source": {
+          "center_mm": [
+            117.1825605,
+            86.48197915
+          ],
+          "xy_diameters_mm": [
+            2.705812999999992,
+            2.705812299999991
+          ],
+          "z_mm": -0.20813953488372094
+        },
+        "target_diameter_mm": 2.6,
+        "changed_vertices": 169
+      }
+    ]
+  },
+  "exported_mesh_checks": [
+    {
+      "mesh_path": "3D/Objects/Body1_1.model",
+      "features": [
+        {
+          "diameters_at_z_-1.561047_mm": [
+            3.0000000096,
+            2.999999990399999
+          ],
+          "diameters_at_z_0.000000_mm": [
+            3.0000000096,
+            2.999999990399999
+          ],
+          "diameters_at_z_1.040698_mm": [
+            3.0000000096,
+            2.999999990399999
+          ],
+          "center_mm": [
+            0.0,
+            -86.4819752604
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        },
+        {
+          "diameters_at_z_-1.561047_mm": [
+            3.0000000096,
+            2.999999990399999
+          ],
+          "diameters_at_z_0.000000_mm": [
+            3.0000000096,
+            2.999999990399999
+          ],
+          "diameters_at_z_1.040698_mm": [
+            3.0000000096,
+            2.999999990399999
+          ],
+          "center_mm": [
+            0.0,
+            86.4819752604
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        },
+        {
+          "diameters_at_z_-1.561047_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_0.000000_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_1.040698_mm": [
+            3.0,
+            3.0
+          ],
+          "center_mm": [
+            -117.182556564,
+            -86.4819752604
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        },
+        {
+          "diameters_at_z_-1.561047_mm": [
+            2.9999999900000063,
+            3.0000000096
+          ],
+          "diameters_at_z_0.000000_mm": [
+            2.9999999900000063,
+            3.0000000096
+          ],
+          "diameters_at_z_1.040698_mm": [
+            2.9999999900000063,
+            3.0000000096
+          ],
+          "center_mm": [
+            -117.18255656400001,
+            0.0
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        },
+        {
+          "diameters_at_z_-1.561047_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_0.000000_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_1.040698_mm": [
+            3.0,
+            3.0
+          ],
+          "center_mm": [
+            -117.182556564,
+            86.4819752604
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        },
+        {
+          "diameters_at_z_-1.561047_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_0.000000_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_1.040698_mm": [
+            3.0,
+            3.0
+          ],
+          "center_mm": [
+            117.182556564,
+            -86.4819752604
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        },
+        {
+          "diameters_at_z_-1.561047_mm": [
+            2.9999999900000063,
+            3.0000000096
+          ],
+          "diameters_at_z_0.000000_mm": [
+            2.9999999900000063,
+            3.0000000096
+          ],
+          "diameters_at_z_1.040698_mm": [
+            2.9999999900000063,
+            3.0000000096
+          ],
+          "center_mm": [
+            117.18255656400001,
+            0.0
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        },
+        {
+          "diameters_at_z_-1.561047_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_0.000000_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_1.040698_mm": [
+            3.0,
+            3.0
+          ],
+          "center_mm": [
+            117.182556564,
+            86.4819752604
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        }
+      ],
+      "euler_number": -156,
+      "vertices": 9772,
+      "triangles": 19856,
+      "bounds_mm": [
+        [
+          -120.200581,
+          -89.5,
+          -1.56104651
+        ],
+        [
+          120.200581,
+          89.5,
+          1.56104651
+        ]
+      ]
+    },
+    {
+      "mesh_path": "3D/Objects/Vorderseite - PLA Transparent (Startprofil)_3.model",
+      "features": [
+        {
+          "diameters_at_z_-1.561047_mm": [
+            3.0000000096,
+            2.999999990399999
+          ],
+          "diameters_at_z_0.000000_mm": [
+            3.0000000096,
+            2.999999990399999
+          ],
+          "diameters_at_z_1.040698_mm": [
+            3.0000000096,
+            2.999999990399999
+          ],
+          "center_mm": [
+            0.0,
+            -86.4819752604
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        },
+        {
+          "diameters_at_z_-1.561047_mm": [
+            3.0000000096,
+            2.999999990399999
+          ],
+          "diameters_at_z_0.000000_mm": [
+            3.0000000096,
+            2.999999990399999
+          ],
+          "diameters_at_z_1.040698_mm": [
+            3.0000000096,
+            2.999999990399999
+          ],
+          "center_mm": [
+            0.0,
+            86.4819752604
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        },
+        {
+          "diameters_at_z_-1.561047_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_0.000000_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_1.040698_mm": [
+            3.0,
+            3.0
+          ],
+          "center_mm": [
+            -117.182556564,
+            -86.4819752604
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        },
+        {
+          "diameters_at_z_-1.561047_mm": [
+            2.9999999900000063,
+            3.0000000096
+          ],
+          "diameters_at_z_0.000000_mm": [
+            2.9999999900000063,
+            3.0000000096
+          ],
+          "diameters_at_z_1.040698_mm": [
+            2.9999999900000063,
+            3.0000000096
+          ],
+          "center_mm": [
+            -117.18255656400001,
+            0.0
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        },
+        {
+          "diameters_at_z_-1.561047_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_0.000000_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_1.040698_mm": [
+            3.0,
+            3.0
+          ],
+          "center_mm": [
+            -117.182556564,
+            86.4819752604
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        },
+        {
+          "diameters_at_z_-1.561047_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_0.000000_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_1.040698_mm": [
+            3.0,
+            3.0
+          ],
+          "center_mm": [
+            117.182556564,
+            -86.4819752604
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        },
+        {
+          "diameters_at_z_-1.561047_mm": [
+            2.9999999900000063,
+            3.0000000096
+          ],
+          "diameters_at_z_0.000000_mm": [
+            2.9999999900000063,
+            3.0000000096
+          ],
+          "diameters_at_z_1.040698_mm": [
+            2.9999999900000063,
+            3.0000000096
+          ],
+          "center_mm": [
+            117.18255656400001,
+            0.0
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        },
+        {
+          "diameters_at_z_-1.561047_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_0.000000_mm": [
+            3.0,
+            3.0
+          ],
+          "diameters_at_z_1.040698_mm": [
+            3.0,
+            3.0
+          ],
+          "center_mm": [
+            117.182556564,
+            86.4819752604
+          ],
+          "depth_mm": 2.6017441860465116,
+          "floor_thickness_mm": 0.5203488372093024
+        }
+      ],
+      "euler_number": -156,
+      "vertices": 9772,
+      "triangles": 19856,
+      "bounds_mm": [
+        [
+          -120.200581,
+          -89.5,
+          -1.56104651
+        ],
+        [
+          120.200581,
+          89.5,
+          1.56104651
+        ]
+      ]
+    },
+    {
+      "mesh_path": "3D/Objects/Body1_2.model",
+      "features": [
+        {
+          "diameters_at_z_-0.208140_mm": [
+            2.600000699246542,
+            2.599999178832533
+          ],
+          "diameters_at_z_0.000000_mm": [
+            2.60000073988,
+            2.599999260100006
+          ],
+          "diameters_at_z_0.936628_mm": [
+            2.600000355305791,
+            2.599998750289487
+          ],
+          "center_mm": [
+            0.0,
+            -86.48197905595
+          ]
+        },
+        {
+          "diameters_at_z_-0.208140_mm": [
+            2.600000699245555,
+            2.599999178832533
+          ],
+          "diameters_at_z_0.000000_mm": [
+            2.60000073988,
+            2.599999260100006
+          ],
+          "diameters_at_z_0.936628_mm": [
+            2.600000355305819,
+            2.599998750289487
+          ],
+          "center_mm": [
+            0.0,
+            86.48197905595
+          ]
+        },
+        {
+          "diameters_at_z_-0.208140_mm": [
+            2.6000002953653336,
+            2.599999582432517
+          ],
+          "diameters_at_z_0.000000_mm": [
+            2.6000003359999937,
+            2.5999996636999896
+          ],
+          "diameters_at_z_0.936628_mm": [
+            2.599999951430817,
+            2.599999153889385
+          ],
+          "center_mm": [
+            -117.182560408,
+            -86.48197905595
+          ]
+        },
+        {
+          "diameters_at_z_-0.208140_mm": [
+            2.600001506726116,
+            2.5999983305119465
+          ],
+          "diameters_at_z_0.000000_mm": [
+            2.600001588000012,
+            2.59999841178
+          ],
+          "diameters_at_z_0.936628_mm": [
+            2.60000109606581,
+            2.59999791985254
+          ],
+          "center_mm": [
+            -117.18255667700001,
+            0.0
+          ]
+        },
+        {
+          "diameters_at_z_-0.208140_mm": [
+            2.6000002953662147,
+            2.599999582432517
+          ],
+          "diameters_at_z_0.000000_mm": [
+            2.6000003359999937,
+            2.5999996636999896
+          ],
+          "diameters_at_z_0.936628_mm": [
+            2.5999999514280034,
+            2.599999153889385
+          ],
+          "center_mm": [
+            -117.182560408,
+            86.48197905595
+          ]
+        },
+        {
+          "diameters_at_z_-0.208140_mm": [
+            2.6000002953662147,
+            2.599999582432517
+          ],
+          "diameters_at_z_0.000000_mm": [
+            2.6000003359999937,
+            2.5999996636999896
+          ],
+          "diameters_at_z_0.936628_mm": [
+            2.5999999514280034,
+            2.599999153889385
+          ],
+          "center_mm": [
+            117.182560408,
+            -86.48197905595
+          ]
+        },
+        {
+          "diameters_at_z_-0.208140_mm": [
+            2.5999995157315965,
+            2.60000032231112
+          ],
+          "diameters_at_z_0.000000_mm": [
+            2.599999597000007,
+            2.60000040358
+          ],
+          "diameters_at_z_0.936628_mm": [
+            2.5999990871889764,
+            2.599999893757497
+          ],
+          "center_mm": [
+            117.1825604075,
+            0.0
+          ]
+        },
+        {
+          "diameters_at_z_-0.208140_mm": [
+            2.6000002953653336,
+            2.599999582432517
+          ],
+          "diameters_at_z_0.000000_mm": [
+            2.6000003359999937,
+            2.5999996636999896
+          ],
+          "diameters_at_z_0.936628_mm": [
+            2.599999951430817,
+            2.599999153889385
+          ],
+          "center_mm": [
+            117.182560408,
+            86.48197905595
+          ]
+        }
+      ],
+      "euler_number": 2,
+      "vertices": 2997,
+      "triangles": 5990,
+      "bounds_mm": [
+        [
+          -120.200581,
+          -89.5,
+          -2.28953494
+        ],
+        [
+          120.200581,
+          89.5,
+          2.28953494
+        ]
+      ]
+    }
+  ],
+  "insertion_sweep": [
+    {
+      "separation_mm": 2.5976744186046514,
+      "intersection_mm3": 0.0
+    },
+    {
+      "separation_mm": 2.27296511627907,
+      "intersection_mm3": 0.0
+    },
+    {
+      "separation_mm": 1.9482558139534887,
+      "intersection_mm3": 0.0
+    },
+    {
+      "separation_mm": 1.623546511627907,
+      "intersection_mm3": 0.0
+    },
+    {
+      "separation_mm": 1.2988372093023257,
+      "intersection_mm3": 0.0
+    },
+    {
+      "separation_mm": 0.9741279069767443,
+      "intersection_mm3": 0.0
+    },
+    {
+      "separation_mm": 0.6494186046511627,
+      "intersection_mm3": 0.0
+    },
+    {
+      "separation_mm": 0.3247093023255814,
+      "intersection_mm3": 0.0
+    },
+    {
+      "separation_mm": 0.0,
+      "intersection_mm3": 0.0
+    }
+  ],
+  "checks": [
+    "All 16 sockets and eight pins measured on reparsed exported meshes",
+    "All 16 blind floors and bore cavities verified with solid volume probes",
+    "All three meshes watertight, consistently wound, single-component, no degenerate faces",
+    "Mesh topology, all Z coordinates and all non-fitting vertices unchanged",
+    "Both front copies identical; all eight pin/socket centers preserved",
+    "Nine-step full-panel axial insertion sweep: no unintended interference",
+    "Three plates, build/component transforms, materials and all settings byte-identical",
+    "ZIP CRC, member list and all XML/JSON entries parse successfully",
+    "Archived prior 179mm project and coupon archive preserved"
+  ],
+  "physical_fit": "Selected coupons physically tested by user; full tableau fit NOT verified. All three hole coupons have the same CAD diameter; reported hole-fit differences are not CAD size steps.",
+  "slice_status": "OrcaSlicer CLI attempted with unchanged saved settings; exit -18: retraction_distances_when_cut: 0 not in range [10.000000,18.000000]. No G-code produced. No successful slice, print-time, support or material claim."
+}

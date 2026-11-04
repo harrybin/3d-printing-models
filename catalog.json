@@ -9,6 +9,20 @@
   },
   "models": [
     {
+      "slug": "terraforming-mars-tableau-179mm-loch1-zapfen3",
+      "generator": "scripts/fit_terraforming_mars_tableau.py",
+      "outputs": [
+        "models/terraforming-mars-tableau-179mm-loch1-zapfen3.3mf"
+      ],
+      "docs": [
+        "docs/terraforming-mars-tableau.md",
+        "docs/terraforming-mars-tableau-179mm-fit-validation.json",
+        "docs/images/terraforming-mars-tableau-179mm-loch1-zapfen3-preview.png"
+      ],
+      "license": "Derived from user-provided 3MF; original design and license are unspecified, and the repository MIT license does not apply to model contents",
+      "status": "User-selected absolute 3.0/2.6 mm fit on all eight mating positions (both front copies); blind floors, axial dimensions, three plates and settings preserved. Mesh/assembly checks pass; Orca CLI blocked by unchanged source preset; full-tableau physical fit unverified"
+    },
+    {
       "slug": "butterfly-messer",
       "generator": "scripts/butterfly_messer.py",
       "outputs": [
