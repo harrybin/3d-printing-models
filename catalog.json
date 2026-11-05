@@ -14,6 +14,14 @@
       "outputs": [
         "models/terraforming-mars-tableau-179mm-loch1-zapfen3.3mf"
       ],
+      "object_layer_height_exceptions": [
+        {
+          "object_id": "6",
+          "object_name": "Vorderseite - PLA Transparent (Startprofil)",
+          "layer_height_mm": 0.2,
+          "reason": "Preserve the user-saved per-object layer-height setting in the imported transparent front."
+        }
+      ],
       "docs": [
         "docs/terraforming-mars-tableau.md",
         "docs/terraforming-mars-tableau-179mm-fit-validation.json",

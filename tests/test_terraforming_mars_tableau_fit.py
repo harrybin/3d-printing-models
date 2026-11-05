@@ -29,12 +29,28 @@ class TableauFitTests(unittest.TestCase):
         self.assertEqual(fit.sha256(fit.SOURCE), fit.SOURCE_SHA256)
         self.assertEqual(fit.sha256(fit.COUPONS), fit.COUPONS_SHA256)
 
-    def test_only_three_mesh_entries_changed(self):
+    def test_only_three_mesh_entries_changed_and_all_settings_are_preserved(self):
         self.assertIsNone(self.crc_error)
         self.assertEqual(list(self.source), list(self.output))
         changed = {name for name in self.source
                    if self.source[name] != self.output[name]}
         self.assertEqual(changed, set(fit.MESH_IDS))
+        self.assertEqual(
+            self.source["Metadata/project_settings.config"],
+            self.output["Metadata/project_settings.config"],
+        )
+        self.assertEqual(
+            self.source["Metadata/model_settings.config"],
+            self.output["Metadata/model_settings.config"],
+        )
+        settings = ET.fromstring(self.output["Metadata/model_settings.config"])
+        self.assertEqual(
+            [
+                node.get("value")
+                for node in settings.findall(".//metadata[@key='layer_height']")
+            ],
+            ["0.2"],
+        )
         root = ET.fromstring(self.output["3D/3dmodel.model"])
         self.assertEqual(len(root.findall("./m:build/m:item", fit.NS)), 3)
 

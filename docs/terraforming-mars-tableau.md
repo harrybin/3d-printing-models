@@ -21,7 +21,10 @@ The prior scale is `179/172 = 1.0406976744`. Front thickness is 3.122 mm,
 rear thickness is 4.579 mm. Each panel stays centered on its original
 250 x 250 mm plate with its bottom at Z=0. The white front (plate 1),
 dark rear (plate 2), and transparent front (plate 3) retain their material
-mappings, print orientations, overrides and embedded printer settings.
+mappings, print orientations, overrides and embedded printer settings, including
+the transparent front's saved 0.2 mm object layer-height override. The
+repository CI explicitly permits this exact catalogued object setting; all
+other per-object layer-height overrides remain limited to 0.16 mm.
 
 ## Physical fit selection: one-notch hole / three-notch pin
 
@@ -71,7 +74,7 @@ probes; all meshes remain watertight, consistently wound and connected without
 degenerate faces. A nine-position full-panel axial insertion sweep has no
 unintended intersection above the 0.001 mm3 numerical tolerance. Plate/object/
 component/assembly transforms, material mappings, original plate assignments,
-all saved project/object settings and all other archive members are byte-identical.
+all project/object settings and all other archive members are byte-identical.
 Both front copies remain identical. See the
 [machine-readable checks and SHA-256](terraforming-mars-tableau-179mm-fit-validation.json)
 and [exact exported-project preview](images/terraforming-mars-tableau-179mm-loch1-zapfen3-preview.png).
@@ -87,8 +90,10 @@ normalizing or overwriting them. It failed with exit `-18`:
 `retraction_distances_when_cut: 0 not in range [10.000000,18.000000]`.
 No G-code or support screenshots were generated, and no new print time,
 material estimate or successful slicer validation is claimed. In particular,
-the source's disabled supports (`enable_support=0`) and 0.2 mm object overrides
-remain saved exceptions, not newly compliant repository defaults.
+the source's disabled supports (`enable_support=0`) and transparent front's
+0.2 mm object layer-height override remain saved exceptions, not newly compliant
+repository defaults. The CI exception applies only to that named object and
+does not repair the incompatible retraction preset or establish a successful slice.
 
 **The complete tableau has not been physically fit-tested.** The preserved
 0.104 mm axial reserve is smaller than the saved 0.2 mm object layer height;
