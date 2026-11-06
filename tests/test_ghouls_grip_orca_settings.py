@@ -28,6 +28,49 @@ from ghouls_grip import BLACK, MECH, material_for, write_3mf  # noqa: E402
 from update_ghouls_grip_slice_metadata import _number  # noqa: E402
 
 
+def _catalogued_object_layer_height_exceptions() -> dict[tuple[str, str, str], float]:
+    catalog = json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))
+    exceptions = {}
+    for model in catalog["models"]:
+        for exception in model.get("object_layer_height_exceptions", []):
+            key = (
+                Path(model["outputs"][0]).name,
+                str(exception["object_id"]),
+                exception["object_name"],
+            )
+            if key in exceptions:
+                raise AssertionError(f"Duplicate layer-height exception: {key}")
+            exceptions[key] = float(exception["layer_height_mm"])
+    return exceptions
+
+
+def _check_object_layer_heights(
+    model_filename: str,
+    model_settings: bytes,
+    exceptions: dict[tuple[str, str, str], float],
+) -> list[tuple[str, str, str]]:
+    root = ET.fromstring(model_settings)
+    used = []
+    for obj in root.findall("object"):
+        object_id = obj.get("id", "")
+        name_node = obj.find("./metadata[@key='name']")
+        object_name = name_node.get("value", "") if name_node is not None else ""
+        key = (model_filename, object_id, object_name)
+        for override in obj.findall(".//metadata[@key='layer_height']"):
+            height = float(override.get("value", "0"))
+            if key in exceptions:
+                if height != exceptions[key]:
+                    raise AssertionError(
+                        f"{key} must retain exactly {exceptions[key]} mm, got {height}"
+                    )
+                used.append(key)
+            elif height > 0.16:
+                raise AssertionError(
+                    f"{key} layer height {height} mm exceeds 0.16 mm"
+                )
+    return used
+
+
 class GhoulOrcaSettingsTests(unittest.TestCase):
     def test_deliverables_use_one_view_and_one_multifilament_print_project(self) -> None:
         self.assertEqual(PRINT_OUTPUT.name, "ghouls-grip-print.3mf")
@@ -186,9 +229,33 @@ class GhoulOrcaSettingsTests(unittest.TestCase):
         header = "; filament used [g] = 0.00, 43.35, 0.00, 0.00"
         self.assertEqual(_number(header, "filament used [g]", 1), 43.35)
 
+    def test_catalogued_layer_height_exception_is_limited_to_named_model_object(self) -> None:
+        exceptions = _catalogued_object_layer_height_exceptions()
+        expected = (
+            "terraforming-mars-tableau-179mm-loch1-zapfen3.3mf",
+            "6",
+            "Vorderseite - PLA Transparent (Startprofil)",
+        )
+        self.assertEqual(exceptions, {expected: 0.2})
+        valid = (
+            '<config><object id="6"><metadata key="name" '
+            'value="Vorderseite - PLA Transparent (Startprofil)"/>'
+            '<metadata key="layer_height" value="0.2"/></object></config>'
+        ).encode()
+        self.assertEqual(
+            _check_object_layer_heights(expected[0], valid, exceptions), [expected]
+        )
+        with self.assertRaisesRegex(AssertionError, "exceeds 0.16 mm"):
+            _check_object_layer_heights("other-model.3mf", valid, exceptions)
+        wrong_object = valid.replace(b'id="6"', b'id="7"')
+        with self.assertRaisesRegex(AssertionError, "exceeds 0.16 mm"):
+            _check_object_layer_heights(expected[0], wrong_object, exceptions)
+
     def test_every_repository_3mf_enforces_layer_height_random_seam_and_tree_supports(self) -> None:
         three_mf_files = sorted((ROOT / "models").glob("*.3mf"))
         self.assertGreater(len(three_mf_files), 0)
+        exceptions = _catalogued_object_layer_height_exceptions()
+        exception_uses = {key: 0 for key in exceptions}
         for path in three_mf_files:
             with self.subTest(model=path.name), ZipFile(path) as archive:
                 self.assertIn("Metadata/project_settings.config", archive.namelist())
@@ -207,13 +274,15 @@ class GhoulOrcaSettingsTests(unittest.TestCase):
                     float(settings["support_bottom_z_distance"]), layer_height, places=4
                 )
                 if "Metadata/model_settings.config" in archive.namelist():
-                    ms_root = ET.fromstring(archive.read("Metadata/model_settings.config"))
-                    for md in ms_root.findall(".//metadata"):
-                        key = md.get("key")
-                        if key == "seam_position":
-                            self.assertEqual(md.get("value"), "random")
-                        elif key == "layer_height":
-                            self.assertLessEqual(float(md.get("value", "0.16")), 0.16)
+                    model_settings = archive.read("Metadata/model_settings.config")
+                    ms_root = ET.fromstring(model_settings)
+                    for md in ms_root.findall(".//metadata[@key='seam_position']"):
+                        self.assertEqual(md.get("value"), "random")
+                    for key in _check_object_layer_heights(
+                        path.name, model_settings, exceptions
+                    ):
+                        exception_uses[key] += 1
+        self.assertEqual(exception_uses, {key: 1 for key in exceptions})
 
 
 if __name__ == "__main__":
