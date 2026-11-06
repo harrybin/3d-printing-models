@@ -1,112 +1,98 @@
-# Terraforming Mars Tableau: 179 mm, selected coupon fit
+# Terraforming Mars tableau: laminate-aligned 179 mm revision
 
-The only delivered/catalogued variant is
-`models/terraforming-mars-tableau-179mm-loch1-zapfen3.3mf`.
-Its necessary reproduction inputs are archived unchanged under
-`model-sources/terraforming-mars-tableau/`, not published as separate variants:
+The current integrated deliverable is
+[`terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf`](../models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf).
+It is derived from the previously coupon-fitted
+[`terraforming-mars-tableau-179mm-loch1-zapfen3.3mf`](../models/terraforming-mars-tableau-179mm-loch1-zapfen3.3mf),
+with a frozen intermediate baseline archived at
+`model-sources/terraforming-mars-tableau/terraforming-mars-tableau-179mm-laminate-slider-cubes.3mf`
+(SHA-256 `713571a0d9b614d4bd900dc8f501f84246de4cee3cda14080bddcf42440f57ad`).
+The original user-supplied scaled project and fit coupons remain archived
+unchanged under `model-sources/terraforming-mars-tableau/`.
 
-| Input | Purpose | SHA-256 |
-| --- | --- | --- |
-| `terraforming-mars-tableau-179mm.3mf` | Prior uniform 179/172 scaling, three plates | `fb017fdd8bc1ef03faac8a431af10b39c6d1fc842391db4fb9cf50e121e43c3d` |
-| `terraforming-mars-tableau-fit-samples.3mf` | Physical coupon diameter evidence | `f2cd5082b5705df9b6b88963f716be752641be23a481abd9d7f663cfed2d23ef` |
+The original model author and license are unknown; the repository MIT license
+does not apply to model contents. Fit dimensions are based on the user's
+physical coupon selection and the measured coupon meshes: socket Ø3.000 mm,
+pin shaft Ø2.600 mm.
 
-These are user-provided assets. The original model author and license were
-not established; the repository MIT license does not license their contents.
-The prior scaled project derives from the user-saved baseline with SHA-256
-`179e1cb51043f6b4dd99c27d6f166f95c03a223e313050b709b1c9c1aa0cfc84`.
-The original and previous variant remain unchanged in their originating session;
-they are not additional deliverables in this revision.
+## Integrated layout
 
-The prior scale is `179/172 = 1.0406976744`. Front thickness is 3.122 mm,
-rear thickness is 4.579 mm. Each panel stays centered on its original
-250 x 250 mm plate with its bottom at Z=0. The white front (plate 1),
-dark rear (plate 2), and transparent front (plate 3) retain their material
-mappings, print orientations, overrides and embedded printer settings, including
-the transparent front's saved 0.2 mm object layer-height override. The
-repository CI explicitly permits this exact catalogued object setting; all
-other per-object layer-height overrides remain limited to 0.16 mm.
+The final panel envelope is `238.401 x 179.000 mm`, around the user-measured
+`227 x 168 mm` outer sealed-laminate outline. This leaves 5.701 mm on each long
+side and 5.500 mm on each short side. The existing eight pin/socket joints are
+preserved; no additional clips or laminate cuts were introduced. The
+laminate's physical thickness/compression and the full assembly remain
+untested.
 
-## Physical fit selection: one-notch hole / three-notch pin
+All six resource windows, the central slider, the 65 cube openings and their
+end positions use the established common photo registration. The slider is
+centered; the lower-right rows retain the requested `+2.000 mm` shift. The
+three additionally centered blocks use whole-block horizontal translations:
+upper-left `-1.500 mm`, lower-left `-1.000 mm`, and upper-right `+0.500 mm`.
+Relative to the marked screenshot's target centers, their centroid errors are
+`+1.365 -> -0.135 mm`, `+0.855 -> -0.145 mm`, and `-0.001 -> +0.499 mm`,
+respectively. The photo alignment uncertainty is about 1 mm, so these are
+image-guided adjustments, not precision physical measurements.
 
-The user reported that the one-notch socket coupon on the three-notch pin
-coupon had slight retention, while the other tested combinations were too loose,
-and explicitly selected that pairing. The exported coupon meshes and their
-generator establish **socket diameter 3.000 mm and pin shaft diameter 2.600 mm**.
-All three front coupon variants actually have the same 3.000 mm CAD bore;
-their notches identify the paired pin samples, not three different hole sizes.
-Consequently, the reported differences between the front coupons cannot be
-attributed to a designed diameter difference. Print variation remains a fit risk.
-The selected diameters are nominal mesh dimensions, not caliper measurements
-of the physical coupons.
+Every standard aperture remains `8.640 mm` for an `8.500 mm` cube: only
+`0.140 mm` nominal diametral clearance (`0.070 mm` per side) before print
+variation. The 9.160 mm pocket pitch leaves 0.520 mm webs, while the printed
+field pitch is 8.500 mm. Consequently, individual cells cannot all be centered
+simultaneously; after the block translations, the maximum center residuals
+are 3.145 mm upper-left, 2.645 mm lower-left, and 2.145 mm upper-right; the
+other three groups remain within 1.646 mm. The three broad end positions
+measure approximately `17.796 x 8.638 mm`. Aperture clearance is CAD-only:
+cube insertion, elephant-foot effects and slicer extrusion have not been
+tested.
 
-The new derived project is
-[`terraforming-mars-tableau-179mm-loch1-zapfen3.3mf`](../models/terraforming-mars-tableau-179mm-loch1-zapfen3.3mf).
-It keeps the 179/172 panel scale but applies the tested **absolute** diameters,
-without scaling those fit dimensions again to 3.122/2.706 mm. Both front copies
-have eight adjusted blind sockets, and the rear has eight adjusted pins.
-The left-middle source pin was larger than the other seven (2.8 mm before
-uniform scaling, versus 2.6 mm); all eight now have the selected 2.6 mm shaft.
+Mounting fit remains eight Ø3.000 mm blind sockets and eight Ø2.600 mm pins.
+Sockets are 2.000 mm deep with 0.500 mm floors; pin projection is 1.600 mm,
+leaving 0.400 mm nominal axial clearance. The insertion sweep found no
+unintended CAD intersection. All three original plates, object placements,
+build transforms and unrelated material/process settings are preserved.
 
-| Datum | Result | Origin / confidence |
-| --- | --- | --- |
-| Panel envelope | 240.401162 x 179.000000 mm | Prior exported project; verified unchanged |
-| Socket diameter, both fronts | 3.000 mm | One-notch coupon mesh; verified within 0.000020 mm |
-| Pin shaft diameter, all eight | 2.600 mm | Three-notch coupon mesh; verified within 0.000020 mm |
-| Diametral clearance | 0.400 mm nominal | Selected coupon dimensions; actual FDM clearance unverified |
-| Socket depth | 2.601744 mm | Original 2.5 mm x 179/172; unchanged |
-| Blind floor thickness | 0.520349 mm | Original 0.5 mm x 179/172; unchanged |
-| Pin projection | 2.497674 mm | Original 2.4 mm x 179/172; unchanged |
-| Axial tip-to-floor clearance | 0.104070 mm | Prior project clearance; unchanged, positive geometric reserve only |
-| Socket/pin center datums | X = 0 or +/-117.182558 mm; Y = 0 or +/-86.481977 mm | Recovered from original mesh rings; eight original positions, unchanged |
+## Transparent-front test profile
 
-Only the radial coordinates of the existing socket walls and projecting pins
-are transformed by the reproducible
-[`fit_terraforming_mars_tableau.py`](../scripts/fit_terraforming_mars_tableau.py).
-This preserves the original mesh connectivity, pin tip profile in Z, axial
-dimensions, blind floors, panel outlines and all non-fitting vertices. It does
-not transplant the coupon's chamfer/fillet or shorten the original pins to the
-coupon's 2.1 mm projection. This is a diameter-fit transfer, not proof that the
-full-size parts reproduce the coupons' printed holding force.
+The transparent front uses the previously approved dedicated filament slot:
+0.10 mm layers; 20 mm/s configured wall, infill, gap and top speeds; two walls;
+100% aligned single-direction infill; zero top/bottom shell layers; 220 °C
+normal and first-layer nozzle temperature (within the preset's 190–240 °C
+range); 20% part fan; 0% auxiliary fan; and calibrated 0.98 flow. Other
+filament slots, the rear, bed settings and native filament routines are
+unchanged.
 
-All sixteen exported sockets and eight exported pins were measured after
-archive re-import. All sixteen blind floors and bore cavities pass solid-volume
-probes; all meshes remain watertight, consistently wound and connected without
-degenerate faces. A nine-position full-panel axial insertion sweep has no
-unintended intersection above the 0.001 mm3 numerical tolerance. Plate/object/
-component/assembly transforms, material mappings, original plate assignments,
-all project/object settings and all other archive members are byte-identical.
-Both front copies remain identical. See the
-[machine-readable checks and SHA-256](terraforming-mars-tableau-179mm-fit-validation.json)
-and [exact exported-project preview](images/terraforming-mars-tableau-179mm-loch1-zapfen3-preview.png).
+The referenced “How to Print Glass” guide's core recipe already matches these
+settings, so no additional settings were adopted. This is a profile comparison,
+not proof of effective G-code speeds, optical transparency or print quality.
 
-The three-plate imported-project naming is intentionally retained rather than
-creating additional assembled/print projects or STL counterparts. The archived coupon and prior 179 mm inputs are preserved byte-for-byte.
-The source author/license remain unspecified; no new third-party asset was used.
+## Validation and limitations
 
-### Slicing and remaining fit risk
+The final exported meshes were re-imported and checked for expected envelope,
+all 65 openings and end slots, socket/pin dimensions, blind floors, insertion
+clearance and preservation of plate transforms. The 3MF ZIP archive passes CRC
+validation. Targeted regression tests pass (5 tests), and catalog verification
+passes (19 models / 39 outputs). The final image comparison uses one global
+photo transform without local warping; its approximately 1 mm registration
+uncertainty and the remaining per-field pitch drift are disclosed in the
+[photo-validation report](terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-validation.json).
 
-An OrcaSlicer CLI slice was attempted with the saved Kobra S1 settings, without
-normalizing or overwriting them. It failed with exit `-18`:
-`retraction_distances_when_cut: 0 not in range [10.000000,18.000000]`.
-No G-code or support screenshots were generated, and no new print time,
-material estimate or successful slicer validation is claimed. In particular,
-the source's disabled supports (`enable_support=0`) and transparent front's
-0.2 mm object layer-height override remain saved exceptions, not newly compliant
-repository defaults. The CI exception applies only to that named object and
-does not repair the incompatible retraction preset or establish a successful slice.
+This final centered-block artifact has **not** been sliced successfully.
+Prior attempts on the preceding slider/cube layout produced no G-code:
+OrcaSlicer 2.0.0.0 exited `-18` due to the saved
+`retraction_distances_when_cut=0` being outside `[10,18]` and a missing
+referenced process preset; AnycubicSlicerNext 2.0.0.3 crashed before producing
+G-code. The saved global support setting remains `enable_support=0`; this is
+not support-free validation. Print time, material use, support paths and
+effective toolpath speeds are unknown. No physical cube insertion, laminate
+fit, retention or full-tableau assembly test has been performed.
 
-**The complete tableau has not been physically fit-tested.** The preserved
-0.104 mm axial reserve is smaller than the saved 0.2 mm object layer height;
-it proves CAD separation only, not immunity to layer/first-layer inaccuracies.
-Do not infer physical retention or full print readiness from the mesh checks.
-Correcting the source preset or altering pin heights is outside this
-diameter-only revision.
+## Reproducible files and evidence
 
-Reproduce the geometry, targeted verification and exact output render:
-
-```powershell
-.\.venv\Scripts\python.exe scripts\fit_terraforming_mars_tableau.py
-.\.venv\Scripts\python.exe -m unittest discover -s tests -p test_terraforming_mars_tableau_fit.py
-.\.venv\Scripts\python.exe scripts\render_terraforming_mars_tableau_fit.py
-.\.venv\Scripts\python.exe -m printforge verify-catalog .
-```
+- Generator: [`scripts/revise_terraforming_mars_tableau.py`](../scripts/revise_terraforming_mars_tableau.py)
+- Photo comparison: [`scripts/compare_terraforming_mars_tableau_laminate.py`](../scripts/compare_terraforming_mars_tableau_laminate.py)
+- Regression tests: [`tests/test_terraforming_mars_tableau_revision.py`](../tests/test_terraforming_mars_tableau_revision.py)
+- [Exported-mesh and settings validation](terraforming-mars-tableau-179mm-laminate-centered-blocks-validation.json)
+- [Photo registration report](terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-validation.json)
+- [Three-plate 3MF preview](images/terraforming-mars-tableau-179mm-laminate-centered-blocks-preview.png)
+- [Before/after photo overlay](images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-before-after.png)
+- Closeups: [upper-left block](images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-left-5-closeup.png), [lower-left block](images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-left-zero-closeup.png), [upper-right block](images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-right-zero-closeup.png), and [slider](images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-slider-closeup.png)

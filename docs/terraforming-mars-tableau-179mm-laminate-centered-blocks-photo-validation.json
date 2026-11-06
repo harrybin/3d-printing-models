@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "reference_photo": "User-provided unobscured centimeter-grid photo",
+  "photo_size_px": [
+    1687,
+    949
+  ],
+  "user_measured_laminate_outer_size_mm": [
+    227.0,
+    168.0
+  ],
+  "estimated_laminate_outer_bounds_px": [
+    272.0,
+    32.0,
+    1446.0,
+    900.0
+  ],
+  "registration": {
+    "method": "One uniform scale and translation for the whole image; no local warping",
+    "model_origin_pixel": [
+      859.0,
+      466.0
+    ],
+    "uniform_scale_px_per_mm": 5.169236417033774,
+    "estimated_photo_alignment_uncertainty_mm": 1.0,
+    "independent_landmark_residual_mm": null,
+    "residual_note": "No independent pixel-level landmark residual is claimed; visible contour agreement is qualitative."
+  },
+  "target_mark_source": "Unchanged user-marked resource windows and the user red-marked slider target; all transformed by the same photo-to-model map",
+  "same_global_transform_used_for_model_and_target_marks": true,
+  "exported_3mf": "models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf",
+  "exported_3mf_sha256": "0fd4f589a43df0669cfe339ccf2f65d6c7044d725b4375d8ff705810852b03c8",
+  "compared_to_3mf": "model-sources/terraforming-mars-tableau/terraforming-mars-tableau-179mm-laminate-slider-cubes.3mf",
+  "followup_translations_mm": {
+    "slider": [
+      7.075295087588529e-07,
+      5.528975122182089e-08
+    ],
+    "lower_right_cube_rows": [
+      2.0,
+      0.0
+    ],
+    "number_blocks": {
+      "upper-left -5": -1.5,
+      "lower-left zero": -1.0,
+      "upper-right zero": 0.5
+    }
+  },
+  "number_block_targets": {
+    "source": "User-marked red rectangles",
+    "panel_outline_bounds_px": [
+      117.0,
+      48.0,
+      703.0,
+      490.0
+    ],
+    "screen_pixels_per_mm_x": 2.458041710383945,
+    "estimated_alignment_uncertainty_mm": 1.0,
+    "targets_model_mm": {
+      "upper-left -5": {
+        "center_mm": [
+          -48.20910869795222,
+          9.516968325791854
+        ],
+        "size_mm": [
+          58.17639277474403,
+          31.993212669683256
+        ]
+      },
+      "lower-left zero": {
+        "center_mm": [
+          -66.92319308703071,
+          -20.046380090497735
+        ],
+        "size_mm": [
+          61.43101614675768,
+          24.70361990950226
+        ]
+      },
+      "upper-right zero": {
+        "center_mm": [
+          73.43243983105802,
+          15.186651583710406
+        ],
+        "size_mm": [
+          58.99004861774744,
+          23.89366515837104
+        ]
+      }
+    },
+    "closeups": [
+      "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-left-5-closeup.png",
+      "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-left-zero-closeup.png",
+      "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-right-zero-closeup.png"
+    ]
+  },
+  "overlay_images": [
+    "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-before-after.png",
+    "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-rows.png",
+    "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-rows.png",
+    "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-left-5-closeup.png",
+    "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-left-zero-closeup.png",
+    "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-right-zero-closeup.png",
+    "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-slider-closeup.png",
+    "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-right-closeup.png"
+  ],
+  "physical_fit_test_performed": false,
+  "successful_slicer_validation": false,
+  "limitations": [
+    "The transparent laminate edge is low contrast and the photo has perspective.",
+    "The overlay validates visual placement only; it does not prove physical fit or laminate compression clearance."
+  ]
+}
