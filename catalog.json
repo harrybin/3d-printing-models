@@ -36,27 +36,23 @@
       "outputs": [
         "models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf"
       ],
-      "object_layer_height_exceptions": [
-        {
-          "object_id": "6",
-          "object_name": "Vorderseite - PLA Transparent (Startprofil)",
-          "layer_height_mm": 0.1,
-          "reason": "Preserve the user-approved transparent PLA slow-test settings in the dedicated fourth filament slot."
-        }
-      ],
       "docs": [
         "docs/terraforming-mars-tableau.md",
         "docs/terraforming-mars-tableau-179mm-laminate-centered-blocks-validation.json",
         "docs/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-validation.json",
         "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-preview.png",
         "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-before-after.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-rows.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-rows.png",
         "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-left-5-closeup.png",
         "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-left-zero-closeup.png",
         "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-right-zero-closeup.png",
-        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-slider-closeup.png"
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-slider-closeup.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-window5-to6-ramp-closeup.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-right-closeup.png"
       ],
       "license": "Derived from user-provided 3MF; original design and license are unspecified, and the repository MIT license does not apply to model contents",
-      "status": "Adds whole-block horizontal translations of -1.5 mm upper-left, -1.0 mm lower-left, and +0.5 mm upper-right to the slider/lower-right-adjusted laminate layout. Pocket dimensions, pitch, webs, fit, panels, mounts, plate transforms and transparent-PLA settings are preserved. Exported-mesh checks and targeted tests pass; screenshot registration is approximate and no successful slice or physical cube/assembly fit is claimed."
+      "status": "Adds whole-block horizontal translations of -1.5 mm upper-left, -1.0 mm lower-left, and +0.5 mm upper-right to the slider/lower-right-adjusted laminate layout. The middle slider is enlarged to an 8.64 mm opening and a 5-to-6 window ramp is restored; transparent-front object 6 uses a 0.10 mm top shell with ironing. Pocket dimensions, pitch, webs, mounts and plate transforms are preserved. CAD checks pass, but the exact 3MF slice is blocked by retraction_distances_when_cut=0; screenshot registration is approximate and physical cube transfer, surface quality and assembly remain untested."
     },
     {
       "slug": "butterfly-messer",
