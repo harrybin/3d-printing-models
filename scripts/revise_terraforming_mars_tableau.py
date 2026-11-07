@@ -8,6 +8,7 @@ from xml.etree import ElementTree as ET
 
 import numpy as np
 import trimesh
+from build123d import Plane, Polygon, extrude
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "models" / "terraforming-mars-tableau-179mm-loch1-zapfen3.3mf"
@@ -76,7 +77,7 @@ FOLLOWUP_SCREEN_PX_PER_MM_X = (
 FOLLOWUP_SCREEN_PX_PER_MM_Y = (
     FOLLOWUP_REFERENCE_BOUNDS_PX[3] - FOLLOWUP_REFERENCE_BOUNDS_PX[1]
 ) / SHORT_SIDE
-FOLLOWUP_SLIDER_CENTER_MM = np.asarray([
+FOLLOWUP_SLIDER_MARK_CENTER_MM = np.asarray([
     (FOLLOWUP_SLIDER_MARK_CENTER_PX[0]
      - (FOLLOWUP_REFERENCE_BOUNDS_PX[0] + FOLLOWUP_REFERENCE_BOUNDS_PX[2]) / 2)
     / FOLLOWUP_SCREEN_PX_PER_MM_X,
@@ -130,8 +131,16 @@ AXIAL_CLEARANCE = 0.4
 CUBE_EDGE = 8.5
 OPENING_WIDTH = 8.64
 OPENING_PITCH = 9.16
-LONG_SLOT_HEIGHT = 6.8
+PREVIOUS_LONG_SLOT_HEIGHT = 6.8
+LONG_SLOT_HEIGHT = OPENING_WIDTH
+SLIDER_EXTENSION_DOWN_MM = LONG_SLOT_HEIGHT - PREVIOUS_LONG_SLOT_HEIGHT
+FOLLOWUP_SLIDER_CENTER_MM = FOLLOWUP_SLIDER_MARK_CENTER_MM - np.asarray([
+    0.0, SLIDER_EXTENSION_DOWN_MM / 2
+])
 MIN_SLOT_CLEARANCE = 0.5
+TRANSITION_RAMP_APERTURE_MM = OPENING_WIDTH
+TRANSITION_RAMP_BOOLEAN_EPS_MM = 0.02
+TRANSITION_RAMP_Y_MARGIN_MM = 0.4
 ADJACENT_CUTOUT_SHIFT_X = -3.95
 PHOTO_PX_PER_MM = 4.07
 PHOTO_REFERENCE_CENTER_PX = (673.5, 411.5)
@@ -260,6 +269,10 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
     different = settings["different_settings_to_system"]
     require(len(different) == original_slot_count + 2,
             "Unexpected different_settings_to_system slot count")
+    process_overrides = different[0].split(";")
+    if "top_shell_layers" not in process_overrides:
+        process_overrides.append("top_shell_layers")
+    different[0] = ";".join(process_overrides)
     different[TRANSPARENT_FILAMENT_SLOT + 1] = (
         "filament_settings_id;nozzle_temperature;"
         "nozzle_temperature_BRASS;nozzle_temperature_initial_layer;"
@@ -299,7 +312,8 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
         "solid_infill_direction": "0",
         "sparse_infill_rotate_template": "0",
         "solid_infill_rotate_template": "0",
-        "top_shell_layers": "0",
+        "ironing_type": "top",
+        "top_shell_layers": "1",
         "bottom_shell_layers": "0",
         "wall_loops": "2",
     }
@@ -332,8 +346,14 @@ def verify_filament_scope(
     for key, old_value in original.items():
         new_value = revised.get(key)
         if key == "different_settings_to_system":
-            require(new_value[:5] == old_value[:5],
-                    "Process, machine, or original filament override flags changed")
+            expected_process_flags = old_value[0].split(";")
+            if "top_shell_layers" not in expected_process_flags:
+                expected_process_flags.append("top_shell_layers")
+            require(
+                new_value[0] == ";".join(expected_process_flags)
+                and new_value[1:5] == old_value[1:5],
+                "Only the transparent-front surface process override flag may change",
+            )
             expected_filament_flags = {
                 "filament_settings_id",
                 "nozzle_temperature",
@@ -635,6 +655,117 @@ def resource_window_loops(mesh, z):
     require(len(windows) == 6,
             f"Expected six resource windows, found {len(windows)}")
     return sorted(windows, key=lambda item: (-int(item[0][1] > 0), item[0][0]))
+
+
+def add_window_transition_ramp(mesh):
+    windows = resource_window_loops(mesh, 0.0)
+    window5_center, window5_size = windows[4]
+    window6_center, window6_size = windows[5]
+    start_x = float(window5_center[0] + window5_size[0] / 2)
+    window6_left_x = float(window6_center[0] - window6_size[0] / 2)
+    existing_gap = window6_left_x - start_x
+    require(existing_gap > 0.8,
+            f"Window 5/6 divider is unexpectedly narrow: {existing_gap:.3f} mm")
+
+    y_min = max(
+        window5_center[1] - window5_size[1] / 2,
+        window6_center[1] - window6_size[1] / 2,
+    ) + TRANSITION_RAMP_Y_MARGIN_MM
+    y_max = min(
+        window5_center[1] + window5_size[1] / 2,
+        window6_center[1] + window6_size[1] / 2,
+    ) - TRANSITION_RAMP_Y_MARGIN_MM
+    require(y_max - y_min >= TRANSITION_RAMP_APERTURE_MM,
+            "Window 5/6 ramp is too short for the cube-sized transition")
+
+    z_min = float(mesh.bounds[0, 2])
+    z_max = float(mesh.bounds[1, 2])
+    z_bottom = z_min - TRANSITION_RAMP_BOOLEAN_EPS_MM
+    z_top = z_max + TRANSITION_RAMP_BOOLEAN_EPS_MM
+    top_fraction = (z_max - z_bottom) / (z_top - z_bottom)
+    top_right_x = window6_left_x + TRANSITION_RAMP_APERTURE_MM
+    profile_right_x = start_x + (top_right_x - start_x) / top_fraction
+    epsilon = TRANSITION_RAMP_BOOLEAN_EPS_MM
+    profile = Plane.XZ * Polygon(
+        (start_x - epsilon, z_bottom),
+        (start_x + epsilon, z_bottom),
+        (profile_right_x, z_top),
+        (start_x - epsilon, z_top),
+        align=None,
+    )
+    wedge_shape = extrude(profile, amount=y_max - y_min)
+    wedge_shape = wedge_shape.translate((0, y_max, 0))
+    vertices, faces = wedge_shape.tessellate(0.01)
+    wedge = trimesh.Trimesh(
+        vertices=[tuple(vertex) for vertex in vertices],
+        faces=faces,
+        process=True,
+    )
+    check_mesh(wedge)
+    volume_before = float(mesh.volume)
+    ramped = trimesh.boolean.difference(
+        [mesh, wedge], engine="manifold"
+    )
+    check_mesh(ramped)
+    volume_removed = volume_before - float(ramped.volume)
+    require(volume_removed > 1.0,
+            "Window 5/6 ramp did not remove the intended divider material")
+    return ramped, {
+        "windows": ["lower-middle (5)", "lower-right (6)"],
+        "original_divider_width_mm": existing_gap,
+        "target_front_face_transfer_aperture_mm": (
+            TRANSITION_RAMP_APERTURE_MM
+        ),
+        "window5_inner_edge_x_mm": start_x,
+        "window6_inner_edge_x_mm": window6_left_x,
+        "top_face_transfer_end_x_mm": top_right_x,
+        "boolean_profile_bottom_x_mm": start_x + epsilon,
+        "boolean_profile_top_x_mm": profile_right_x,
+        "boolean_profile_bottom_z_mm": z_bottom,
+        "boolean_profile_top_z_mm": z_top,
+        "ramp_run_x_mm": top_right_x - start_x,
+        "ramp_depth_z_mm": z_max - z_min,
+        "ramp_angle_from_front_face_deg": float(np.degrees(np.arctan2(
+            z_max - z_min, top_right_x - start_x
+        ))),
+        "y_span_mm": [float(y_min), float(y_max)],
+        "removed_volume_mm3": volume_removed,
+        "cube_edge_mm": CUBE_EDGE,
+        "physical_cube_transfer_tested": False,
+    }
+
+
+def verify_window_transition_ramp(mesh, expected):
+    center_x = (
+        expected["window5_inner_edge_x_mm"]
+        + expected["window6_inner_edge_x_mm"]
+    ) / 2
+    center_y = sum(expected["y_span_mm"]) / 2
+    top_probe = probe_at(
+        [center_x, center_y],
+        float(mesh.bounds[1, 2]) - 0.01,
+        [CUBE_EDGE, CUBE_EDGE, 0.02],
+    )
+    bottom_probe = probe_at(
+        [center_x, center_y],
+        float(mesh.bounds[0, 2]) + 0.01,
+        [CUBE_EDGE, CUBE_EDGE, 0.02],
+    )
+    top_intersection = probe_intersection(mesh, top_probe)
+    bottom_intersection = probe_intersection(mesh, bottom_probe)
+    require(top_intersection < 1e-5,
+            "An 8.5 mm cube probe collides with the front-face transition")
+    require(bottom_intersection > 0.1,
+            "The requested tapered ramp is missing at the opposite face")
+    return {
+        "top_face_cube_probe_intersection_mm3": top_intersection,
+        "opposite_face_cube_probe_intersection_mm3": bottom_intersection,
+        "cube_probe_edge_mm": CUBE_EDGE,
+        "top_face_transfer_aperture_mm": (
+            expected["target_front_face_transfer_aperture_mm"]
+        ),
+        "passed": True,
+    }
 
 
 def source_window_fill_specs(mesh):
@@ -1045,7 +1176,9 @@ def relocate_cube_openings(mesh, tracks, row_plans):
         "translation_mm": [ADJACENT_CUTOUT_SHIFT_X, 0.0],
         "size_mm": source_adjacent_size.tolist(),
     }
-    source_slot_center, source_slot_size = long_horizontal_slot(mesh, 0.2, 8.64)
+    source_slot_center, source_slot_size = long_horizontal_slot(
+        mesh, 0.2, 8.64
+    )
     target_slot_center = FOLLOWUP_SLIDER_CENTER_MM.copy()
     slider_clearance = slider_cube_clearance(
         row_plans, target_slot_center,
@@ -1070,8 +1203,14 @@ def relocate_cube_openings(mesh, tracks, row_plans):
     long_slot_revision = {
         "source_center_mm": source_slot_center.tolist(),
         "source_size_mm": source_slot_size.tolist(),
+        "previous_center_mm": FOLLOWUP_SLIDER_MARK_CENTER_MM.tolist(),
+        "previous_size_mm": [
+            float(source_slot_size[0]), PREVIOUS_LONG_SLOT_HEIGHT
+        ],
         "target_center_mm": target_slot_center.tolist(),
         "target_size_mm": [float(source_slot_size[0]), LONG_SLOT_HEIGHT],
+        "extension_down_mm": SLIDER_EXTENSION_DOWN_MM,
+        "top_edge_preserved": True,
         "target_area_center_mm": FOLLOWUP_SLIDER_CENTER_MM.tolist(),
         "target_area_size_mm": FOLLOWUP_SLIDER_SIZE_MM.tolist(),
         "minimum_cube_clearance_mm": slider_clearance["minimum_clearance_mm"],
@@ -1520,7 +1659,7 @@ def verify_unrelated_cutouts_unchanged(source, revised):
                 and center[0] < -80.0
             )
             is_resource_window = (
-                35.0 < size[0] < 100.0 and 20.0 < size[1] < 60.0
+                35.0 < size[0] < 160.0 and 20.0 < size[1] < 60.0
             )
             is_mount = (
                 np.all((size > 2.8) & (size < 3.2))
@@ -1558,7 +1697,7 @@ def verify_unrelated_cutouts_unchanged(source, revised):
 
 def verify_export(entries, original_entries, expected_slots, expected_rows,
                   expected_long_slot, expected_adjacent_cutout,
-                  expected_windows):
+                  expected_windows, expected_transition_ramp):
     meshes = {}
     checks = []
     centers = SOURCE_MOUNTS.copy()
@@ -1642,13 +1781,43 @@ def verify_export(entries, original_entries, expected_slots, expected_rows,
         expected_adjacent_cutout
     )
     window_checks = []
-    for z in (0.0, 0.2):
+    window_test_levels = (
+        float(front.bounds[0, 2]) + 0.05,
+        float(front.bounds[0, 2]) + 0.15,
+    )
+    for z in window_test_levels:
         actual_windows = resource_window_loops(front, z)
-        for actual, expected in zip(actual_windows, expected_windows):
+        require(len(actual_windows) == len(expected_windows),
+                "The ramp merged the windows below the front face")
+        for index, (actual, expected) in enumerate(
+            zip(actual_windows, expected_windows)
+        ):
+            expected_center = np.asarray(expected["center_mm"], dtype=float)
+            expected_size = np.asarray(expected["size_mm"], dtype=float)
+            ramp_edge_x = (
+                expected_transition_ramp["boolean_profile_bottom_x_mm"]
+                + (expected_transition_ramp["boolean_profile_top_x_mm"]
+                   - expected_transition_ramp["boolean_profile_bottom_x_mm"])
+                * (z - expected_transition_ramp[
+                    "boolean_profile_bottom_z_mm"
+                ])
+                / (expected_transition_ramp[
+                    "boolean_profile_top_z_mm"
+                ] - expected_transition_ramp[
+                    "boolean_profile_bottom_z_mm"
+                ])
+            )
+            if index == 4:
+                original_right_x = (
+                    expected_center[0] + expected_size[0] / 2
+                )
+                expansion = max(0.0, ramp_edge_x - original_right_x)
+                expected_center[0] += expansion / 2
+                expected_size[0] += expansion
             require(
-                np.allclose(actual[0], expected["center_mm"],
+                np.allclose(actual[0], expected_center,
                             atol=TOL, rtol=0)
-                and np.allclose(actual[1], expected["size_mm"],
+                and np.allclose(actual[1], expected_size,
                                 atol=TOL, rtol=0),
                 f"Exported resource window changed at Z={z}: "
                 f"{expected['name']}",
@@ -1659,6 +1828,9 @@ def verify_export(entries, original_entries, expected_slots, expected_rows,
                 "size_mm": actual[1].tolist(),
                 "z_mm": z,
             })
+    ramp_checks = verify_window_transition_ramp(
+        front, expected_transition_ramp
+    )
     _, _, source_front = as_mesh(
         original_entries[FRONT_PATHS[0]], MESH_IDS[FRONT_PATHS[0]]
     )
@@ -1668,6 +1840,7 @@ def verify_export(entries, original_entries, expected_slots, expected_rows,
     return (
         checks, mount_results, pin_results, insertion, clearance,
         cube_measurements, pitch_report, unrelated_cutouts, window_checks,
+        ramp_checks,
     )
 
 
@@ -1782,6 +1955,7 @@ def main():
     long_slot_revision = None
     adjacent_cutout_revision = None
     window_revision = None
+    transition_ramp_revision = None
     transformations = {}
     for path, object_id in MESH_IDS.items():
         root, mesh_node, mesh = as_mesh(original[path], object_id)
@@ -1832,6 +2006,12 @@ def main():
         mesh, moved_mount_centers = move_mount_vertices(mesh, SOURCE_MOUNTS)
         if path in FRONT_PATHS:
             mesh, z_result = scale_front_z(mesh, moved_mount_centers)
+            mesh, revised_transition_ramp = add_window_transition_ramp(mesh)
+            if transition_ramp_revision is None:
+                transition_ramp_revision = revised_transition_ramp
+            else:
+                require(revised_transition_ramp == transition_ramp_revision,
+                        "Front copies have different window transition ramps")
             transformations[path] = {
                 "cube_tracks": anchors,
                 "cube_row_registration": row_plans,
@@ -1839,6 +2019,7 @@ def main():
                 "horizontal_slot": revised_long_slot,
                 "adjacent_cutout": revised_adjacent_cutout,
                 "resource_windows": revised_windows,
+                "window5_to6_ramp": revised_transition_ramp,
                 "mount_centers_mm": moved_mount_centers.tolist(),
                 "front_z": z_result,
             }
@@ -1894,9 +2075,10 @@ def main():
 
     (mesh_checks, sockets, pins, insertion, clearance,
      cube_checks, pitch_report, unrelated_cutouts,
-     window_checks) = verify_export(
+     window_checks, transition_ramp_checks) = verify_export(
         revised, original, cube_slots, cube_rows, long_slot_revision,
         adjacent_cutout_revision, window_revision,
+        transition_ramp_revision,
     )
     layout_clearances = verify_layout_clearances(
         cube_rows, window_revision, long_slot_revision["target_center_mm"],
@@ -1910,16 +2092,21 @@ def main():
     )
     previous_front = load_previous_front()
     previous_slot_center, previous_slot_size = long_horizontal_slot(
-        previous_front, 0.0, LONG_SLOT_HEIGHT
+        previous_front, 0.0, PREVIOUS_LONG_SLOT_HEIGHT
     )
     require(
-        np.allclose(
-            previous_slot_size,
-            long_slot_revision["target_size_mm"],
-            atol=TOL,
-            rtol=0,
-        ),
-        "Follow-up unexpectedly changed the slider slot length",
+        abs(previous_slot_size[0] - long_slot_revision["target_size_mm"][0])
+        < TOL
+        and abs(previous_slot_size[1] - PREVIOUS_LONG_SLOT_HEIGHT) < TOL,
+        "Unexpected previous slider dimensions",
+    )
+    require(
+        abs(
+            previous_slot_center[1] + previous_slot_size[1] / 2
+            - long_slot_revision["target_center_mm"][1]
+            - LONG_SLOT_HEIGHT / 2
+        ) < TOL,
+        "Slider top edge moved instead of extending downward",
     )
     project_settings = json.loads(revised["Metadata/project_settings.config"])
     original_project_settings = json.loads(
@@ -2023,8 +2210,20 @@ def main():
             ),
             "same_direction_infill": True,
             "all_solid_surface_patterns_aligned": True,
+            "top_surface_followup": {
+                "top_shell_layers": transparent_object_settings[
+                    "top_shell_layers"
+                ],
+                "ironing_type": transparent_object_settings["ironing_type"],
+                "intent": (
+                    "A single 0.10 mm top skin plus ironing is a conservative "
+                    "surface-smoothing test; optical clarity is not proven."
+                ),
+            },
         },
-        "settings_changed_after_review": [],
+        "settings_changed_after_review": [
+            "Add one 0.10 mm top shell layer and top-surface ironing to the transparent front only."
+        ],
         "not_adopted": [
             "Simplify3D-specific outline/solid underspeed percentages; no successful slice to verify effective speed",
             "PETG temperature, 0.50 mm width, 1.01 extrusion multiplier, and drying recipe not validated for this PLA profile",
@@ -2157,6 +2356,15 @@ def main():
                 },
                 "targets": window_revision,
                 "exported_section_checks": window_checks,
+                "window5_to6_ramp": {
+                    **transition_ramp_revision,
+                    "exported_cube_probe_checks": transition_ramp_checks,
+                    "note": (
+                        "The opening widens toward the front face; the "
+                        "opposite face remains narrow. CAD clearance is not "
+                        "a physical cube-transfer test."
+                    ),
+                },
             },
             "policy": (
                 "Retain six separate cube tracks, openings and webs. Convert "
@@ -2186,12 +2394,11 @@ def main():
             },
             "slider": {
                 "previous_center_mm": previous_slot_center.tolist(),
+                "previous_size_mm": previous_slot_size.tolist(),
                 "red_outline_bounds_px": list(
                     FOLLOWUP_SLIDER_MARK_BOUNDS_PX
                 ),
-                "red_outline_center_px": list(
-                    FOLLOWUP_SLIDER_MARK_CENTER_PX
-                ),
+                "red_outline_center_px": list(FOLLOWUP_SLIDER_MARK_CENTER_PX),
                 "red_outline_size_mm": FOLLOWUP_SLIDER_SIZE_MM.tolist(),
                 "target_center_mm": FOLLOWUP_SLIDER_CENTER_MM.tolist(),
                 "translation_mm": (
@@ -2199,9 +2406,30 @@ def main():
                     - previous_slot_center
                 ).tolist(),
                 "slot_size_mm": long_slot_revision["target_size_mm"],
+                "extension_down_mm": SLIDER_EXTENSION_DOWN_MM,
+                "top_edge_preserved": long_slot_revision[
+                    "top_edge_preserved"
+                ],
                 "collision_clearance_mm": (
                     layout_clearances["minimum_slider_to_cube_clearance_mm"]
                 ),
+            },
+            "window5_to6_transition": {
+                **transition_ramp_revision,
+                "exported_cube_probe_checks": transition_ramp_checks,
+            },
+            "transparent_front_surface": {
+                "top_shell_layers": transparent_object_settings[
+                    "top_shell_layers"
+                ],
+                "top_shell_thickness_mm": (
+                    float(transparent_object_settings["layer_height"])
+                    * int(transparent_object_settings["top_shell_layers"])
+                ),
+                "ironing_type": transparent_object_settings["ironing_type"],
+                "object_id": "6",
+                "other_material_profiles_changed": False,
+                "optical_result_physically_tested": False,
             },
             "lower_right_cube_rows": {
                 "track": "lower-right zero",
@@ -2243,7 +2471,7 @@ def main():
                 ),
             },
             "frozen_geometry": [
-                "Six resource windows",
+                "Resource window layout except the requested local 5-to-6 transition",
                 "The middle two cube tracks and their rows",
                 "Panel envelope, laminate registration, mounts and Z stack",
                 "All unrelated filament slots and printer/process settings",
@@ -2276,9 +2504,28 @@ def main():
             "print on this 0.10 mm / 20 mm/s revision."
         ),
         "slicer_validation": {
-            "status": "not-run-for-centered-blocks-artifact",
+            "status": "attempted-for-current-artifact-failed",
             "gcode_files_produced": 0,
             "support_enabled": project_settings.get("enable_support") == "1",
+            "current_attempt_artifact": str(
+                OUTPUT.relative_to(ROOT)
+            ).replace("\\", "/"),
+            "current_attempt_command": (
+                "orca-slicer.exe "
+                "models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf "
+                "--slice=0 --outputdir=build/tableau-final-sliced"
+            ),
+            "current_attempt_exit_code": -18,
+            "current_attempt_exit_code_windows": 4294967278,
+            "current_attempt_diagnostic": (
+                "retraction_distances_when_cut: 0 not in range "
+                "[10.000000,18.000000]"
+            ),
+            "current_attempt_log": "build/tableau-final-slice.log",
+            "current_attempt_gcode_files_produced": 0,
+            "current_attempt_cli_version": (
+                "unreported; --version is not supported by this executable"
+            ),
             "prior_attempts_artifact": str(
                 PREVIOUS_OUTPUT.relative_to(ROOT)
             ).replace("\\", "/"),
@@ -2322,6 +2569,14 @@ def main():
         "slider_translation_mm": (
             FOLLOWUP_SLIDER_CENTER_MM - previous_slot_center
         ).tolist(),
+        "slider_size_mm": long_slot_revision["target_size_mm"],
+        "slider_extension_down_mm": SLIDER_EXTENSION_DOWN_MM,
+        "window5_to6_ramp_aperture_mm": (
+            transition_ramp_revision[
+                "target_front_face_transfer_aperture_mm"
+            ]
+        ),
+        "window5_to6_ramp_checks_passed": transition_ramp_checks["passed"],
         "lower_right_cube_translation_mm": [
             LOWER_RIGHT_TRACK_SHIFT_X_MM, 0.0
         ],

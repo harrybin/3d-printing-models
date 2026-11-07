@@ -38,6 +38,7 @@ COLORS = {
         "row": (180, 90, 180),
         "slot": (255, 180, 0),
         "mount": (30, 30, 240),
+        "transition": (0, 140, 255),
     },
     "after": {
         "panel": (0, 255, 255),
@@ -46,6 +47,7 @@ COLORS = {
         "row": (255, 0, 255),
         "slot": (255, 0, 0),
         "mount": (0, 0, 255),
+        "transition": (0, 140, 255),
     },
 }
 
@@ -118,7 +120,35 @@ def draw_rectangle(image, center, size, transform, color, thickness=2,
             cv2.line(image, tuple(a), tuple(b), color, thickness, cv2.LINE_AA)
 
 
-def draw_model(image, mesh, transform, palette, annotate_mounts=True):
+def resource_window_contours(mesh, z):
+    section = mesh.section(
+        plane_normal=[0, 0, 1],
+        plane_origin=[0, 0, z],
+    )
+    revision.require(section is not None, "Missing resource-window section")
+    contours = []
+    for loop in section.discrete:
+        if len(loop) < 4 or np.linalg.norm(loop[0] - loop[-1]) > revision.TOL:
+            continue
+        low = loop[:, :2].min(axis=0)
+        high = loop[:, :2].max(axis=0)
+        center = (low + high) / 2
+        size = high - low
+        if (
+            35.0 < size[0] < 160.0
+            and 20.0 < size[1] < 60.0
+            and (center[1] > 30 or center[1] < -30)
+        ):
+            contours.append(loop[:, :2])
+    return contours
+
+
+def draw_model(
+    image, mesh, transform, palette, annotate_mounts=True, slot_height=None,
+    draw_transition=False,
+):
+    if slot_height is None:
+        slot_height = revision.LONG_SLOT_HEIGHT
     x0, y0 = mesh.bounds[0, :2]
     x1, y1 = mesh.bounds[1, :2]
     draw_rectangle(
@@ -130,14 +160,17 @@ def draw_model(image, mesh, transform, palette, annotate_mounts=True):
         [revision.LAMINATE_LENGTH, revision.LAMINATE_WIDTH],
         transform, palette["paper"], 2,
     )
-    for index, (center, size) in enumerate(
-        revision.resource_window_loops(mesh, 0.0), start=1
-    ):
-        draw_rectangle(
-            image, center, size, transform, palette["window"], 3
+    window_z = float(mesh.bounds[1, 2]) - 0.01
+    for contour in resource_window_contours(mesh, window_z):
+        points = model_to_pixel(contour, *transform).round().astype(np.int32)
+        cv2.polylines(
+            image, [points], True, palette["window"], 3, cv2.LINE_AA
         )
+    for index, target in enumerate(revision.TARGET_WINDOWS, start=1):
+        center = np.asarray(target["center_mm"])
         pixel = model_to_pixel([center], *transform)[0].round().astype(int)
-        cv2.putText(image, str(index), tuple(pixel),
+        label = "5/6" if draw_transition and index == 5 else str(index)
+        cv2.putText(image, label, tuple(pixel),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.8, palette["window"], 2,
                     cv2.LINE_AA)
     holes = revision.square_holes(mesh, 0.0)
@@ -151,14 +184,33 @@ def draw_model(image, mesh, transform, palette, annotate_mounts=True):
     ):
         draw_rectangle(image, center, size, transform, palette["row"], 1)
     slot_center, slot_size = revision.long_horizontal_slot(
-        mesh, 0.0, revision.LONG_SLOT_HEIGHT
+        mesh, 0.0, slot_height
     )
     draw_rectangle(image, slot_center, slot_size, transform, palette["slot"], 3)
     draw_rectangle(
-        image, revision.FOLLOWUP_SLIDER_CENTER_MM,
+        image, revision.FOLLOWUP_SLIDER_MARK_CENTER_MM,
         revision.FOLLOWUP_SLIDER_SIZE_MM, transform, palette["slot"], 2,
         dashed=True,
     )
+    if draw_transition:
+        ramp = revision.REPORT.read_text(encoding="utf-8")
+        ramp_spec = json.loads(ramp)["followup_adjustments"][
+            "window5_to6_transition"
+        ]
+        ramp_center = np.asarray([
+            (ramp_spec["window5_inner_edge_x_mm"]
+             + ramp_spec["top_face_transfer_end_x_mm"]) / 2,
+            sum(ramp_spec["y_span_mm"]) / 2,
+        ])
+        ramp_size = np.asarray([
+            ramp_spec["top_face_transfer_end_x_mm"]
+            - ramp_spec["window5_inner_edge_x_mm"],
+            ramp_spec["y_span_mm"][1] - ramp_spec["y_span_mm"][0],
+        ])
+        draw_rectangle(
+            image, ramp_center, ramp_size, transform,
+            palette["transition"], 3
+        )
 
     mount_centers = revision.SOURCE_MOUNTS.copy()
     outer = np.abs(mount_centers[:, 0]) >= 1
@@ -181,7 +233,7 @@ def draw_target_marks(image, transform):
             target_color, 2, dashed=True,
         )
     draw_rectangle(
-        image, revision.FOLLOWUP_SLIDER_CENTER_MM,
+        image, revision.FOLLOWUP_SLIDER_MARK_CENTER_MM,
         revision.FOLLOWUP_SLIDER_SIZE_MM, transform, target_color, 2,
         dashed=True,
     )
@@ -206,8 +258,15 @@ def full_comparison(photo, before_mesh, after_mesh):
     transform = (RAW_CENTER_PX, RAW_SCALE_PX_PER_MM)
     before = photo.copy()
     after = photo.copy()
-    draw_model(before, before_mesh, transform, COLORS["before"])
-    draw_model(after, after_mesh, transform, COLORS["after"])
+    draw_model(
+        before, before_mesh, transform, COLORS["before"],
+        slot_height=revision.PREVIOUS_LONG_SLOT_HEIGHT,
+    )
+    draw_model(
+        after, after_mesh, transform, COLORS["after"],
+        slot_height=revision.LONG_SLOT_HEIGHT,
+        draw_transition=True,
+    )
     draw_target_marks(after, transform)
     draw_target_marks(before, transform)
     before = title_bar(
@@ -215,8 +274,8 @@ def full_comparison(photo, before_mesh, after_mesh):
         "Red-orange: old windows | magenta: old pockets | blue: old slot",
     )
     after = title_bar(
-        after,         "AFTER - slider, lower-right rows and number blocks adjusted",
-        "One global photo map (~1 mm uncertainty) | red dashed: marked block targets | green: windows | magenta: pockets | blue: slider",
+        after, "AFTER - cube-sized slider, window 5/6 ramp and top skin",
+        "One global photo map (~1 mm uncertainty) | green: front-face contours | orange: 5->6 ramp | magenta: pockets | blue: slider",
     )
     return np.hstack([before, after])
 
@@ -255,7 +314,7 @@ def main():
     before_mesh = load_front(BEFORE)
     after_mesh = load_front(revision.OUTPUT)
     before_slot_center, _ = revision.long_horizontal_slot(
-        before_mesh, 0.0, revision.LONG_SLOT_HEIGHT
+        before_mesh, 0.0, revision.PREVIOUS_LONG_SLOT_HEIGHT
     )
     IMAGE_DIR.mkdir(parents=True, exist_ok=True)
     comparison_path = IMAGE_DIR / (
@@ -265,6 +324,8 @@ def main():
     draw_model(
         after_overlay, after_mesh,
         (RAW_CENTER_PX, RAW_SCALE_PX_PER_MM), COLORS["after"],
+        slot_height=revision.LONG_SLOT_HEIGHT,
+        draw_transition=True,
     )
     draw_target_marks(after_overlay, (RAW_CENTER_PX, RAW_SCALE_PX_PER_MM))
     cv2.imwrite(
@@ -327,6 +388,30 @@ def main():
     )
     outputs.append(str(slider_closeup.relative_to(ROOT)).replace("\\", "/"))
 
+    ramp = revision.REPORT.read_text(encoding="utf-8")
+    ramp_spec = json.loads(ramp)["followup_adjustments"][
+        "window5_to6_transition"
+    ]
+    ramp_center = np.asarray([
+        (ramp_spec["window5_inner_edge_x_mm"]
+         + ramp_spec["top_face_transfer_end_x_mm"]) / 2,
+        sum(ramp_spec["y_span_mm"]) / 2,
+    ])
+    ramp_pixel = model_to_pixel(
+        [ramp_center], RAW_CENTER_PX, RAW_SCALE_PX_PER_MM
+    )[0]
+    ramp_closeup = IMAGE_DIR / (
+        f"{revision.OUTPUT.stem}-photo-window5-to6-ramp-closeup.png"
+    )
+    cv2.imwrite(
+        str(ramp_closeup),
+        centered_closeup(
+            after_overlay, ramp_pixel, (500, 300),
+            "WINDOW 5->6: RAMPED 8.64 mm FRONT-FACE TRANSFER",
+        ),
+    )
+    outputs.append(str(ramp_closeup.relative_to(ROOT)).replace("\\", "/"))
+
     lower_right_center_mm = np.asarray([
         revision.PAPER_LEFT + 155.0 + revision.CUBE_EDGE / 2
         + revision.LOWER_RIGHT_TRACK_SHIFT_X_MM + 6.5 * revision.CUBE_EDGE,
@@ -379,6 +464,20 @@ def main():
                 revision.LOWER_RIGHT_TRACK_SHIFT_X_MM, 0.0
             ],
             "number_blocks": revision.NUMBER_BLOCK_SHIFTS_X_MM,
+        },
+        "new_geometry_and_surface_settings": {
+            "slider_height_before_mm": revision.PREVIOUS_LONG_SLOT_HEIGHT,
+            "slider_height_after_mm": revision.LONG_SLOT_HEIGHT,
+            "slider_extension_down_mm": revision.SLIDER_EXTENSION_DOWN_MM,
+            "slider_top_edge_preserved": True,
+            "window5_to6_front_face_transfer_aperture_mm": (
+                ramp_spec["target_front_face_transfer_aperture_mm"]
+            ),
+            "window5_to6_ramp_depth_mm": ramp_spec["ramp_depth_z_mm"],
+            "transparent_front_top_shell_layers": 1,
+            "transparent_front_ironing_type": "top",
+            "physical_cube_transfer_tested": False,
+            "surface_smoothness_and_optical_clarity_tested": False,
         },
         "number_block_targets": {
             "source": "User-marked red rectangles",

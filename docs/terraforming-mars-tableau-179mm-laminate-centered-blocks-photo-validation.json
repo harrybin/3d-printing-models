@@ -29,12 +29,12 @@
   "target_mark_source": "Unchanged user-marked resource windows and the user red-marked slider target; all transformed by the same photo-to-model map",
   "same_global_transform_used_for_model_and_target_marks": true,
   "exported_3mf": "models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf",
-  "exported_3mf_sha256": "0fd4f589a43df0669cfe339ccf2f65d6c7044d725b4375d8ff705810852b03c8",
+  "exported_3mf_sha256": "83eaf13ef8c05ccd06acb45615aa55e52f917852f2095fda774938585f7a7aaa",
   "compared_to_3mf": "model-sources/terraforming-mars-tableau/terraforming-mars-tableau-179mm-laminate-slider-cubes.3mf",
   "followup_translations_mm": {
     "slider": [
       7.075295087588529e-07,
-      5.528975122182089e-08
+      -0.9199999447102494
     ],
     "lower_right_cube_rows": [
       2.0,
@@ -45,6 +45,18 @@
       "lower-left zero": -1.0,
       "upper-right zero": 0.5
     }
+  },
+  "new_geometry_and_surface_settings": {
+    "slider_height_before_mm": 6.8,
+    "slider_height_after_mm": 8.64,
+    "slider_extension_down_mm": 1.8400000000000007,
+    "slider_top_edge_preserved": true,
+    "window5_to6_front_face_transfer_aperture_mm": 8.64,
+    "window5_to6_ramp_depth_mm": 2.5,
+    "transparent_front_top_shell_layers": 1,
+    "transparent_front_ironing_type": "top",
+    "physical_cube_transfer_tested": false,
+    "surface_smoothness_and_optical_clarity_tested": false
   },
   "number_block_targets": {
     "source": "User-marked red rectangles",
@@ -102,6 +114,7 @@
     "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-left-zero-closeup.png",
     "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-right-zero-closeup.png",
     "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-slider-closeup.png",
+    "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-window5-to6-ramp-closeup.png",
     "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-right-closeup.png"
   ],
   "physical_fit_test_performed": false,

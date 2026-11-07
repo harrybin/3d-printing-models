@@ -2,7 +2,7 @@
   "source": "models/terraforming-mars-tableau-179mm-loch1-zapfen3.3mf",
   "source_sha256": "bbe777436d9af56f55875cf00df18dbfee49e5a0531c94c98a5895ab76892f37",
   "output": "models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf",
-  "output_sha256": "0fd4f589a43df0669cfe339ccf2f65d6c7044d725b4375d8ff705810852b03c8",
+  "output_sha256": "83eaf13ef8c05ccd06acb45615aa55e52f917852f2095fda774938585f7a7aaa",
   "requested_revision": {
     "long_dimension_before_mm": 240.401162,
     "long_dimension_after_mm": 238.401162,
@@ -65,7 +65,8 @@
         "solid_infill_direction": "0",
         "sparse_infill_rotate_template": "0",
         "solid_infill_rotate_template": "0",
-        "top_shell_layers": "0",
+        "ironing_type": "top",
+        "top_shell_layers": "1",
         "bottom_shell_layers": "0",
         "wall_loops": "2"
       },
@@ -1502,23 +1503,33 @@
           109.8976708,
           8.637790529999998
         ],
-        "target_center_mm": [
+        "previous_center_mm": [
           48.93925046166951,
           -1.8223981900452488
         ],
-        "target_size_mm": [
+        "previous_size_mm": [
           109.8976708,
           6.8
         ],
+        "target_center_mm": [
+          48.93925046166951,
+          -2.7423981900452494
+        ],
+        "target_size_mm": [
+          109.8976708,
+          8.64
+        ],
+        "extension_down_mm": 1.8400000000000007,
+        "top_edge_preserved": true,
         "target_area_center_mm": [
           48.93925046166951,
-          -1.8223981900452488
+          -2.7423981900452494
         ],
         "target_area_size_mm": [
           114.53003012606474,
           10.124434389140271
         ],
-        "minimum_cube_clearance_mm": 4.022398190045246,
+        "minimum_cube_clearance_mm": 4.022398190045248,
         "nearest_cube_opening": {
           "track": "upper-middle zero",
           "field_labels": [
@@ -1896,7 +1907,7 @@
           5
         ]
       },
-      "minimum_slider_to_cube_clearance_mm": 4.022398190045246,
+      "minimum_slider_to_cube_clearance_mm": 4.022398190045248,
       "minimum_slider_to_window_clearance_mm": 26.06367583132289
     },
     "resource_windows": {
@@ -2029,7 +2040,7 @@
             83.5380840305,
             43.48894119260001
           ],
-          "z_mm": 0.0
+          "z_mm": -1.51104648113
         },
         {
           "name": "upper-middle",
@@ -2041,7 +2052,7 @@
             56.2653560638,
             45.454547882099995
           ],
-          "z_mm": 0.0
+          "z_mm": -1.51104648113
         },
         {
           "name": "upper-right",
@@ -2053,7 +2064,7 @@
             55.77395629869999,
             44.717441558800004
           ],
-          "z_mm": 0.0
+          "z_mm": -1.51104648113
         },
         {
           "name": "lower-left",
@@ -2065,19 +2076,19 @@
             69.7788696289,
             37.592136382999996
           ],
-          "z_mm": 0.0
+          "z_mm": -1.51104648113
         },
         {
           "name": "lower-middle",
           "center_mm": [
-            1.8427515029999988,
+            1.996364372124841,
             -53.808353424050004
           ],
           "size_mm": [
-            61.4250621796,
+            61.73228791784968,
             37.592140197700004
           ],
-          "z_mm": 0.0
+          "z_mm": -1.51104648113
         },
         {
           "name": "lower-right",
@@ -2089,7 +2100,7 @@
             67.8132705687,
             39.066341400099994
           ],
-          "z_mm": 0.0
+          "z_mm": -1.51104648113
         },
         {
           "name": "upper-left",
@@ -2101,7 +2112,7 @@
             83.5380840305,
             43.48894119260001
           ],
-          "z_mm": 0.2
+          "z_mm": -1.41104648113
         },
         {
           "name": "upper-middle",
@@ -2113,7 +2124,7 @@
             56.2653560638,
             45.454547882099995
           ],
-          "z_mm": 0.2
+          "z_mm": -1.41104648113
         },
         {
           "name": "upper-right",
@@ -2125,7 +2136,7 @@
             55.77395629869999,
             44.717441558800004
           ],
-          "z_mm": 0.2
+          "z_mm": -1.41104648113
         },
         {
           "name": "lower-left",
@@ -2137,19 +2148,19 @@
             69.7788696289,
             37.592136382999996
           ],
-          "z_mm": 0.2
+          "z_mm": -1.41104648113
         },
         {
           "name": "lower-middle",
           "center_mm": [
-            1.8427515029999988,
+            2.2015240703745214,
             -53.808353424050004
           ],
           "size_mm": [
-            61.4250621796,
+            62.14260731434904,
             37.592140197700004
           ],
-          "z_mm": 0.2
+          "z_mm": -1.41104648113
         },
         {
           "name": "lower-right",
@@ -2161,9 +2172,42 @@
             67.8132705687,
             39.066341400099994
           ],
-          "z_mm": 0.2
+          "z_mm": -1.41104648113
         }
-      ]
+      ],
+      "window5_to6_ramp": {
+        "windows": [
+          "lower-middle (5)",
+          "lower-right (6)"
+        ],
+        "original_divider_width_mm": 1.7199020385742188,
+        "target_front_face_transfer_aperture_mm": 8.64,
+        "window5_inner_edge_x_mm": 32.55528259277344,
+        "window6_inner_edge_x_mm": 34.275184631347656,
+        "top_face_transfer_end_x_mm": 42.91518463134766,
+        "boolean_profile_bottom_x_mm": 32.57528259277344,
+        "boolean_profile_top_x_mm": 42.997406076098244,
+        "boolean_profile_bottom_z_mm": -1.5810464811325073,
+        "boolean_profile_top_z_mm": 0.9589535188674927,
+        "ramp_run_x_mm": 10.35990203857422,
+        "ramp_depth_z_mm": 2.5,
+        "ramp_angle_from_front_face_deg": 13.566953740878816,
+        "y_span_mm": [
+          -72.20442352294921,
+          -35.41228332519531
+        ],
+        "removed_volume_mm3": 137.79254046246206,
+        "cube_edge_mm": 8.5,
+        "physical_cube_transfer_tested": false,
+        "exported_cube_probe_checks": {
+          "top_face_cube_probe_intersection_mm3": 0.0,
+          "opposite_face_cube_probe_intersection_mm3": 0.2680562896189258,
+          "cube_probe_edge_mm": 8.5,
+          "top_face_transfer_aperture_mm": 8.64,
+          "passed": true
+        },
+        "note": "The opening widens toward the front face; the opposite face remains narrow. CAD clearance is not a physical cube-transfer test."
+      }
     },
     "policy": "Retain six separate cube tracks, openings and webs. Convert the user-measured lower/upper row offsets from the laminated outer edge into model coordinates using the measured 227 x 168 mm insert and centered 238.401 x 179 mm frame. Translate each printed row independently and balance residuals over every cell in that row. Preserve the 9.16 mm opening pitch and 8.64 mm openings, so 8.5 mm printed cells cannot all be centered without overlap."
   },
@@ -2195,6 +2239,10 @@
         48.93924975414,
         -1.822398245335
       ],
+      "previous_size_mm": [
+        109.89766931572,
+        6.80000007153
+      ],
       "red_outline_bounds_px": [
         390.0,
         258.0,
@@ -2211,17 +2259,59 @@
       ],
       "target_center_mm": [
         48.93925046166951,
-        -1.8223981900452488
+        -2.7423981900452494
       ],
       "translation_mm": [
         7.075295087588529e-07,
-        5.528975122182089e-08
+        -0.9199999447102494
       ],
       "slot_size_mm": [
         109.8976708,
-        6.8
+        8.64
       ],
-      "collision_clearance_mm": 4.022398190045246
+      "extension_down_mm": 1.8400000000000007,
+      "top_edge_preserved": true,
+      "collision_clearance_mm": 4.022398190045248
+    },
+    "window5_to6_transition": {
+      "windows": [
+        "lower-middle (5)",
+        "lower-right (6)"
+      ],
+      "original_divider_width_mm": 1.7199020385742188,
+      "target_front_face_transfer_aperture_mm": 8.64,
+      "window5_inner_edge_x_mm": 32.55528259277344,
+      "window6_inner_edge_x_mm": 34.275184631347656,
+      "top_face_transfer_end_x_mm": 42.91518463134766,
+      "boolean_profile_bottom_x_mm": 32.57528259277344,
+      "boolean_profile_top_x_mm": 42.997406076098244,
+      "boolean_profile_bottom_z_mm": -1.5810464811325073,
+      "boolean_profile_top_z_mm": 0.9589535188674927,
+      "ramp_run_x_mm": 10.35990203857422,
+      "ramp_depth_z_mm": 2.5,
+      "ramp_angle_from_front_face_deg": 13.566953740878816,
+      "y_span_mm": [
+        -72.20442352294921,
+        -35.41228332519531
+      ],
+      "removed_volume_mm3": 137.79254046246206,
+      "cube_edge_mm": 8.5,
+      "physical_cube_transfer_tested": false,
+      "exported_cube_probe_checks": {
+        "top_face_cube_probe_intersection_mm3": 0.0,
+        "opposite_face_cube_probe_intersection_mm3": 0.2680562896189258,
+        "cube_probe_edge_mm": 8.5,
+        "top_face_transfer_aperture_mm": 8.64,
+        "passed": true
+      }
+    },
+    "transparent_front_surface": {
+      "top_shell_layers": "1",
+      "top_shell_thickness_mm": 0.1,
+      "ironing_type": "top",
+      "object_id": "6",
+      "other_material_profiles_changed": false,
+      "optical_result_physically_tested": false
     },
     "lower_right_cube_rows": {
       "track": "lower-right zero",
@@ -2544,7 +2634,7 @@
       "note": "Whole-block translations preserve row spacing and pocket geometry. Remaining per-field offsets include the intentional mismatch between 9.16 mm pocket pitch and 8.5 mm printed-field pitch; the photo-derived mark centers are approximate."
     },
     "frozen_geometry": [
-      "Six resource windows",
+      "Resource window layout except the requested local 5-to-6 transition",
       "The middle two cube tracks and their rows",
       "Panel envelope, laminate registration, mounts and Z stack",
       "All unrelated filament slots and printer/process settings"
@@ -2571,8 +2661,8 @@
         2.4999999999969997
       ],
       "euler_number": -156,
-      "vertices": 2546,
-      "triangles": 5404
+      "vertices": 2503,
+      "triangles": 5318
     },
     {
       "path": "3D/Objects/Body1_2.model",
@@ -2617,8 +2707,8 @@
         2.4999999999969997
       ],
       "euler_number": -156,
-      "vertices": 2546,
-      "triangles": 5404
+      "vertices": 2503,
+      "triangles": 5318
     }
   ],
   "plate_layout": {
@@ -4251,23 +4341,33 @@
           109.8976708,
           8.637790529999998
         ],
-        "target_center_mm": [
+        "previous_center_mm": [
           48.93925046166951,
           -1.8223981900452488
         ],
-        "target_size_mm": [
+        "previous_size_mm": [
           109.8976708,
           6.8
         ],
+        "target_center_mm": [
+          48.93925046166951,
+          -2.7423981900452494
+        ],
+        "target_size_mm": [
+          109.8976708,
+          8.64
+        ],
+        "extension_down_mm": 1.8400000000000007,
+        "top_edge_preserved": true,
         "target_area_center_mm": [
           48.93925046166951,
-          -1.8223981900452488
+          -2.7423981900452494
         ],
         "target_area_size_mm": [
           114.53003012606474,
           10.124434389140271
         ],
-        "minimum_cube_clearance_mm": 4.022398190045246,
+        "minimum_cube_clearance_mm": 4.022398190045248,
         "nearest_cube_opening": {
           "track": "upper-middle zero",
           "field_labels": [
@@ -4405,6 +4505,31 @@
           ]
         }
       ],
+      "window5_to6_ramp": {
+        "windows": [
+          "lower-middle (5)",
+          "lower-right (6)"
+        ],
+        "original_divider_width_mm": 1.7199020385742188,
+        "target_front_face_transfer_aperture_mm": 8.64,
+        "window5_inner_edge_x_mm": 32.55528259277344,
+        "window6_inner_edge_x_mm": 34.275184631347656,
+        "top_face_transfer_end_x_mm": 42.91518463134766,
+        "boolean_profile_bottom_x_mm": 32.57528259277344,
+        "boolean_profile_top_x_mm": 42.997406076098244,
+        "boolean_profile_bottom_z_mm": -1.5810464811325073,
+        "boolean_profile_top_z_mm": 0.9589535188674927,
+        "ramp_run_x_mm": 10.35990203857422,
+        "ramp_depth_z_mm": 2.5,
+        "ramp_angle_from_front_face_deg": 13.566953740878816,
+        "y_span_mm": [
+          -72.20442352294921,
+          -35.41228332519531
+        ],
+        "removed_volume_mm3": 137.79254046246206,
+        "cube_edge_mm": 8.5,
+        "physical_cube_transfer_tested": false
+      },
       "mount_centers_mm": [
         [
           0.0,
@@ -6100,23 +6225,33 @@
           109.8976708,
           8.637790529999998
         ],
-        "target_center_mm": [
+        "previous_center_mm": [
           48.93925046166951,
           -1.8223981900452488
         ],
-        "target_size_mm": [
+        "previous_size_mm": [
           109.8976708,
           6.8
         ],
+        "target_center_mm": [
+          48.93925046166951,
+          -2.7423981900452494
+        ],
+        "target_size_mm": [
+          109.8976708,
+          8.64
+        ],
+        "extension_down_mm": 1.8400000000000007,
+        "top_edge_preserved": true,
         "target_area_center_mm": [
           48.93925046166951,
-          -1.8223981900452488
+          -2.7423981900452494
         ],
         "target_area_size_mm": [
           114.53003012606474,
           10.124434389140271
         ],
-        "minimum_cube_clearance_mm": 4.022398190045246,
+        "minimum_cube_clearance_mm": 4.022398190045248,
         "nearest_cube_opening": {
           "track": "upper-middle zero",
           "field_labels": [
@@ -6254,6 +6389,31 @@
           ]
         }
       ],
+      "window5_to6_ramp": {
+        "windows": [
+          "lower-middle (5)",
+          "lower-right (6)"
+        ],
+        "original_divider_width_mm": 1.7199020385742188,
+        "target_front_face_transfer_aperture_mm": 8.64,
+        "window5_inner_edge_x_mm": 32.55528259277344,
+        "window6_inner_edge_x_mm": 34.275184631347656,
+        "top_face_transfer_end_x_mm": 42.91518463134766,
+        "boolean_profile_bottom_x_mm": 32.57528259277344,
+        "boolean_profile_top_x_mm": 42.997406076098244,
+        "boolean_profile_bottom_z_mm": -1.5810464811325073,
+        "boolean_profile_top_z_mm": 0.9589535188674927,
+        "ramp_run_x_mm": 10.35990203857422,
+        "ramp_depth_z_mm": 2.5,
+        "ramp_angle_from_front_face_deg": 13.566953740878816,
+        "y_span_mm": [
+          -72.20442352294921,
+          -35.41228332519531
+        ],
+        "removed_volume_mm3": 137.79254046246206,
+        "cube_edge_mm": 8.5,
+        "physical_cube_transfer_tested": false
+      },
       "mount_centers_mm": [
         [
           0.0,
@@ -6304,14 +6464,21 @@
       "speed_mm_s": "20 object overrides for walls, infill, gap and top",
       "wall_loops": "2",
       "top_bottom_shell_layers": [
-        "0",
+        "1",
         "0"
       ],
       "infill_density_percent": "100% transparent-front object override",
       "same_direction_infill": true,
-      "all_solid_surface_patterns_aligned": true
+      "all_solid_surface_patterns_aligned": true,
+      "top_surface_followup": {
+        "top_shell_layers": "1",
+        "ironing_type": "top",
+        "intent": "A single 0.10 mm top skin plus ironing is a conservative surface-smoothing test; optical clarity is not proven."
+      }
     },
-    "settings_changed_after_review": [],
+    "settings_changed_after_review": [
+      "Add one 0.10 mm top shell layer and top-surface ironing to the transparent front only."
+    ],
     "not_adopted": [
       "Simplify3D-specific outline/solid underspeed percentages; no successful slice to verify effective speed",
       "PETG temperature, 0.50 mm width, 1.01 extrusion multiplier, and drying recipe not validated for this PLA profile"
@@ -6320,9 +6487,17 @@
   },
   "physical_fit": "The 3.0 mm sockets / 2.6 mm pins are inherited from the previously coupon-tested variant. The new 2.5 mm front, shortened pins, laminate-edge registration, resized windows and complete tableau fit have not been physically tested. The user asked to preserve the existing Z stack; laminate thickness/compression remains unverified. The transparent PLA profile has no physical test print on this 0.10 mm / 20 mm/s revision.",
   "slicer_validation": {
-    "status": "not-run-for-centered-blocks-artifact",
+    "status": "attempted-for-current-artifact-failed",
     "gcode_files_produced": 0,
     "support_enabled": false,
+    "current_attempt_artifact": "models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf",
+    "current_attempt_command": "orca-slicer.exe models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf --slice=0 --outputdir=build/tableau-final-sliced",
+    "current_attempt_exit_code": -18,
+    "current_attempt_exit_code_windows": 4294967278,
+    "current_attempt_diagnostic": "retraction_distances_when_cut: 0 not in range [10.000000,18.000000]",
+    "current_attempt_log": "build/tableau-final-slice.log",
+    "current_attempt_gcode_files_produced": 0,
+    "current_attempt_cli_version": "unreported; --version is not supported by this executable",
     "prior_attempts_artifact": "model-sources/terraforming-mars-tableau/terraforming-mars-tableau-179mm-laminate-slider-cubes.3mf",
     "prior_attempts_status": "failed; no G-code produced",
     "orca_slicer_version": "2.0.0.0",
