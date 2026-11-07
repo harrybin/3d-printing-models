@@ -60,6 +60,7 @@ automatically. Run the helper's tests with
 
 | File | Description |
 |------|-------------|
+| `models/terraforming-mars-tableau-179mm-loch1-zapfen3.3mf` | 179 mm Terraforming Mars tableau with the user-selected nominal 3.0 mm blind sockets / 2.6 mm pins at all eight positions; original three plates and saved settings preserved ([preview](docs/images/terraforming-mars-tableau-179mm-loch1-zapfen3-preview.png); [dimensions, provenance and remaining fit/slice risk](docs/terraforming-mars-tableau.md)). Unchanged reproduction inputs are archived under `model-sources/terraforming-mars-tableau/`, not published as additional variants. |
 | `models/wedge_100x20x40.stl` | 100 × 20 × 40 mm wedge |
 | `models/lineal-clip-kappe.stl` | Snap-fit clip cap for the two holes at the end of a steel ruler ([see example](#example-from-photo-to-printable-stl)) |
 | `models/duschscharnier_ersatz.stl` | Shower-door hinge replacement body generated from `scripts/duschscharnier_ersatz.py` |

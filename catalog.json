@@ -9,6 +9,52 @@
   },
   "models": [
     {
+      "slug": "terraforming-mars-tableau-179mm-loch1-zapfen3",
+      "generator": "scripts/fit_terraforming_mars_tableau.py",
+      "outputs": [
+        "models/terraforming-mars-tableau-179mm-loch1-zapfen3.3mf"
+      ],
+      "object_layer_height_exceptions": [
+        {
+          "object_id": "6",
+          "object_name": "Vorderseite - PLA Transparent (Startprofil)",
+          "layer_height_mm": 0.2,
+          "reason": "Preserve the user-saved per-object layer-height setting in the imported transparent front."
+        }
+      ],
+      "docs": [
+        "docs/terraforming-mars-tableau.md",
+        "docs/terraforming-mars-tableau-179mm-fit-validation.json",
+        "docs/images/terraforming-mars-tableau-179mm-loch1-zapfen3-preview.png"
+      ],
+      "license": "Derived from user-provided 3MF; original design and license are unspecified, and the repository MIT license does not apply to model contents",
+      "status": "User-selected absolute 3.0/2.6 mm fit on all eight mating positions (both front copies); blind floors, axial dimensions, three plates and settings preserved. Mesh/assembly checks pass; Orca CLI blocked by unchanged source preset; full-tableau physical fit unverified"
+    },
+    {
+      "slug": "terraforming-mars-tableau-179mm-laminate-centered-blocks",
+      "generator": "scripts/revise_terraforming_mars_tableau.py",
+      "outputs": [
+        "models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf"
+      ],
+      "docs": [
+        "docs/terraforming-mars-tableau.md",
+        "docs/terraforming-mars-tableau-179mm-laminate-centered-blocks-validation.json",
+        "docs/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-validation.json",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-preview.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-before-after.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-rows.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-rows.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-left-5-closeup.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-left-zero-closeup.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-right-zero-closeup.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-slider-closeup.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-window5-to6-ramp-closeup.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-right-closeup.png"
+      ],
+      "license": "Derived from user-provided 3MF; original design and license are unspecified, and the repository MIT license does not apply to model contents",
+      "status": "Adds whole-block horizontal translations of -1.5 mm upper-left, -1.0 mm lower-left, and +0.5 mm upper-right to the slider/lower-right-adjusted laminate layout. The middle slider is enlarged to an 8.64 mm opening and a 5-to-6 window ramp is restored; transparent-front object 6 uses a 0.10 mm top shell with ironing. Pocket dimensions, pitch, webs, mounts and plate transforms are preserved. CAD checks pass, but the exact 3MF slice is blocked by retraction_distances_when_cut=0; screenshot registration is approximate and physical cube transfer, surface quality and assembly remain untested."
+    },
+    {
       "slug": "butterfly-messer",
       "generator": "scripts/butterfly_messer.py",
       "outputs": [
