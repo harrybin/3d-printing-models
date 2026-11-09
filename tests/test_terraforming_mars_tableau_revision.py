@@ -157,7 +157,7 @@ class TableauRevisionTests(unittest.TestCase):
                 ):
                     self.assertEqual(settings[key][slot], "55", key)
             elif key == "curr_bed_type":
-                self.assertEqual(settings[key], "Cool Plate")
+                self.assertEqual(settings[key], value)
             elif key == "different_settings_to_system":
                 expected = value[:]
                 process_overrides = expected[0].split(";")
@@ -174,8 +174,6 @@ class TableauRevisionTests(unittest.TestCase):
                 machine_overrides = list(
                     filter(None, expected[1].split(";"))
                 )
-                if "curr_bed_type" not in machine_overrides:
-                    machine_overrides.append("curr_bed_type")
                 expected[1] = ";".join(machine_overrides)
                 expected[revision.TRANSPARENT_FILAMENT_SLOT + 1] = (
                     "filament_settings_id;cool_plate_temp;"
@@ -261,6 +259,12 @@ class TableauRevisionTests(unittest.TestCase):
         )
         self.assertEqual(
             self.report["requested_revision"]["transparent_filament_settings"][
+                "global_bed_type"
+            ],
+            source_settings["curr_bed_type"],
+        )
+        self.assertEqual(
+            self.report["requested_revision"]["transparent_filament_settings"][
                 "cool_plate_temperature_c"
             ],
             "55",
@@ -297,6 +301,10 @@ class TableauRevisionTests(unittest.TestCase):
         }
         self.assertEqual(values["status"], "not-verified")
         self.assertEqual(values["plateCount"], "3")
+        self.assertEqual(
+            values["bedType"],
+            "Global: Textured PEI Plate; Plate 3: Cool Plate",
+        )
         for key in (
             "estimatedPrintTimeSeconds",
             "filamentUsageGrams",
@@ -586,12 +594,6 @@ class TableauRevisionTests(unittest.TestCase):
             if setting not in process_overrides:
                 process_overrides.append(setting)
         expected_overrides[0] = ";".join(process_overrides)
-        machine_overrides = list(
-            filter(None, expected_overrides[1].split(";"))
-        )
-        if "curr_bed_type" not in machine_overrides:
-            machine_overrides.append("curr_bed_type")
-        expected_overrides[1] = ";".join(machine_overrides)
         expected_overrides[revision.TRANSPARENT_FILAMENT_SLOT + 1] = (
             "filament_settings_id;cool_plate_temp;"
             "cool_plate_temp_initial_layer;nozzle_temperature;"
@@ -607,7 +609,7 @@ class TableauRevisionTests(unittest.TestCase):
         )
         for key in prior_project.keys() - {"different_settings_to_system"}:
             if key == "curr_bed_type":
-                self.assertEqual(output_project[key], "Cool Plate")
+                self.assertEqual(output_project[key], prior_project[key])
             elif key in ("cool_plate_temp", "cool_plate_temp_initial_layer"):
                 expected_temperatures = prior_project[key][:]
                 expected_temperatures[
@@ -622,6 +624,22 @@ class TableauRevisionTests(unittest.TestCase):
         )
         output_model = ET.fromstring(
             self.output["Metadata/model_settings.config"]
+        )
+        transparent_plate = next(
+            plate for plate in output_model.findall("plate")
+            if any(
+                item.get("key") == "plater_id"
+                and item.get("value") == str(revision.TRANSPARENT_PLATE_ID)
+                for item in plate.findall("metadata")
+            )
+        )
+        plate_settings = {
+            item.get("key"): item.get("value")
+            for item in transparent_plate.findall("metadata")
+        }
+        self.assertEqual(
+            plate_settings["curr_bed_type"],
+            "Cool Plate",
         )
         prior_objects = {
             item.get("id"): item for item in prior_model.findall("object")
