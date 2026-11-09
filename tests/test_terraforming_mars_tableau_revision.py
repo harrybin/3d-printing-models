@@ -638,8 +638,24 @@ class TableauRevisionTests(unittest.TestCase):
             for item in transparent_plate.findall("metadata")
         }
         self.assertEqual(
-            plate_settings["curr_bed_type"],
+            plate_settings["bed_type"],
             "Cool Plate",
+        )
+        self.assertNotIn("curr_bed_type", plate_settings)
+        prior_transparent_plate = next(
+            plate for plate in prior_model.findall("plate")
+            if any(
+                item.get("key") == "plater_id"
+                and item.get("value") == str(revision.TRANSPARENT_PLATE_ID)
+                for item in plate.findall("metadata")
+            )
+        )
+        self.assertNotIn(
+            "bed_type",
+            {
+                item.get("key"): item.get("value")
+                for item in prior_transparent_plate.findall("metadata")
+            },
         )
         prior_objects = {
             item.get("id"): item for item in prior_model.findall("object")

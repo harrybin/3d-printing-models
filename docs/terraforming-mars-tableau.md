@@ -154,7 +154,7 @@ level/Z offset after installing the replacement sheet.
 
 The global printer bed type remains `Textured PEI Plate` for the other plates.
 Plate 3, which contains only the transparent front, has its own persisted
-`curr_bed_type=Cool Plate` override in that plate's metadata. Transparent PLA
+`bed_type=Cool Plate` override in that plate's metadata. Transparent PLA
 slot 4 has Cool Plate first/normal temperatures of `55 °C`; other filament
 slots and their bed-temperature values remain unchanged. The per-plate
 override is necessary because setting the project-level bed type instead

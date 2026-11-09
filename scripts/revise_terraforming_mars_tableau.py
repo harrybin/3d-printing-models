@@ -409,7 +409,7 @@ def plate_bed_type(model_settings_bytes, plater_id):
             for item in plate.findall("metadata")
         }
         if metadata.get("plater_id") == str(plater_id):
-            return metadata.get("curr_bed_type")
+            return metadata.get("bed_type")
     return None
 
 
@@ -542,10 +542,10 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
         item.get("key"): item
         for item in transparent_plate.findall("metadata")
     }
-    bed_type_metadata = plate_metadata.get("curr_bed_type")
+    bed_type_metadata = plate_metadata.get("bed_type")
     if bed_type_metadata is None:
         bed_type_metadata = ET.SubElement(
-            transparent_plate, "metadata", key="curr_bed_type"
+            transparent_plate, "metadata", key="bed_type"
         )
     bed_type_metadata.set("value", TRANSPARENT_BED_TYPE)
     return (
@@ -3537,7 +3537,8 @@ def main():
                     TRANSPARENT_BED_TEMPERATURE_C
                 ),
                 "bed_temperature_scope": (
-                    "Cool Plate is overridden only on transparent-front plate "
+                    "Cool Plate is stored as the bed_type override only on "
+                    "transparent-front plate "
                     "3; the global bed type and other plates remain unchanged. "
                     "Only transparent filament slot 4 Cool Plate temperatures "
                     "are changed."
