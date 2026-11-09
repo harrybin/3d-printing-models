@@ -2,7 +2,7 @@
   "source": "models/terraforming-mars-tableau-179mm-loch1-zapfen3.3mf",
   "source_sha256": "bbe777436d9af56f55875cf00df18dbfee49e5a0531c94c98a5895ab76892f37",
   "output": "models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf",
-  "output_sha256": "1a6c23b63cce9c7733d642203dc7e32bd4aa36d7b782cbcf34e184fffda10dd8",
+  "output_sha256": "0ac1232aac4ead0601b2c0e452c99d80f1c9b8dd8c22804a769e836889fc8679",
   "requested_revision": {
     "long_dimension_before_mm": 240.401162,
     "long_dimension_after_mm": 238.401162,
@@ -40,8 +40,8 @@
       "filament_slot": 4,
       "bed_type": "Cool Plate",
       "global_bed_type": "Textured PEI Plate",
-      "cool_plate_temperature_c": "55",
-      "cool_plate_first_layer_temperature_c": "55",
+      "cool_plate_temperature_c": "45",
+      "cool_plate_first_layer_temperature_c": "45",
       "normal_nozzle_temperature_c": "220",
       "first_layer_nozzle_temperature_c": "220",
       "declared_nozzle_range_c": [
@@ -3261,10 +3261,10 @@
       "object_id": "6",
       "bed_type": "Cool Plate",
       "global_bed_type": "Textured PEI Plate",
-      "cool_plate_temperature_c": 55,
-      "cool_plate_first_layer_temperature_c": 55,
+      "cool_plate_temperature_c": 45,
+      "cool_plate_first_layer_temperature_c": 45,
       "bed_temperature_scope": "Cool Plate is stored as the bed_type override only on transparent-front plate 3; the global bed type and other plates remain unchanged. Only transparent filament slot 4 Cool Plate temperatures are changed.",
-      "bed_plate_source": "User-selected UniTak3D Energy-Saving Kobra S1/Kobra X/Kobra 4 double-sided glossy/matte plate; seller lists 50-70 C for the smooth side with PLA. 55 C is a conservative starting setting, not a validated optimum.",
+      "bed_plate_source": "User-selected UniTak3D Energy-Saving Kobra S1/Kobra X/Kobra 4 double-sided glossy/matte plate; seller lists 30-50 C for the smooth side with PLA. 45 C is a conservative starting setting, not a validated optimum.",
       "other_material_profiles_changed": false,
       "optical_result_physically_tested": false
     },
@@ -8295,7 +8295,7 @@
     "settings_changed_after_review": [
       "Increase transparent-front top skin from one to two 0.10 mm layers while retaining top ironing.",
       "Rotate the 100% aligned single-direction infill and solid-surface raster to 90 degrees, along the panel's shorter axis.",
-      "Select Cool Plate and set only transparent PLA slot 4 Cool Plate first/normal bed temperatures to 55 C, within the seller-listed 50-70 C smooth-side PLA range.",
+      "Keep global Textured PEI; select Cool Plate only for transparent-front plate 3 and set only transparent PLA slot 4 Cool Plate first/normal bed temperatures to 45 C, within the manufacturer-stated 30-50 C range.",
       "Reduce transparent-front object initial-layer wall/sparse speed from 40 to 20 mm/s; with zero bottom-shell layers, first-layer fill follows this sparse-infill speed, so the separate 60 mm/s solid-infill setting is unchanged and inapplicable. Retain first-layer flow, line width and print sequence."
     ],
     "not_adopted": [
@@ -8311,7 +8311,7 @@
     "gcode_files_produced": 0,
     "support_enabled": false,
     "current_attempt_artifact": "models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf",
-    "current_attempt_artifact_sha256": "1a6c23b63cce9c7733d642203dc7e32bd4aa36d7b782cbcf34e184fffda10dd8",
+    "current_attempt_artifact_sha256": "0ac1232aac4ead0601b2c0e452c99d80f1c9b8dd8c22804a769e836889fc8679",
     "current_attempt_command": null,
     "current_attempt_exit_code": null,
     "current_attempt_diagnostic": "No slice was run after adding the local window and arrow reliefs. The preceding integrated artifact failed before G-code generation with the saved retraction setting.",

@@ -155,7 +155,7 @@ class TableauRevisionTests(unittest.TestCase):
                     "cool_plate_temp",
                     "cool_plate_temp_initial_layer",
                 ):
-                    self.assertEqual(settings[key][slot], "55", key)
+                    self.assertEqual(settings[key][slot], "45", key)
             elif key == "curr_bed_type":
                 self.assertEqual(settings[key], value)
             elif key == "different_settings_to_system":
@@ -197,9 +197,9 @@ class TableauRevisionTests(unittest.TestCase):
         self.assertEqual(
             settings["nozzle_temperature_initial_layer"][slot], "220"
         )
-        self.assertEqual(settings["cool_plate_temp"][slot], "55")
+        self.assertEqual(settings["cool_plate_temp"][slot], "45")
         self.assertEqual(
-            settings["cool_plate_temp_initial_layer"][slot], "55"
+            settings["cool_plate_temp_initial_layer"][slot], "45"
         )
         self.assertLessEqual(
             float(settings["nozzle_temperature_range_low"][slot]), 220
@@ -267,13 +267,13 @@ class TableauRevisionTests(unittest.TestCase):
             self.report["requested_revision"]["transparent_filament_settings"][
                 "cool_plate_temperature_c"
             ],
-            "55",
+            "45",
         )
         self.assertEqual(
             self.report["requested_revision"]["transparent_filament_settings"][
                 "cool_plate_first_layer_temperature_c"
             ],
-            "55",
+            "45",
         )
         self.assertEqual(
             self.report["requested_revision"]["transparent_filament_settings"][
@@ -614,7 +614,7 @@ class TableauRevisionTests(unittest.TestCase):
                 expected_temperatures = prior_project[key][:]
                 expected_temperatures[
                     revision.TRANSPARENT_FILAMENT_SLOT - 1
-                ] = "55"
+                ] = "45"
                 self.assertEqual(output_project[key], expected_temperatures)
             else:
                 self.assertEqual(output_project[key], prior_project[key], key)
