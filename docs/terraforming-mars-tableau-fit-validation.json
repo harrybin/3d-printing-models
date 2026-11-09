@@ -1,0 +1,90 @@
+{
+  "source_sha256": "179e1cb51043f6b4dd99c27d6f166f95c03a223e313050b709b1c9c1aa0cfc84",
+  "output_sha256": "f2cd5082b5705df9b6b88963f716be752641be23a481abd9d7f663cfed2d23ef",
+  "new_plate": 4,
+  "samples": [
+    {
+      "name": "Probe 2.4 mm - Rueckseite - 1 Kerbe(n)",
+      "object_id": 8,
+      "mesh": "3D/Objects/FitSample_7.model",
+      "vertices": 6930,
+      "triangles": 13856,
+      "volume_mm3": 366.4573512476543,
+      "filament_slot": 3
+    },
+    {
+      "name": "Probe 2.4 mm - Vorderseite - 1 Kerbe(n)",
+      "object_id": 10,
+      "mesh": "3D/Objects/FitSample_9.model",
+      "vertices": 786,
+      "triangles": 1568,
+      "volume_mm3": 482.85435109939044,
+      "filament_slot": 1
+    },
+    {
+      "name": "Probe 2.5 mm - Rueckseite - 2 Kerbe(n)",
+      "object_id": 12,
+      "mesh": "3D/Objects/FitSample_11.model",
+      "vertices": 6938,
+      "triangles": 13872,
+      "volume_mm3": 367.27857281391704,
+      "filament_slot": 3
+    },
+    {
+      "name": "Probe 2.5 mm - Vorderseite - 2 Kerbe(n)",
+      "object_id": 14,
+      "mesh": "3D/Objects/FitSample_13.model",
+      "vertices": 794,
+      "triangles": 1584,
+      "volume_mm3": 481.654351260323,
+      "filament_slot": 1
+    },
+    {
+      "name": "Probe 2.6 mm - Rueckseite - 3 Kerbe(n)",
+      "object_id": 16,
+      "mesh": "3D/Objects/FitSample_15.model",
+      "vertices": 6946,
+      "triangles": 13888,
+      "volume_mm3": 368.1657419694668,
+      "filament_slot": 3
+    },
+    {
+      "name": "Probe 2.6 mm - Vorderseite - 3 Kerbe(n)",
+      "object_id": 18,
+      "mesh": "3D/Objects/FitSample_17.model",
+      "vertices": 802,
+      "triangles": 1600,
+      "volume_mm3": 480.4543508848137,
+      "filament_slot": 1
+    }
+  ],
+  "dimensions_mm": {
+    "coupon_length": 30,
+    "coupon_width": 5.8,
+    "back_base_thickness": 2,
+    "front_thickness": 3,
+    "pin_spacing": 20,
+    "pin_projection": 2.1,
+    "tip_chamfer_axial_and_radial": 0.3,
+    "root_fillet_radius": 0.5,
+    "socket_diameter": 3,
+    "socket_depth": 2.5,
+    "socket_entrance_diameter": 4,
+    "socket_entrance_depth": 0.5,
+    "axial_clearance": 0.4
+  },
+  "checks": [
+    "All six coupons watertight, consistently wound and single-component",
+    "All six samples use 0.2-mm layers for prime-tower compatibility",
+    "Front coupons rotated 180 degrees, openings facing up; exported hole cross-sections checked",
+    "Shaft diameters measured from generated mesh cross-sections",
+    "Each assembled pair has zero interference volume",
+    "All nine mesh references discovered by slicer-style Expat callback",
+    "Reparsed exported meshes pass watertight/volume checks",
+    "Original meshes, three plates, object overrides and material presets unchanged",
+    "User settings preserved except extending plate arrays and disabling prime tower (incompatible with sequential multi-material printing)",
+    "Plate 4 uses by-object printing, clear fronts first, then backs: one material transition",
+    "Horizontal gaps exceed configured 60-mm clearance; all objects below 40-mm gantry clearance",
+    "No physical fit test or slicer toolpath validation performed"
+  ]
+}

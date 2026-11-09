@@ -1,0 +1,132 @@
+{
+  "source": "models/terraforming-mars-tableau-print.3mf",
+  "source_sha256": "179e1cb51043f6b4dd99c27d6f166f95c03a223e313050b709b1c9c1aa0cfc84",
+  "output": "models/terraforming-mars-tableau-179mm.3mf",
+  "output_sha256": "fb017fdd8bc1ef03faac8a431af10b39c6d1fc842391db4fb9cf50e121e43c3d",
+  "scale_factor": 1.0406976744186047,
+  "short_side_before_mm": 172.0,
+  "short_side_after_mm": 179.0,
+  "long_side_before_mm": 231.0,
+  "long_side_after_mm": 240.4011627906977,
+  "hole_result": "All eight original front mounting bores retain their blind floors; geometry uniformly scaled.",
+  "print_settings_preserved": true,
+  "objects": [
+    {
+      "build_object_id": "2",
+      "mesh_path": "3D/Objects/Body1_1.model",
+      "mesh_object_id": "1",
+      "bounds_mm": [
+        [
+          4.799418999999986,
+          35.499999999999986,
+          0.0
+        ],
+        [
+          245.200581,
+          214.5,
+          3.12209302
+        ]
+      ],
+      "plate_local_xy_bounds_mm": [
+        [
+          4.799418999999986,
+          35.499999999999986
+        ],
+        [
+          245.200581,
+          214.5
+        ]
+      ],
+      "extents_mm": [
+        240.401162,
+        179.0,
+        3.12209302
+      ],
+      "plate_center_mm": [
+        125.0,
+        125.0
+      ]
+    },
+    {
+      "build_object_id": "4",
+      "mesh_path": "3D/Objects/Body1_2.model",
+      "mesh_object_id": "3",
+      "bounds_mm": [
+        [
+          319.199419,
+          35.5,
+          0.0
+        ],
+        [
+          559.6005809999999,
+          214.5,
+          4.57906988
+        ]
+      ],
+      "plate_local_xy_bounds_mm": [
+        [
+          4.799419,
+          35.5
+        ],
+        [
+          245.20058099999994,
+          214.5
+        ]
+      ],
+      "extents_mm": [
+        240.40116199999994,
+        179.0,
+        4.57906988
+      ],
+      "plate_center_mm": [
+        124.99999999999997,
+        125.0
+      ]
+    },
+    {
+      "build_object_id": "6",
+      "mesh_path": "3D/Objects/Vorderseite - PLA Transparent (Startprofil)_3.model",
+      "mesh_object_id": "5",
+      "bounds_mm": [
+        [
+          4.799418999999986,
+          -278.90000000000003,
+          0.0
+        ],
+        [
+          245.200581,
+          -99.89999999999999,
+          3.12209302
+        ]
+      ],
+      "plate_local_xy_bounds_mm": [
+        [
+          4.799418999999986,
+          35.49999999999994
+        ],
+        [
+          245.200581,
+          214.5
+        ]
+      ],
+      "extents_mm": [
+        240.401162,
+        179.00000000000006,
+        3.12209302
+      ],
+      "plate_center_mm": [
+        125.0,
+        124.99999999999997
+      ]
+    }
+  ],
+  "verification": [
+    "Source SHA-256 matches the approved user-saved baseline",
+    "All three referenced meshes scaled uniformly by 179/172",
+    "Both front mesh copies match after scaling",
+    "Eight mounting-bore cavity and blind-floor volume probes pass",
+    "All parts remain centered within their 250x250 mm plate and rest at Z=0",
+    "All non-geometry 3MF entries, print settings and model settings are unchanged",
+    "No slicer toolpath or physical fit test was performed"
+  ]
+}

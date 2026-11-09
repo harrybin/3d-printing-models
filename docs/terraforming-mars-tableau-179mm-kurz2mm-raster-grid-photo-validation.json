@@ -1,0 +1,135 @@
+{
+  "photo_path": "66d629e9-f7a9-4f32-8f4e-2e232866f883-5a4855df-d53c-44cf-992d-fd0012fc3e91-clipboard.png",
+  "photo_dimensions_px": [
+    1687,
+    949
+  ],
+  "output_3mf": "models/terraforming-mars-tableau-179mm-kurz2mm-raster.3mf",
+  "output_3mf_sha256": "083549bee9039cecdec6d7048e66da239e4407ae6beb2a99b170f2716841d793",
+  "section_z_mm": -0.31104648113150013,
+  "exported_section_contours": 80,
+  "calibration": {
+    "method": "single scale/translation from estimated centimeter-paper grid",
+    "grid_pitch_px": 52.0,
+    "grid_pitch_mm": 10.0,
+    "pixel_per_mm": 5.2,
+    "model_left_top_reference_px": [
+      264.0,
+      30.0
+    ],
+    "grid_evidence": "Autocorrelation of exposed strips finds about 52-53 px between major grid lines and about 26 px between subdivisions. The approximate ruler-photo scale is about 47 px/cm, while the grid photo estimate is about 52 px/cm. Approximate visible board extents suggest roughly 4% cross-photo scale uncertainty; camera perspective and ambiguous laminate edges prevent a tighter claim.",
+    "basis": "estimated left/top edge of the laminated paper tableau; this photo does not show the printed frame's mating cavity edge",
+    "transform_model_xy_to_photo": [
+      [
+        5.199999809265137,
+        0.0,
+        889.0430297851562
+      ],
+      [
+        0.0,
+        -5.199999809265137,
+        495.3999938964844
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "fit_scope": {
+    "photo_subject": "laminated paper tableau, not the printed frame",
+    "rear_panel_inner_receiving_cavity": "none; rear mesh is a full panel with mounting pins",
+    "panel_envelope_mm": [
+      238.401162,
+      179.0
+    ],
+    "panel_envelope_policy": "Retained from the explicit model dimensions; not inferred from the paper outline.",
+    "visual_validation_scope": "Number-row/pocket registration only. The paper photo cannot validate the printed frame's outer fit or an inner cavity."
+  },
+  "anchor_residuals_px": [
+    {
+      "name": "lower-left zero",
+      "predicted_pixel": [
+        368.0,
+        529.2000122070312
+      ],
+      "observed_pixel_estimate": [
+        368.0,
+        527.0
+      ],
+      "residual_px": 2.20001220703125,
+      "residual_mm": 0.42307927058293265
+    },
+    {
+      "name": "lower-middle zero",
+      "predicted_pixel": [
+        734.0800170898438,
+        529.2000122070312
+      ],
+      "observed_pixel_estimate": [
+        734.0,
+        527.0
+      ],
+      "residual_px": 2.2014668850004475,
+      "residual_mm": 0.4233590163462399
+    },
+    {
+      "name": "lower-right zero",
+      "predicted_pixel": [
+        1081.9599609375,
+        529.2000122070312
+      ],
+      "observed_pixel_estimate": [
+        1082.0,
+        527.0
+      ],
+      "residual_px": 2.2003765217826676,
+      "residual_mm": 0.42314933111205144
+    },
+    {
+      "name": "upper-left -5",
+      "predicted_pixel": [
+        508.3999938964844,
+        347.20001220703125
+      ],
+      "observed_pixel_estimate": [
+        508.0,
+        350.0
+      ],
+      "residual_px": 2.82841417723762,
+      "residual_mm": 0.5439258033149269
+    },
+    {
+      "name": "upper-middle zero",
+      "predicted_pixel": [
+        798.0399780273438,
+        347.20001220703125
+      ],
+      "observed_pixel_estimate": [
+        798.0,
+        350.0
+      ],
+      "residual_px": 2.800273180145878,
+      "residual_mm": 0.5385140731049766
+    },
+    {
+      "name": "upper-right zero",
+      "predicted_pixel": [
+        1102.760009765625,
+        347.20001220703125
+      ],
+      "observed_pixel_estimate": [
+        1103.0,
+        350.0
+      ],
+      "residual_px": 2.8102538948232736,
+      "residual_mm": 0.540433441312168
+    }
+  ],
+  "photo_limitations": "Field-edge pixels and the laminated left/top origin are manually estimated; anchor residuals are calibration checks, not independent measurements, and carry about 1-2 mm photo-reading uncertainty. The grid overlay supports visual row registration but does not prove frame-to-paper fit, full-assembly physical fit, or slicer printability. Camera perspective and raised laminate can introduce parallax.",
+  "closeups": [
+    "docs/images/terraforming-mars-tableau-179mm-kurz2mm-raster-grid-upper-row-closeup.png",
+    "docs/images/terraforming-mars-tableau-179mm-kurz2mm-raster-grid-lower-row-closeup.png"
+  ]
+}

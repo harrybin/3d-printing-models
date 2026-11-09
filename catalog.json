@@ -31,6 +31,171 @@
       "status": "User-selected absolute 3.0/2.6 mm fit on all eight mating positions (both front copies); blind floors, axial dimensions, three plates and settings preserved. Mesh/assembly checks pass; Orca CLI blocked by unchanged source preset; full-tableau physical fit unverified"
     },
     {
+      "slug": "terraforming-mars-tableau-179mm-source",
+      "generator": "scripts/scale_terraforming_mars_tableau.py",
+      "outputs": [
+        "models/terraforming-mars-tableau-179mm.3mf"
+      ],
+      "object_layer_height_exceptions": [
+        {
+          "object_id": "6",
+          "object_name": "Vorderseite - PLA Transparent (Startprofil)",
+          "layer_height_mm": 0.2,
+          "reason": "Preserve the user-saved per-object layer-height setting in the imported transparent front."
+        }
+      ],
+      "docs": [
+        "docs/terraforming-mars-tableau.md",
+        "docs/terraforming-mars-tableau-179mm-validation.json",
+        "docs/images/terraforming-mars-tableau-179mm-preview.png"
+      ],
+      "license": "Derived from user-provided 3MF; original design and license are unspecified, and the repository MIT license does not apply to model contents",
+      "status": "Preserved 179 mm scaled source revision and provenance input for the laminate-aligned fit revisions; not the latest layout."
+    },
+    {
+      "slug": "terraforming-mars-tableau-fit-samples",
+      "generator": "scripts/terraforming_mars_tableau_fit_samples.py",
+      "outputs": [
+        "models/terraforming-mars-tableau-fit-samples.3mf"
+      ],
+      "object_layer_height_exceptions": [
+        {
+          "object_id": "6",
+          "object_name": "Vorderseite - PLA Transparent (Startprofil)",
+          "layer_height_mm": 0.2,
+          "reason": "Preserve the user-saved per-object layer-height setting in the transparent front of this historical coupon project."
+        },
+        {
+          "object_id": "10",
+          "object_name": "Probe 2.4 mm - Vorderseite - 1 Kerbe(n)",
+          "layer_height_mm": 0.2,
+          "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
+        },
+        {
+          "object_id": "14",
+          "object_name": "Probe 2.5 mm - Vorderseite - 2 Kerbe(n)",
+          "layer_height_mm": 0.2,
+          "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
+        },
+        {
+          "object_id": "18",
+          "object_name": "Probe 2.6 mm - Vorderseite - 3 Kerbe(n)",
+          "layer_height_mm": 0.2,
+          "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
+        },
+        {
+          "object_id": "8",
+          "object_name": "Probe 2.4 mm - Rueckseite - 1 Kerbe(n)",
+          "layer_height_mm": 0.2,
+          "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
+        },
+        {
+          "object_id": "12",
+          "object_name": "Probe 2.5 mm - Rueckseite - 2 Kerbe(n)",
+          "layer_height_mm": 0.2,
+          "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
+        },
+        {
+          "object_id": "16",
+          "object_name": "Probe 2.6 mm - Rueckseite - 3 Kerbe(n)",
+          "layer_height_mm": 0.2,
+          "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
+        }
+      ],
+      "docs": [
+        "docs/terraforming-mars-tableau.md",
+        "docs/terraforming-mars-tableau-fit-validation.json",
+        "docs/images/terraforming-mars-tableau-fit-samples-preview.png"
+      ],
+      "license": "Derived from user-provided 3MF; original design and license are unspecified, and the repository MIT license does not apply to model contents",
+      "status": "Preserved fit-sample project documenting the user-selected 3.0 mm hole / 2.6 mm pin pairing; physical fit was assessed on the coupons, not on the full tableau."
+    },
+    {
+      "slug": "terraforming-mars-tableau-print-source",
+      "generator": "scripts/scale_terraforming_mars_tableau.py",
+      "outputs": [
+        "models/terraforming-mars-tableau-print.3mf"
+      ],
+      "object_layer_height_exceptions": [
+        {
+          "object_id": "6",
+          "object_name": "Vorderseite - PLA Transparent (Startprofil)",
+          "layer_height_mm": 0.2,
+          "reason": "Preserve the user-saved per-object layer-height setting in the imported print project."
+        }
+      ],
+      "docs": [
+        "docs/terraforming-mars-tableau.md",
+        "docs/images/terraforming-mars-tableau-print-preview.png"
+      ],
+      "license": "Derived from user-provided 3MF; original design and license are unspecified, and the repository MIT license does not apply to model contents",
+      "status": "Preserved original print-project source for historical comparison; not the latest laminate-aligned layout."
+    },
+    {
+      "slug": "terraforming-mars-tableau-179mm-kurz2mm-raster",
+      "generator": "scripts/scale_terraforming_mars_tableau.py",
+      "outputs": [
+        "models/terraforming-mars-tableau-179mm-kurz2mm-raster.3mf"
+      ],
+      "object_layer_height_exceptions": [
+        {
+          "object_id": "6",
+          "object_name": "Vorderseite - PLA Transparent (Startprofil)",
+          "layer_height_mm": 0.2,
+          "reason": "Preserve the user-saved per-object layer-height setting in this historical scaled-layout revision."
+        }
+      ],
+      "docs": [
+        "docs/terraforming-mars-tableau.md",
+        "docs/terraforming-mars-tableau-179mm-kurz2mm-validation.json",
+        "docs/terraforming-mars-tableau-179mm-kurz2mm-raster-photo-validation.json",
+        "docs/images/terraforming-mars-tableau-179mm-kurz2mm-raster-preview.png",
+        "docs/images/terraforming-mars-tableau-179mm-kurz2mm-raster-before-after.png"
+      ],
+      "license": "Derived from user-provided 3MF; original design and license are unspecified, and the repository MIT license does not apply to model contents",
+      "status": "Preserved superseded 2 mm raster-shortening revision for provenance; use the current centered-blocks revision for the latest layout."
+    },
+    {
+      "slug": "terraforming-mars-tableau-179mm-laminate-aligned",
+      "generator": "scripts/scale_terraforming_mars_tableau.py",
+      "outputs": [
+        "models/terraforming-mars-tableau-179mm-laminate-aligned.3mf"
+      ],
+      "object_layer_height_exceptions": [
+        {
+          "object_id": "6",
+          "object_name": "Vorderseite - PLA Transparent (Startprofil)",
+          "layer_height_mm": 0.2,
+          "reason": "Preserve the user-saved per-object layer-height setting in this superseded alignment revision."
+        }
+      ],
+      "docs": [
+        "docs/terraforming-mars-tableau.md",
+        "docs/terraforming-mars-tableau-179mm-laminate-aligned-validation.json",
+        "docs/terraforming-mars-tableau-179mm-laminate-aligned-photo-validation.json",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-aligned-preview.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-aligned-photo-before-after.png"
+      ],
+      "license": "Derived from user-provided 3MF; original design and license are unspecified, and the repository MIT license does not apply to model contents",
+      "status": "Preserved superseded laminate-aligned revision for provenance; use the current centered-blocks revision for the latest layout."
+    },
+    {
+      "slug": "terraforming-mars-tableau-179mm-laminate-slider-cubes",
+      "generator": "scripts/scale_terraforming_mars_tableau.py",
+      "outputs": [
+        "models/terraforming-mars-tableau-179mm-laminate-slider-cubes.3mf"
+      ],
+      "docs": [
+        "docs/terraforming-mars-tableau.md",
+        "docs/terraforming-mars-tableau-179mm-laminate-slider-cubes-validation.json",
+        "docs/terraforming-mars-tableau-179mm-laminate-slider-cubes-photo-validation.json",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-slider-cubes-preview.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-slider-cubes-photo-before-after.png"
+      ],
+      "license": "Derived from user-provided 3MF; original design and license are unspecified, and the repository MIT license does not apply to model contents",
+      "status": "Preserved superseded laminate-aligned slider/cube-position revision for provenance; use the current centered-blocks revision for the latest layout."
+    },
+    {
       "slug": "terraforming-mars-tableau-179mm-laminate-centered-blocks",
       "generator": "scripts/revise_terraforming_mars_tableau.py",
       "outputs": [
@@ -41,6 +206,9 @@
         "docs/terraforming-mars-tableau-179mm-laminate-centered-blocks-validation.json",
         "docs/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-validation.json",
         "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-preview.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-local-reliefs.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-window5-to6-web-closeup.png",
+        "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-ramp-section.png",
         "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-before-after.png",
         "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-upper-rows.png",
         "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-rows.png",
@@ -52,7 +220,7 @@
         "docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-lower-right-closeup.png"
       ],
       "license": "Derived from user-provided 3MF; original design and license are unspecified, and the repository MIT license does not apply to model contents",
-      "status": "Adds whole-block horizontal translations of -1.5 mm upper-left, -1.0 mm lower-left, and +0.5 mm upper-right to the slider/lower-right-adjusted laminate layout. The middle slider is enlarged to an 8.64 mm opening and a 5-to-6 window ramp is restored; transparent-front object 6 uses a 0.10 mm top shell with ironing. Pocket dimensions, pitch, webs, mounts and plate transforms are preserved. CAD checks pass, but the exact 3MF slice is blocked by retraction_distances_when_cut=0; screenshot registration is approximate and physical cube transfer, surface quality and assembly remain untested."
+      "status": "Includes laminate-aligned number blocks, enlarged cube-sized slider, adjusted resource windows, revised victory-point window, six rear-flush 1.0 mm arrow ledges recessed 1.5 mm from the front, and a solid window 5-to-6 ramp through the full 2.5 mm thickness. Corrected to the printed-front orientation, the ramp rises from window 5 (left) to window 6 (right) and spans the complete 42.754 mm divider length. Its 8.640 mm horizontal run was explicitly approved to make the ramp shallower than the measured 4.1769 mm 4/5 web. Exported-mesh sections confirm a monotonic rise through the full thickness with no top shelf; probes confirm material below and free space above the slope. A continuous CAD swept-volume check of an 8.5 mm cube found no intersection at three positions along the divider and three normal clearances. Physical cube sliding and structural strength remain unverified. The front-panel build items and embedded preview images on plates 1 and 3 are rotated 180 degrees in-plane around build Z; the rear plate, build order, bed-contact sides, and panel mesh geometry are unchanged. Exported-mesh checks also confirm 65 apertures, six arrow ledges, a 1.0 mm victory-point-window web, and 60.4-61.5 mm² CAD support area per overrun-cube ledge. Transparent-front object 6 uses 0.10 mm layers, one top shell with ironing, configured 20 mm/s speeds, 220 C nozzle, 20% part fan and 0% auxiliary fan. This revision was not sliced; the preceding integrated project was blocked by retraction_distances_when_cut=0. Laminate fit and surface quality are physically unverified; photo registration is approximate."
     },
     {
       "slug": "butterfly-messer",

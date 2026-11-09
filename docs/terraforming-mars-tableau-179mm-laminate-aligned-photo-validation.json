@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "reference_photo": "User-provided unobscured centimeter-grid photo",
+  "photo_size_px": [
+    1687,
+    949
+  ],
+  "user_measured_laminate_outer_size_mm": [
+    227.0,
+    168.0
+  ],
+  "estimated_laminate_outer_bounds_px": [
+    272.0,
+    32.0,
+    1446.0,
+    900.0
+  ],
+  "registration": {
+    "method": "One uniform scale and translation for the whole image; no local warping",
+    "model_origin_pixel": [
+      859.0,
+      466.0
+    ],
+    "uniform_scale_px_per_mm": 5.169236417033774,
+    "estimated_photo_alignment_uncertainty_mm": 1.0,
+    "independent_landmark_residual_mm": null,
+    "residual_note": "No independent pixel-level landmark residual is claimed; visible contour agreement is qualitative."
+  },
+  "target_mark_source": "User-marked orange resource-window and blue slider regions, represented by the model-coordinate targets used to build the exported 3MF",
+  "same_global_transform_used_for_model_and_target_marks": true,
+  "exported_3mf": "models/terraforming-mars-tableau-179mm-laminate-aligned.3mf",
+  "exported_3mf_sha256": "88d616d73e2c2b5c1c0f542c9d01f07faf83b7bdb28b237918b928aa140f7abd",
+  "overlay_images": [
+    "docs/images/terraforming-mars-tableau-179mm-laminate-aligned-photo-before-after.png",
+    "docs/images/terraforming-mars-tableau-179mm-laminate-aligned-photo-upper-rows.png",
+    "docs/images/terraforming-mars-tableau-179mm-laminate-aligned-photo-lower-rows.png"
+  ],
+  "physical_fit_test_performed": false,
+  "successful_slicer_validation": false,
+  "limitations": [
+    "The transparent laminate edge is low contrast and the photo has perspective.",
+    "The overlay validates visual placement only; it does not prove physical fit or laminate compression clearance."
+  ]
+}
