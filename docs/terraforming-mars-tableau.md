@@ -142,12 +142,13 @@ top skin beyond the intended two layers.
 ### User-selected smooth cool plate
 
 The transparent-front plate uses OrcaSlicer's `Cool Plate` bed type and sets
-transparent PLA slot 4 to `40 °C` for both the first and subsequent layers.
+transparent PLA slot 4 to `35 °C` for both the first and subsequent layers.
 The user-selected UniTak3D Energy-Saving Kobra S1/Kobra X/Kobra 4 double-sided
 plate listing (ASIN B0G48ZZTD8; [Amazon listing](https://www.amazon.com/dp/B0G48ZZTD8))
 describes the glossy side as suitable for PLA at `30–50 °C`, with strong
-adhesion and release after cooling. `40 °C` is the requested starting point
-inside that manufacturer-stated interval, not an independently tested optimum.
+adhesion and release after cooling. `35 °C` matches the existing Cool Plate
+PLA profile and lies inside that manufacturer-stated interval; it has not been
+independently tested on this plate/model.
 Use the smooth/glossy face, not the textured/matte face, for this surface
 finish goal; let the plate cool before removing the print and re-check bed
 level/Z offset after installing the replacement sheet.
@@ -155,7 +156,7 @@ level/Z offset after installing the replacement sheet.
 The global printer bed type remains `Textured PEI Plate` for the other plates.
 Plate 3, which contains only the transparent front, has its own persisted
 `bed_type=Cool Plate` override in that plate's metadata. Transparent PLA
-slot 4 has Cool Plate first/normal temperatures of `40 °C`; other filament
+slot 4 has Cool Plate first/normal temperatures of `35 °C`; other filament
 slots and their bed-temperature values remain unchanged. The per-plate
 override is necessary because setting the project-level bed type instead
 would also change the global printer selector and other plates.
