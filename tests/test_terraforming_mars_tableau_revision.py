@@ -136,13 +136,13 @@ class TableauRevisionTests(unittest.TestCase):
             [1, 3],
         )
 
-    def test_transparent_filament_settings_are_isolated_to_slot_four(self):
+    def test_transparent_filament_settings_are_isolated_to_slot_one(self):
         source_settings = json.loads(
             self.source["Metadata/project_settings.config"]
         )
         settings = json.loads(self.output["Metadata/project_settings.config"])
         slot = revision.TRANSPARENT_FILAMENT_SLOT - 1
-        self.assertEqual(revision.TRANSPARENT_FILAMENT_SLOT, 4)
+        self.assertEqual(revision.TRANSPARENT_FILAMENT_SLOT, 1)
         self.assertEqual(len(settings["filament_settings_id"]), 4)
         for key, value in source_settings.items():
             if (
@@ -150,7 +150,7 @@ class TableauRevisionTests(unittest.TestCase):
                 and isinstance(value, list)
                 and len(value) == 4
             ):
-                self.assertEqual(settings[key][:3], value[:3], key)
+                self.assertEqual(settings[key][1:], value[1:], key)
                 if key in (
                     "cool_plate_temp",
                     "cool_plate_temp_initial_layer",
@@ -189,10 +189,7 @@ class TableauRevisionTests(unittest.TestCase):
                 self.assertEqual(settings[key], expected)
             else:
                 self.assertEqual(settings[key], value, key)
-        self.assertEqual(
-            settings["filament_settings_id"][slot],
-            revision.TRANSPARENT_FILAMENT_PROFILE,
-        )
+        self.assertEqual(settings["filament_settings_id"][slot], revision.TRANSPARENT_FILAMENT_PROFILE)
         self.assertEqual(settings["nozzle_temperature"][slot], "220")
         self.assertEqual(
             settings["nozzle_temperature_initial_layer"][slot], "220"
@@ -223,7 +220,7 @@ class TableauRevisionTests(unittest.TestCase):
                 item.get("key"): item.get("value")
                 for item in objects["6"].findall("metadata")
             }["extruder"],
-            "4",
+            "1",
         )
         transparent = {
             item.get("key"): item.get("value")
@@ -577,7 +574,7 @@ class TableauRevisionTests(unittest.TestCase):
             self.previous[revision.REAR_PATH],
         )
         prior_project = json.loads(
-            self.previous["Metadata/project_settings.config"]
+            self.source["Metadata/project_settings.config"]
         )
         output_project = json.loads(
             self.output["Metadata/project_settings.config"]
@@ -607,15 +604,33 @@ class TableauRevisionTests(unittest.TestCase):
             output_project["different_settings_to_system"],
             expected_overrides,
         )
+        transparent_slot_values = {
+            "filament_settings_id": revision.TRANSPARENT_FILAMENT_PROFILE,
+            "nozzle_temperature": "220",
+            "nozzle_temperature_BRASS": "220",
+            "nozzle_temperature_initial_layer": "220",
+            "nozzle_temperature_initial_layer_BRASS": "220",
+            "cool_plate_temp": "35",
+            "cool_plate_temp_initial_layer": "35",
+            "fan_min_speed": "20",
+            "fan_min_speed_BRASS": "20",
+            "fan_min_speed_HS": "20",
+            "fan_max_speed": "20",
+            "fan_max_speed_BRASS": "20",
+            "fan_max_speed_HS": "20",
+            "fan_speed_after_x_layers": "20",
+            "additional_cooling_fan_speed": "0",
+        }
         for key in prior_project.keys() - {"different_settings_to_system"}:
             if key == "curr_bed_type":
                 self.assertEqual(output_project[key], prior_project[key])
-            elif key in ("cool_plate_temp", "cool_plate_temp_initial_layer"):
-                expected_temperatures = prior_project[key][:]
-                expected_temperatures[
-                    revision.TRANSPARENT_FILAMENT_SLOT - 1
-                ] = "35"
-                self.assertEqual(output_project[key], expected_temperatures)
+            elif key != "printable_area" and isinstance(prior_project[key], list) and len(prior_project[key]) == 4:
+                expected_values = prior_project[key][:]
+                if key in transparent_slot_values:
+                    expected_values[revision.TRANSPARENT_FILAMENT_SLOT - 1] = (
+                        transparent_slot_values[key]
+                    )
+                self.assertEqual(output_project[key], expected_values, key)
             else:
                 self.assertEqual(output_project[key], prior_project[key], key)
 
@@ -678,6 +693,7 @@ class TableauRevisionTests(unittest.TestCase):
             "infill_direction",
             "solid_infill_direction",
             "initial_layer_speed",
+            "extruder",
         }
         for root in (front_before, front_after):
             for metadata in list(root.findall("metadata")):

@@ -135,7 +135,7 @@ SMALL_WINDOW_BOTTOM_TRIM_MM = 1.0
 SMALL_WEB_THICKNESS_MM = 1.0
 END_ARROW_LEDGE_THICKNESS_MM = 1.0
 LOCAL_RELIEF_EPS_MM = 0.02
-TRANSPARENT_FILAMENT_SLOT = 4
+TRANSPARENT_FILAMENT_SLOT = 1
 TRANSPARENT_FILAMENT_PROFILE = (
     "Transparent PLA slow test @Anycubic Kobra S1 0.4 nozzle"
 )
@@ -418,15 +418,6 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
     original_slot_count = len(settings["filament_settings_id"])
     require(original_slot_count == 4,
             f"Expected four source filament slots, got {original_slot_count}")
-    for key, value in list(settings.items()):
-        if (
-            key != "printable_area"
-            and isinstance(value, list)
-            and len(value) == original_slot_count
-        ):
-            settings[key] = value[:]
-            settings[key][-1] = value[0]
-
     def set_filament_value(key, value):
         values = settings.get(key)
         require(
@@ -587,7 +578,7 @@ def verify_filament_scope(
             require(
                 new_value[0] == ";".join(expected_process_flags)
                 and new_value[1] == ";".join(expected_machine_flags)
-                and new_value[2:5] == old_value[2:5],
+                and new_value[3:5] == old_value[3:5],
                 "Only the selected bed type and transparent-front surface/raster flags may change",
             )
             expected_filament_flags = {
@@ -608,7 +599,14 @@ def verify_filament_scope(
                 "additional_cooling_fan_speed",
             }
             require(
-                set(filter(None, new_value[5].split(";")))
+                set(
+                    filter(
+                        None,
+                        new_value[
+                            TRANSPARENT_FILAMENT_SLOT + 1
+                        ].split(";"),
+                    )
+                )
                 == expected_filament_flags,
                 "Transparent filament override flags are incomplete",
             )
@@ -620,7 +618,7 @@ def verify_filament_scope(
             require(
                 isinstance(new_value, list)
                 and len(new_value) == 4
-                and new_value[:3] == old_value[:3],
+                and new_value[1:] == old_value[1:],
                 f"Original filament slots changed for {key}",
             )
         else:
@@ -3227,7 +3225,7 @@ def main():
         ][TRANSPARENT_FILAMENT_SLOT - 1],
         "object_overrides": transparent_object_settings,
         "preserved": [
-            "Original filament slots 1-3",
+            "Original filament slots 2-4",
             "Global process settings and non-transparent filament temperatures",
             "Calibrated nozzle temperature and flow",
             "First-layer flow ratio, line width and print sequence",
@@ -3283,7 +3281,7 @@ def main():
         "settings_changed_after_review": [
             "Increase transparent-front top skin from one to two 0.10 mm layers while retaining top ironing.",
             "Rotate the 100% aligned single-direction infill and solid-surface raster to 90 degrees, along the panel's shorter axis.",
-            "Keep global Textured PEI; select Cool Plate only for transparent-front plate 3 and retain only transparent PLA slot 4 Cool Plate first/normal bed temperatures at 35 C, within the manufacturer-stated 30-50 C range.",
+            "Assign the transparent front to ACE/filament slot 1; keep global Textured PEI, select Cool Plate only for plate 3, and use 35 C for slot 1 Cool Plate first/normal bed temperatures.",
             "Reduce transparent-front object initial-layer wall/sparse speed from 40 to 20 mm/s; with zero bottom-shell layers, first-layer fill follows this sparse-infill speed, so the separate 60 mm/s solid-infill setting is unchanged and inapplicable. Retain first-layer flow, line width and print sequence.",
         ],
         "not_adopted": [
@@ -3540,7 +3538,8 @@ def main():
                     "Cool Plate is stored as the bed_type override only on "
                     "transparent-front plate "
                     "3; the global bed type and other plates remain unchanged. "
-                    "Only transparent filament slot 4 Cool Plate temperatures "
+                    "Transparent front uses ACE/filament slot 1; only its "
+                    "Cool Plate temperatures "
                     "are changed."
                 ),
                 "bed_plate_source": (
