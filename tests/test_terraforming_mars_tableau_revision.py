@@ -151,6 +151,13 @@ class TableauRevisionTests(unittest.TestCase):
                 and len(value) == 4
             ):
                 self.assertEqual(settings[key][:3], value[:3], key)
+                if key in (
+                    "cool_plate_temp",
+                    "cool_plate_temp_initial_layer",
+                ):
+                    self.assertEqual(settings[key][slot], "55", key)
+            elif key == "curr_bed_type":
+                self.assertEqual(settings[key], "Cool Plate")
             elif key == "different_settings_to_system":
                 expected = value[:]
                 process_overrides = expected[0].split(";")
@@ -159,12 +166,20 @@ class TableauRevisionTests(unittest.TestCase):
                     "top_shell_thickness",
                     "infill_direction",
                     "solid_infill_direction",
+                    "initial_layer_speed",
                 ):
                     if setting not in process_overrides:
                         process_overrides.append(setting)
                 expected[0] = ";".join(process_overrides)
+                machine_overrides = list(
+                    filter(None, expected[1].split(";"))
+                )
+                if "curr_bed_type" not in machine_overrides:
+                    machine_overrides.append("curr_bed_type")
+                expected[1] = ";".join(machine_overrides)
                 expected[revision.TRANSPARENT_FILAMENT_SLOT + 1] = (
-                    "filament_settings_id;nozzle_temperature;"
+                    "filament_settings_id;cool_plate_temp;"
+                    "cool_plate_temp_initial_layer;nozzle_temperature;"
                     "nozzle_temperature_BRASS;"
                     "nozzle_temperature_initial_layer;"
                     "nozzle_temperature_initial_layer_BRASS;fan_min_speed;"
@@ -183,6 +198,10 @@ class TableauRevisionTests(unittest.TestCase):
         self.assertEqual(settings["nozzle_temperature"][slot], "220")
         self.assertEqual(
             settings["nozzle_temperature_initial_layer"][slot], "220"
+        )
+        self.assertEqual(settings["cool_plate_temp"][slot], "55")
+        self.assertEqual(
+            settings["cool_plate_temp_initial_layer"][slot], "55"
         )
         self.assertLessEqual(
             float(settings["nozzle_temperature_range_low"][slot]), 220
@@ -216,6 +235,7 @@ class TableauRevisionTests(unittest.TestCase):
             "layer_height", "outer_wall_speed", "inner_wall_speed",
             "solid_infill_speed", "internal_solid_infill_speed",
             "sparse_infill_speed", "gap_infill_speed", "top_surface_speed",
+            "initial_layer_speed",
         ):
             self.assertEqual(transparent[key], "0.1" if key == "layer_height" else "20")
         self.assertEqual(transparent["wall_loops"], "2")
@@ -233,6 +253,41 @@ class TableauRevisionTests(unittest.TestCase):
         self.assertEqual(transparent["solid_infill_direction"], "90")
         self.assertEqual(transparent["sparse_infill_rotate_template"], "0")
         self.assertEqual(transparent["solid_infill_rotate_template"], "0")
+        self.assertEqual(
+            self.report["requested_revision"]["transparent_filament_settings"][
+                "bed_type"
+            ],
+            "Cool Plate",
+        )
+        self.assertEqual(
+            self.report["requested_revision"]["transparent_filament_settings"][
+                "cool_plate_temperature_c"
+            ],
+            "55",
+        )
+        self.assertEqual(
+            self.report["requested_revision"]["transparent_filament_settings"][
+                "cool_plate_first_layer_temperature_c"
+            ],
+            "55",
+        )
+        self.assertEqual(
+            self.report["requested_revision"]["transparent_filament_settings"][
+                "first_layer_speed_mm_s"
+            ],
+            "20",
+        )
+        self.assertEqual(
+            self.report["requested_revision"]["transparent_filament_settings"][
+                "first_layer_solid_infill_speed_mm_s"
+            ],
+            "60",
+        )
+        self.assertFalse(
+            self.report["requested_revision"]["transparent_filament_settings"][
+                "first_layer_solid_infill_applies"
+            ]
+        )
 
     def test_print_metadata_marks_unsliced_totals_unknown(self):
         root = ET.fromstring(self.output[revision.PRINT_METADATA_ENTRY])
@@ -526,16 +581,41 @@ class TableauRevisionTests(unittest.TestCase):
             "top_shell_thickness",
             "infill_direction",
             "solid_infill_direction",
+            "initial_layer_speed",
         ):
             if setting not in process_overrides:
                 process_overrides.append(setting)
         expected_overrides[0] = ";".join(process_overrides)
+        machine_overrides = list(
+            filter(None, expected_overrides[1].split(";"))
+        )
+        if "curr_bed_type" not in machine_overrides:
+            machine_overrides.append("curr_bed_type")
+        expected_overrides[1] = ";".join(machine_overrides)
+        expected_overrides[revision.TRANSPARENT_FILAMENT_SLOT + 1] = (
+            "filament_settings_id;cool_plate_temp;"
+            "cool_plate_temp_initial_layer;nozzle_temperature;"
+            "nozzle_temperature_BRASS;nozzle_temperature_initial_layer;"
+            "nozzle_temperature_initial_layer_BRASS;fan_min_speed;"
+            "fan_min_speed_BRASS;fan_min_speed_HS;fan_max_speed;"
+            "fan_max_speed_BRASS;fan_max_speed_HS;fan_speed_after_x_layers;"
+            "additional_cooling_fan_speed"
+        )
         self.assertEqual(
             output_project["different_settings_to_system"],
             expected_overrides,
         )
         for key in prior_project.keys() - {"different_settings_to_system"}:
-            self.assertEqual(output_project[key], prior_project[key], key)
+            if key == "curr_bed_type":
+                self.assertEqual(output_project[key], "Cool Plate")
+            elif key in ("cool_plate_temp", "cool_plate_temp_initial_layer"):
+                expected_temperatures = prior_project[key][:]
+                expected_temperatures[
+                    revision.TRANSPARENT_FILAMENT_SLOT - 1
+                ] = "55"
+                self.assertEqual(output_project[key], expected_temperatures)
+            else:
+                self.assertEqual(output_project[key], prior_project[key], key)
 
         prior_model = ET.fromstring(
             self.previous["Metadata/model_settings.config"]
@@ -563,6 +643,7 @@ class TableauRevisionTests(unittest.TestCase):
             "ironing_type",
             "infill_direction",
             "solid_infill_direction",
+            "initial_layer_speed",
         }
         for root in (front_before, front_after):
             for metadata in list(root.findall("metadata")):

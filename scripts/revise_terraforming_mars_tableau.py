@@ -139,6 +139,9 @@ TRANSPARENT_FILAMENT_SLOT = 4
 TRANSPARENT_FILAMENT_PROFILE = (
     "Transparent PLA slow test @Anycubic Kobra S1 0.4 nozzle"
 )
+TRANSPARENT_BED_TYPE = "Cool Plate"
+TRANSPARENT_BED_TEMPERATURE_C = 55
+TRANSPARENT_FIRST_LAYER_SPEED_MM_S = 20
 SOCKET_DIAMETER = 3.0
 PIN_DIAMETER = 2.6
 SOCKET_FLOOR = 0.5
@@ -425,6 +428,10 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
     set_filament_value("nozzle_temperature_BRASS", 220)
     set_filament_value("nozzle_temperature_initial_layer", 220)
     set_filament_value("nozzle_temperature_initial_layer_BRASS", 220)
+    set_filament_value("cool_plate_temp", TRANSPARENT_BED_TEMPERATURE_C)
+    set_filament_value(
+        "cool_plate_temp_initial_layer", TRANSPARENT_BED_TEMPERATURE_C
+    )
     for key in (
         "fan_min_speed",
         "fan_min_speed_BRASS",
@@ -436,6 +443,7 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
     ):
         set_filament_value(key, 20)
     set_filament_value("additional_cooling_fan_speed", 0)
+    settings["curr_bed_type"] = TRANSPARENT_BED_TYPE
     different = settings["different_settings_to_system"]
     require(len(different) == original_slot_count + 2,
             "Unexpected different_settings_to_system slot count")
@@ -445,12 +453,18 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
         "top_shell_thickness",
         "infill_direction",
         "solid_infill_direction",
+        "initial_layer_speed",
     ):
         if key not in process_overrides:
             process_overrides.append(key)
     different[0] = ";".join(process_overrides)
+    machine_overrides = list(filter(None, different[1].split(";")))
+    if "curr_bed_type" not in machine_overrides:
+        machine_overrides.append("curr_bed_type")
+    different[1] = ";".join(machine_overrides)
     different[TRANSPARENT_FILAMENT_SLOT + 1] = (
-        "filament_settings_id;nozzle_temperature;"
+        "filament_settings_id;cool_plate_temp;"
+        "cool_plate_temp_initial_layer;nozzle_temperature;"
         "nozzle_temperature_BRASS;nozzle_temperature_initial_layer;"
         "nozzle_temperature_initial_layer_BRASS;fan_min_speed;"
         "fan_min_speed_BRASS;fan_min_speed_HS;fan_max_speed;"
@@ -473,6 +487,7 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
     metadata["extruder"].set("value", str(TRANSPARENT_FILAMENT_SLOT))
     object_settings = {
         "layer_height": "0.1",
+        "initial_layer_speed": str(TRANSPARENT_FIRST_LAYER_SPEED_MM_S),
         "outer_wall_speed": "20",
         "inner_wall_speed": "20",
         "solid_infill_speed": "20",
@@ -529,16 +544,25 @@ def verify_filament_scope(
                 "top_shell_thickness",
                 "infill_direction",
                 "solid_infill_direction",
+                "initial_layer_speed",
             ):
                 if setting not in expected_process_flags:
                     expected_process_flags.append(setting)
+            expected_machine_flags = list(
+                filter(None, old_value[1].split(";"))
+            )
+            if "curr_bed_type" not in expected_machine_flags:
+                expected_machine_flags.append("curr_bed_type")
             require(
                 new_value[0] == ";".join(expected_process_flags)
-                and new_value[1:5] == old_value[1:5],
-                "Only transparent-front surface and raster process flags may change",
+                and new_value[1] == ";".join(expected_machine_flags)
+                and new_value[2:5] == old_value[2:5],
+                "Only the selected bed type and transparent-front surface/raster flags may change",
             )
             expected_filament_flags = {
                 "filament_settings_id",
+                "cool_plate_temp",
+                "cool_plate_temp_initial_layer",
                 "nozzle_temperature",
                 "nozzle_temperature_BRASS",
                 "nozzle_temperature_initial_layer",
@@ -556,6 +580,11 @@ def verify_filament_scope(
                 set(filter(None, new_value[5].split(";")))
                 == expected_filament_flags,
                 "Transparent filament override flags are incomplete",
+            )
+        elif key == "curr_bed_type":
+            require(
+                new_value == TRANSPARENT_BED_TYPE,
+                "Cool Plate was not selected for the transparent-front project",
             )
         elif (
             key != "printable_area"
@@ -575,6 +604,12 @@ def verify_filament_scope(
     profile = revised["filament_settings_id"][TRANSPARENT_FILAMENT_SLOT - 1]
     require(profile == TRANSPARENT_FILAMENT_PROFILE,
             "Transparent filament profile name was not persisted")
+    for key in ("cool_plate_temp", "cool_plate_temp_initial_layer"):
+        require(
+            revised[key][TRANSPARENT_FILAMENT_SLOT - 1]
+            == str(TRANSPARENT_BED_TEMPERATURE_C),
+            f"Transparent filament {key} must be {TRANSPARENT_BED_TEMPERATURE_C} C",
+        )
     require(
         revised["filament_flow_ratio"][TRANSPARENT_FILAMENT_SLOT - 1] == "0.98",
         "Transparent filament flow ratio changed from the calibrated value",
@@ -3089,6 +3124,13 @@ def main():
     transparent_settings = {
         "filament_profile": TRANSPARENT_FILAMENT_PROFILE,
         "filament_slot": TRANSPARENT_FILAMENT_SLOT,
+        "bed_type": project_settings.get("curr_bed_type", "unknown"),
+        "cool_plate_temperature_c": project_settings["cool_plate_temp"][
+            TRANSPARENT_FILAMENT_SLOT - 1
+        ],
+        "cool_plate_first_layer_temperature_c": project_settings[
+            "cool_plate_temp_initial_layer"
+        ][TRANSPARENT_FILAMENT_SLOT - 1],
         "normal_nozzle_temperature_c": project_settings[
             "nozzle_temperature"
         ][TRANSPARENT_FILAMENT_SLOT - 1],
@@ -3099,6 +3141,22 @@ def main():
         "flow_ratio_preserved": project_settings["filament_flow_ratio"][
             TRANSPARENT_FILAMENT_SLOT - 1
         ],
+        "first_layer_flow_ratio": project_settings["first_layer_flow_ratio"],
+        "first_layer_line_width_mm": project_settings[
+            "initial_layer_line_width"
+        ],
+        "first_layer_print_sequence": project_settings[
+            "first_layer_print_sequence"
+        ],
+        "first_layer_speed_mm_s": transparent_object_settings[
+            "initial_layer_speed"
+        ],
+        "first_layer_solid_infill_speed_mm_s": project_settings[
+            "initial_layer_infill_speed"
+        ],
+        "first_layer_solid_infill_applies": (
+            int(transparent_object_settings["bottom_shell_layers"]) > 0
+        ),
         "part_fan_normal_percent": project_settings["fan_min_speed"][
             TRANSPARENT_FILAMENT_SLOT - 1
         ],
@@ -3111,8 +3169,9 @@ def main():
         "object_overrides": transparent_object_settings,
         "preserved": [
             "Original filament slots 1-3",
-            "Machine and global process settings",
-            "Bed temperatures and calibrated flow",
+            "Global process settings and non-transparent filament temperatures",
+            "Calibrated nozzle temperature and flow",
+            "First-layer flow ratio, line width and print sequence",
             "Native filament start/end/change routines",
             "Bridge/overhang cooling behavior",
         ],
@@ -3165,6 +3224,8 @@ def main():
         "settings_changed_after_review": [
             "Increase transparent-front top skin from one to two 0.10 mm layers while retaining top ironing.",
             "Rotate the 100% aligned single-direction infill and solid-surface raster to 90 degrees, along the panel's shorter axis.",
+            "Select Cool Plate and set only transparent PLA slot 4 Cool Plate first/normal bed temperatures to 55 C, within the seller-listed 50-70 C smooth-side PLA range.",
+            "Reduce transparent-front object initial-layer wall/sparse speed from 40 to 20 mm/s; with zero bottom-shell layers, first-layer fill follows this sparse-infill speed, so the separate 60 mm/s solid-infill setting is unchanged and inapplicable. Retain first-layer flow, line width and print sequence.",
         ],
         "not_adopted": [
             "Simplify3D-specific outline/solid underspeed percentages; no successful slice to verify effective speed",
@@ -3410,6 +3471,22 @@ def main():
                 ),
                 "ironing_type": transparent_object_settings["ironing_type"],
                 "object_id": "6",
+                "bed_type": TRANSPARENT_BED_TYPE,
+                "cool_plate_temperature_c": TRANSPARENT_BED_TEMPERATURE_C,
+                "cool_plate_first_layer_temperature_c": (
+                    TRANSPARENT_BED_TEMPERATURE_C
+                ),
+                "bed_temperature_scope": (
+                    "Cool Plate is the project-wide selected bed type; "
+                    "only transparent filament slot 4 Cool Plate temperatures "
+                    "are changed. Other filament slots are preserved."
+                ),
+                "bed_plate_source": (
+                    "User-selected UniTak3D Energy-Saving Kobra S1/Kobra X/"
+                    "Kobra 4 double-sided glossy/matte plate; seller lists "
+                    "50-70 C for the smooth side with PLA. 55 C is a "
+                    "conservative starting setting, not a validated optimum."
+                ),
                 "other_material_profiles_changed": False,
                 "optical_result_physically_tested": False,
             },

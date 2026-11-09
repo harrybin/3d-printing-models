@@ -124,7 +124,8 @@ from the 238.401 mm long axis to the 179.000 mm short axis (about 25% shorter).
 The top-facing surface uses two 0.10 mm shell layers (0.20 mm total) and
 top-only ironing. Those changes apply only to transparent-front object 6;
 they do not edit CAD geometry, hole/ramp walls, pins, or the rear/material
-profiles. The other filament slots, bed settings, and native filament routines
+profiles. The Cool Plate selection and its transparent-slot temperature change
+are described below; other filament slots and their bed-temperature values
 remain unchanged.
 
 The transparent filament remains at 220 °C for normal and first layers,
@@ -137,6 +138,37 @@ state are unknown. The object explicitly overrides both shell layer count and
 shell thickness at 2 layers / 0.20 mm; this prevents the imported process
 profile's larger global minimum shell thickness from silently increasing the
 top skin beyond the intended two layers.
+
+### User-selected smooth cool plate
+
+The printable project now selects OrcaSlicer's `Cool Plate` bed type and sets
+transparent PLA slot 4 to `55 °C` for both the first and subsequent layers.
+The user-selected UniTak3D Energy-Saving Kobra S1/Kobra X/Kobra 4 double-sided
+plate listing (ASIN B0G48ZZTD8; [Amazon listing](https://www.amazon.com/dp/B0G48ZZTD8))
+describes the glossy side as suitable for PLA at `50–70 °C`, with strong
+adhesion and release after cooling. `55 °C` is a conservative starting point
+inside that seller-stated interval, not an independently tested optimum.
+Use the smooth/glossy face, not the textured/matte face, for this surface
+finish goal; let the plate cool before removing the print and re-check bed
+level/Z offset after installing the replacement sheet.
+
+The project has one project-level `curr_bed_type` selector rather than a
+bed-type setting per plate. It therefore opens with `Cool Plate` selected for
+the project, while only slot 4's Cool Plate temperatures are changed to
+`55 °C`; other filament slots and their bed-temperature values remain
+unchanged. When printing the other plates on a different physical surface,
+select that surface and its matching temperatures for that print.
+
+For the transparent front only, the first-layer wall/sparse speed is reduced
+from the inherited `40 mm/s` to `20 mm/s` to encourage consistent contact on
+the large, smooth-surface panel. This object has zero bottom-shell layers, so
+the first-layer fill is sparse infill and follows this `initial_layer_speed`;
+the separate `60 mm/s` solid-infill speed remains unchanged and is not used
+for this object’s first-layer fill. First-layer flow remains `1.0`, line width
+`0.50 mm`, and print sequence value `0`; the plate contains one object, so no
+object-order adjustment is useful. Other objects retain their inherited
+first-layer speeds. No extrusion-flow compensation or sequence change is
+inferred from the seller's plate claims.
 
 This is a conservative next-test profile, not a claim that the resulting print
 is optically clear. Two top skins plus ironing target top-facing planar
