@@ -231,25 +231,95 @@ class GhoulOrcaSettingsTests(unittest.TestCase):
 
     def test_catalogued_layer_height_exception_is_limited_to_named_model_object(self) -> None:
         exceptions = _catalogued_object_layer_height_exceptions()
-        expected = (
+        expected = {
+            (
+                "terraforming-mars-tableau-179mm-kurz2mm-raster.3mf",
+                "6",
+                "Vorderseite - PLA Transparent (Startprofil)",
+            ),
+            (
+                "terraforming-mars-tableau-179mm-laminate-aligned.3mf",
+                "6",
+                "Vorderseite - PLA Transparent (Startprofil)",
+            ),
+            (
+                "terraforming-mars-tableau-179mm-loch1-zapfen3.3mf",
+                "6",
+                "Vorderseite - PLA Transparent (Startprofil)",
+            ),
+            (
+                "terraforming-mars-tableau-179mm.3mf",
+                "6",
+                "Vorderseite - PLA Transparent (Startprofil)",
+            ),
+            (
+                "terraforming-mars-tableau-fit-samples.3mf",
+                "6",
+                "Vorderseite - PLA Transparent (Startprofil)",
+            ),
+            (
+                "terraforming-mars-tableau-fit-samples.3mf",
+                "8",
+                "Probe 2.4 mm - Rueckseite - 1 Kerbe(n)",
+            ),
+            (
+                "terraforming-mars-tableau-fit-samples.3mf",
+                "10",
+                "Probe 2.4 mm - Vorderseite - 1 Kerbe(n)",
+            ),
+            (
+                "terraforming-mars-tableau-fit-samples.3mf",
+                "12",
+                "Probe 2.5 mm - Rueckseite - 2 Kerbe(n)",
+            ),
+            (
+                "terraforming-mars-tableau-fit-samples.3mf",
+                "14",
+                "Probe 2.5 mm - Vorderseite - 2 Kerbe(n)",
+            ),
+            (
+                "terraforming-mars-tableau-fit-samples.3mf",
+                "16",
+                "Probe 2.6 mm - Rueckseite - 3 Kerbe(n)",
+            ),
+            (
+                "terraforming-mars-tableau-fit-samples.3mf",
+                "18",
+                "Probe 2.6 mm - Vorderseite - 3 Kerbe(n)",
+            ),
+            (
+                "terraforming-mars-tableau-print.3mf",
+                "6",
+                "Vorderseite - PLA Transparent (Startprofil)",
+            ),
+        }
+        self.assertEqual(set(exceptions), expected)
+        self.assertEqual(set(exceptions.values()), {0.2})
+        expected_exception = (
             "terraforming-mars-tableau-179mm-loch1-zapfen3.3mf",
             "6",
             "Vorderseite - PLA Transparent (Startprofil)",
         )
-        self.assertEqual(exceptions, {expected: 0.2})
         valid = (
             '<config><object id="6"><metadata key="name" '
             'value="Vorderseite - PLA Transparent (Startprofil)"/>'
             '<metadata key="layer_height" value="0.2"/></object></config>'
         ).encode()
         self.assertEqual(
-            _check_object_layer_heights(expected[0], valid, exceptions), [expected]
+            _check_object_layer_heights(
+                expected_exception[0], valid, exceptions
+            ),
+            [expected_exception],
         )
         with self.assertRaisesRegex(AssertionError, "exceeds 0.16 mm"):
-            _check_object_layer_heights("other-model.3mf", valid, exceptions)
+            _check_object_layer_heights(
+                "other-model.3mf", valid, exceptions
+            )
         wrong_object = valid.replace(b'id="6"', b'id="7"')
         with self.assertRaisesRegex(AssertionError, "exceeds 0.16 mm"):
-            _check_object_layer_heights(expected[0], wrong_object, exceptions)
+            _check_object_layer_heights(
+                expected_exception[0], wrong_object, exceptions
+            )
 
     def test_every_repository_3mf_enforces_layer_height_random_seam_and_tree_supports(self) -> None:
         three_mf_files = sorted((ROOT / "models").glob("*.3mf"))

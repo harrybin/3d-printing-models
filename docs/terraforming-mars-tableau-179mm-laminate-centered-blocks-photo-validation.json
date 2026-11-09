@@ -29,7 +29,7 @@
   "target_mark_source": "Unchanged user-marked resource windows and the user red-marked slider target; all transformed by the same photo-to-model map",
   "same_global_transform_used_for_model_and_target_marks": true,
   "exported_3mf": "models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf",
-  "exported_3mf_sha256": "83eaf13ef8c05ccd06acb45615aa55e52f917852f2095fda774938585f7a7aaa",
+  "exported_3mf_sha256": "ea14faaf88ad4dda8f0c53e9e89ef4aa97d08eac2e00ff22dfd7664995f115ee",
   "compared_to_3mf": "model-sources/terraforming-mars-tableau/terraforming-mars-tableau-179mm-laminate-slider-cubes.3mf",
   "followup_translations_mm": {
     "slider": [

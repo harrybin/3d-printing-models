@@ -6,6 +6,7 @@ import zipfile
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
+import cv2
 import numpy as np
 import trimesh
 from build123d import Plane, Polygon, extrude
@@ -41,6 +42,15 @@ ET.register_namespace("BambuStudio", "http://schemas.bambulab.com/package/2021")
 FRONT_PATHS = (
     "3D/Objects/Body1_1.model",
     "3D/Objects/Vorderseite - PLA Transparent (Startprofil)_3.model",
+)
+FRONT_PLATE_PREVIEWS = tuple(
+    f"Metadata/{prefix}_{plate}{suffix}.png"
+    for plate in (1, 3)
+    for prefix, suffix in (
+        ("plate", ""),
+        ("plate", "_small"),
+        ("plate_no_light", ""),
+    )
 )
 REAR_PATH = "3D/Objects/Body1_2.model"
 PRINT_METADATA_ENTRY = "Metadata/ghouls_grip_print_metadata.xml"
@@ -118,10 +128,20 @@ FOLLOWUP_SELECTED_FIELD_LABELS = {
     "lower": [8, 9, 10],
 }
 FRONT_THICKNESS = 2.5
+SMALL_WINDOW_TRANSLATION_X_MM = 2.0
+SMALL_WINDOW_LEFT_TRIM_MM = 6.0
+SMALL_WINDOW_TOP_TRIM_MM = 1.0
+SMALL_WINDOW_BOTTOM_TRIM_MM = 1.0
+SMALL_WEB_THICKNESS_MM = 1.0
+END_ARROW_LEDGE_THICKNESS_MM = 1.0
+LOCAL_RELIEF_EPS_MM = 0.02
 TRANSPARENT_FILAMENT_SLOT = 4
 TRANSPARENT_FILAMENT_PROFILE = (
     "Transparent PLA slow test @Anycubic Kobra S1 0.4 nozzle"
 )
+TRANSPARENT_BED_TYPE = "Cool Plate"
+TRANSPARENT_BED_TEMPERATURE_C = 55
+TRANSPARENT_FIRST_LAYER_SPEED_MM_S = 20
 SOCKET_DIAMETER = 3.0
 PIN_DIAMETER = 2.6
 SOCKET_FLOOR = 0.5
@@ -138,9 +158,8 @@ FOLLOWUP_SLIDER_CENTER_MM = FOLLOWUP_SLIDER_MARK_CENTER_MM - np.asarray([
     0.0, SLIDER_EXTENSION_DOWN_MM / 2
 ])
 MIN_SLOT_CLEARANCE = 0.5
-TRANSITION_RAMP_APERTURE_MM = OPENING_WIDTH
 TRANSITION_RAMP_BOOLEAN_EPS_MM = 0.02
-TRANSITION_RAMP_Y_MARGIN_MM = 0.4
+TRANSITION_RAMP_RUN_MM = OPENING_WIDTH
 ADJACENT_CUTOUT_SHIFT_X = -3.95
 PHOTO_PX_PER_MM = 4.07
 PHOTO_REFERENCE_CENTER_PX = (673.5, 411.5)
@@ -153,6 +172,9 @@ PHOTO_WINDOW_BOXES_PX = (
     (554.0, 552.0, 808.0, 709.0),
     (811.0, 548.0, 1091.0, 711.0),
 )
+RESOURCE_WINDOW_HEIGHT_MM = 43.0
+UPPER_LEFT_WINDOW_WIDTH_MM = 86.0
+LOWER_RIGHT_WINDOW_MIN_WIDTH_MM = 69.0
 PHOTO_SLIDER_BOX_PX = (629.0, 403.0, 1096.0, 460.0)
 ROW_ANCHORS = (
     {"name": "lower-left zero", "offset_x": 20.0, "row_y": -17.33,
@@ -206,7 +228,32 @@ def photo_box_to_model(box, inset_px=PHOTO_WINDOW_INSET_PX):
     }
 
 
-TARGET_WINDOWS = tuple(photo_box_to_model(box) for box in PHOTO_WINDOW_BOXES_PX)
+def requested_window_specs(boxes):
+    windows = []
+    for index, box in enumerate(boxes):
+        item = photo_box_to_model(box)
+        center = np.asarray(item["center_mm"], dtype=float)
+        size = np.asarray(item["size_mm"], dtype=float)
+        size[1] = RESOURCE_WINDOW_HEIGHT_MM
+        if index == 0:
+            right_edge = center[0] + size[0] / 2
+            size[0] = UPPER_LEFT_WINDOW_WIDTH_MM
+            center[0] = right_edge - size[0] / 2
+        elif index == 5:
+            left_edge = center[0] - size[0] / 2
+            size[0] = max(size[0], LOWER_RIGHT_WINDOW_MIN_WIDTH_MM)
+            center[0] = left_edge + size[0] / 2
+        low = center - size / 2
+        high = center + size / 2
+        windows.append({
+            "center_mm": center.tolist(),
+            "size_mm": size.tolist(),
+            "bounds_mm": [*low.tolist(), *high.tolist()],
+        })
+    return tuple(windows)
+
+
+TARGET_WINDOWS = requested_window_specs(PHOTO_WINDOW_BOXES_PX)
 SLIDER_AREA = photo_box_to_model(PHOTO_SLIDER_BOX_PX)
 TRACK_ROW_LABELS = (
     ((0, 1, 2, 3, 4, 5), (6, 7, 8, 9, 10)),
@@ -221,6 +268,132 @@ TRACK_ROW_LABELS = (
 def require(condition, message):
     if not condition:
         raise ValueError(message)
+
+
+def parse_3mf_transform(value):
+    values = np.asarray([float(item) for item in value.split()], dtype=float)
+    require(len(values) == 12, "Invalid 3MF transform")
+    rotation = values[:9].reshape((3, 3)).T
+    translation = values[9:12]
+    return rotation, translation
+
+
+def serialize_3mf_transform(rotation, translation):
+    values = np.concatenate((rotation.T.reshape(-1), translation))
+    values[np.abs(values) < 1e-12] = 0.0
+    for index, value in enumerate(values):
+        rounded = round(float(value))
+        if abs(float(value) - rounded) < 1e-12:
+            values[index] = rounded
+    return " ".join(f"{value:.12g}" for value in values)
+
+
+def rotate_front_build_items(entries):
+    scene = ET.fromstring(entries["3D/3dmodel.model"])
+    resources = {
+        obj.get("id"): obj
+        for obj in scene.findall("./m:resources/m:object", NS)
+    }
+    rotate_z_180 = np.diag([-1.0, -1.0, 1.0])
+    results = []
+    for item_index, item in enumerate(
+        scene.findall("./m:build/m:item", NS), start=1
+    ):
+        assembly = resources.get(item.get("objectid"))
+        component = (
+            assembly.find("./m:components/m:component", NS)
+            if assembly is not None else None
+        )
+        if component is None:
+            continue
+        mesh_path = component.get(f"{{{PROD}}}path", "").lstrip("/")
+        if mesh_path not in FRONT_PATHS:
+            continue
+
+        mesh_root = ET.fromstring(entries[mesh_path])
+        vertex_nodes = mesh_root.findall(
+            "./m:resources/m:object/m:mesh/m:vertices/m:vertex", NS
+        )
+        require(vertex_nodes, f"No mesh vertices found in {mesh_path}")
+        local_vertices = np.asarray([
+            [float(vertex.get(axis)) for axis in ("x", "y", "z")]
+            for vertex in vertex_nodes
+        ])
+        component_rotation, component_translation = parse_3mf_transform(
+            component.get("transform")
+        )
+        local_vertices = (
+            component_rotation @ local_vertices.T
+        ).T + component_translation
+        local_center = (
+            local_vertices.min(axis=0) + local_vertices.max(axis=0)
+        ) / 2
+
+        current_rotation, current_translation = parse_3mf_transform(
+            item.get("transform")
+        )
+        rotated = rotate_z_180 @ current_rotation
+        rotated_translation = (
+            current_translation + (current_rotation - rotated) @ local_center
+        )
+        before_vertices = (
+            current_rotation @ local_vertices.T
+        ).T + current_translation
+        after_vertices = (
+            rotated @ local_vertices.T
+        ).T + rotated_translation
+        before_bounds = np.stack(
+            (before_vertices.min(axis=0), before_vertices.max(axis=0))
+        )
+        after_bounds = np.stack(
+            (after_vertices.min(axis=0), after_vertices.max(axis=0))
+        )
+        require(
+            np.allclose(before_bounds, after_bounds, atol=TOL, rtol=0),
+            f"In-place rotation changed plate bounds for {mesh_path}",
+        )
+        require(
+            np.allclose(
+                before_vertices[:, 2], after_vertices[:, 2],
+                atol=TOL, rtol=0,
+            ),
+            f"In-place rotation changed bed contact for {mesh_path}",
+        )
+        item.set(
+            "transform",
+            serialize_3mf_transform(rotated, rotated_translation),
+        )
+        results.append({
+            "plate_index": item_index,
+            "build_object_id": item.get("objectid"),
+            "mesh_path": mesh_path,
+            "rotation_axis": "build Z",
+            "rotation_degrees": 180,
+            "before_rotation_matrix": current_rotation.tolist(),
+            "after_rotation_matrix": rotated.tolist(),
+            "translation_mm": rotated_translation.tolist(),
+            "world_bounds_mm": after_bounds.tolist(),
+            "bed_z_bounds_mm": [
+                float(after_bounds[0, 2]), float(after_bounds[1, 2])
+            ],
+        })
+    require(
+        {record["mesh_path"] for record in results} == set(FRONT_PATHS),
+        "Expected exactly one build item for each front panel",
+    )
+    for path in FRONT_PLATE_PREVIEWS:
+        encoded = np.frombuffer(entries[path], dtype=np.uint8)
+        image = cv2.imdecode(encoded, cv2.IMREAD_UNCHANGED)
+        require(image is not None, f"Could not decode 3MF preview {path}")
+        success, rotated_preview = cv2.imencode(
+            ".png", cv2.rotate(image, cv2.ROTATE_180)
+        )
+        require(success, f"Could not rotate 3MF preview {path}")
+        entries[path] = rotated_preview.tobytes()
+    entries["3D/3dmodel.model"] = ET.tostring(
+        scene, encoding="utf-8", xml_declaration=True
+    )
+    return results
 
 
 def sha256(path):
@@ -255,6 +428,10 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
     set_filament_value("nozzle_temperature_BRASS", 220)
     set_filament_value("nozzle_temperature_initial_layer", 220)
     set_filament_value("nozzle_temperature_initial_layer_BRASS", 220)
+    set_filament_value("cool_plate_temp", TRANSPARENT_BED_TEMPERATURE_C)
+    set_filament_value(
+        "cool_plate_temp_initial_layer", TRANSPARENT_BED_TEMPERATURE_C
+    )
     for key in (
         "fan_min_speed",
         "fan_min_speed_BRASS",
@@ -266,15 +443,28 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
     ):
         set_filament_value(key, 20)
     set_filament_value("additional_cooling_fan_speed", 0)
+    settings["curr_bed_type"] = TRANSPARENT_BED_TYPE
     different = settings["different_settings_to_system"]
     require(len(different) == original_slot_count + 2,
             "Unexpected different_settings_to_system slot count")
     process_overrides = different[0].split(";")
-    if "top_shell_layers" not in process_overrides:
-        process_overrides.append("top_shell_layers")
+    for key in (
+        "top_shell_layers",
+        "top_shell_thickness",
+        "infill_direction",
+        "solid_infill_direction",
+        "initial_layer_speed",
+    ):
+        if key not in process_overrides:
+            process_overrides.append(key)
     different[0] = ";".join(process_overrides)
+    machine_overrides = list(filter(None, different[1].split(";")))
+    if "curr_bed_type" not in machine_overrides:
+        machine_overrides.append("curr_bed_type")
+    different[1] = ";".join(machine_overrides)
     different[TRANSPARENT_FILAMENT_SLOT + 1] = (
-        "filament_settings_id;nozzle_temperature;"
+        "filament_settings_id;cool_plate_temp;"
+        "cool_plate_temp_initial_layer;nozzle_temperature;"
         "nozzle_temperature_BRASS;nozzle_temperature_initial_layer;"
         "nozzle_temperature_initial_layer_BRASS;fan_min_speed;"
         "fan_min_speed_BRASS;fan_min_speed_HS;fan_max_speed;"
@@ -297,6 +487,7 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
     metadata["extruder"].set("value", str(TRANSPARENT_FILAMENT_SLOT))
     object_settings = {
         "layer_height": "0.1",
+        "initial_layer_speed": str(TRANSPARENT_FIRST_LAYER_SPEED_MM_S),
         "outer_wall_speed": "20",
         "inner_wall_speed": "20",
         "solid_infill_speed": "20",
@@ -308,12 +499,13 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
         "internal_solid_infill_pattern": "alignedrectilinear",
         "top_surface_pattern": "alignedrectilinear",
         "bottom_surface_pattern": "alignedrectilinear",
-        "infill_direction": "0",
-        "solid_infill_direction": "0",
+        "infill_direction": "90",
+        "solid_infill_direction": "90",
         "sparse_infill_rotate_template": "0",
         "solid_infill_rotate_template": "0",
         "ironing_type": "top",
-        "top_shell_layers": "1",
+        "top_shell_layers": "2",
+        "top_shell_thickness": "0.2",
         "bottom_shell_layers": "0",
         "wall_loops": "2",
     }
@@ -347,15 +539,30 @@ def verify_filament_scope(
         new_value = revised.get(key)
         if key == "different_settings_to_system":
             expected_process_flags = old_value[0].split(";")
-            if "top_shell_layers" not in expected_process_flags:
-                expected_process_flags.append("top_shell_layers")
+            for setting in (
+                "top_shell_layers",
+                "top_shell_thickness",
+                "infill_direction",
+                "solid_infill_direction",
+                "initial_layer_speed",
+            ):
+                if setting not in expected_process_flags:
+                    expected_process_flags.append(setting)
+            expected_machine_flags = list(
+                filter(None, old_value[1].split(";"))
+            )
+            if "curr_bed_type" not in expected_machine_flags:
+                expected_machine_flags.append("curr_bed_type")
             require(
                 new_value[0] == ";".join(expected_process_flags)
-                and new_value[1:5] == old_value[1:5],
-                "Only the transparent-front surface process override flag may change",
+                and new_value[1] == ";".join(expected_machine_flags)
+                and new_value[2:5] == old_value[2:5],
+                "Only the selected bed type and transparent-front surface/raster flags may change",
             )
             expected_filament_flags = {
                 "filament_settings_id",
+                "cool_plate_temp",
+                "cool_plate_temp_initial_layer",
                 "nozzle_temperature",
                 "nozzle_temperature_BRASS",
                 "nozzle_temperature_initial_layer",
@@ -373,6 +580,11 @@ def verify_filament_scope(
                 set(filter(None, new_value[5].split(";")))
                 == expected_filament_flags,
                 "Transparent filament override flags are incomplete",
+            )
+        elif key == "curr_bed_type":
+            require(
+                new_value == TRANSPARENT_BED_TYPE,
+                "Cool Plate was not selected for the transparent-front project",
             )
         elif (
             key != "printable_area"
@@ -392,6 +604,12 @@ def verify_filament_scope(
     profile = revised["filament_settings_id"][TRANSPARENT_FILAMENT_SLOT - 1]
     require(profile == TRANSPARENT_FILAMENT_PROFILE,
             "Transparent filament profile name was not persisted")
+    for key in ("cool_plate_temp", "cool_plate_temp_initial_layer"):
+        require(
+            revised[key][TRANSPARENT_FILAMENT_SLOT - 1]
+            == str(TRANSPARENT_BED_TEMPERATURE_C),
+            f"Transparent filament {key} must be {TRANSPARENT_BED_TEMPERATURE_C} C",
+        )
     require(
         revised["filament_flow_ratio"][TRANSPARENT_FILAMENT_SLOT - 1] == "0.98",
         "Transparent filament flow ratio changed from the calibrated value",
@@ -624,6 +842,54 @@ def double_width_slots(mesh, z):
     return centers, sizes
 
 
+def end_slot_back_profiles(mesh, slot_centers):
+    back_z = float(mesh.bounds[0, 2]) + LOCAL_RELIEF_EPS_MM
+    section = mesh.section(
+        plane_normal=[0, 0, 1],
+        plane_origin=[0, 0, back_z],
+    )
+    require(section is not None, "Missing end-slot back profile section")
+    loops = []
+    for points in section.discrete:
+        if len(points) < 4 or np.linalg.norm(points[0] - points[-1]) > TOL:
+            continue
+        low = points[:, :2].min(axis=0)
+        high = points[:, :2].max(axis=0)
+        center = (low + high) / 2
+        size = high - low
+        if 10.5 < size[0] < 12.0 and 8.3 < size[1] < 8.9:
+            loops.append((points[:, :2].copy(), center, size))
+
+    profiles = []
+    for slot_center in slot_centers:
+        candidates = [
+            item for item in loops
+            if np.linalg.norm(item[1] - slot_center) < 6.0
+        ]
+        require(
+            len(candidates) == 1,
+            f"Expected one source arrow profile near {slot_center.tolist()}, "
+            f"found {len(candidates)}",
+        )
+        points, center, size = candidates[0]
+        local_points = points - slot_center
+        if np.linalg.norm(local_points[0] - local_points[-1]) < TOL:
+            local_points = local_points[:-1]
+        keep = np.ones(len(local_points), dtype=bool)
+        keep[1:] = (
+            np.linalg.norm(np.diff(local_points, axis=0), axis=1) > 1e-5
+        )
+        local_points = local_points[keep]
+        require(len(local_points) >= 6,
+                "Source arrow profile has too few unique points")
+        profiles.append({
+            "size_mm": size.tolist(),
+            "center_offset_mm": (center - slot_center).tolist(),
+            "points_local_mm": local_points.tolist(),
+        })
+    return profiles
+
+
 def long_horizontal_slot(mesh, z, expected_height):
     slots = [
         (center, size) for center, size in section_loops(mesh, z)
@@ -638,8 +904,8 @@ def long_horizontal_slot(mesh, z, expected_height):
 def adjacent_cutout(mesh, z):
     cutouts = [
         (center, size) for center, size in section_loops(mesh, z)
-        if 24.0 < size[0] < 24.5
-        and 15.3 < size[1] < 15.9
+        if 17.5 < size[0] < 25.5
+        and 12.5 < size[1] < 17.0
         and center[0] < -80.0
     ]
     require(len(cutouts) == 1,
@@ -647,124 +913,371 @@ def adjacent_cutout(mesh, z):
     return cutouts[0]
 
 
-def resource_window_loops(mesh, z):
+def resource_window_loops(mesh, z, allow_transition_merge=False):
+    max_width = 160.0 if allow_transition_merge else 100.0
     windows = [
         (center, size) for center, size in section_loops(mesh, z)
-        if 35.0 < size[0] < 100.0 and 20.0 < size[1] < 60.0
+        if 35.0 < size[0] < max_width and 20.0 < size[1] < 60.0
     ]
-    require(len(windows) == 6,
-            f"Expected six resource windows, found {len(windows)}")
+    expected_counts = (5, 6) if allow_transition_merge else (6,)
+    require(len(windows) in expected_counts,
+            f"Unexpected resource-window section count: {len(windows)}")
     return sorted(windows, key=lambda item: (-int(item[0][1] > 0), item[0][0]))
+
+
+def measure_window_web(mesh, first_index, second_index, z):
+    windows = resource_window_loops(mesh, z)
+    first_center, first_size = windows[first_index - 1]
+    second_center, second_size = windows[second_index - 1]
+    return float(
+        second_center[0] - second_size[0] / 2
+        - first_center[0] - first_size[0] / 2
+    )
 
 
 def add_window_transition_ramp(mesh):
     windows = resource_window_loops(mesh, 0.0)
     window5_center, window5_size = windows[4]
     window6_center, window6_size = windows[5]
-    start_x = float(window5_center[0] + window5_size[0] / 2)
+    window5_left_x = float(window5_center[0] - window5_size[0] / 2)
+    window5_right_x = float(window5_center[0] + window5_size[0] / 2)
     window6_left_x = float(window6_center[0] - window6_size[0] / 2)
-    existing_gap = window6_left_x - start_x
+    existing_gap = window6_left_x - window5_right_x
     require(existing_gap > 0.8,
             f"Window 5/6 divider is unexpectedly narrow: {existing_gap:.3f} mm")
 
-    y_min = max(
+    overlap_y_min = max(
         window5_center[1] - window5_size[1] / 2,
         window6_center[1] - window6_size[1] / 2,
-    ) + TRANSITION_RAMP_Y_MARGIN_MM
-    y_max = min(
+    )
+    overlap_y_max = min(
         window5_center[1] + window5_size[1] / 2,
         window6_center[1] + window6_size[1] / 2,
-    ) - TRANSITION_RAMP_Y_MARGIN_MM
-    require(y_max - y_min >= TRANSITION_RAMP_APERTURE_MM,
-            "Window 5/6 ramp is too short for the cube-sized transition")
+    )
+    ramp_length_y = overlap_y_max - overlap_y_min
+    require(ramp_length_y > CUBE_EDGE,
+            "The shared window divider is too short for a cube transfer")
+    y_min, y_max = overlap_y_min, overlap_y_max
 
     z_min = float(mesh.bounds[0, 2])
     z_max = float(mesh.bounds[1, 2])
-    z_bottom = z_min - TRANSITION_RAMP_BOOLEAN_EPS_MM
-    z_top = z_max + TRANSITION_RAMP_BOOLEAN_EPS_MM
-    top_fraction = (z_max - z_bottom) / (z_top - z_bottom)
-    top_right_x = window6_left_x + TRANSITION_RAMP_APERTURE_MM
-    profile_right_x = start_x + (top_right_x - start_x) / top_fraction
+    # Keep the high endpoint on window 6's left edge so its specified 69 mm
+    # opening is not narrowed; gain ramp run by extending only into window 5.
+    ramp_high_x = window6_left_x
+    ramp_low_x = ramp_high_x - TRANSITION_RAMP_RUN_MM
+    window5_opening_after_ramp_mm = ramp_low_x - window5_left_x
+    require(window5_opening_after_ramp_mm >= OPENING_WIDTH,
+            "The widened ramp would reduce window 5 below the cube aperture")
+    require(window6_size[0] >= LOWER_RIGHT_WINDOW_MIN_WIDTH_MM - TOL,
+            "Window 6 is already below its user-requested minimum width")
+    ramp_run_x = ramp_high_x - ramp_low_x
+    require(abs(ramp_run_x - TRANSITION_RAMP_RUN_MM) < TOL,
+            "The widened ramp run does not match the selected cube aperture")
+
     epsilon = TRANSITION_RAMP_BOOLEAN_EPS_MM
-    profile = Plane.XZ * Polygon(
-        (start_x - epsilon, z_bottom),
-        (start_x + epsilon, z_bottom),
-        (profile_right_x, z_top),
-        (start_x - epsilon, z_top),
+    ramp_profile = Plane.XZ * Polygon(
+        (ramp_low_x, z_min),
+        (ramp_high_x, z_min),
+        (ramp_high_x, z_max),
         align=None,
     )
-    wedge_shape = extrude(profile, amount=y_max - y_min)
-    wedge_shape = wedge_shape.translate((0, y_max, 0))
-    vertices, faces = wedge_shape.tessellate(0.01)
-    wedge = trimesh.Trimesh(
-        vertices=[tuple(vertex) for vertex in vertices],
-        faces=faces,
-        process=True,
+    cut_profile = Plane.XZ * Polygon(
+        (ramp_low_x, z_min - epsilon),
+        (ramp_high_x, z_max - epsilon),
+        (ramp_high_x, z_max + epsilon),
+        (ramp_low_x, z_max + epsilon),
+        align=None,
     )
-    check_mesh(wedge)
+    ramp_shape = extrude(ramp_profile, amount=ramp_length_y)
+    cut_shape = extrude(cut_profile, amount=ramp_length_y)
+    ramp_shape = ramp_shape.translate((0, y_max, 0))
+    cut_shape = cut_shape.translate((0, y_max, 0))
+
+    def to_mesh(shape):
+        vertices, faces = shape.tessellate(0.01)
+        result = trimesh.Trimesh(
+            vertices=[tuple(vertex) for vertex in vertices],
+            faces=faces,
+            process=True,
+        )
+        check_mesh(result)
+        return result
+
+    cut_mesh = trimesh.boolean.difference(
+        [mesh, to_mesh(cut_shape)], engine="manifold"
+    )
+    check_mesh(cut_mesh)
     volume_before = float(mesh.volume)
-    ramped = trimesh.boolean.difference(
-        [mesh, wedge], engine="manifold"
+    ramped = trimesh.boolean.union(
+        [cut_mesh, to_mesh(ramp_shape)], engine="manifold"
     )
     check_mesh(ramped)
-    volume_removed = volume_before - float(ramped.volume)
-    require(volume_removed > 1.0,
-            "Window 5/6 ramp did not remove the intended divider material")
+    volume_added = float(ramped.volume) - volume_before
+    require(volume_added > 1.0,
+            "The solid window 5/6 ramp did not add the intended material")
+    reference_web = measure_window_web(
+        mesh, 4, 5, float(mesh.bounds[0, 2]) + 0.05
+    )
     return ramped, {
         "windows": ["lower-middle (5)", "lower-right (6)"],
+        "feature_type": "solid_additive_ramp",
         "original_divider_width_mm": existing_gap,
-        "target_front_face_transfer_aperture_mm": (
-            TRANSITION_RAMP_APERTURE_MM
-        ),
-        "window5_inner_edge_x_mm": start_x,
-        "window6_inner_edge_x_mm": window6_left_x,
-        "top_face_transfer_end_x_mm": top_right_x,
-        "boolean_profile_bottom_x_mm": start_x + epsilon,
-        "boolean_profile_top_x_mm": profile_right_x,
-        "boolean_profile_bottom_z_mm": z_bottom,
-        "boolean_profile_top_z_mm": z_top,
-        "ramp_run_x_mm": top_right_x - start_x,
+        "target_ramp_run_mm": TRANSITION_RAMP_RUN_MM,
+        "window5_opening_after_ramp_mm": window5_opening_after_ramp_mm,
+        "window6_opening_width_preserved_mm": float(window6_size[0]),
+        "overlap_y_bounds_mm": [overlap_y_min, overlap_y_max],
+        "ramp_y_bounds_mm": [y_min, y_max],
+        "ramp_span_y_mm": ramp_length_y,
+        "reference_web_4_to5_mm": reference_web,
+        "ramp_cross_slope_width_mm": ramp_run_x,
+        "low_edge_x_mm": ramp_low_x,
+        "high_edge_x_mm": ramp_high_x,
+        "slope_rises_with_increasing_model_x": True,
+        "physical_view_x_reversed_from_model": False,
+        "movement_direction_in_printed_front_view": "window 5 -> window 6, left to right",
+        "window6_left_edge_x_mm": window6_left_x,
+        "window5_inner_edge_x_mm": window5_right_x,
+        "slope_run_x_mm": ramp_run_x,
         "ramp_depth_z_mm": z_max - z_min,
         "ramp_angle_from_front_face_deg": float(np.degrees(np.arctan2(
-            z_max - z_min, top_right_x - start_x
+            z_max - z_min, ramp_run_x
         ))),
         "y_span_mm": [float(y_min), float(y_max)],
-        "removed_volume_mm3": volume_removed,
+        "rear_face_z_mm": z_min,
+        "front_face_z_mm": z_max,
+        "added_volume_mm3": volume_added,
         "cube_edge_mm": CUBE_EDGE,
         "physical_cube_transfer_tested": False,
     }
 
 
 def verify_window_transition_ramp(mesh, expected):
-    center_x = (
-        expected["window5_inner_edge_x_mm"]
-        + expected["window6_inner_edge_x_mm"]
-    ) / 2
-    center_y = sum(expected["y_span_mm"]) / 2
-    top_probe = probe_at(
-        [center_x, center_y],
-        float(mesh.bounds[1, 2]) - 0.01,
-        [CUBE_EDGE, CUBE_EDGE, 0.02],
+    z_min = float(mesh.bounds[0, 2])
+    z_max = float(mesh.bounds[1, 2])
+    y_min, y_max = expected["y_span_mm"]
+    y_center = (y_min + y_max) / 2
+    ramp_low_x = expected["low_edge_x_mm"]
+    ramp_high_x = expected["high_edge_x_mm"]
+    ramp_run_x = ramp_high_x - ramp_low_x
+    z_depth = z_max - z_min
+    slope = z_depth / ramp_run_x
+    profile_y_levels = np.linspace(y_min + 0.02, y_max - 0.02, 3)
+    line_checks = []
+    top_edge_widths = []
+    for profile_y in profile_y_levels:
+        section = mesh.section(
+            plane_normal=[0, 1, 0],
+            plane_origin=[0, profile_y, 0],
+        )
+        require(section is not None, "Missing exported ramp cross-section")
+        line_points = []
+        section_points = []
+        for curve in section.discrete:
+            points = curve[:, [0, 2]]
+            section_points.extend(points.tolist())
+            on_profile = (
+                (points[:, 0] >= ramp_low_x - TOL)
+                & (points[:, 0] <= ramp_high_x + TOL)
+                & (np.abs(
+                    points[:, 1]
+                    - (z_min + (points[:, 0] - ramp_low_x) * slope)
+                ) <= 1e-4)
+            )
+            line_points.extend(points[on_profile].tolist())
+        line_points = np.asarray(line_points, dtype=float)
+        require(
+            len(line_points) >= 2
+            and abs(float(line_points[:, 0].min()) - ramp_low_x) < TOL
+            and abs(float(line_points[:, 0].max()) - ramp_high_x) < TOL,
+            "The exported ramp does not have one continuous low-to-high profile",
+        )
+        ordered = line_points[np.argsort(line_points[:, 0])]
+        require(
+            abs(float(ordered[0, 1]) - z_min) < TOL
+            and abs(float(ordered[-1, 1]) - z_max) < TOL,
+            "The ramp endpoints do not span the complete panel thickness",
+        )
+        require(
+            bool(np.all(np.diff(ordered[:, 1]) >= -TOL)),
+            "The exported ramp reverses or steps downward toward window 6",
+        )
+        top_points = np.asarray(section_points, dtype=float)
+        top_points = top_points[
+            (top_points[:, 0] >= ramp_low_x - TOL)
+            & (top_points[:, 0] <= ramp_high_x + TOL)
+            & (np.abs(top_points[:, 1] - z_max) < TOL)
+        ]
+        top_width = (
+            float(top_points[:, 0].max() - top_points[:, 0].min())
+            if len(top_points) else float("inf")
+        )
+        require(
+            top_width < TOL,
+            "The exported ramp has a horizontal upper shelf or lip",
+        )
+        top_edge_widths.append(top_width)
+        line_checks.append({
+            "y_mm": float(profile_y),
+            "low_endpoint_x_mm": float(ordered[0, 0]),
+            "low_endpoint_z_mm": float(ordered[0, 1]),
+            "high_endpoint_x_mm": float(ordered[-1, 0]),
+            "high_endpoint_z_mm": float(ordered[-1, 1]),
+            "sampled_profile_points": len(ordered),
+            "rises_with_increasing_model_x": True,
+        })
+
+    ramp_material_probe_size = [0.02, 0.02, 0.02]
+    ramp_below_probe_volumes = []
+    ramp_above_probe_volumes = []
+    x_fractions = np.linspace(0.05, 0.95, 11)
+    probe_y_levels = np.linspace(y_min + 0.02, y_max - 0.02, 3)
+    for fraction in x_fractions:
+        x = ramp_low_x + fraction * ramp_run_x
+        z = z_min + fraction * z_depth
+        for probe_y in probe_y_levels:
+            ramp_below_probe_volumes.append(
+                probe_intersection(mesh, probe_at(
+                    [x, probe_y], z - 0.04, ramp_material_probe_size
+                ))
+            )
+            ramp_above_probe_volumes.append(
+                probe_intersection(mesh, probe_at(
+                    [x, probe_y], z + 0.04, ramp_material_probe_size
+                ))
+            )
+    expected_material_volume = float(np.prod(ramp_material_probe_size))
+    require(
+        all(abs(volume - expected_material_volume) < 1e-5
+            for volume in ramp_below_probe_volumes),
+        "The exported ramp is missing material below its sloped face",
     )
-    bottom_probe = probe_at(
-        [center_x, center_y],
-        float(mesh.bounds[0, 2]) + 0.01,
-        [CUBE_EDGE, CUBE_EDGE, 0.02],
+    require(
+        all(volume < 1e-8 for volume in ramp_above_probe_volumes),
+        "The exported ramp contains an unexpected shoulder above its face",
     )
-    top_intersection = probe_intersection(mesh, top_probe)
-    bottom_intersection = probe_intersection(mesh, bottom_probe)
-    require(top_intersection < 1e-5,
-            "An 8.5 mm cube probe collides with the front-face transition")
-    require(bottom_intersection > 0.1,
-            "The requested tapered ramp is missing at the opposite face")
+
+    reference_web = expected["reference_web_4_to5_mm"]
+    require(
+        abs(expected["target_ramp_run_mm"] - TRANSITION_RAMP_RUN_MM) < TOL,
+        "The ramp run does not match the user-approved wider cube aperture",
+    )
+    require(
+        abs(ramp_run_x - expected["target_ramp_run_mm"]) < TOL,
+        "The exported ramp does not preserve its selected run",
+    )
+    require(
+        abs((y_max - y_min) - expected["ramp_span_y_mm"]) < TOL,
+        "The exported ramp does not span the complete window divider",
+    )
+    require(
+        abs((y_max - y_min) - (
+            expected["overlap_y_bounds_mm"][1]
+            - expected["overlap_y_bounds_mm"][0]
+        )) < TOL,
+        "The exported ramp does not cover the full shared divider length",
+    )
+    require(
+        abs(ramp_high_x - expected["window6_left_edge_x_mm"]) < TOL,
+        "The ramp intrusion would reduce window 6's specified width",
+    )
+
+    ramp_angle = float(np.arctan2(z_depth, ramp_run_x))
+    cosine, sine = float(np.cos(ramp_angle)), float(np.sin(ramp_angle))
+    rotation = np.asarray([
+        [cosine, 0, -sine, 0],
+        [0, 1, 0, 0],
+        [sine, 0, cosine, 0],
+        [0, 0, 0, 1],
+    ])
+    tangent = np.asarray([cosine, 0.0, sine])
+    normal = np.asarray([-sine, 0.0, cosine])
+    ramp_midpoint = np.asarray([
+        (ramp_low_x + ramp_high_x) / 2,
+        y_center,
+        (z_min + z_max) / 2,
+    ])
+    cube_path_length = ramp_run_x / cosine + CUBE_EDGE
+    swept_cube_length = cube_path_length + CUBE_EDGE
+    cube_y_centers = (
+        y_min + CUBE_EDGE / 2 + 0.05,
+        y_center,
+        y_max - CUBE_EDGE / 2 - 0.05,
+    )
+    normal_clearances = (0.02, 0.05, 0.1)
+    sweep_results = []
+    for clearance in normal_clearances:
+        intersections = []
+        for cube_y in cube_y_centers:
+            swept_cube = trimesh.creation.box(extents=[
+                swept_cube_length, CUBE_EDGE, CUBE_EDGE
+            ])
+            swept_cube.apply_transform(rotation)
+            swept_cube.apply_translation(
+                ramp_midpoint
+                + normal * (CUBE_EDGE / 2 + clearance)
+                + [0.0, cube_y - y_center, 0.0]
+            )
+            intersections.append(
+                0.0 if swept_cube.is_empty else
+                probe_intersection(mesh, swept_cube)
+            )
+        sweep_results.append({
+            "normal_clearance_mm": clearance,
+            "sample_count": len(intersections),
+            "maximum_intersection_mm3": max(intersections),
+            "collision_free": max(intersections) < 1e-5,
+        })
+    max_transfer_intersection = max(
+        item["maximum_intersection_mm3"] for item in sweep_results
+    )
     return {
-        "top_face_cube_probe_intersection_mm3": top_intersection,
-        "opposite_face_cube_probe_intersection_mm3": bottom_intersection,
+        "ramp_material_probe_volume_mm3": expected_material_volume,
+        "ramp_profile_checks": line_checks,
+        "ramp_top_edge_widths_mm": top_edge_widths,
+        "ramp_material_probe_x_fractions": x_fractions.tolist(),
+        "ramp_material_probe_below_intersection_mm3": ramp_below_probe_volumes,
+        "ramp_material_probe_above_intersection_mm3": ramp_above_probe_volumes,
+        "solid_material_confirmed_along_slope": True,
+        "empty_space_confirmed_above_slope": True,
+        "solid_material_probe_y_levels_mm": probe_y_levels.tolist(),
         "cube_probe_edge_mm": CUBE_EDGE,
-        "top_face_transfer_aperture_mm": (
-            expected["target_front_face_transfer_aperture_mm"]
+        "ramp_length_y_mm": y_max - y_min,
+        "ramp_cross_slope_width_mm": ramp_run_x,
+        "cube_transfer_path": (
+            "Continuous swept volume of an 8.5 mm cube aligned to the ramp, "
+            "from fully before its low endpoint to fully beyond its high endpoint"
         ),
-        "passed": True,
+        "cube_sweep_is_continuous": True,
+        "cube_swept_volume_length_mm": swept_cube_length,
+        "cube_sweep_y_positions": list(cube_y_centers),
+        "cube_sweep_normal_clearances": sweep_results,
+        "continuous_cube_sweep_max_intersection_mm3": max_transfer_intersection,
+        "cube_sweep_clearance_passed": all(
+            item["collision_free"] for item in sweep_results
+        ),
+        "physical_cube_transfer_tested": False,
+        "ramp_run_mm": expected["target_ramp_run_mm"],
+        "ramp_lane_width_mm": y_max - y_min,
+        "low_edge_x_mm": ramp_low_x,
+        "high_edge_x_mm": ramp_high_x,
+        "slope_run_x_mm": ramp_run_x,
+        "ramp_depth_z_mm": z_depth,
+        "rear_face_z_mm": z_min,
+        "front_face_z_mm": z_max,
+        "reference_web_4_to5_mm": reference_web,
+        "window5_remaining_width_at_rear_face_mm": (
+            expected["window5_opening_after_ramp_mm"]
+        ),
+        "window6_width_preserved_mm": (
+            expected["window6_opening_width_preserved_mm"]
+        ),
+        "ramp_direction_matches_printed_left_to_right": (
+            expected["slope_rises_with_increasing_model_x"]
+        ),
+        "ramp_meets_window6_front_face_at_single_point": (
+            max(top_edge_widths) < TOL
+        ),
+        "geometry_passed": True,
     }
 
 
@@ -1120,8 +1633,12 @@ def relocate_cube_openings(mesh, tracks, row_plans):
             cut_boxes.append(cutter)
             moved.append(new_center)
     slot_centers, slot_sizes = double_width_slots(mesh, 0.2)
+    source_arrow_profiles = end_slot_back_profiles(mesh, slot_centers)
     moved_slots = []
-    for center, size in zip(slot_centers, slot_sizes):
+    target_arrow_profiles = []
+    for slot_index, (center, size) in enumerate(
+        zip(slot_centers, slot_sizes)
+    ):
         track_distances = [
             float(np.min(np.linalg.norm(track - center, axis=1)))
             for track in tracks
@@ -1150,9 +1667,29 @@ def relocate_cube_openings(mesh, tracks, row_plans):
             "track": ROW_ANCHORS[track_index]["name"],
             "source_row_y_mm": float(center[1]),
         })
+        target_arrow_profiles.append({
+            "center_mm": new_center.tolist(),
+            **source_arrow_profiles[slot_index],
+        })
     source_adjacent_center, source_adjacent_size = adjacent_cutout(mesh, 0.2)
-    target_adjacent_center = source_adjacent_center + np.asarray([
-        ADJACENT_CUTOUT_SHIFT_X, 0.0
+    target_left_x = (
+        source_adjacent_center[0] - source_adjacent_size[0] / 2
+        + ADJACENT_CUTOUT_SHIFT_X + SMALL_WINDOW_TRANSLATION_X_MM
+        + SMALL_WINDOW_LEFT_TRIM_MM
+    )
+    target_right_x = (
+        source_adjacent_center[0] + source_adjacent_size[0] / 2
+        + ADJACENT_CUTOUT_SHIFT_X + SMALL_WINDOW_TRANSLATION_X_MM
+    )
+    target_adjacent_size = np.asarray([
+        target_right_x - target_left_x,
+        source_adjacent_size[1]
+        - SMALL_WINDOW_TOP_TRIM_MM - SMALL_WINDOW_BOTTOM_TRIM_MM,
+    ])
+    target_adjacent_center = np.asarray([
+        (target_left_x + target_right_x) / 2,
+        source_adjacent_center[1]
+        + (SMALL_WINDOW_TOP_TRIM_MM - SMALL_WINDOW_BOTTOM_TRIM_MM) / 2,
     ])
     adjacent_fill = trimesh.creation.box(
         extents=[source_adjacent_size[0] + 0.02,
@@ -1163,7 +1700,7 @@ def relocate_cube_openings(mesh, tracks, row_plans):
     ])
     fill_boxes.append(adjacent_fill)
     adjacent_cutter = trimesh.creation.box(
-        extents=[source_adjacent_size[0], source_adjacent_size[1],
+        extents=[*target_adjacent_size,
                  old_thickness + 0.04]
     )
     adjacent_cutter.apply_translation([
@@ -1173,8 +1710,25 @@ def relocate_cube_openings(mesh, tracks, row_plans):
     adjacent_cutout_revision = {
         "source_center_mm": source_adjacent_center.tolist(),
         "target_center_mm": target_adjacent_center.tolist(),
-        "translation_mm": [ADJACENT_CUTOUT_SHIFT_X, 0.0],
-        "size_mm": source_adjacent_size.tolist(),
+        "target_bounds_mm": [
+            [target_left_x, target_adjacent_center[1]
+             - target_adjacent_size[1] / 2],
+            [target_right_x, target_adjacent_center[1]
+             + target_adjacent_size[1] / 2],
+        ],
+        "translation_from_source_mm": [
+            ADJACENT_CUTOUT_SHIFT_X + SMALL_WINDOW_TRANSLATION_X_MM,
+            0.0,
+        ],
+        "translation_after_prior_alignment_mm": [
+            SMALL_WINDOW_TRANSLATION_X_MM, 0.0
+        ],
+        "left_trim_mm": SMALL_WINDOW_LEFT_TRIM_MM,
+        "top_trim_mm": SMALL_WINDOW_TOP_TRIM_MM,
+        "bottom_trim_mm": SMALL_WINDOW_BOTTOM_TRIM_MM,
+        "source_size_mm": source_adjacent_size.tolist(),
+        "size_mm": target_adjacent_size.tolist(),
+        "solid_inner_area_preserved": True,
     }
     source_slot_center, source_slot_size = long_horizontal_slot(
         mesh, 0.2, 8.64
@@ -1266,7 +1820,7 @@ def relocate_cube_openings(mesh, tracks, row_plans):
     require(np.allclose(actual_adjacent_center, target_adjacent_center,
                         atol=TOL, rtol=0),
             "Adjacent cutout position changed")
-    require(np.allclose(actual_adjacent_size, source_adjacent_size,
+    require(np.allclose(actual_adjacent_size, target_adjacent_size,
                         atol=TOL, rtol=0),
             "Adjacent cutout dimensions changed")
     actual_windows = resource_window_loops(relocated, 0.0)
@@ -1279,9 +1833,405 @@ def relocate_cube_openings(mesh, tracks, row_plans):
             f"{actual[0].tolist()}/{actual[1].tolist()}",
         )
     return (
-        relocated, np.asarray(moved), moved_slots, long_slot_revision,
-        adjacent_cutout_revision, target_windows,
+        relocated, np.asarray(moved), moved_slots, target_arrow_profiles,
+        long_slot_revision, adjacent_cutout_revision, target_windows,
     )
+
+
+def add_local_support_features(mesh, moved_slots, arrow_profiles,
+                               small_window):
+    require(len(moved_slots) == 6 and len(arrow_profiles) == 6,
+            "Expected six end-slot arrow profiles")
+    bottom, top = map(float, mesh.bounds[:, 2])
+    thickness = top - bottom
+    floor_boxes = []
+    cutters = []
+    cube_proxies = []
+    slot_results = []
+    epsilon = LOCAL_RELIEF_EPS_MM
+
+    for slot, arrow in zip(moved_slots, arrow_profiles):
+        center = np.asarray(slot["center_mm"], dtype=float)
+        size = np.asarray(slot["size_mm"], dtype=float)
+        profile_center = center + np.asarray(
+            arrow["center_offset_mm"], dtype=float
+        )
+        profile_size = np.asarray(arrow["size_mm"], dtype=float)
+        shelf = trimesh.creation.box(
+            extents=[size[0], size[1], END_ARROW_LEDGE_THICKNESS_MM]
+        )
+        shelf.apply_translation([
+            center[0], center[1],
+            bottom + END_ARROW_LEDGE_THICKNESS_MM / 2,
+        ])
+        check_mesh(shelf)
+        floor_boxes.append(shelf)
+
+        cube_center = np.asarray([
+            center[0] - size[0] / 2 + OPENING_WIDTH / 2,
+            center[1],
+        ])
+        cube_opening_size = np.asarray([
+            OPENING_WIDTH, min(OPENING_WIDTH, float(size[1]))
+        ])
+        cube_hole = trimesh.creation.box(
+            extents=[
+                *cube_opening_size, thickness + 2 * epsilon
+            ]
+        )
+        cube_hole.apply_translation([
+            cube_center[0], cube_center[1], (bottom + top) / 2
+        ])
+        cutters.append(cube_hole)
+        cube_proxy = trimesh.creation.box(
+            extents=[CUBE_EDGE, CUBE_EDGE, thickness]
+        )
+        cube_proxy.apply_translation([
+            cube_center[0], cube_center[1], (bottom + top) / 2
+        ])
+        cube_proxies.append((cube_center, cube_proxy))
+
+        points = np.asarray(arrow["points_local_mm"], dtype=float) + center
+        signed_area = 0.5 * np.sum(
+            points[:, 0] * np.roll(points[:, 1], -1)
+            - points[:, 1] * np.roll(points[:, 0], -1)
+        )
+        if signed_area < 0:
+            points = points[::-1]
+        profile = Polygon(
+            *(tuple(point) for point in points),
+            align=None,
+        )
+        arrow_shape = extrude(
+            profile,
+            amount=END_ARROW_LEDGE_THICKNESS_MM + 2 * epsilon,
+        ).translate((0, 0, bottom - epsilon))
+        arrow_vertices, arrow_faces = arrow_shape.tessellate(0.01)
+        arrow_cutter = trimesh.Trimesh(
+            vertices=[tuple(vertex) for vertex in arrow_vertices],
+            faces=arrow_faces,
+            process=True,
+        )
+        check_mesh(arrow_cutter)
+        cutters.append(arrow_cutter)
+        slot_results.append({
+            "center_mm": center.tolist(),
+            "slot_size_mm": size.tolist(),
+            "source_arrow_opening_size_mm": profile_size.tolist(),
+            "source_arrow_center_mm": profile_center.tolist(),
+            "opening_width_at_rear_mm": float(profile_size[0]),
+            "shelf_width_after_arrow_tip_mm": float(
+                size[0] - profile_size[0]
+            ),
+        })
+
+    shelf_mesh = trimesh.boolean.union(floor_boxes, engine="manifold")
+    patched = trimesh.boolean.union(
+        [mesh, shelf_mesh], engine="manifold"
+    )
+    check_mesh(patched)
+    cutter_mesh = trimesh.boolean.union(cutters, engine="manifold")
+    require(cutter_mesh.is_watertight and cutter_mesh.volume > 0,
+            "Local relief cutters are not a valid watertight set")
+    result = trimesh.boolean.difference(
+        [patched, cutter_mesh], engine="manifold"
+    )
+    check_mesh(result)
+
+    window_center = np.asarray(
+        small_window["target_center_mm"], dtype=float
+    )
+    window_size = np.asarray(small_window["size_mm"], dtype=float)
+    window_right = window_center[0] + window_size[0] / 2
+    window_top = window_center[1] + window_size[1] / 2
+    window_bottom = window_center[1] - window_size[1] / 2
+    holes = square_holes(
+        result, bottom + END_ARROW_LEDGE_THICKNESS_MM + 0.05
+    )
+    candidates = [
+        center for center in holes
+        if center[0] - OPENING_WIDTH / 2 > window_right
+        and abs(center[1] - window_center[1]) < OPENING_WIDTH / 2
+    ]
+    require(candidates,
+            "Could not identify the zero-cube field beside the small window")
+    zero_center = min(candidates, key=lambda center: center[0])
+    web_right = float(zero_center[0] - OPENING_WIDTH / 2)
+    web_left = float(window_right)
+    web_low = max(window_bottom, float(zero_center[1] - OPENING_WIDTH / 2))
+    web_high = min(window_top, float(zero_center[1] + OPENING_WIDTH / 2))
+    web_width = web_right - web_left
+    web_height = web_high - web_low
+    require(web_width > 1.0 and abs(web_height - OPENING_WIDTH) < TOL,
+            f"Small-window web bounds invalid: {web_width:.4f} x "
+            f"{web_height:.4f} mm")
+    recess_bottom = bottom + SMALL_WEB_THICKNESS_MM
+    web_cutter = trimesh.creation.box(
+        extents=[
+            web_width + 2 * epsilon,
+            web_height + 2 * epsilon,
+            top + epsilon - recess_bottom,
+        ]
+    )
+    web_cutter.apply_translation([
+        (web_left + web_right) / 2,
+        (web_low + web_high) / 2,
+        (recess_bottom + top + epsilon) / 2,
+    ])
+    result = trimesh.boolean.difference(
+        [result, web_cutter], engine="manifold"
+    )
+    check_mesh(result)
+
+    web_probe_center = [(web_left + web_right) / 2,
+                        (web_low + web_high) / 2]
+    web_probe_size = [0.4, 0.4, 0.1]
+    web_rear_probe = probe_intersection(
+        result,
+        probe_at(web_probe_center, bottom + 0.5, web_probe_size),
+    )
+    web_front_probe = probe_intersection(
+        result,
+        probe_at(web_probe_center, bottom + 1.1, web_probe_size),
+    )
+    require(abs(web_rear_probe - 0.016) < 1e-6,
+            "The small-window web is not solid through its 1 mm back layer")
+    require(web_front_probe < 1e-7,
+            "The small-window web was not recessed from the front")
+
+    for slot_result, (cube_center, cube_proxy) in zip(
+        slot_results, cube_proxies
+    ):
+        interference = probe_intersection(result, cube_proxy)
+        require(interference < 1e-6,
+                f"8.5 mm cube interferes in 10-cube field: {interference}")
+        slot_center = np.asarray(slot_result["center_mm"])
+        slot_size = np.asarray(slot_result["slot_size_mm"])
+        support_x = float(slot_center[0] + slot_size[0] / 2 - 0.5)
+        support_center = [support_x, float(slot_center[1])]
+        support_samples = []
+        for offset in (0.25, 0.75, 0.99):
+            sample = probe_intersection(
+                result,
+                probe_at(support_center, bottom + offset, [0.1, 0.1, 0.01]),
+            )
+            require(abs(sample - 0.0001) < 1e-7,
+                    "An arrow ledge does not span the full 1 mm back layer")
+            support_samples.append({
+                "z_from_back_face_mm": offset,
+                "solid_probe_volume_mm3": sample,
+            })
+        beyond_floor = probe_intersection(
+            result,
+            probe_at(
+                support_center, bottom + 1.01, [0.1, 0.1, 0.01]
+            ),
+        )
+        require(beyond_floor < 1e-7,
+                "Arrow ledge protrudes beyond its 1 mm back layer")
+        overrun_center = [
+            float(cube_center[0] + OPENING_WIDTH), float(slot_center[1])
+        ]
+        contact_probe = probe_at(
+            overrun_center, bottom + 0.95,
+            [CUBE_EDGE, CUBE_EDGE, 0.05],
+        )
+        contact_volume = probe_intersection(result, contact_probe)
+        contact_area = contact_volume / 0.05
+        require(contact_area > 0.0,
+                "Overrun cube has no shelf contact on the arrow ledge")
+        slot_result.update({
+            "cube_center_mm": cube_center.tolist(),
+            "cube_interference_volume_mm3": interference,
+            "ledge_rear_face_flush": True,
+            "ledge_thickness_mm": END_ARROW_LEDGE_THICKNESS_MM,
+            "front_recess_depth_mm": thickness - END_ARROW_LEDGE_THICKNESS_MM,
+            "ledge_thickness_probe_checks": support_samples,
+            "probe_above_ledge_mm3": beyond_floor,
+            "overrun_cube_contact_area_mm2": contact_area,
+        })
+
+    require(abs(result.bounds[0, 2] - bottom) < TOL
+            and abs(result.bounds[1, 2] - top) < TOL,
+            "Local supports changed the panel Z envelope")
+    return result, {
+        "end_slot_count": len(slot_results),
+        "end_slots": slot_results,
+        "small_window": {
+            "center_mm": small_window["target_center_mm"],
+            "size_mm": small_window["size_mm"],
+            "bounds_mm": small_window["target_bounds_mm"],
+        },
+        "rear_face_z_mm": bottom,
+        "panel_front_z_mm": top,
+        "ledge_thickness_mm": END_ARROW_LEDGE_THICKNESS_MM,
+        "front_recess_depth_mm": thickness - END_ARROW_LEDGE_THICKNESS_MM,
+        "small_window_web": {
+            "target_center_mm": web_probe_center,
+            "bounds_mm": [
+                [web_left, web_low], [web_right, web_high]
+            ],
+            "width_mm": web_width,
+            "height_mm": web_height,
+            "rear_layer_thickness_mm": SMALL_WEB_THICKNESS_MM,
+            "front_recess_depth_mm": thickness - SMALL_WEB_THICKNESS_MM,
+            "solid_back_probe_volume_mm3": web_rear_probe,
+            "recessed_front_probe_volume_mm3": web_front_probe,
+            "zero_field_center_mm": zero_center.tolist(),
+        },
+    }
+
+
+def verify_local_relief_export(mesh, expected):
+    bottom, top = map(float, mesh.bounds[:, 2])
+    require(abs(bottom - expected["rear_face_z_mm"]) < TOL
+            and abs(top - expected["panel_front_z_mm"]) < TOL,
+            "Exported local relief changed the front panel Z envelope")
+    actual_window_center, actual_window_size = adjacent_cutout(
+        mesh, bottom + 0.05
+    )
+    target_window = expected["small_window"]
+    require(
+        np.allclose(
+            actual_window_center, target_window["center_mm"],
+            atol=TOL, rtol=0,
+        )
+        and np.allclose(
+            actual_window_size, target_window["size_mm"],
+            atol=TOL, rtol=0,
+        ),
+        "Exported small-window bounds differ from the requested revision",
+    )
+
+    slots = expected["end_slots"]
+    require(len(slots) == 6, "Exported arrow ledge count changed")
+    rear_profiles = section_loops(mesh, bottom + 0.05)
+    front_slots, front_sizes = double_width_slots(
+        mesh, bottom + END_ARROW_LEDGE_THICKNESS_MM + 0.05
+    )
+    require(len(front_slots) == 6,
+            "Expected six full-width front-recessed end slots")
+    checks = []
+    for item in slots:
+        slot_center = np.asarray(item["center_mm"], dtype=float)
+        slot_size = np.asarray(item["slot_size_mm"], dtype=float)
+        profile_center = np.asarray(
+            item["source_arrow_center_mm"], dtype=float
+        )
+        profile_size = np.asarray(
+            item["source_arrow_opening_size_mm"], dtype=float
+        )
+        profile_matches = [
+            (center, size) for center, size in rear_profiles
+            if 10.5 < size[0] < 12.0
+            and 8.3 < size[1] < 8.9
+            and np.linalg.norm(center - profile_center) < TOL
+        ]
+        require(len(profile_matches) == 1,
+                f"Rear arrow opening missing at {profile_center.tolist()}")
+        actual_profile_center, actual_profile_size = profile_matches[0]
+        require(
+            np.allclose(actual_profile_size, profile_size, atol=TOL, rtol=0),
+            "Exported rear arrow opening dimensions changed",
+        )
+        front_match = int(np.argmin(np.linalg.norm(
+            front_slots - slot_center, axis=1
+        )))
+        require(
+            np.linalg.norm(front_slots[front_match] - slot_center) < TOL
+            and np.allclose(
+                front_sizes[front_match], slot_size, atol=TOL, rtol=0
+            ),
+            "Front end-slot dimensions changed above the arrow ledge",
+        )
+
+        cube_center = np.asarray(item["cube_center_mm"], dtype=float)
+        cube_probe = probe_at(
+            cube_center, (bottom + top) / 2,
+            [CUBE_EDGE, CUBE_EDGE, top - bottom],
+        )
+        cube_interference = probe_intersection(mesh, cube_probe)
+        require(cube_interference < 1e-6,
+                f"Exported 8.5 mm cube clearance failed: {cube_interference}")
+        support_center = [
+            float(slot_center[0] + slot_size[0] / 2 - 0.5),
+            float(slot_center[1]),
+        ]
+        samples = []
+        for offset in (0.25, 0.75, 0.99):
+            volume = probe_intersection(
+                mesh,
+                probe_at(support_center, bottom + offset,
+                         [0.1, 0.1, 0.01]),
+            )
+            require(abs(volume - 0.0001) < 1e-7,
+                    "Exported arrow ledge is not a continuous 1 mm floor")
+            samples.append(volume)
+        above_floor = probe_intersection(
+            mesh,
+            probe_at(support_center, bottom + 1.01, [0.1, 0.1, 0.01]),
+        )
+        require(above_floor < 1e-7,
+                "Exported arrow ledge is not recessed from the front")
+        overrun_center = [
+            float(cube_center[0] + OPENING_WIDTH),
+            float(slot_center[1]),
+        ]
+        contact_area = probe_intersection(
+            mesh,
+            probe_at(overrun_center, bottom + 0.95,
+                     [CUBE_EDGE, CUBE_EDGE, 0.05]),
+        ) / 0.05
+        require(contact_area > 0.0,
+                "Exported ledge has no overrun-cube contact area")
+        checks.append({
+            "center_mm": slot_center.tolist(),
+            "front_slot_size_mm": front_sizes[front_match].tolist(),
+            "rear_arrow_center_mm": actual_profile_center.tolist(),
+            "rear_arrow_opening_size_mm": actual_profile_size.tolist(),
+            "cube_center_mm": cube_center.tolist(),
+            "cube_interference_volume_mm3": cube_interference,
+            "back_layer_thickness_mm": END_ARROW_LEDGE_THICKNESS_MM,
+            "front_recess_depth_mm": top - bottom
+            - END_ARROW_LEDGE_THICKNESS_MM,
+            "back_layer_sample_volumes_mm3": samples,
+            "probe_above_floor_mm3": above_floor,
+            "overrun_cube_contact_area_mm2": contact_area,
+        })
+
+    web = expected["small_window_web"]
+    web_center = np.asarray(web["target_center_mm"], dtype=float)
+    web_size = [0.4, 0.4, 0.1]
+    solid_volume = probe_intersection(
+        mesh, probe_at(web_center, bottom + 0.5, web_size)
+    )
+    recessed_volume = probe_intersection(
+        mesh, probe_at(web_center, bottom + 1.1, web_size)
+    )
+    require(abs(solid_volume - 0.016) < 1e-6,
+            "Exported small-window web is not solid through its back layer")
+    require(recessed_volume < 1e-7,
+            "Exported small-window web is not front-recessed")
+    return {
+        "small_window": {
+            "center_mm": actual_window_center.tolist(),
+            "size_mm": actual_window_size.tolist(),
+            "bounds_mm": [
+                (actual_window_center - actual_window_size / 2).tolist(),
+                (actual_window_center + actual_window_size / 2).tolist(),
+            ],
+            "inner_area_solid": True,
+        },
+        "small_window_web": {
+            **web,
+            "solid_back_probe_volume_mm3": solid_volume,
+            "recessed_front_probe_volume_mm3": recessed_volume,
+        },
+        "end_slot_count": len(checks),
+        "end_slots": checks,
+        "rear_face_flush_and_front_recess_passed": True,
+        "cube_fit_and_overrun_support_passed": True,
+    }
 
 
 def move_mount_vertices(mesh, centers):
@@ -1426,6 +2376,8 @@ def verify_cube_openings(
         )
         require(inside_volume < 1e-7,
                 f"Cube aperture obstructed at Z={z}")
+    rear_web_z = bottom + SMALL_WEB_THICKNESS_MM / 2
+    for z in (rear_web_z,):
         outside_volume = probe_intersection(
             mesh, combined_probes(outside_centers, z, [0.02, 0.02, 0.1])
         )
@@ -1443,38 +2395,6 @@ def verify_cube_openings(
             midpoint = (center + other) / 2
             web_centers.append(midpoint)
     require(web_centers, "No cube separating webs were measured")
-    adjacent_center = np.asarray(expected_adjacent_cutout["target_center_mm"])
-    adjacent_size = np.asarray(expected_adjacent_cutout["size_mm"])
-    nearest = None
-    for center in holes:
-        gap_x = (
-            abs(center[0] - adjacent_center[0])
-            - (OPENING_WIDTH + adjacent_size[0]) / 2
-        )
-        gap_y = (
-            abs(center[1] - adjacent_center[1])
-            - (OPENING_WIDTH + adjacent_size[1]) / 2
-        )
-        if gap_x >= 0 and gap_y <= 0:
-            if nearest is None or gap_x < nearest[0]:
-                edge_x = (
-                    adjacent_center[0] + adjacent_size[0] / 2
-                    if center[0] > adjacent_center[0]
-                    else adjacent_center[0] - adjacent_size[0] / 2
-                )
-                hole_edge_x = center[0] - np.sign(
-                    center[0] - adjacent_center[0]
-                ) * OPENING_WIDTH / 2
-                y = np.clip(
-                    adjacent_center[1],
-                    center[1] - OPENING_WIDTH / 2,
-                    center[1] + OPENING_WIDTH / 2,
-                )
-                nearest = (
-                    float(gap_x), [(edge_x + hole_edge_x) / 2, y]
-                )
-    require(nearest is not None, "Adjacent cutout has no measured cube web")
-    web_centers.append(nearest[1])
     expected_web_volume = len(web_centers) * 0.2 * 0.2 * 0.1
     web_volumes = []
     for z in z_levels:
@@ -1488,6 +2408,7 @@ def verify_cube_openings(
     return {
         "openings": len(holes),
         "tested_z_levels_mm": list(z_levels),
+        "cube_boundary_probe_z_mm": rear_web_z,
         "inset_probe_mm": 4.2,
         "edge_probe_offset_mm": 4.34,
         "separating_web_probe_count": len(web_centers),
@@ -1497,9 +2418,29 @@ def verify_cube_openings(
 
 def verify_cube_grid(mesh, expected_slots, expected_rows, expected_long_slot,
                      expected_adjacent_cutout):
-    holes, opening_sizes = square_opening_data(
-        mesh, float(mesh.bounds[:, 2].mean())
-    )
+    expected_centers = np.asarray([
+        [x + plan["dx_mm"], plan["target_y_mm"]]
+        for plan in expected_rows
+        for x in plan["source_cell_centers_x_mm"][:plan["opening_count"]]
+    ])
+    require(len(expected_centers) == 65,
+            "Expected cube field registration no longer contains 65 fields")
+    back_z = float(mesh.bounds[0, 2]) + LOCAL_RELIEF_EPS_MM + 0.03
+    back_openings = [
+        (center, size) for center, size in section_loops(mesh, back_z)
+        if np.all((size > 8.5) & (size < 8.8))
+    ]
+    measured_sizes = []
+    for center in expected_centers:
+        matches = [
+            size for actual, size in back_openings
+            if np.linalg.norm(actual - center) < TOL
+        ]
+        require(len(matches) == 1,
+                f"Back-layer cube aperture missing at {center.tolist()}")
+        measured_sizes.append(matches[0])
+    holes = expected_centers
+    opening_sizes = np.asarray(measured_sizes)
     require(np.allclose(opening_sizes, OPENING_WIDTH, atol=TOL, rtol=0),
             "Cube aperture width changed")
     slot_centers, slot_sizes = double_width_slots(mesh, 0.2)
@@ -1525,7 +2466,7 @@ def verify_cube_grid(mesh, expected_slots, expected_rows, expected_long_slot,
     slider_clearance = slider_cube_clearance(
         expected_rows, slot_center, slot_size
     )
-    adjacent_center, adjacent_size = adjacent_cutout(mesh, 0.2)
+    adjacent_center, adjacent_size = adjacent_cutout(mesh, back_z)
     require(np.allclose(
         adjacent_center, expected_adjacent_cutout["target_center_mm"],
         atol=TOL, rtol=0,
@@ -1654,8 +2595,8 @@ def verify_unrelated_cutouts_unchanged(source, revised):
             )
             is_horizontal_slot = 100 < size[0] < 120 and size[1] > 6.5
             is_adjacent_cutout = (
-                24.0 < size[0] < 24.5
-                and 15.3 < size[1] < 15.9
+                17.5 < size[0] < 25.5
+                and 12.5 < size[1] < 17.0
                 and center[0] < -80.0
             )
             is_resource_window = (
@@ -1679,13 +2620,14 @@ def verify_unrelated_cutouts_unchanged(source, revised):
     for index, center in enumerate(SOURCE_MOUNTS):
         if abs(center[0]) >= 1:
             revised_mounts[index, 0] -= np.sign(center[0])
+    revised_z = float(revised.bounds[0, 2]) + LOCAL_RELIEF_EPS_MM + 0.03
     source_z = (
         float(source.bounds[0, 2])
-        + (0.2 - float(revised.bounds[0, 2]))
+        + (revised_z - float(revised.bounds[0, 2]))
         / float(revised.extents[2]) * float(source.extents[2])
     )
     before = np.asarray(descriptors(source, SOURCE_MOUNTS, source_z))
-    after = np.asarray(descriptors(revised, revised_mounts, 0.2))
+    after = np.asarray(descriptors(revised, revised_mounts, revised_z))
     require(before.shape == after.shape, "Unrelated cutout count changed")
     require(np.allclose(before, after, atol=TOL, rtol=0),
             "An unrelated cutout moved or changed size")
@@ -1697,7 +2639,8 @@ def verify_unrelated_cutouts_unchanged(source, revised):
 
 def verify_export(entries, original_entries, expected_slots, expected_rows,
                   expected_long_slot, expected_adjacent_cutout,
-                  expected_windows, expected_transition_ramp):
+                  expected_windows, expected_transition_ramp,
+                  expected_local_reliefs):
     meshes = {}
     checks = []
     centers = SOURCE_MOUNTS.copy()
@@ -1787,33 +2730,12 @@ def verify_export(entries, original_entries, expected_slots, expected_rows,
     )
     for z in window_test_levels:
         actual_windows = resource_window_loops(front, z)
-        require(len(actual_windows) == len(expected_windows),
-                "The ramp merged the windows below the front face")
-        for index, (actual, expected) in enumerate(
-            zip(actual_windows, expected_windows)
-        ):
+        require(len(actual_windows) == 6,
+                "The solid transition must retain six separate windows")
+        for index, expected in enumerate(expected_windows):
+            actual = actual_windows[index]
             expected_center = np.asarray(expected["center_mm"], dtype=float)
             expected_size = np.asarray(expected["size_mm"], dtype=float)
-            ramp_edge_x = (
-                expected_transition_ramp["boolean_profile_bottom_x_mm"]
-                + (expected_transition_ramp["boolean_profile_top_x_mm"]
-                   - expected_transition_ramp["boolean_profile_bottom_x_mm"])
-                * (z - expected_transition_ramp[
-                    "boolean_profile_bottom_z_mm"
-                ])
-                / (expected_transition_ramp[
-                    "boolean_profile_top_z_mm"
-                ] - expected_transition_ramp[
-                    "boolean_profile_bottom_z_mm"
-                ])
-            )
-            if index == 4:
-                original_right_x = (
-                    expected_center[0] + expected_size[0] / 2
-                )
-                expansion = max(0.0, ramp_edge_x - original_right_x)
-                expected_center[0] += expansion / 2
-                expected_size[0] += expansion
             require(
                 np.allclose(actual[0], expected_center,
                             atol=TOL, rtol=0)
@@ -1831,6 +2753,9 @@ def verify_export(entries, original_entries, expected_slots, expected_rows,
     ramp_checks = verify_window_transition_ramp(
         front, expected_transition_ramp
     )
+    local_relief_checks = verify_local_relief_export(
+        front, expected_local_reliefs
+    )
     _, _, source_front = as_mesh(
         original_entries[FRONT_PATHS[0]], MESH_IDS[FRONT_PATHS[0]]
     )
@@ -1840,7 +2765,7 @@ def verify_export(entries, original_entries, expected_slots, expected_rows,
     return (
         checks, mount_results, pin_results, insertion, clearance,
         cube_measurements, pitch_report, unrelated_cutouts, window_checks,
-        ramp_checks,
+        ramp_checks, local_relief_checks,
     )
 
 
@@ -1956,6 +2881,8 @@ def main():
     adjacent_cutout_revision = None
     window_revision = None
     transition_ramp_revision = None
+    local_relief_revision = None
+    arrow_profiles = None
     transformations = {}
     for path, object_id in MESH_IDS.items():
         root, mesh_node, mesh = as_mesh(original[path], object_id)
@@ -1972,8 +2899,9 @@ def main():
             else:
                 require(anchors == cube_anchors,
                         "Front copies have different cube-track datums")
-            (mesh, moved_holes, moved_slots, revised_long_slot,
-             revised_adjacent_cutout, revised_windows) = relocate_cube_openings(
+            (mesh, moved_holes, moved_slots, revised_arrow_profiles,
+             revised_long_slot, revised_adjacent_cutout,
+             revised_windows) = relocate_cube_openings(
                 mesh, tracks, row_plans
             )
             if not cube_slots:
@@ -1981,6 +2909,11 @@ def main():
             else:
                 require(moved_slots == cube_slots,
                         "Front copies have different cube end slots")
+            if arrow_profiles is None:
+                arrow_profiles = revised_arrow_profiles
+            else:
+                require(revised_arrow_profiles == arrow_profiles,
+                        "Front copies have different arrow ledge profiles")
             if long_slot_revision is None:
                 long_slot_revision = revised_long_slot
             else:
@@ -2012,6 +2945,15 @@ def main():
             else:
                 require(revised_transition_ramp == transition_ramp_revision,
                         "Front copies have different window transition ramps")
+            mesh, revised_local_reliefs = add_local_support_features(
+                mesh, moved_slots, revised_arrow_profiles,
+                revised_adjacent_cutout,
+            )
+            if local_relief_revision is None:
+                local_relief_revision = revised_local_reliefs
+            else:
+                require(revised_local_reliefs == local_relief_revision,
+                        "Front copies have different local relief features")
             transformations[path] = {
                 "cube_tracks": anchors,
                 "cube_row_registration": row_plans,
@@ -2020,6 +2962,7 @@ def main():
                 "adjacent_cutout": revised_adjacent_cutout,
                 "resource_windows": revised_windows,
                 "window5_to6_ramp": revised_transition_ramp,
+                "local_reliefs": revised_local_reliefs,
                 "mount_centers_mm": moved_mount_centers.tolist(),
                 "front_z": z_result,
             }
@@ -2043,6 +2986,7 @@ def main():
         json.loads(revised["Metadata/project_settings.config"]),
         revised["Metadata/model_settings.config"],
     )
+    front_build_rotations = rotate_front_build_items(revised)
     with zipfile.ZipFile(OUTPUT, "w") as archive:
         for info in infos:
             archive.writestr(info, revised[info.filename])
@@ -2059,10 +3003,11 @@ def main():
                 "3MF archive member list changed")
         revised = {name: archive.read(name) for name in archive.namelist()}
     changed_entries = set(MESH_IDS) | {
+        "3D/3dmodel.model",
         "Metadata/project_settings.config",
         "Metadata/model_settings.config",
         PRINT_METADATA_ENTRY,
-    }
+    } | set(FRONT_PLATE_PREVIEWS)
     for name in original.keys() - changed_entries:
         require(original[name] == revised[name],
                 f"Unrelated archive member changed: {name}")
@@ -2075,10 +3020,11 @@ def main():
 
     (mesh_checks, sockets, pins, insertion, clearance,
      cube_checks, pitch_report, unrelated_cutouts,
-     window_checks, transition_ramp_checks) = verify_export(
+     window_checks, transition_ramp_checks,
+     local_relief_checks) = verify_export(
         revised, original, cube_slots, cube_rows, long_slot_revision,
         adjacent_cutout_revision, window_revision,
-        transition_ramp_revision,
+        transition_ramp_revision, local_relief_revision,
     )
     layout_clearances = verify_layout_clearances(
         cube_rows, window_revision, long_slot_revision["target_center_mm"],
@@ -2136,9 +3082,22 @@ def main():
     source_build_items = source_scene.findall("./m:build/m:item", NS)
     revised_build_items = revised_scene.findall("./m:build/m:item", NS)
     require(
-        revised["3D/3dmodel.model"] == original["3D/3dmodel.model"],
-        "3MF plate/build transforms changed",
+        len(revised_build_items) == len(source_build_items)
+        and [
+            item.get("objectid") for item in revised_build_items
+        ] == [item.get("objectid") for item in source_build_items],
+        "3MF plate count or build-item identities changed",
     )
+    for source_item, revised_item in zip(
+        source_build_items, revised_build_items
+    ):
+        if source_item.get("objectid") not in {
+            record["build_object_id"] for record in front_build_rotations
+        }:
+            require(
+                source_item.get("transform") == revised_item.get("transform"),
+                "A non-front build-item transform changed",
+            )
     selected_row_residuals = []
     for row in pitch_report["row_registration"]:
         if row["track"] != "lower-right zero":
@@ -2165,6 +3124,13 @@ def main():
     transparent_settings = {
         "filament_profile": TRANSPARENT_FILAMENT_PROFILE,
         "filament_slot": TRANSPARENT_FILAMENT_SLOT,
+        "bed_type": project_settings.get("curr_bed_type", "unknown"),
+        "cool_plate_temperature_c": project_settings["cool_plate_temp"][
+            TRANSPARENT_FILAMENT_SLOT - 1
+        ],
+        "cool_plate_first_layer_temperature_c": project_settings[
+            "cool_plate_temp_initial_layer"
+        ][TRANSPARENT_FILAMENT_SLOT - 1],
         "normal_nozzle_temperature_c": project_settings[
             "nozzle_temperature"
         ][TRANSPARENT_FILAMENT_SLOT - 1],
@@ -2175,6 +3141,22 @@ def main():
         "flow_ratio_preserved": project_settings["filament_flow_ratio"][
             TRANSPARENT_FILAMENT_SLOT - 1
         ],
+        "first_layer_flow_ratio": project_settings["first_layer_flow_ratio"],
+        "first_layer_line_width_mm": project_settings[
+            "initial_layer_line_width"
+        ],
+        "first_layer_print_sequence": project_settings[
+            "first_layer_print_sequence"
+        ],
+        "first_layer_speed_mm_s": transparent_object_settings[
+            "initial_layer_speed"
+        ],
+        "first_layer_solid_infill_speed_mm_s": project_settings[
+            "initial_layer_infill_speed"
+        ],
+        "first_layer_solid_infill_applies": (
+            int(transparent_object_settings["bottom_shell_layers"]) > 0
+        ),
         "part_fan_normal_percent": project_settings["fan_min_speed"][
             TRANSPARENT_FILAMENT_SLOT - 1
         ],
@@ -2187,16 +3169,21 @@ def main():
         "object_overrides": transparent_object_settings,
         "preserved": [
             "Original filament slots 1-3",
-            "Machine and global process settings",
-            "Bed temperatures and calibrated flow",
+            "Global process settings and non-transparent filament temperatures",
+            "Calibrated nozzle temperature and flow",
+            "First-layer flow ratio, line width and print sequence",
             "Native filament start/end/change routines",
             "Bridge/overhang cooling behavior",
         ],
     }
     transparent_guide_review = {
-        "reference": (
-            "https://www.printables.com/model/15310-how-to-print-glass?lang=de"
-        ),
+        "references": [
+            "https://doi.org/10.3390/polym16202862",
+            "https://blog.snapmaker.com/blog/how-to-3d-print-clear-filament/",
+            "https://us.qidi3d.com/blogs/guides/tips-for-3d-printing-with-transparent-filaments",
+            "https://www.youtube.com/watch?v=MKyC1qbvAyI",
+            "https://www.orcaslicer.com/wiki/print_settings/strength/strength_settings_top_bottom_shells",
+        ],
         "core_recipe_match": {
             "layer_height_mm": "0.10 object override",
             "speed_mm_s": "20 object overrides for walls, infill, gap and top",
@@ -2214,19 +3201,36 @@ def main():
                 "top_shell_layers": transparent_object_settings[
                     "top_shell_layers"
                 ],
+                "top_shell_thickness_mm": transparent_object_settings[
+                    "top_shell_thickness"
+                ],
                 "ironing_type": transparent_object_settings["ironing_type"],
+                "infill_direction_degrees": transparent_object_settings[
+                    "infill_direction"
+                ],
+                "solid_infill_direction_degrees": transparent_object_settings[
+                    "solid_infill_direction"
+                ],
+                "short_axis_track_length_mm": SHORT_SIDE,
+                "long_axis_track_length_mm": NEW_LENGTH,
                 "intent": (
-                    "A single 0.10 mm top skin plus ironing is a conservative "
-                    "surface-smoothing test; optical clarity is not proven."
+                    "Two 0.10 mm top-skin layers and top ironing provide a "
+                    "smoother surface candidate. Rotating aligned raster lines "
+                    "to the shorter panel axis reduces continuous line length; "
+                    "physical surface and clarity remain unverified."
                 ),
             },
         },
         "settings_changed_after_review": [
-            "Add one 0.10 mm top shell layer and top-surface ironing to the transparent front only."
+            "Increase transparent-front top skin from one to two 0.10 mm layers while retaining top ironing.",
+            "Rotate the 100% aligned single-direction infill and solid-surface raster to 90 degrees, along the panel's shorter axis.",
+            "Select Cool Plate and set only transparent PLA slot 4 Cool Plate first/normal bed temperatures to 55 C, within the seller-listed 50-70 C smooth-side PLA range.",
+            "Reduce transparent-front object initial-layer wall/sparse speed from 40 to 20 mm/s; with zero bottom-shell layers, first-layer fill follows this sparse-infill speed, so the separate 60 mm/s solid-infill setting is unchanged and inapplicable. Retain first-layer flow, line width and print sequence.",
         ],
         "not_adopted": [
             "Simplify3D-specific outline/solid underspeed percentages; no successful slice to verify effective speed",
-            "PETG temperature, 0.50 mm width, 1.01 extrusion multiplier, and drying recipe not validated for this PLA profile",
+            "A 0.30 mm layer / 240 C / 100% fan / 0.75 flow optimum reported for a different PLA on Prusa MK4 1 mm coupons; not transferred to this Kobra S1 fit-critical 2.5 mm panel.",
+            "PETG temperatures, wider lines, 1.01 flow, and PETG drying schedules are not transferable to the unidentified transparent PLA spool",
         ],
         "effective_gcode_speeds_verified": False,
     }
@@ -2311,6 +3315,7 @@ def main():
             "anchors": cube_checks,
             "unrelated_cutouts": unrelated_cutouts,
             "adjacent_cutout": adjacent_cutout_revision,
+            "local_reliefs": local_relief_checks,
             "pitch_and_web": pitch_report,
             "cube_fit": {
                 "cube_edge_mm": CUBE_EDGE,
@@ -2343,9 +3348,19 @@ def main():
             },
             "layout_clearances": layout_clearances,
             "resource_windows": {
+                "user_constraints": {
+                    "all_six_height_mm": RESOURCE_WINDOW_HEIGHT_MM,
+                    "upper_left_width_mm": UPPER_LEFT_WINDOW_WIDTH_MM,
+                    "upper_left_expansion_direction": "left; right edge fixed",
+                    "window_4_minimum_width_mm": 69.0,
+                    "window_6_minimum_width_mm": (
+                        LOWER_RIGHT_WINDOW_MIN_WIDTH_MM
+                    ),
+                    "window_6_expansion_direction": "right; left edge fixed",
+                },
                 "source": (
                     "Six orange marked regions, mapped with a single "
-                    "paper-centered transform"
+                    "paper-centered transform and resized to user constraints"
                 ),
                 "photo_calibration": {
                     "pixels_per_mm": PHOTO_PX_PER_MM,
@@ -2360,9 +3375,17 @@ def main():
                     **transition_ramp_revision,
                     "exported_cube_probe_checks": transition_ramp_checks,
                     "note": (
-                        "The opening widens toward the front face; the "
-                        "opposite face remains narrow. CAD clearance is not "
-                        "a physical cube-transfer test."
+                        "A solid ramp spans the complete 42.754 mm shared "
+                        "window height. Its 8.640 mm horizontal run rises "
+                        "2.500 mm at 16.14 degrees from window 5 on the left "
+                        "to window 6 on the right. The photo registration maps "
+                        "increasing model X to the right; the earlier reversed "
+                        "profile was incorrect. The high endpoint is on "
+                        "window 6's left edge, preserving its 69 mm width; "
+                        "the ramp removes the old divider shoulder above the "
+                        "incline. Mesh cross-sections and material/void probes "
+                        "check the monotone face at three positions along its "
+                        "length. The 8.5 mm cube sweep is CAD-only."
                     ),
                 },
             },
@@ -2418,16 +3441,52 @@ def main():
                 **transition_ramp_revision,
                 "exported_cube_probe_checks": transition_ramp_checks,
             },
+            "small_siegpunkte_window": {
+                **adjacent_cutout_revision,
+                "exported_geometry": local_relief_checks["small_window"],
+                "inner_area_solid": True,
+                "web_to_zero_cube_field": (
+                    local_relief_checks["small_window_web"]
+                ),
+            },
+            "ten_cube_arrow_ledges": {
+                "count": local_relief_checks["end_slot_count"],
+                "back_layer_thickness_mm": END_ARROW_LEDGE_THICKNESS_MM,
+                "front_recess_depth_mm": (
+                    FRONT_THICKNESS - END_ARROW_LEDGE_THICKNESS_MM
+                ),
+                "rear_face_flush": True,
+                "fields": local_relief_checks["end_slots"],
+                "cube_fit_and_overrun_support_passed": (
+                    local_relief_checks["cube_fit_and_overrun_support_passed"]
+                ),
+                "physical_stability_tested": False,
+            },
             "transparent_front_surface": {
                 "top_shell_layers": transparent_object_settings[
                     "top_shell_layers"
                 ],
-                "top_shell_thickness_mm": (
-                    float(transparent_object_settings["layer_height"])
-                    * int(transparent_object_settings["top_shell_layers"])
+                "top_shell_thickness_mm": float(
+                    transparent_object_settings["top_shell_thickness"]
                 ),
                 "ironing_type": transparent_object_settings["ironing_type"],
                 "object_id": "6",
+                "bed_type": TRANSPARENT_BED_TYPE,
+                "cool_plate_temperature_c": TRANSPARENT_BED_TEMPERATURE_C,
+                "cool_plate_first_layer_temperature_c": (
+                    TRANSPARENT_BED_TEMPERATURE_C
+                ),
+                "bed_temperature_scope": (
+                    "Cool Plate is the project-wide selected bed type; "
+                    "only transparent filament slot 4 Cool Plate temperatures "
+                    "are changed. Other filament slots are preserved."
+                ),
+                "bed_plate_source": (
+                    "User-selected UniTak3D Energy-Saving Kobra S1/Kobra X/"
+                    "Kobra 4 double-sided glossy/matte plate; seller lists "
+                    "50-70 C for the smooth side with PLA. 55 C is a "
+                    "conservative starting setting, not a validated optimum."
+                ),
                 "other_material_profiles_changed": False,
                 "optical_result_physically_tested": False,
             },
@@ -2481,7 +3540,13 @@ def main():
         "plate_layout": {
             "source_build_item_count": len(source_build_items),
             "output_build_item_count": len(revised_build_items),
-            "build_items_and_transforms_unchanged": True,
+            "build_item_ids_and_plate_order_preserved": True,
+            "front_part_rotations": front_build_rotations,
+            "front_plate_preview_images_rotated": list(
+                FRONT_PLATE_PREVIEWS
+            ),
+            "rear_part_transform_unchanged": True,
+            "in_plane_rotation_preserves_bed_contact": True,
             "printer_profile": project_settings.get(
                 "printer_settings_id", "unknown"
             ),
@@ -2504,32 +3569,42 @@ def main():
             "print on this 0.10 mm / 20 mm/s revision."
         ),
         "slicer_validation": {
-            "status": "attempted-for-current-artifact-failed",
+            "status": "not-sliced-after-local-reliefs",
             "gcode_files_produced": 0,
             "support_enabled": project_settings.get("enable_support") == "1",
             "current_attempt_artifact": str(
                 OUTPUT.relative_to(ROOT)
             ).replace("\\", "/"),
-            "current_attempt_command": (
+            "current_attempt_artifact_sha256": sha256(OUTPUT),
+            "current_attempt_command": None,
+            "current_attempt_exit_code": None,
+            "current_attempt_diagnostic": (
+                "No slice was run after adding the local window and arrow "
+                "reliefs. The preceding integrated artifact failed before "
+                "G-code generation with the saved retraction setting."
+            ),
+            "current_attempt_log": None,
+            "current_attempt_gcode_files_produced": 0,
+            "prior_attempts_artifact": str(
+                OUTPUT.relative_to(ROOT)
+            ).replace("\\", "/"),
+            "prior_attempts_artifact_sha256": (
+                "2a6297ed8d9cd30123396c4f61ac3af48a3b73c4ebe8c37abc72859b01982695"
+            ),
+            "prior_attempts_status": (
+                "failed before local reliefs; no G-code produced"
+            ),
+            "prior_orca_slicer_command": (
                 "orca-slicer.exe "
                 "models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf "
                 "--slice=0 --outputdir=build/tableau-final-sliced"
             ),
-            "current_attempt_exit_code": -18,
-            "current_attempt_exit_code_windows": 4294967278,
-            "current_attempt_diagnostic": (
-                "retraction_distances_when_cut: 0 not in range "
-                "[10.000000,18.000000]"
-            ),
-            "current_attempt_log": "build/tableau-final-slice.log",
-            "current_attempt_gcode_files_produced": 0,
-            "current_attempt_cli_version": (
+            "prior_orca_slicer_exit_code": -18,
+            "prior_orca_slicer_exit_code_windows": 4294967278,
+            "prior_orca_slicer_log": "build/tableau-final-slice.log",
+            "prior_orca_slicer_cli_version": (
                 "unreported; --version is not supported by this executable"
             ),
-            "prior_attempts_artifact": str(
-                PREVIOUS_OUTPUT.relative_to(ROOT)
-            ).replace("\\", "/"),
-            "prior_attempts_status": "failed; no G-code produced",
             "orca_slicer_version": "2.0.0.0",
             "orca_slicer_exit_code": -18,
             "orca_slicer_diagnostic": (
@@ -2571,12 +3646,12 @@ def main():
         ).tolist(),
         "slider_size_mm": long_slot_revision["target_size_mm"],
         "slider_extension_down_mm": SLIDER_EXTENSION_DOWN_MM,
-        "window5_to6_ramp_aperture_mm": (
-            transition_ramp_revision[
-                "target_front_face_transfer_aperture_mm"
-            ]
+        "window5_to6_ramp_run_mm": (
+            transition_ramp_revision["target_ramp_run_mm"]
         ),
-        "window5_to6_ramp_checks_passed": transition_ramp_checks["passed"],
+        "window5_to6_ramp_geometry_passed": (
+            transition_ramp_checks["geometry_passed"]
+        ),
         "lower_right_cube_translation_mm": [
             LOWER_RIGHT_TRACK_SHIFT_X_MM, 0.0
         ],

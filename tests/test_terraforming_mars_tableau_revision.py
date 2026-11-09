@@ -5,6 +5,7 @@ import zipfile
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
+import cv2
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
@@ -41,17 +42,98 @@ class TableauRevisionTests(unittest.TestCase):
             if name not in self.source
             or self.source.get(name) != self.output[name]
         }
-        self.assertEqual(
-            changed,
-            set(revision.MESH_IDS) | {
-                "Metadata/project_settings.config",
-                "Metadata/model_settings.config",
-                revision.PRINT_METADATA_ENTRY,
-            },
-        )
+        required_changes = set(revision.MESH_IDS) | {
+            "3D/3dmodel.model",
+            "Metadata/project_settings.config",
+            "Metadata/model_settings.config",
+            revision.PRINT_METADATA_ENTRY,
+        }
+        expected_changes = required_changes | {
+            path for path in revision.FRONT_PLATE_PREVIEWS
+            if self.source[path] != self.output[path]
+        }
+        self.assertEqual(changed, expected_changes)
+        for path in revision.FRONT_PLATE_PREVIEWS:
+            source_image = cv2.imdecode(
+                np.frombuffer(self.source[path], dtype=np.uint8),
+                cv2.IMREAD_UNCHANGED,
+            )
+            output_image = cv2.imdecode(
+                np.frombuffer(self.output[path], dtype=np.uint8),
+                cv2.IMREAD_UNCHANGED,
+            )
+            np.testing.assert_array_equal(
+                output_image, cv2.rotate(source_image, cv2.ROTATE_180)
+            )
         self.assertIsNone(self.previous_crc_error)
         self.assertTrue(
             self.report["filament_scope_checks_passed"]
+        )
+
+    def test_only_front_panels_receive_an_in_place_z_rotation(self):
+        source_scene = ET.fromstring(self.source["3D/3dmodel.model"])
+        output_scene = ET.fromstring(self.output["3D/3dmodel.model"])
+
+        def items_by_id(scene):
+            return {
+                item.get("objectid"): item
+                for item in scene.findall("./m:build/m:item", revision.NS)
+            }
+
+        def item_mesh_path(scene, item):
+            assembly = scene.find(
+                f"./m:resources/m:object[@id='{item.get('objectid')}']",
+                revision.NS,
+            )
+            component = assembly.find(
+                "./m:components/m:component", revision.NS
+            )
+            return component.get(f"{{{revision.PROD}}}path").lstrip("/")
+
+        source_items = items_by_id(source_scene)
+        output_items = items_by_id(output_scene)
+        self.assertEqual(list(source_items), list(output_items))
+        target_ids = []
+        expected_delta = np.diag([-1.0, -1.0, 1.0])
+        for object_id, source_item in source_items.items():
+            output_item = output_items[object_id]
+            path = item_mesh_path(source_scene, source_item)
+            if path in revision.FRONT_PATHS:
+                target_ids.append(object_id)
+                source_rotation, source_translation = (
+                    revision.parse_3mf_transform(source_item.get("transform"))
+                )
+                output_rotation, output_translation = (
+                    revision.parse_3mf_transform(output_item.get("transform"))
+                )
+                np.testing.assert_allclose(
+                    output_rotation, expected_delta @ source_rotation,
+                    atol=1e-10, rtol=0,
+                )
+                np.testing.assert_allclose(
+                    output_translation, source_translation,
+                    atol=revision.TOL, rtol=0,
+                )
+                self.assertAlmostEqual(
+                    output_rotation[2, 2], 1.0, places=10
+                )
+            else:
+                self.assertEqual(
+                    output_item.get("transform"),
+                    source_item.get("transform"),
+                )
+        self.assertEqual(target_ids, ["2", "6"])
+        report = self.report["plate_layout"]
+        self.assertTrue(report["build_item_ids_and_plate_order_preserved"])
+        self.assertTrue(report["rear_part_transform_unchanged"])
+        self.assertTrue(report["in_plane_rotation_preserves_bed_contact"])
+        self.assertEqual(
+            report["front_plate_preview_images_rotated"],
+            list(revision.FRONT_PLATE_PREVIEWS),
+        )
+        self.assertEqual(
+            [item["plate_index"] for item in report["front_part_rotations"]],
+            [1, 3],
         )
 
     def test_transparent_filament_settings_are_isolated_to_slot_four(self):
@@ -69,14 +151,35 @@ class TableauRevisionTests(unittest.TestCase):
                 and len(value) == 4
             ):
                 self.assertEqual(settings[key][:3], value[:3], key)
+                if key in (
+                    "cool_plate_temp",
+                    "cool_plate_temp_initial_layer",
+                ):
+                    self.assertEqual(settings[key][slot], "55", key)
+            elif key == "curr_bed_type":
+                self.assertEqual(settings[key], "Cool Plate")
             elif key == "different_settings_to_system":
                 expected = value[:]
                 process_overrides = expected[0].split(";")
-                if "top_shell_layers" not in process_overrides:
-                    process_overrides.append("top_shell_layers")
+                for setting in (
+                    "top_shell_layers",
+                    "top_shell_thickness",
+                    "infill_direction",
+                    "solid_infill_direction",
+                    "initial_layer_speed",
+                ):
+                    if setting not in process_overrides:
+                        process_overrides.append(setting)
                 expected[0] = ";".join(process_overrides)
+                machine_overrides = list(
+                    filter(None, expected[1].split(";"))
+                )
+                if "curr_bed_type" not in machine_overrides:
+                    machine_overrides.append("curr_bed_type")
+                expected[1] = ";".join(machine_overrides)
                 expected[revision.TRANSPARENT_FILAMENT_SLOT + 1] = (
-                    "filament_settings_id;nozzle_temperature;"
+                    "filament_settings_id;cool_plate_temp;"
+                    "cool_plate_temp_initial_layer;nozzle_temperature;"
                     "nozzle_temperature_BRASS;"
                     "nozzle_temperature_initial_layer;"
                     "nozzle_temperature_initial_layer_BRASS;fan_min_speed;"
@@ -95,6 +198,10 @@ class TableauRevisionTests(unittest.TestCase):
         self.assertEqual(settings["nozzle_temperature"][slot], "220")
         self.assertEqual(
             settings["nozzle_temperature_initial_layer"][slot], "220"
+        )
+        self.assertEqual(settings["cool_plate_temp"][slot], "55")
+        self.assertEqual(
+            settings["cool_plate_temp_initial_layer"][slot], "55"
         )
         self.assertLessEqual(
             float(settings["nozzle_temperature_range_low"][slot]), 220
@@ -128,10 +235,12 @@ class TableauRevisionTests(unittest.TestCase):
             "layer_height", "outer_wall_speed", "inner_wall_speed",
             "solid_infill_speed", "internal_solid_infill_speed",
             "sparse_infill_speed", "gap_infill_speed", "top_surface_speed",
+            "initial_layer_speed",
         ):
             self.assertEqual(transparent[key], "0.1" if key == "layer_height" else "20")
         self.assertEqual(transparent["wall_loops"], "2")
-        self.assertEqual(transparent["top_shell_layers"], "1")
+        self.assertEqual(transparent["top_shell_layers"], "2")
+        self.assertEqual(transparent["top_shell_thickness"], "0.2")
         self.assertEqual(transparent["bottom_shell_layers"], "0")
         self.assertEqual(transparent["ironing_type"], "top")
         self.assertEqual(transparent["sparse_infill_density"], "100%")
@@ -140,10 +249,45 @@ class TableauRevisionTests(unittest.TestCase):
             "top_surface_pattern", "bottom_surface_pattern",
         ):
             self.assertEqual(transparent[key], "alignedrectilinear")
-        self.assertEqual(transparent["infill_direction"], "0")
-        self.assertEqual(transparent["solid_infill_direction"], "0")
+        self.assertEqual(transparent["infill_direction"], "90")
+        self.assertEqual(transparent["solid_infill_direction"], "90")
         self.assertEqual(transparent["sparse_infill_rotate_template"], "0")
         self.assertEqual(transparent["solid_infill_rotate_template"], "0")
+        self.assertEqual(
+            self.report["requested_revision"]["transparent_filament_settings"][
+                "bed_type"
+            ],
+            "Cool Plate",
+        )
+        self.assertEqual(
+            self.report["requested_revision"]["transparent_filament_settings"][
+                "cool_plate_temperature_c"
+            ],
+            "55",
+        )
+        self.assertEqual(
+            self.report["requested_revision"]["transparent_filament_settings"][
+                "cool_plate_first_layer_temperature_c"
+            ],
+            "55",
+        )
+        self.assertEqual(
+            self.report["requested_revision"]["transparent_filament_settings"][
+                "first_layer_speed_mm_s"
+            ],
+            "20",
+        )
+        self.assertEqual(
+            self.report["requested_revision"]["transparent_filament_settings"][
+                "first_layer_solid_infill_speed_mm_s"
+            ],
+            "60",
+        )
+        self.assertFalse(
+            self.report["requested_revision"]["transparent_filament_settings"][
+                "first_layer_solid_infill_applies"
+            ]
+        )
 
     def test_print_metadata_marks_unsliced_totals_unknown(self):
         root = ET.fromstring(self.output[revision.PRINT_METADATA_ENTRY])
@@ -232,9 +376,59 @@ class TableauRevisionTests(unittest.TestCase):
         self.assertEqual(
             grid["unrelated_cutouts"]["unrelated_cutout_count"], 0
         )
+        reliefs = grid["local_reliefs"]
+        window = reliefs["small_window"]
+        np.testing.assert_allclose(
+            window["bounds_mm"],
+            [[-100.176, 3.425], [-81.928, 17.035]],
+            atol=0.001,
+            rtol=0,
+        )
+        np.testing.assert_allclose(
+            window["size_mm"], [18.248, 13.61],
+            atol=0.001, rtol=0,
+        )
+        self.assertTrue(window["inner_area_solid"])
+        web = reliefs["small_window_web"]
+        self.assertAlmostEqual(
+            web["rear_layer_thickness_mm"],
+            revision.SMALL_WEB_THICKNESS_MM,
+        )
+        self.assertAlmostEqual(web["height_mm"], revision.OPENING_WIDTH)
+        self.assertGreater(web["width_mm"], 1.0)
+        self.assertLess(web["recessed_front_probe_volume_mm3"], 1e-7)
+        arrows = reliefs["end_slots"]
+        self.assertEqual(len(arrows), 6)
+        self.assertTrue(reliefs["rear_face_flush_and_front_recess_passed"])
+        self.assertTrue(reliefs["cube_fit_and_overrun_support_passed"])
+        for arrow in arrows:
+            self.assertAlmostEqual(
+                arrow["back_layer_thickness_mm"], 1.0, places=6
+            )
+            self.assertAlmostEqual(
+                arrow["front_recess_depth_mm"], 1.5, places=6
+            )
+            self.assertLess(arrow["cube_interference_volume_mm3"], 1e-6)
+            self.assertGreater(arrow["overrun_cube_contact_area_mm2"], 0.0)
         windows = grid["resource_windows"]
         self.assertEqual(len(windows["targets"]), 6)
         self.assertEqual(len(windows["exported_section_checks"]), 12)
+        targets = windows["targets"]
+        self.assertAlmostEqual(
+            targets[0]["size_mm"][0], revision.UPPER_LEFT_WINDOW_WIDTH_MM,
+            places=5,
+        )
+        self.assertGreaterEqual(targets[3]["size_mm"][0], 69.0)
+        self.assertGreaterEqual(
+            targets[5]["size_mm"][0],
+            revision.LOWER_RIGHT_WINDOW_MIN_WIDTH_MM,
+        )
+        for target in targets:
+            self.assertAlmostEqual(
+                target["size_mm"][1],
+                revision.RESOURCE_WINDOW_HEIGHT_MM,
+                places=5,
+            )
         self.assertEqual(
             windows["photo_calibration"]["pixels_per_mm"],
             revision.PHOTO_PX_PER_MM,
@@ -247,6 +441,10 @@ class TableauRevisionTests(unittest.TestCase):
             grid["layout_clearances"]["minimum_window_to_cube_clearance_mm"],
             0.8,
         )
+        self.assertGreaterEqual(
+            grid["layout_clearances"]["minimum_window_to_window_web_mm"],
+            0.8,
+        )
         slider = grid["pitch_and_web"]["horizontal_slot"]
         np.testing.assert_allclose(
             slider["target_center_mm"], revision.FOLLOWUP_SLIDER_CENTER_MM,
@@ -256,9 +454,11 @@ class TableauRevisionTests(unittest.TestCase):
             grid["pitch_and_web"]["slider_clearance"]["minimum_clearance_mm"],
             revision.MIN_SLOT_CLEARANCE,
         )
-        self.assertAlmostEqual(
-            grid["adjacent_cutout"]["translation_mm"][0], -3.95
+        self.assertEqual(
+            grid["adjacent_cutout"]["translation_after_prior_alignment_mm"],
+            [2.0, 0.0],
         )
+        self.assertEqual(grid["adjacent_cutout"]["left_trim_mm"], 6.0)
         row_registration = grid["pitch_and_web"]["row_registration"]
         self.assertEqual(len(row_registration), 13)
         self.assertLessEqual(
@@ -322,9 +522,15 @@ class TableauRevisionTests(unittest.TestCase):
             revision.MESH_IDS[revision.FRONT_PATHS[0]],
         )
         before_tracks = revision.track_groups(revision.square_holes(before, 0.2))
-        after_tracks = revision.track_groups(revision.square_holes(after, 0.2))
+        after_back_z = float(after.bounds[0, 2]) + 0.05
+        after_centers = np.asarray([
+            center for center, size in revision.section_loops(
+                after, after_back_z
+            )
+            if np.all((size > 8.5) & (size < 8.8))
+        ])
         self.assertEqual(len(before_tracks), 6)
-        self.assertEqual(len(after_tracks), 6)
+        self.assertEqual(len(after_centers), 65)
         expected_translations = {
             0: -1.0,
             1: 0.0,
@@ -333,23 +539,24 @@ class TableauRevisionTests(unittest.TestCase):
             4: 0.0,
             5: 0.5,
         }
-        for track_index, (before_track, after_track) in enumerate(
-            zip(before_tracks, after_tracks)
-        ):
+        for track_index, before_track in enumerate(before_tracks):
             before_rows = sorted(np.unique(np.round(before_track[:, 1], 6)))
-            after_rows = sorted(np.unique(np.round(after_track[:, 1], 6)))
-            np.testing.assert_allclose(before_rows, after_rows, atol=1e-6)
             expected_dx = expected_translations[track_index]
             for y in before_rows:
                 before_row = before_track[
                     np.abs(before_track[:, 1] - y) < 0.02
                 ]
-                after_row = after_track[
-                    np.abs(after_track[:, 1] - y) < 0.02
-                ]
                 before_row = before_row[np.argsort(before_row[:, 0])]
-                after_row = after_row[np.argsort(after_row[:, 0])]
-                self.assertEqual(len(before_row), len(after_row))
+                expected_row = before_row + [expected_dx, 0.0]
+                after_row = []
+                for expected_center in expected_row:
+                    distances = np.linalg.norm(
+                        after_centers - expected_center, axis=1
+                    )
+                    match = int(np.argmin(distances))
+                    self.assertLess(distances[match], revision.TOL)
+                    after_row.append(after_centers[match])
+                after_row = np.asarray(after_row)
                 np.testing.assert_allclose(
                     after_row - before_row,
                     np.tile([expected_dx, 0.0], (len(before_row), 1)),
@@ -369,15 +576,46 @@ class TableauRevisionTests(unittest.TestCase):
         )
         expected_overrides = prior_project["different_settings_to_system"][:]
         process_overrides = expected_overrides[0].split(";")
-        if "top_shell_layers" not in process_overrides:
-            process_overrides.append("top_shell_layers")
+        for setting in (
+            "top_shell_layers",
+            "top_shell_thickness",
+            "infill_direction",
+            "solid_infill_direction",
+            "initial_layer_speed",
+        ):
+            if setting not in process_overrides:
+                process_overrides.append(setting)
         expected_overrides[0] = ";".join(process_overrides)
+        machine_overrides = list(
+            filter(None, expected_overrides[1].split(";"))
+        )
+        if "curr_bed_type" not in machine_overrides:
+            machine_overrides.append("curr_bed_type")
+        expected_overrides[1] = ";".join(machine_overrides)
+        expected_overrides[revision.TRANSPARENT_FILAMENT_SLOT + 1] = (
+            "filament_settings_id;cool_plate_temp;"
+            "cool_plate_temp_initial_layer;nozzle_temperature;"
+            "nozzle_temperature_BRASS;nozzle_temperature_initial_layer;"
+            "nozzle_temperature_initial_layer_BRASS;fan_min_speed;"
+            "fan_min_speed_BRASS;fan_min_speed_HS;fan_max_speed;"
+            "fan_max_speed_BRASS;fan_max_speed_HS;fan_speed_after_x_layers;"
+            "additional_cooling_fan_speed"
+        )
         self.assertEqual(
             output_project["different_settings_to_system"],
             expected_overrides,
         )
         for key in prior_project.keys() - {"different_settings_to_system"}:
-            self.assertEqual(output_project[key], prior_project[key], key)
+            if key == "curr_bed_type":
+                self.assertEqual(output_project[key], "Cool Plate")
+            elif key in ("cool_plate_temp", "cool_plate_temp_initial_layer"):
+                expected_temperatures = prior_project[key][:]
+                expected_temperatures[
+                    revision.TRANSPARENT_FILAMENT_SLOT - 1
+                ] = "55"
+                self.assertEqual(output_project[key], expected_temperatures)
+            else:
+                self.assertEqual(output_project[key], prior_project[key], key)
 
         prior_model = ET.fromstring(
             self.previous["Metadata/model_settings.config"]
@@ -399,7 +637,14 @@ class TableauRevisionTests(unittest.TestCase):
             )
         front_before = ET.fromstring(ET.tostring(prior_objects["6"]))
         front_after = ET.fromstring(ET.tostring(output_objects["6"]))
-        approved_surface_keys = {"top_shell_layers", "ironing_type"}
+        approved_surface_keys = {
+            "top_shell_layers",
+            "top_shell_thickness",
+            "ironing_type",
+            "infill_direction",
+            "solid_infill_direction",
+            "initial_layer_speed",
+        }
         for root in (front_before, front_after):
             for metadata in list(root.findall("metadata")):
                 if metadata.get("key") in approved_surface_keys:
@@ -409,25 +654,72 @@ class TableauRevisionTests(unittest.TestCase):
         before_windows = revision.resource_window_loops(before, 0.0)
         after_window_z = float(after.bounds[0, 2]) + 0.05
         after_windows = revision.resource_window_loops(after, after_window_z)
-        for index, (old_window, new_window) in enumerate(
-            zip(before_windows, after_windows)
+        self.assertEqual(len(before_windows), 6)
+        self.assertEqual(len(after_windows), 6)
+        for actual, expected in zip(
+            after_windows, revision.target_window_specs()
         ):
-            if index != 4:
-                np.testing.assert_allclose(old_window[0], new_window[0],
-                                           atol=revision.TOL, rtol=0)
-                np.testing.assert_allclose(old_window[1], new_window[1],
-                                           atol=revision.TOL, rtol=0)
+            np.testing.assert_allclose(
+                actual[0], expected["center_mm"],
+                atol=revision.TOL, rtol=0,
+            )
+            np.testing.assert_allclose(
+                actual[1], expected["size_mm"],
+                atol=revision.TOL, rtol=0,
+            )
         ramp = self.report["followup_adjustments"]["window5_to6_transition"]
         ramp_checks = ramp["exported_cube_probe_checks"]
-        self.assertTrue(ramp_checks["passed"])
-        self.assertLess(
-            ramp_checks["top_face_cube_probe_intersection_mm3"], 1e-5
-        )
+        self.assertTrue(ramp_checks["geometry_passed"])
         self.assertEqual(
-            ramp["target_front_face_transfer_aperture_mm"],
+            ramp["ramp_y_bounds_mm"], ramp["overlap_y_bounds_mm"]
+        )
+        self.assertAlmostEqual(
+            ramp["ramp_span_y_mm"],
+            ramp["overlap_y_bounds_mm"][1] - ramp["overlap_y_bounds_mm"][0],
+        )
+        self.assertAlmostEqual(
+            ramp["ramp_cross_slope_width_mm"],
+            revision.TRANSITION_RAMP_RUN_MM,
+        )
+        self.assertAlmostEqual(ramp["slope_run_x_mm"], 8.64, places=3)
+        self.assertAlmostEqual(ramp["ramp_depth_z_mm"], 2.5, places=3)
+        self.assertGreater(
+            ramp["window5_opening_after_ramp_mm"],
             revision.OPENING_WIDTH,
         )
-        self.assertEqual(len(after_windows), 6)
+        self.assertEqual(ramp["window6_opening_width_preserved_mm"], 69.0)
+        self.assertGreater(
+            ramp["slope_run_x_mm"], ramp["reference_web_4_to5_mm"]
+        )
+        self.assertAlmostEqual(
+            ramp["ramp_angle_from_front_face_deg"], 16.14, places=1
+        )
+        self.assertTrue(ramp["slope_rises_with_increasing_model_x"])
+        self.assertFalse(ramp["physical_view_x_reversed_from_model"])
+        self.assertTrue(ramp_checks["ramp_direction_matches_printed_left_to_right"])
+        self.assertTrue(ramp_checks["cube_sweep_is_continuous"])
+        self.assertTrue(ramp_checks["cube_sweep_clearance_passed"])
+        self.assertEqual(
+            ramp_checks["continuous_cube_sweep_max_intersection_mm3"], 0.0
+        )
+        self.assertTrue(all(
+            abs(actual - ramp_checks["ramp_material_probe_volume_mm3"]) < 1e-5
+            for actual in
+            ramp_checks["ramp_material_probe_below_intersection_mm3"]
+        ))
+        self.assertEqual(len(ramp_checks["ramp_material_probe_x_fractions"]), 11)
+        self.assertEqual(len(ramp_checks["solid_material_probe_y_levels_mm"]), 3)
+        self.assertEqual(
+            len(ramp_checks["ramp_material_probe_below_intersection_mm3"]), 33
+        )
+        self.assertEqual(
+            len(ramp_checks["ramp_material_probe_above_intersection_mm3"]), 33
+        )
+        self.assertTrue(ramp_checks["solid_material_confirmed_along_slope"])
+        self.assertTrue(ramp_checks["empty_space_confirmed_above_slope"])
+        self.assertEqual(len(ramp_checks["cube_sweep_y_positions"]), 3)
+        self.assertEqual(len(ramp_checks["cube_sweep_normal_clearances"]), 3)
+        self.assertFalse(ramp_checks["physical_cube_transfer_tested"])
 
         before_slider = revision.long_horizontal_slot(
             before, 0.0, revision.PREVIOUS_LONG_SLOT_HEIGHT

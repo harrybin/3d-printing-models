@@ -1,0 +1,130 @@
+{
+  "photo_path": "C:\\Users\\HaraldBinkle\\.copilot\\attachments\\9e3e0dcc-a6f5-4420-8331-329905655e83-50311a47-7af3-4f29-ad3d-a584c8cecfa1-clipboard.png",
+  "photo_dimensions_px": [
+    1608,
+    905
+  ],
+  "output_3mf": "models/terraforming-mars-tableau-179mm-kurz2mm-raster.3mf",
+  "output_3mf_sha256": "aefc780401f4779103076e3c824ad546e4238c10f42a7215d395b8597d559626",
+  "section_z_mm": -0.31104648113150013,
+  "exported_section_contours": 80,
+  "calibration": {
+    "method": "one four-corner perspective transform",
+    "model_corners_mm": [
+      [
+        -120.2005844116211,
+        89.5
+      ],
+      [
+        120.2005844116211,
+        89.5
+      ],
+      [
+        120.2005844116211,
+        -89.5
+      ],
+      [
+        -120.2005844116211,
+        -89.5
+      ]
+    ],
+    "photo_corners_px": [
+      [
+        181.0,
+        64.0
+      ],
+      [
+        1308.0,
+        72.0
+      ],
+      [
+        1298.0,
+        853.0
+      ],
+      [
+        186.0,
+        866.0
+      ]
+    ],
+    "basis": "original untrimmed model boundary, not the shortened output edge"
+  },
+  "anchor_residuals_px": [
+    {
+      "name": "lower-left zero",
+      "predicted_pixel": [
+        279.07720947265625,
+        496.5517272949219
+      ],
+      "observed_pixel_approx": [
+        273.0,
+        542.0
+      ],
+      "residual_px": 45.8527858134017
+    },
+    {
+      "name": "lower-middle zero",
+      "predicted_pixel": [
+        604.8868408203125,
+        495.560791015625
+      ],
+      "observed_pixel_approx": [
+        625.0,
+        542.0
+      ],
+      "residual_px": 50.607700039439685
+    },
+    {
+      "name": "lower-right zero",
+      "predicted_pixel": [
+        911.900146484375,
+        494.62701416015625
+      ],
+      "observed_pixel_approx": [
+        960.0,
+        542.0
+      ],
+      "residual_px": 67.51144862618946
+    },
+    {
+      "name": "upper-left -5",
+      "predicted_pixel": [
+        406.7843933105469,
+        339.91302490234375
+      ],
+      "observed_pixel_approx": [
+        405.0,
+        363.0
+      ],
+      "residual_px": 23.155830338092482
+    },
+    {
+      "name": "upper-middle zero",
+      "predicted_pixel": [
+        654.7734985351562,
+        340.0713195800781
+      ],
+      "observed_pixel_approx": [
+        675.0,
+        366.0
+      ],
+      "residual_px": 32.88476592323209
+    },
+    {
+      "name": "upper-right zero",
+      "predicted_pixel": [
+        933.675048828125,
+        340.24932861328125
+      ],
+      "observed_pixel_approx": [
+        983.0,
+        366.0
+      ],
+      "residual_px": 55.64214126877783
+    }
+  ],
+  "photo_limitations": "The ruler covers part of the lower rows. Pixel edge locations are approximate. The large residuals indicate the perimeter transform does not reconcile all user-provided field anchors with this photo; this overlay is not a successful fit validation.",
+  "closeups": [
+    "docs/images/terraforming-mars-tableau-179mm-kurz2mm-raster-upper-row-closeup.png",
+    "docs/images/terraforming-mars-tableau-179mm-kurz2mm-raster-lower-row-closeup.png"
+  ]
+}

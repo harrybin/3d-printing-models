@@ -1,0 +1,5515 @@
+{
+  "source": "models/terraforming-mars-tableau-179mm-loch1-zapfen3.3mf",
+  "source_sha256": "bbe777436d9af56f55875cf00df18dbfee49e5a0531c94c98a5895ab76892f37",
+  "output": "models/terraforming-mars-tableau-179mm-laminate-aligned.3mf",
+  "output_sha256": "88d616d73e2c2b5c1c0f542c9d01f07faf83b7bdb28b237918b928aa140f7abd",
+  "requested_revision": {
+    "long_dimension_before_mm": 240.401162,
+    "long_dimension_after_mm": 238.401162,
+    "short_dimension_mm": 179.0,
+    "front_thickness_mm": 2.5,
+    "cube_edge_mm": 8.5,
+    "laminate_left_edge_model_x_mm": -113.5,
+    "cube_anchor_edge_offsets_x_mm": [
+      20.0,
+      89.0,
+      155.0,
+      47.0,
+      99.6,
+      159.5
+    ],
+    "cube_anchor_edge_offsets_y_mm": [
+      96.0,
+      96.0,
+      96.0,
+      61.0,
+      61.0,
+      61.0
+    ],
+    "laminated_insert_outer_size_mm": [
+      227.0,
+      168.0
+    ],
+    "frame_margin_each_side_mm": [
+      5.700581,
+      5.5
+    ]
+  },
+  "laminate_registration": {
+    "outer_size_mm": [
+      227.0,
+      168.0
+    ],
+    "source": "User measurement including transparent sealed edge",
+    "paper_edge_model_coordinates_mm": {
+      "left_x": -113.5,
+      "top_y": 84.0
+    },
+    "frame_margin_each_side_mm": [
+      5.700581,
+      5.5
+    ],
+    "socket_clearances_to_laminate_edges_mm": {
+      "long_side_mm": 1.182556500000004,
+      "short_side_mm": 0.9819751999999937
+    },
+    "pin_clearances_to_laminate_edges_mm": {
+      "long_side_mm": 1.3825565000000068,
+      "short_side_mm": 1.1819751999999966
+    },
+    "z_stack_policy": "Kept identical to the current model per user direction; the physical laminate thickness and assembled compression were not independently measured or tested."
+  },
+  "fit": {
+    "socket_diameter_mm": 3.0,
+    "pin_diameter_mm": 2.6,
+    "socket_depth_mm": 2.0,
+    "blind_floor_mm": 0.5,
+    "pin_projection_mm": 1.6,
+    "axial_clearance_mm": 0.3999999999999999,
+    "sockets": [
+      {
+        "center_mm": [
+          0.0,
+          -86.4819752
+        ],
+        "socket_diameter_mm": [
+          2.999999947413106,
+          2.9999999737076593
+        ],
+        "socket_depth_mm": 2.0,
+        "blind_floor_mm": 0.5
+      },
+      {
+        "center_mm": [
+          0.0,
+          86.4819752
+        ],
+        "socket_diameter_mm": [
+          2.999999947413106,
+          2.9999999737076593
+        ],
+        "socket_depth_mm": 2.0,
+        "blind_floor_mm": 0.5
+      },
+      {
+        "center_mm": [
+          -116.1825565,
+          -86.4819752
+        ],
+        "socket_diameter_mm": [
+          2.9999999474153185,
+          2.9999999474153185
+        ],
+        "socket_depth_mm": 2.0,
+        "blind_floor_mm": 0.5
+      },
+      {
+        "center_mm": [
+          -116.1825565,
+          0.0
+        ],
+        "socket_diameter_mm": [
+          2.9999999737076593,
+          2.9999999474125536
+        ],
+        "socket_depth_mm": 2.0,
+        "blind_floor_mm": 0.5
+      },
+      {
+        "center_mm": [
+          -116.1825565,
+          86.4819752
+        ],
+        "socket_diameter_mm": [
+          2.9999999474153185,
+          2.9999999474153185
+        ],
+        "socket_depth_mm": 2.0,
+        "blind_floor_mm": 0.5
+      },
+      {
+        "center_mm": [
+          116.1825565,
+          -86.4819752
+        ],
+        "socket_diameter_mm": [
+          2.9999999474153185,
+          2.9999999474153185
+        ],
+        "socket_depth_mm": 2.0,
+        "blind_floor_mm": 0.5
+      },
+      {
+        "center_mm": [
+          116.1825565,
+          0.0
+        ],
+        "socket_diameter_mm": [
+          2.9999999737076593,
+          2.9999999474125536
+        ],
+        "socket_depth_mm": 2.0,
+        "blind_floor_mm": 0.5
+      },
+      {
+        "center_mm": [
+          116.1825565,
+          86.4819752
+        ],
+        "socket_diameter_mm": [
+          2.9999999474153185,
+          2.9999999474153185
+        ],
+        "socket_depth_mm": 2.0,
+        "blind_floor_mm": 0.5
+      }
+    ],
+    "pins": [
+      {
+        "center_mm": [
+          0.0,
+          -86.4819752
+        ],
+        "shaft_diameter_mm": [
+          2.600000817725719,
+          2.6000060629254875
+        ],
+        "projection_mm": 1.6
+      },
+      {
+        "center_mm": [
+          0.0,
+          86.4819752
+        ],
+        "shaft_diameter_mm": [
+          2.600000817725719,
+          2.6000060629254875
+        ],
+        "projection_mm": 1.6
+      },
+      {
+        "center_mm": [
+          -116.1825565,
+          -86.4819752
+        ],
+        "shaft_diameter_mm": [
+          2.5999984334254975,
+          2.6000060629254875
+        ],
+        "projection_mm": 1.6
+      },
+      {
+        "center_mm": [
+          -116.1825565,
+          0.0
+        ],
+        "shaft_diameter_mm": [
+          2.6000060624185153,
+          2.5999984335451725
+        ],
+        "projection_mm": 1.6
+      },
+      {
+        "center_mm": [
+          -116.1825565,
+          86.4819752
+        ],
+        "shaft_diameter_mm": [
+          2.5999984334254975,
+          2.6000060629254875
+        ],
+        "projection_mm": 1.6
+      },
+      {
+        "center_mm": [
+          116.1825565,
+          -86.4819752
+        ],
+        "shaft_diameter_mm": [
+          2.5999984334254975,
+          2.6000060629254875
+        ],
+        "projection_mm": 1.6
+      },
+      {
+        "center_mm": [
+          116.1825565,
+          0.0
+        ],
+        "shaft_diameter_mm": [
+          2.5999984334254975,
+          2.6000003408848453
+        ],
+        "projection_mm": 1.6
+      },
+      {
+        "center_mm": [
+          116.1825565,
+          86.4819752
+        ],
+        "shaft_diameter_mm": [
+          2.5999984334254975,
+          2.6000060629254875
+        ],
+        "projection_mm": 1.6
+      }
+    ],
+    "insertion_sweep": [
+      {
+        "separation_mm": 1.7000000000000002,
+        "intersection_mm3": 0.0
+      },
+      {
+        "separation_mm": 1.4875000000000003,
+        "intersection_mm3": 0.0
+      },
+      {
+        "separation_mm": 1.2750000000000001,
+        "intersection_mm3": 0.0
+      },
+      {
+        "separation_mm": 1.0625,
+        "intersection_mm3": 0.0
+      },
+      {
+        "separation_mm": 0.8500000000000001,
+        "intersection_mm3": 0.0
+      },
+      {
+        "separation_mm": 0.6375000000000002,
+        "intersection_mm3": 0.0
+      },
+      {
+        "separation_mm": 0.42500000000000004,
+        "intersection_mm3": 0.0
+      },
+      {
+        "separation_mm": 0.2124999999999999,
+        "intersection_mm3": 0.0
+      },
+      {
+        "separation_mm": 0.0,
+        "intersection_mm3": 0.0
+      }
+    ]
+  },
+  "cube_grid": {
+    "anchors": [
+      {
+        "name": "lower-left zero",
+        "offset_x": 20.0,
+        "row_y": -17.33,
+        "top_distance": 96.0,
+        "side": "left",
+        "opening_count": 10,
+        "first_opening_center_x_mm": -90.89534759520001,
+        "target_center_x_mm": -89.25,
+        "x_error_mm": -1.6453475952000076,
+        "top_row_center_y_mm": -15.91999959945,
+        "target_center_y_mm": -15.92,
+        "y_error_mm": 4.005500002790541e-07,
+        "aperture_width_mm": 8.64,
+        "cube_edge_mm": 8.5,
+        "diametral_clearance_mm": 0.14000000000000057
+      },
+      {
+        "name": "lower-middle zero",
+        "offset_x": 89.0,
+        "row_y": -17.33,
+        "top_distance": 96.0,
+        "side": "middle",
+        "opening_count": 10,
+        "first_opening_center_x_mm": -21.8953485489,
+        "target_center_x_mm": -20.25,
+        "x_error_mm": -1.6453485488999995,
+        "top_row_center_y_mm": -15.91999959945,
+        "target_center_y_mm": -15.92,
+        "y_error_mm": 4.005500002790541e-07,
+        "aperture_width_mm": 8.64,
+        "cube_edge_mm": 8.5,
+        "diametral_clearance_mm": 0.14000000000000057
+      },
+      {
+        "name": "lower-right zero",
+        "offset_x": 155.0,
+        "row_y": -17.33,
+        "top_distance": 96.0,
+        "side": "right",
+        "opening_count": 10,
+        "first_opening_center_x_mm": 44.10465049745,
+        "target_center_x_mm": 45.75,
+        "x_error_mm": -1.6453495025499976,
+        "top_row_center_y_mm": -15.91999959945,
+        "target_center_y_mm": -15.92,
+        "y_error_mm": 4.005500002790541e-07,
+        "aperture_width_mm": 8.64,
+        "cube_edge_mm": 8.5,
+        "diametral_clearance_mm": 0.14000000000000057
+      },
+      {
+        "name": "upper-left -5",
+        "offset_x": 47.0,
+        "row_y": 18.99,
+        "top_distance": 61.0,
+        "side": "left",
+        "opening_count": 15,
+        "first_opening_center_x_mm": -63.566282272349994,
+        "target_center_x_mm": -62.25,
+        "x_error_mm": -1.3162822723499943,
+        "top_row_center_y_mm": 19.40999937055,
+        "target_center_y_mm": 19.41,
+        "y_error_mm": -6.294499996783998e-07,
+        "aperture_width_mm": 8.64,
+        "cube_edge_mm": 8.5,
+        "diametral_clearance_mm": 0.14000000000000057
+      },
+      {
+        "name": "upper-middle zero",
+        "offset_x": 99.6,
+        "row_y": 18.26,
+        "top_distance": 61.0,
+        "side": "middle",
+        "opening_count": 10,
+        "first_opening_center_x_mm": -11.295348882665,
+        "target_center_x_mm": -9.650000000000006,
+        "x_error_mm": -1.6453488826649938,
+        "top_row_center_y_mm": 19.0799999237,
+        "target_center_y_mm": 19.08,
+        "y_error_mm": -7.629999743130611e-08,
+        "aperture_width_mm": 8.64,
+        "cube_edge_mm": 8.5,
+        "diametral_clearance_mm": 0.14000000000000057
+      },
+      {
+        "name": "upper-right zero",
+        "offset_x": 159.5,
+        "row_y": 18.26,
+        "top_distance": 61.0,
+        "side": "right",
+        "opening_count": 10,
+        "first_opening_center_x_mm": 48.60465049745,
+        "target_center_x_mm": 50.25,
+        "x_error_mm": -1.6453495025499976,
+        "top_row_center_y_mm": 19.0799999237,
+        "target_center_y_mm": 19.08,
+        "y_error_mm": -7.629999743130611e-08,
+        "aperture_width_mm": 8.64,
+        "cube_edge_mm": 8.5,
+        "diametral_clearance_mm": 0.14000000000000057
+      }
+    ],
+    "unrelated_cutouts": {
+      "unchanged": true,
+      "unrelated_cutout_count": 0
+    },
+    "adjacent_cutout": {
+      "source_center_mm": [
+        -92.10174435,
+        10.23005805
+      ],
+      "target_center_mm": [
+        -96.05174435,
+        10.23005805
+      ],
+      "translation_mm": [
+        -3.95,
+        0.0
+      ],
+      "size_mm": [
+        24.2482593,
+        15.610465099999999
+      ]
+    },
+    "pitch_and_web": {
+      "opening_count": 65,
+      "opening_probe_checks": {
+        "openings": 65,
+        "tested_z_levels_mm": [
+          -1.46104648113,
+          -0.3110464811315,
+          0.838953518867
+        ],
+        "inset_probe_mm": 4.2,
+        "edge_probe_offset_mm": 4.34,
+        "separating_web_probe_count": 163,
+        "separating_web_probe_volume_mm3": [
+          0.6520021781936303,
+          0.6520021781936303,
+          0.6520017895701337
+        ]
+      },
+      "cube_track_end_slots": [
+        {
+          "center_mm": [
+            -22.35487156,
+            1.0899999999999999
+          ],
+          "size_mm": [
+            17.7959306,
+            8.6377904
+          ],
+          "track": "upper-left -5",
+          "source_row_y_mm": 0.4683140000000001
+        },
+        {
+          "center_mm": [
+            -40.85487098,
+            -25.0799998
+          ],
+          "size_mm": [
+            17.7959327,
+            8.637791999999997
+          ],
+          "track": "lower-left zero",
+          "source_row_y_mm": -26.5898258
+        },
+        {
+          "center_mm": [
+            94.14512515999999,
+            -25.0799998
+          ],
+          "size_mm": [
+            17.795928900000007,
+            8.637791999999997
+          ],
+          "track": "lower-right zero",
+          "source_row_y_mm": -26.5898258
+        },
+        {
+          "center_mm": [
+            28.145128448399998,
+            -25.0799998
+          ],
+          "size_mm": [
+            17.7959306,
+            8.637791999999997
+          ],
+          "track": "lower-middle zero",
+          "source_row_y_mm": -26.5898258
+        },
+        {
+          "center_mm": [
+            98.64512481,
+            9.919999964999999
+          ],
+          "size_mm": [
+            17.795928200000006,
+            8.63779087
+          ],
+          "track": "upper-right zero",
+          "source_row_y_mm": 9.002034965
+        },
+        {
+          "center_mm": [
+            38.745128566,
+            9.919999964999999
+          ],
+          "size_mm": [
+            17.7959307,
+            8.63779087
+          ],
+          "track": "upper-middle zero",
+          "source_row_y_mm": 9.002034965
+        }
+      ],
+      "row_registration": [
+        {
+          "track_index": 0,
+          "track": "lower-left zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": -17.327616,
+          "print_field_center_y_mm": -16.25,
+          "target_y_mm": -15.92,
+          "vertical_center_error_mm": 0.33000000000000007,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": -93.45465035000001,
+          "target_first_cell_center_x_mm": -89.25,
+          "source_cell_centers_x_mm": [
+            -93.45465035000001,
+            -84.2965116,
+            -75.13837294999999,
+            -65.98023415,
+            -56.82209345,
+            -47.663954700000005
+          ],
+          "target_cell_centers_x_mm": [
+            -89.25,
+            -80.75,
+            -72.25,
+            -63.75,
+            -55.25,
+            -46.75
+          ],
+          "target_square_centers_x_mm": [
+            -89.25,
+            -80.75,
+            -72.25,
+            -63.75,
+            -55.25,
+            -46.75
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": 2.5593028666666675,
+          "dy_mm": 1.407615999999999,
+          "cell_center_errors_mm": [
+            -1.6453474833333388,
+            -0.9872087333333326,
+            -0.32907008333332044,
+            0.3290687166666686,
+            0.9872094166666727,
+            1.6453481666666647
+          ],
+          "max_abs_center_error_mm": 1.6453481666666647,
+          "min_web_mm": 0.5199999999999996,
+          "actual_square_centers_x_mm": [
+            -90.89534759520001,
+            -81.73720550535,
+            -72.57907104489999,
+            -63.42093086245,
+            -54.26279067995,
+            -45.10465240480001
+          ],
+          "actual_cell_center_errors_mm": [
+            -1.6453475952000076,
+            -0.9872055053500048,
+            -0.3290710448999903,
+            0.32906913755000033,
+            0.987209320049999,
+            1.6453475951999934
+          ],
+          "actual_row_center_y_mm": -15.91999959945,
+          "max_abs_actual_center_error_mm": 1.6453475952000076
+        },
+        {
+          "track_index": 0,
+          "track": "lower-left zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": -26.589826,
+          "print_field_center_y_mm": -24.75,
+          "target_y_mm": -25.08,
+          "vertical_center_error_mm": -0.3299999999999983,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": -84.2965116,
+          "target_first_cell_center_x_mm": -80.75,
+          "source_cell_centers_x_mm": [
+            -84.2965116,
+            -75.13837294999999,
+            -65.98023415,
+            -56.82209345,
+            -47.6628497
+          ],
+          "target_cell_centers_x_mm": [
+            -80.75,
+            -72.25,
+            -63.75,
+            -55.25,
+            -46.75
+          ],
+          "target_square_centers_x_mm": [
+            -80.75,
+            -72.25,
+            -63.75,
+            -55.25
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": -47.6628497,
+          "dx_mm": 2.2300123699999985,
+          "dy_mm": 1.5098260000000003,
+          "cell_center_errors_mm": [
+            -1.3164992300000051,
+            -0.658360579999993,
+            -0.00022178000000394604,
+            0.6579189200000002,
+            1.3171626699999948
+          ],
+          "max_abs_center_error_mm": 1.3171626699999948,
+          "min_web_mm": 0.5199999999999996,
+          "actual_square_centers_x_mm": [
+            -82.06649780275,
+            -72.90836334229999,
+            -63.750221252450004,
+            -54.59208106995
+          ],
+          "actual_cell_center_errors_mm": [
+            -1.316497802750007,
+            -0.6583633422999924,
+            -0.0002212524500038171,
+            0.6579189300500019,
+            1.3171618651999992
+          ],
+          "actual_row_center_y_mm": -25.0799999237,
+          "max_abs_actual_center_error_mm": 1.3171618651999992
+        },
+        {
+          "track_index": 1,
+          "track": "lower-middle zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": -17.327616,
+          "print_field_center_y_mm": -16.25,
+          "target_y_mm": -15.92,
+          "vertical_center_error_mm": 0.33000000000000007,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": -21.854651150000002,
+          "target_first_cell_center_x_mm": -20.25,
+          "source_cell_centers_x_mm": [
+            -21.854651150000002,
+            -12.69651194,
+            -3.5383721919999997,
+            5.61976754,
+            14.777907250000002,
+            23.9360465
+          ],
+          "target_cell_centers_x_mm": [
+            -20.25,
+            -11.75,
+            -3.25,
+            5.25,
+            13.75,
+            22.25
+          ],
+          "target_square_centers_x_mm": [
+            -20.25,
+            -11.75,
+            -3.25,
+            5.25,
+            13.75,
+            22.25
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": -0.04069766799999982,
+          "dy_mm": 1.407615999999999,
+          "cell_center_errors_mm": [
+            -1.6453488180000022,
+            -0.9872096080000006,
+            -0.3290698599999997,
+            0.3290698719999998,
+            0.987209582000002,
+            1.6453488319999998
+          ],
+          "max_abs_center_error_mm": 1.6453488319999998,
+          "min_web_mm": 0.5199999999999996,
+          "actual_square_centers_x_mm": [
+            -21.8953485489,
+            -12.73720932007,
+            -3.579069823026,
+            5.579069852829999,
+            14.737209320049999,
+            23.8953485489
+          ],
+          "actual_cell_center_errors_mm": [
+            -1.6453485488999995,
+            -0.9872093200700007,
+            -0.32906982302599985,
+            0.3290698528299991,
+            0.987209320049999,
+            1.6453485488999995
+          ],
+          "actual_row_center_y_mm": -15.91999959945,
+          "max_abs_actual_center_error_mm": 1.6453485488999995
+        },
+        {
+          "track_index": 1,
+          "track": "lower-middle zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": -26.589826,
+          "print_field_center_y_mm": -24.75,
+          "target_y_mm": -25.08,
+          "vertical_center_error_mm": -0.3299999999999983,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": -12.69651194,
+          "target_first_cell_center_x_mm": -11.75,
+          "source_cell_centers_x_mm": [
+            -12.69651194,
+            -3.5383721919999997,
+            5.61976754,
+            14.777907250000002,
+            23.9371516
+          ],
+          "target_cell_centers_x_mm": [
+            -11.75,
+            -3.25,
+            5.25,
+            13.75,
+            22.25
+          ],
+          "target_square_centers_x_mm": [
+            -11.75,
+            -3.25,
+            5.25,
+            13.75
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": 23.9371516,
+          "dx_mm": -0.36998845160000027,
+          "dy_mm": 1.5098260000000003,
+          "cell_center_errors_mm": [
+            -1.3165003916000018,
+            -0.6583606436,
+            -0.00022091160000048404,
+            0.6579187984000008,
+            1.3171631483999988
+          ],
+          "max_abs_center_error_mm": 1.3171631483999988,
+          "min_web_mm": 0.5199999999999996,
+          "actual_square_centers_x_mm": [
+            -13.06650066378,
+            -3.908360406758,
+            5.2497792541995,
+            14.407918930049998
+          ],
+          "actual_cell_center_errors_mm": [
+            -1.3165006637799994,
+            -0.6583604067579998,
+            -0.00022074580050013282,
+            0.6579189300499984,
+            1.3171637726000043
+          ],
+          "actual_row_center_y_mm": -25.0799999237,
+          "max_abs_actual_center_error_mm": 1.3171637726000043
+        },
+        {
+          "track_index": 2,
+          "track": "lower-right zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": -17.327616,
+          "print_field_center_y_mm": -16.25,
+          "target_y_mm": -15.92,
+          "vertical_center_error_mm": 0.33000000000000007,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": 46.831395349999994,
+          "target_first_cell_center_x_mm": 45.75,
+          "source_cell_centers_x_mm": [
+            46.831395349999994,
+            55.989536099999995,
+            65.14767485,
+            74.30581555,
+            83.46395435,
+            92.622093
+          ],
+          "target_cell_centers_x_mm": [
+            45.75,
+            54.25,
+            62.75,
+            71.25,
+            79.75,
+            88.25
+          ],
+          "target_square_centers_x_mm": [
+            45.75,
+            54.25,
+            62.75,
+            71.25,
+            79.75,
+            88.25
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": -2.726744866666666,
+          "dy_mm": 1.407615999999999,
+          "cell_center_errors_mm": [
+            -1.6453495166666698,
+            -0.9872087666666687,
+            -0.32907001666666247,
+            0.32907068333334166,
+            0.9872094833333307,
+            1.6453481333333428
+          ],
+          "max_abs_center_error_mm": 1.6453495166666698,
+          "min_web_mm": 0.5199999999999996,
+          "actual_square_centers_x_mm": [
+            44.10465049745,
+            53.26279067995,
+            62.420928955099996,
+            71.57907104489999,
+            80.73720932005,
+            89.89534759520001
+          ],
+          "actual_cell_center_errors_mm": [
+            -1.6453495025499976,
+            -0.987209320049999,
+            -0.3290710449000045,
+            0.3290710448999903,
+            0.987209320049999,
+            1.6453475952000076
+          ],
+          "actual_row_center_y_mm": -15.91999959945,
+          "max_abs_actual_center_error_mm": 1.6453495025499976
+        },
+        {
+          "track_index": 2,
+          "track": "lower-right zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": -26.589826,
+          "print_field_center_y_mm": -24.75,
+          "target_y_mm": -25.08,
+          "vertical_center_error_mm": -0.3299999999999983,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": 55.989536099999995,
+          "target_first_cell_center_x_mm": 54.25,
+          "source_cell_centers_x_mm": [
+            55.989536099999995,
+            65.14767485,
+            74.30581555,
+            83.46395435,
+            92.6231961
+          ],
+          "target_cell_centers_x_mm": [
+            54.25,
+            62.75,
+            71.25,
+            79.75,
+            88.25
+          ],
+          "target_square_centers_x_mm": [
+            54.25,
+            62.75,
+            71.25,
+            79.75
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": 92.6231961,
+          "dx_mm": -3.0560353899999995,
+          "dy_mm": 1.5098260000000003,
+          "cell_center_errors_mm": [
+            -1.316499290000003,
+            -0.6583605399999968,
+            -0.00021983999999974912,
+            0.6579189599999893,
+            1.317160709999996
+          ],
+          "max_abs_center_error_mm": 1.317160709999996,
+          "min_web_mm": 0.5199999999999996,
+          "actual_square_centers_x_mm": [
+            52.93350219725,
+            62.09163856505,
+            71.24977874755,
+            80.4079208374
+          ],
+          "actual_cell_center_errors_mm": [
+            -1.3164978027499998,
+            -0.6583614349500024,
+            -0.0002212524500038171,
+            0.657920837399999,
+            1.3171618652000063
+          ],
+          "actual_row_center_y_mm": -25.0799999237,
+          "max_abs_actual_center_error_mm": 1.3171618652000063
+        },
+        {
+          "track_index": 3,
+          "track": "upper-left -5",
+          "field_labels": [
+            -5,
+            -4,
+            -3,
+            -2,
+            -1
+          ],
+          "source_y_mm": 18.992733,
+          "print_field_center_y_mm": 18.75,
+          "target_y_mm": 19.41,
+          "vertical_center_error_mm": 0.6600000000000001,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": -65.45988535000001,
+          "target_first_cell_center_x_mm": -62.25,
+          "source_cell_centers_x_mm": [
+            -65.45988535000001,
+            -56.301744600000006,
+            -47.14360585,
+            -37.9854651,
+            -28.827325350000002
+          ],
+          "target_cell_centers_x_mm": [
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "target_square_centers_x_mm": [
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "opening_count": 5,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": 1.8936052500000031,
+          "dy_mm": 0.41726699999999894,
+          "cell_center_errors_mm": [
+            -1.3162801000000073,
+            -0.6581393500000061,
+            -5.999999999062311e-07,
+            0.6581401500000013,
+            1.3162799000000014
+          ],
+          "max_abs_center_error_mm": 1.3162801000000073,
+          "min_web_mm": 0.5199999999999996,
+          "actual_square_centers_x_mm": [
+            -63.566282272349994,
+            -54.408138275149994,
+            -45.25,
+            -36.091860771200004,
+            -26.933719635
+          ],
+          "actual_cell_center_errors_mm": [
+            -1.3162822723499943,
+            -0.6581382751499945,
+            0.0,
+            0.6581392287999961,
+            1.3162803650000008
+          ],
+          "actual_row_center_y_mm": 19.40999937055,
+          "max_abs_actual_center_error_mm": 1.3162822723499943
+        },
+        {
+          "track_index": 3,
+          "track": "upper-left -5",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": 9.730523,
+          "print_field_center_y_mm": 10.25,
+          "target_y_mm": 10.25,
+          "vertical_center_error_mm": 0.0,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": -74.61802405,
+          "target_first_cell_center_x_mm": -70.75,
+          "source_cell_centers_x_mm": [
+            -74.61802405,
+            -65.45988535000001,
+            -56.301744600000006,
+            -47.14360585,
+            -37.9854651,
+            -28.827325350000002
+          ],
+          "target_cell_centers_x_mm": [
+            -70.75,
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "target_square_centers_x_mm": [
+            -70.75,
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": 2.222675050000003,
+          "dy_mm": 0.5194770000000002,
+          "cell_center_errors_mm": [
+            -1.645348999999996,
+            -0.987210300000001,
+            -0.3290695499999998,
+            0.3290692000000064,
+            0.9872099500000076,
+            1.6453497000000006
+          ],
+          "max_abs_center_error_mm": 1.6453497000000006,
+          "min_web_mm": 0.5199999999999996,
+          "actual_square_centers_x_mm": [
+            -72.39534759520001,
+            -63.2372112274,
+            -54.079071044900004,
+            -44.92093086245,
+            -35.76279067995,
+            -26.604650497450002
+          ],
+          "actual_cell_center_errors_mm": [
+            -1.6453475952000076,
+            -0.9872112274000031,
+            -0.3290710449000045,
+            0.32906913755000033,
+            0.987209320049999,
+            1.6453495025499976
+          ],
+          "actual_row_center_y_mm": 10.249999999989997,
+          "max_abs_actual_center_error_mm": 1.6453495025499976
+        },
+        {
+          "track_index": 3,
+          "track": "upper-left -5",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": 0.468314,
+          "print_field_center_y_mm": 1.75,
+          "target_y_mm": 1.0899999999999999,
+          "vertical_center_error_mm": -0.6600000000000001,
+          "row_index_from_anchor": 2,
+          "source_first_cell_center_x_mm": -65.45988535000001,
+          "target_first_cell_center_x_mm": -62.25,
+          "source_cell_centers_x_mm": [
+            -65.45988535000001,
+            -56.301744600000006,
+            -47.14360585,
+            -37.9854651,
+            -28.8262213
+          ],
+          "target_cell_centers_x_mm": [
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "target_square_centers_x_mm": [
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": -28.8262213,
+          "dx_mm": 1.8933844400000026,
+          "dy_mm": 0.6216859999999998,
+          "cell_center_errors_mm": [
+            -1.316500910000002,
+            -0.6583601600000009,
+            -0.0002214099999946484,
+            0.6579193400000065,
+            1.3171631400000017
+          ],
+          "max_abs_center_error_mm": 1.3171631400000017,
+          "min_web_mm": 0.5199999999999996,
+          "actual_square_centers_x_mm": [
+            -63.566499710100004,
+            -54.4083595276,
+            -45.250221252450004,
+            -36.09208011625
+          ],
+          "actual_cell_center_errors_mm": [
+            -1.316499710100004,
+            -0.6583595275999983,
+            -0.0002212524500038171,
+            0.6579198837499973,
+            1.3171637725999972
+          ],
+          "actual_row_center_y_mm": 1.08999991417,
+          "max_abs_actual_center_error_mm": 1.3171637725999972
+        },
+        {
+          "track_index": 4,
+          "track": "upper-middle zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": 18.264244,
+          "print_field_center_y_mm": 18.75,
+          "target_y_mm": 19.08,
+          "vertical_center_error_mm": 0.3299999999999983,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": -11.447674185,
+          "target_first_cell_center_x_mm": -9.650000000000006,
+          "source_cell_centers_x_mm": [
+            -11.447674185,
+            -2.289534805,
+            6.868604675,
+            16.02674375,
+            25.184883499999998,
+            34.34302425
+          ],
+          "target_cell_centers_x_mm": [
+            -9.650000000000006,
+            -1.1500000000000057,
+            7.349999999999994,
+            15.849999999999994,
+            24.349999999999994,
+            32.849999999999994
+          ],
+          "target_square_centers_x_mm": [
+            -9.650000000000006,
+            -1.1500000000000057,
+            7.349999999999994,
+            15.849999999999994,
+            24.349999999999994,
+            32.849999999999994
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": 0.15232546916666126,
+          "dy_mm": 0.8157559999999968,
+          "cell_center_errors_mm": [
+            -1.6453487158333342,
+            -0.9872093358333331,
+            -0.3290698558333327,
+            0.3290692191666693,
+            0.9872089691666659,
+            1.645349719166667
+          ],
+          "max_abs_center_error_mm": 1.645349719166667,
+          "min_web_mm": 0.5199999999999996,
+          "actual_square_centers_x_mm": [
+            -11.295348882665,
+            -2.137209177015,
+            7.020930051780001,
+            16.1790690422,
+            25.3372087479,
+            34.49534988405
+          ],
+          "actual_cell_center_errors_mm": [
+            -1.6453488826649938,
+            -0.9872091770149942,
+            -0.3290699482199937,
+            0.329069042200004,
+            0.9872087479000058,
+            1.645349884050006
+          ],
+          "actual_row_center_y_mm": 19.0799999237,
+          "max_abs_actual_center_error_mm": 1.645349884050006
+        },
+        {
+          "track_index": 4,
+          "track": "upper-middle zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": 9.002035,
+          "print_field_center_y_mm": 10.25,
+          "target_y_mm": 9.919999999999998,
+          "vertical_center_error_mm": -0.33000000000000185,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": -2.289534805,
+          "target_first_cell_center_x_mm": -1.1500000000000057,
+          "source_cell_centers_x_mm": [
+            -2.289534805,
+            6.868604675,
+            16.02674375,
+            25.184883499999998,
+            34.3441283
+          ],
+          "target_cell_centers_x_mm": [
+            -1.1500000000000057,
+            7.349999999999994,
+            15.849999999999994,
+            24.349999999999994,
+            32.849999999999994
+          ],
+          "target_square_centers_x_mm": [
+            -1.1500000000000057,
+            7.349999999999994,
+            15.849999999999994,
+            24.349999999999994
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": 34.3441283,
+          "dx_mm": -0.17696508400000582,
+          "dy_mm": 0.9179649999999988,
+          "cell_center_errors_mm": [
+            -1.3164998890000001,
+            -0.6583604090000001,
+            -0.00022133399999901826,
+            0.6579184159999976,
+            1.3171632160000044
+          ],
+          "max_abs_center_error_mm": 1.3171632160000044,
+          "min_web_mm": 0.5199999999999996,
+          "actual_square_centers_x_mm": [
+            -2.46649992466,
+            6.691639542565,
+            15.8497786522,
+            25.007918357850002
+          ],
+          "actual_cell_center_errors_mm": [
+            -1.3164999246599942,
+            -0.6583604574349939,
+            -0.000221347799994831,
+            0.6579183578500079,
+            1.3171641540999985
+          ],
+          "actual_row_center_y_mm": 9.919999837865,
+          "max_abs_actual_center_error_mm": 1.3171641540999985
+        },
+        {
+          "track_index": 5,
+          "track": "upper-right zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": 18.264244,
+          "print_field_center_y_mm": 18.75,
+          "target_y_mm": 19.08,
+          "vertical_center_error_mm": 0.3299999999999983,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": 50.994186049999996,
+          "target_first_cell_center_x_mm": 50.25,
+          "source_cell_centers_x_mm": [
+            50.994186049999996,
+            60.1523268,
+            69.31046555,
+            78.46860625,
+            87.62674505000001,
+            96.7848839
+          ],
+          "target_cell_centers_x_mm": [
+            50.25,
+            58.75,
+            67.25,
+            75.75,
+            84.25,
+            92.75
+          ],
+          "target_square_centers_x_mm": [
+            50.25,
+            58.75,
+            67.25,
+            75.75,
+            84.25,
+            92.75
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": -2.3895356,
+          "dy_mm": 0.8157559999999968,
+          "cell_center_errors_mm": [
+            -1.645349550000006,
+            -0.9872088000000048,
+            -0.32907004999999856,
+            0.32907064999999136,
+            0.9872094500000088,
+            1.6453482999999949
+          ],
+          "max_abs_center_error_mm": 1.645349550000006,
+          "min_web_mm": 0.5199999999999996,
+          "actual_square_centers_x_mm": [
+            48.60465049745,
+            57.76279067995,
+            66.9209289551,
+            76.07907104489999,
+            85.23720932005,
+            94.39534759520001
+          ],
+          "actual_cell_center_errors_mm": [
+            -1.6453495025499976,
+            -0.987209320049999,
+            -0.3290710449000045,
+            0.3290710448999903,
+            0.987209320049999,
+            1.6453475952000076
+          ],
+          "actual_row_center_y_mm": 19.0799999237,
+          "max_abs_actual_center_error_mm": 1.6453495025499976
+        },
+        {
+          "track_index": 5,
+          "track": "upper-right zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": 9.002035,
+          "print_field_center_y_mm": 10.25,
+          "target_y_mm": 9.919999999999998,
+          "vertical_center_error_mm": -0.33000000000000185,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": 60.1523268,
+          "target_first_cell_center_x_mm": 58.75,
+          "source_cell_centers_x_mm": [
+            60.1523268,
+            69.31046555,
+            78.46860625,
+            87.62674505000001,
+            96.78598679999999
+          ],
+          "target_cell_centers_x_mm": [
+            58.75,
+            67.25,
+            75.75,
+            84.25,
+            92.75
+          ],
+          "target_square_centers_x_mm": [
+            58.75,
+            67.25,
+            75.75,
+            84.25
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": 96.78598679999999,
+          "dx_mm": -2.718826089999999,
+          "dy_mm": 0.9179649999999988,
+          "cell_center_errors_mm": [
+            -1.316499290000003,
+            -0.6583605399999897,
+            -0.00021983999999974912,
+            0.6579189600000177,
+            1.317160709999996
+          ],
+          "max_abs_center_error_mm": 1.317160709999996,
+          "min_web_mm": 0.5199999999999996,
+          "actual_square_centers_x_mm": [
+            57.43350219725,
+            66.59163856505,
+            75.74977874755,
+            84.9079208374
+          ],
+          "actual_cell_center_errors_mm": [
+            -1.3164978027499998,
+            -0.6583614349499953,
+            -0.0002212524500038171,
+            0.657920837399999,
+            1.3171618652000063
+          ],
+          "actual_row_center_y_mm": 9.919999837865,
+          "max_abs_actual_center_error_mm": 1.3171618652000063
+        }
+      ],
+      "max_cell_center_error_mm": 1.645349884050006,
+      "horizontal_slot": {
+        "source_center_mm": [
+          44.3857544,
+          -3.6944766349999996
+        ],
+        "source_size_mm": [
+          109.8976708,
+          8.637790529999998
+        ],
+        "target_center_mm": [
+          46.437346437346434,
+          -4.914004914004913
+        ],
+        "target_size_mm": [
+          109.8976708,
+          6.8
+        ],
+        "target_area_center_mm": [
+          46.437346437346434,
+          -4.914004914004913
+        ],
+        "target_area_size_mm": [
+          113.75921375921376,
+          13.022113022113022
+        ],
+        "minimum_cube_clearance_mm": 3.2859950859950864,
+        "nearest_cube_opening": {
+          "track": "lower-middle zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cube_center_mm": [
+            -11.75,
+            -15.92
+          ]
+        }
+      },
+      "slider_clearance": {
+        "minimum_clearance_mm": 3.28599510193,
+        "nearest_opening": {
+          "track": "lower-middle zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cube_center_mm": [
+            -11.75,
+            -15.92
+          ]
+        }
+      },
+      "pitch_min_mm": 9.158134460450015,
+      "pitch_max_mm": 9.1581439972,
+      "pitch_mean_mm": 9.158139547477019,
+      "separating_web_mm": 0.5199999999999996
+    },
+    "layout_clearances": {
+      "minimum_window_to_window_web_mm": 1.7199017199017277,
+      "closest_window_pair": [
+        "lower-middle",
+        "lower-right"
+      ],
+      "minimum_window_to_cube_clearance_mm": 4.241277641277641,
+      "nearest_window_cube_pair": {
+        "window": "upper-middle",
+        "track": "upper-middle zero",
+        "field_labels": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "minimum_slider_to_cube_clearance_mm": 3.2859950859950864,
+      "minimum_slider_to_window_clearance_mm": 25.715479115479113
+    },
+    "resource_windows": {
+      "source": "Six orange marked regions, mapped with a single paper-centered transform",
+      "photo_calibration": {
+        "pixels_per_mm": 4.07,
+        "reference_center_px": [
+          673.5,
+          411.5
+        ],
+        "window_inset_px": 2.0,
+        "reference_photo_size_px": [
+          1321,
+          796
+        ],
+        "estimated_photo_boundary_uncertainty_mm": 1.0
+      },
+      "targets": [
+        {
+          "name": "upper-left",
+          "center_mm": [
+            -60.56511056511056,
+            49.877149877149876
+          ],
+          "size_mm": [
+            83.53808353808353,
+            43.488943488943484
+          ],
+          "bounds_mm": [
+            -102.33415233415232,
+            28.13267813267813,
+            -18.796068796068795,
+            71.62162162162161
+          ]
+        },
+        {
+          "name": "upper-middle",
+          "center_mm": [
+            12.285012285012286,
+            50.368550368550366
+          ],
+          "size_mm": [
+            56.26535626535626,
+            45.45454545454545
+          ],
+          "bounds_mm": [
+            -15.847665847665846,
+            27.64127764127764,
+            40.417690417690416,
+            73.09582309582309
+          ]
+        },
+        {
+          "name": "upper-right",
+          "center_mm": [
+            72.72727272727272,
+            50.49140049140048
+          ],
+          "size_mm": [
+            55.77395577395577,
+            44.717444717444714
+          ],
+          "bounds_mm": [
+            44.84029484029484,
+            28.13267813267813,
+            100.61425061425061,
+            72.85012285012284
+          ]
+        },
+        {
+          "name": "lower-left",
+          "center_mm": [
+            -67.93611793611794,
+            -54.05405405405405
+          ],
+          "size_mm": [
+            69.77886977886978,
+            37.59213759213759
+          ],
+          "bounds_mm": [
+            -102.82555282555282,
+            -72.85012285012284,
+            -33.04668304668304,
+            -35.257985257985254
+          ]
+        },
+        {
+          "name": "lower-middle",
+          "center_mm": [
+            1.8427518427518415,
+            -53.8083538083538
+          ],
+          "size_mm": [
+            61.42506142506142,
+            37.59213759213758
+          ],
+          "bounds_mm": [
+            -28.86977886977887,
+            -72.6044226044226,
+            32.55528255528255,
+            -35.01228501228501
+          ]
+        },
+        {
+          "name": "lower-right",
+          "center_mm": [
+            68.18181818181819,
+            -53.56265356265356
+          ],
+          "size_mm": [
+            67.81326781326781,
+            39.06633906633907
+          ],
+          "bounds_mm": [
+            34.27518427518427,
+            -73.09582309582309,
+            102.08845208845209,
+            -34.029484029484024
+          ]
+        }
+      ],
+      "exported_section_checks": [
+        {
+          "name": "upper-left",
+          "center_mm": [
+            -60.56511020675,
+            49.8771495819
+          ],
+          "size_mm": [
+            83.5380840305,
+            43.48894119260001
+          ],
+          "z_mm": 0.0
+        },
+        {
+          "name": "upper-middle",
+          "center_mm": [
+            12.2850122452,
+            50.368551254249994
+          ],
+          "size_mm": [
+            56.2653560638,
+            45.454547882099995
+          ],
+          "z_mm": 0.0
+        },
+        {
+          "name": "upper-right",
+          "center_mm": [
+            72.72727203365,
+            50.491399765
+          ],
+          "size_mm": [
+            55.77395629869999,
+            44.717441558800004
+          ],
+          "z_mm": 0.0
+        },
+        {
+          "name": "lower-left",
+          "center_mm": [
+            -67.93611907955,
+            -54.0540523529
+          ],
+          "size_mm": [
+            69.7788696289,
+            37.592136382999996
+          ],
+          "z_mm": 0.0
+        },
+        {
+          "name": "lower-middle",
+          "center_mm": [
+            1.8427515029999988,
+            -53.808353424050004
+          ],
+          "size_mm": [
+            61.4250621796,
+            37.592140197700004
+          ],
+          "z_mm": 0.0
+        },
+        {
+          "name": "lower-right",
+          "center_mm": [
+            68.18181991565,
+            -53.56265449525
+          ],
+          "size_mm": [
+            67.8132705687,
+            39.066341400099994
+          ],
+          "z_mm": 0.0
+        },
+        {
+          "name": "upper-left",
+          "center_mm": [
+            -60.56511020675,
+            49.8771495819
+          ],
+          "size_mm": [
+            83.5380840305,
+            43.48894119260001
+          ],
+          "z_mm": 0.2
+        },
+        {
+          "name": "upper-middle",
+          "center_mm": [
+            12.2850122452,
+            50.368551254249994
+          ],
+          "size_mm": [
+            56.2653560638,
+            45.454547882099995
+          ],
+          "z_mm": 0.2
+        },
+        {
+          "name": "upper-right",
+          "center_mm": [
+            72.72727203365,
+            50.491399765
+          ],
+          "size_mm": [
+            55.77395629869999,
+            44.717441558800004
+          ],
+          "z_mm": 0.2
+        },
+        {
+          "name": "lower-left",
+          "center_mm": [
+            -67.93611907955,
+            -54.0540523529
+          ],
+          "size_mm": [
+            69.7788696289,
+            37.592136382999996
+          ],
+          "z_mm": 0.2
+        },
+        {
+          "name": "lower-middle",
+          "center_mm": [
+            1.8427515029999988,
+            -53.808353424050004
+          ],
+          "size_mm": [
+            61.4250621796,
+            37.592140197700004
+          ],
+          "z_mm": 0.2
+        },
+        {
+          "name": "lower-right",
+          "center_mm": [
+            68.18181991565,
+            -53.56265449525
+          ],
+          "size_mm": [
+            67.8132705687,
+            39.066341400099994
+          ],
+          "z_mm": 0.2
+        }
+      ]
+    },
+    "policy": "Retain six separate cube tracks, openings and webs. Convert the user-measured lower/upper row offsets from the laminated outer edge into model coordinates using the measured 227 x 168 mm insert and centered 238.401 x 179 mm frame. Translate each printed row independently and balance residuals over every cell in that row. Preserve the 9.16 mm opening pitch and 8.64 mm openings, so 8.5 mm printed cells cannot all be centered without overlap."
+  },
+  "mesh_checks": [
+    {
+      "path": "3D/Objects/Body1_1.model",
+      "bounds_mm": [
+        [
+          -119.200584412,
+          -89.5,
+          -1.56104648113
+        ],
+        [
+          119.200584412,
+          89.5,
+          0.938953518867
+        ]
+      ],
+      "extents_mm": [
+        238.401168824,
+        179.0,
+        2.4999999999969997
+      ],
+      "euler_number": -156,
+      "vertices": 2513,
+      "triangles": 5338
+    },
+    {
+      "path": "3D/Objects/Body1_2.model",
+      "bounds_mm": [
+        [
+          -119.200584412,
+          -89.5,
+          -2.28953504562
+        ],
+        [
+          119.200584412,
+          89.5,
+          1.39186048508
+        ]
+      ],
+      "extents_mm": [
+        238.401168824,
+        179.0,
+        3.6813955307
+      ],
+      "euler_number": 2,
+      "vertices": 2434,
+      "triangles": 4864
+    },
+    {
+      "path": "3D/Objects/Vorderseite - PLA Transparent (Startprofil)_3.model",
+      "bounds_mm": [
+        [
+          -119.200584412,
+          -89.5,
+          -1.56104648113
+        ],
+        [
+          119.200584412,
+          89.5,
+          0.938953518867
+        ]
+      ],
+      "extents_mm": [
+        238.401168824,
+        179.0,
+        2.4999999999969997
+      ],
+      "euler_number": -156,
+      "vertices": 2513,
+      "triangles": 5338
+    }
+  ],
+  "transformations": {
+    "3D/Objects/Body1_1.model": {
+      "cube_tracks": [
+        {
+          "track": "lower-left zero",
+          "source_anchor_row_y_mm": -17.33,
+          "left_edge_offset_from_board_mm": 20.0,
+          "top_edge_offset_from_board_mm": 96.0,
+          "current_first_opening_center_x_mm": -93.45465035000001,
+          "target_first_printed_cell_center_x_mm": -89.25,
+          "current_top_row_center_y_mm": -17.32761585,
+          "target_top_print_field_center_y_mm": -16.25,
+          "target_top_opening_center_y_mm": -15.92,
+          "opening_count": 10,
+          "anchored_row_opening_count": 6,
+          "row_layouts": [
+            {
+              "track_index": 0,
+              "track": "lower-left zero",
+              "field_labels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "source_y_mm": -17.327616,
+              "print_field_center_y_mm": -16.25,
+              "target_y_mm": -15.92,
+              "vertical_center_error_mm": 0.33000000000000007,
+              "row_index_from_anchor": 0,
+              "source_first_cell_center_x_mm": -93.45465035000001,
+              "target_first_cell_center_x_mm": -89.25,
+              "source_cell_centers_x_mm": [
+                -93.45465035000001,
+                -84.2965116,
+                -75.13837294999999,
+                -65.98023415,
+                -56.82209345,
+                -47.663954700000005
+              ],
+              "target_cell_centers_x_mm": [
+                -89.25,
+                -80.75,
+                -72.25,
+                -63.75,
+                -55.25,
+                -46.75
+              ],
+              "target_square_centers_x_mm": [
+                -89.25,
+                -80.75,
+                -72.25,
+                -63.75,
+                -55.25,
+                -46.75
+              ],
+              "opening_count": 6,
+              "end_slot_cell": false,
+              "end_slot_cell_center_x_mm": null,
+              "dx_mm": 2.5593028666666675,
+              "dy_mm": 1.407615999999999,
+              "cell_center_errors_mm": [
+                -1.6453474833333388,
+                -0.9872087333333326,
+                -0.32907008333332044,
+                0.3290687166666686,
+                0.9872094166666727,
+                1.6453481666666647
+              ],
+              "max_abs_center_error_mm": 1.6453481666666647,
+              "min_web_mm": 0.5199999999999996
+            },
+            {
+              "track_index": 0,
+              "track": "lower-left zero",
+              "field_labels": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "source_y_mm": -26.589826,
+              "print_field_center_y_mm": -24.75,
+              "target_y_mm": -25.08,
+              "vertical_center_error_mm": -0.3299999999999983,
+              "row_index_from_anchor": 1,
+              "source_first_cell_center_x_mm": -84.2965116,
+              "target_first_cell_center_x_mm": -80.75,
+              "source_cell_centers_x_mm": [
+                -84.2965116,
+                -75.13837294999999,
+                -65.98023415,
+                -56.82209345,
+                -47.6628497
+              ],
+              "target_cell_centers_x_mm": [
+                -80.75,
+                -72.25,
+                -63.75,
+                -55.25,
+                -46.75
+              ],
+              "target_square_centers_x_mm": [
+                -80.75,
+                -72.25,
+                -63.75,
+                -55.25
+              ],
+              "opening_count": 4,
+              "end_slot_cell": true,
+              "end_slot_cell_center_x_mm": -47.6628497,
+              "dx_mm": 2.2300123699999985,
+              "dy_mm": 1.5098260000000003,
+              "cell_center_errors_mm": [
+                -1.3164992300000051,
+                -0.658360579999993,
+                -0.00022178000000394604,
+                0.6579189200000002,
+                1.3171626699999948
+              ],
+              "max_abs_center_error_mm": 1.3171626699999948,
+              "min_web_mm": 0.5199999999999996
+            }
+          ]
+        },
+        {
+          "track": "lower-middle zero",
+          "source_anchor_row_y_mm": -17.33,
+          "left_edge_offset_from_board_mm": 89.0,
+          "top_edge_offset_from_board_mm": 96.0,
+          "current_first_opening_center_x_mm": -21.854651150000002,
+          "target_first_printed_cell_center_x_mm": -20.25,
+          "current_top_row_center_y_mm": -17.32761585,
+          "target_top_print_field_center_y_mm": -16.25,
+          "target_top_opening_center_y_mm": -15.92,
+          "opening_count": 10,
+          "anchored_row_opening_count": 6,
+          "row_layouts": [
+            {
+              "track_index": 1,
+              "track": "lower-middle zero",
+              "field_labels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "source_y_mm": -17.327616,
+              "print_field_center_y_mm": -16.25,
+              "target_y_mm": -15.92,
+              "vertical_center_error_mm": 0.33000000000000007,
+              "row_index_from_anchor": 0,
+              "source_first_cell_center_x_mm": -21.854651150000002,
+              "target_first_cell_center_x_mm": -20.25,
+              "source_cell_centers_x_mm": [
+                -21.854651150000002,
+                -12.69651194,
+                -3.5383721919999997,
+                5.61976754,
+                14.777907250000002,
+                23.9360465
+              ],
+              "target_cell_centers_x_mm": [
+                -20.25,
+                -11.75,
+                -3.25,
+                5.25,
+                13.75,
+                22.25
+              ],
+              "target_square_centers_x_mm": [
+                -20.25,
+                -11.75,
+                -3.25,
+                5.25,
+                13.75,
+                22.25
+              ],
+              "opening_count": 6,
+              "end_slot_cell": false,
+              "end_slot_cell_center_x_mm": null,
+              "dx_mm": -0.04069766799999982,
+              "dy_mm": 1.407615999999999,
+              "cell_center_errors_mm": [
+                -1.6453488180000022,
+                -0.9872096080000006,
+                -0.3290698599999997,
+                0.3290698719999998,
+                0.987209582000002,
+                1.6453488319999998
+              ],
+              "max_abs_center_error_mm": 1.6453488319999998,
+              "min_web_mm": 0.5199999999999996
+            },
+            {
+              "track_index": 1,
+              "track": "lower-middle zero",
+              "field_labels": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "source_y_mm": -26.589826,
+              "print_field_center_y_mm": -24.75,
+              "target_y_mm": -25.08,
+              "vertical_center_error_mm": -0.3299999999999983,
+              "row_index_from_anchor": 1,
+              "source_first_cell_center_x_mm": -12.69651194,
+              "target_first_cell_center_x_mm": -11.75,
+              "source_cell_centers_x_mm": [
+                -12.69651194,
+                -3.5383721919999997,
+                5.61976754,
+                14.777907250000002,
+                23.9371516
+              ],
+              "target_cell_centers_x_mm": [
+                -11.75,
+                -3.25,
+                5.25,
+                13.75,
+                22.25
+              ],
+              "target_square_centers_x_mm": [
+                -11.75,
+                -3.25,
+                5.25,
+                13.75
+              ],
+              "opening_count": 4,
+              "end_slot_cell": true,
+              "end_slot_cell_center_x_mm": 23.9371516,
+              "dx_mm": -0.36998845160000027,
+              "dy_mm": 1.5098260000000003,
+              "cell_center_errors_mm": [
+                -1.3165003916000018,
+                -0.6583606436,
+                -0.00022091160000048404,
+                0.6579187984000008,
+                1.3171631483999988
+              ],
+              "max_abs_center_error_mm": 1.3171631483999988,
+              "min_web_mm": 0.5199999999999996
+            }
+          ]
+        },
+        {
+          "track": "lower-right zero",
+          "source_anchor_row_y_mm": -17.33,
+          "left_edge_offset_from_board_mm": 155.0,
+          "top_edge_offset_from_board_mm": 96.0,
+          "current_first_opening_center_x_mm": 46.831395349999994,
+          "target_first_printed_cell_center_x_mm": 45.75,
+          "current_top_row_center_y_mm": -17.32761585,
+          "target_top_print_field_center_y_mm": -16.25,
+          "target_top_opening_center_y_mm": -15.92,
+          "opening_count": 10,
+          "anchored_row_opening_count": 6,
+          "row_layouts": [
+            {
+              "track_index": 2,
+              "track": "lower-right zero",
+              "field_labels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "source_y_mm": -17.327616,
+              "print_field_center_y_mm": -16.25,
+              "target_y_mm": -15.92,
+              "vertical_center_error_mm": 0.33000000000000007,
+              "row_index_from_anchor": 0,
+              "source_first_cell_center_x_mm": 46.831395349999994,
+              "target_first_cell_center_x_mm": 45.75,
+              "source_cell_centers_x_mm": [
+                46.831395349999994,
+                55.989536099999995,
+                65.14767485,
+                74.30581555,
+                83.46395435,
+                92.622093
+              ],
+              "target_cell_centers_x_mm": [
+                45.75,
+                54.25,
+                62.75,
+                71.25,
+                79.75,
+                88.25
+              ],
+              "target_square_centers_x_mm": [
+                45.75,
+                54.25,
+                62.75,
+                71.25,
+                79.75,
+                88.25
+              ],
+              "opening_count": 6,
+              "end_slot_cell": false,
+              "end_slot_cell_center_x_mm": null,
+              "dx_mm": -2.726744866666666,
+              "dy_mm": 1.407615999999999,
+              "cell_center_errors_mm": [
+                -1.6453495166666698,
+                -0.9872087666666687,
+                -0.32907001666666247,
+                0.32907068333334166,
+                0.9872094833333307,
+                1.6453481333333428
+              ],
+              "max_abs_center_error_mm": 1.6453495166666698,
+              "min_web_mm": 0.5199999999999996
+            },
+            {
+              "track_index": 2,
+              "track": "lower-right zero",
+              "field_labels": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "source_y_mm": -26.589826,
+              "print_field_center_y_mm": -24.75,
+              "target_y_mm": -25.08,
+              "vertical_center_error_mm": -0.3299999999999983,
+              "row_index_from_anchor": 1,
+              "source_first_cell_center_x_mm": 55.989536099999995,
+              "target_first_cell_center_x_mm": 54.25,
+              "source_cell_centers_x_mm": [
+                55.989536099999995,
+                65.14767485,
+                74.30581555,
+                83.46395435,
+                92.6231961
+              ],
+              "target_cell_centers_x_mm": [
+                54.25,
+                62.75,
+                71.25,
+                79.75,
+                88.25
+              ],
+              "target_square_centers_x_mm": [
+                54.25,
+                62.75,
+                71.25,
+                79.75
+              ],
+              "opening_count": 4,
+              "end_slot_cell": true,
+              "end_slot_cell_center_x_mm": 92.6231961,
+              "dx_mm": -3.0560353899999995,
+              "dy_mm": 1.5098260000000003,
+              "cell_center_errors_mm": [
+                -1.316499290000003,
+                -0.6583605399999968,
+                -0.00021983999999974912,
+                0.6579189599999893,
+                1.317160709999996
+              ],
+              "max_abs_center_error_mm": 1.317160709999996,
+              "min_web_mm": 0.5199999999999996
+            }
+          ]
+        },
+        {
+          "track": "upper-left -5",
+          "source_anchor_row_y_mm": 18.99,
+          "left_edge_offset_from_board_mm": 47.0,
+          "top_edge_offset_from_board_mm": 61.0,
+          "current_first_opening_center_x_mm": -65.45988535000001,
+          "target_first_printed_cell_center_x_mm": -62.25,
+          "current_top_row_center_y_mm": 18.99273255,
+          "target_top_print_field_center_y_mm": 18.75,
+          "target_top_opening_center_y_mm": 19.41,
+          "opening_count": 15,
+          "anchored_row_opening_count": 5,
+          "row_layouts": [
+            {
+              "track_index": 3,
+              "track": "upper-left -5",
+              "field_labels": [
+                -5,
+                -4,
+                -3,
+                -2,
+                -1
+              ],
+              "source_y_mm": 18.992733,
+              "print_field_center_y_mm": 18.75,
+              "target_y_mm": 19.41,
+              "vertical_center_error_mm": 0.6600000000000001,
+              "row_index_from_anchor": 0,
+              "source_first_cell_center_x_mm": -65.45988535000001,
+              "target_first_cell_center_x_mm": -62.25,
+              "source_cell_centers_x_mm": [
+                -65.45988535000001,
+                -56.301744600000006,
+                -47.14360585,
+                -37.9854651,
+                -28.827325350000002
+              ],
+              "target_cell_centers_x_mm": [
+                -62.25,
+                -53.75,
+                -45.25,
+                -36.75,
+                -28.25
+              ],
+              "target_square_centers_x_mm": [
+                -62.25,
+                -53.75,
+                -45.25,
+                -36.75,
+                -28.25
+              ],
+              "opening_count": 5,
+              "end_slot_cell": false,
+              "end_slot_cell_center_x_mm": null,
+              "dx_mm": 1.8936052500000031,
+              "dy_mm": 0.41726699999999894,
+              "cell_center_errors_mm": [
+                -1.3162801000000073,
+                -0.6581393500000061,
+                -5.999999999062311e-07,
+                0.6581401500000013,
+                1.3162799000000014
+              ],
+              "max_abs_center_error_mm": 1.3162801000000073,
+              "min_web_mm": 0.5199999999999996
+            },
+            {
+              "track_index": 3,
+              "track": "upper-left -5",
+              "field_labels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "source_y_mm": 9.730523,
+              "print_field_center_y_mm": 10.25,
+              "target_y_mm": 10.25,
+              "vertical_center_error_mm": 0.0,
+              "row_index_from_anchor": 1,
+              "source_first_cell_center_x_mm": -74.61802405,
+              "target_first_cell_center_x_mm": -70.75,
+              "source_cell_centers_x_mm": [
+                -74.61802405,
+                -65.45988535000001,
+                -56.301744600000006,
+                -47.14360585,
+                -37.9854651,
+                -28.827325350000002
+              ],
+              "target_cell_centers_x_mm": [
+                -70.75,
+                -62.25,
+                -53.75,
+                -45.25,
+                -36.75,
+                -28.25
+              ],
+              "target_square_centers_x_mm": [
+                -70.75,
+                -62.25,
+                -53.75,
+                -45.25,
+                -36.75,
+                -28.25
+              ],
+              "opening_count": 6,
+              "end_slot_cell": false,
+              "end_slot_cell_center_x_mm": null,
+              "dx_mm": 2.222675050000003,
+              "dy_mm": 0.5194770000000002,
+              "cell_center_errors_mm": [
+                -1.645348999999996,
+                -0.987210300000001,
+                -0.3290695499999998,
+                0.3290692000000064,
+                0.9872099500000076,
+                1.6453497000000006
+              ],
+              "max_abs_center_error_mm": 1.6453497000000006,
+              "min_web_mm": 0.5199999999999996
+            },
+            {
+              "track_index": 3,
+              "track": "upper-left -5",
+              "field_labels": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "source_y_mm": 0.468314,
+              "print_field_center_y_mm": 1.75,
+              "target_y_mm": 1.0899999999999999,
+              "vertical_center_error_mm": -0.6600000000000001,
+              "row_index_from_anchor": 2,
+              "source_first_cell_center_x_mm": -65.45988535000001,
+              "target_first_cell_center_x_mm": -62.25,
+              "source_cell_centers_x_mm": [
+                -65.45988535000001,
+                -56.301744600000006,
+                -47.14360585,
+                -37.9854651,
+                -28.8262213
+              ],
+              "target_cell_centers_x_mm": [
+                -62.25,
+                -53.75,
+                -45.25,
+                -36.75,
+                -28.25
+              ],
+              "target_square_centers_x_mm": [
+                -62.25,
+                -53.75,
+                -45.25,
+                -36.75
+              ],
+              "opening_count": 4,
+              "end_slot_cell": true,
+              "end_slot_cell_center_x_mm": -28.8262213,
+              "dx_mm": 1.8933844400000026,
+              "dy_mm": 0.6216859999999998,
+              "cell_center_errors_mm": [
+                -1.316500910000002,
+                -0.6583601600000009,
+                -0.0002214099999946484,
+                0.6579193400000065,
+                1.3171631400000017
+              ],
+              "max_abs_center_error_mm": 1.3171631400000017,
+              "min_web_mm": 0.5199999999999996
+            }
+          ]
+        },
+        {
+          "track": "upper-middle zero",
+          "source_anchor_row_y_mm": 18.26,
+          "left_edge_offset_from_board_mm": 99.6,
+          "top_edge_offset_from_board_mm": 61.0,
+          "current_first_opening_center_x_mm": -11.447674185,
+          "target_first_printed_cell_center_x_mm": -9.650000000000006,
+          "current_top_row_center_y_mm": 18.264244400000003,
+          "target_top_print_field_center_y_mm": 18.75,
+          "target_top_opening_center_y_mm": 19.08,
+          "opening_count": 10,
+          "anchored_row_opening_count": 6,
+          "row_layouts": [
+            {
+              "track_index": 4,
+              "track": "upper-middle zero",
+              "field_labels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "source_y_mm": 18.264244,
+              "print_field_center_y_mm": 18.75,
+              "target_y_mm": 19.08,
+              "vertical_center_error_mm": 0.3299999999999983,
+              "row_index_from_anchor": 0,
+              "source_first_cell_center_x_mm": -11.447674185,
+              "target_first_cell_center_x_mm": -9.650000000000006,
+              "source_cell_centers_x_mm": [
+                -11.447674185,
+                -2.289534805,
+                6.868604675,
+                16.02674375,
+                25.184883499999998,
+                34.34302425
+              ],
+              "target_cell_centers_x_mm": [
+                -9.650000000000006,
+                -1.1500000000000057,
+                7.349999999999994,
+                15.849999999999994,
+                24.349999999999994,
+                32.849999999999994
+              ],
+              "target_square_centers_x_mm": [
+                -9.650000000000006,
+                -1.1500000000000057,
+                7.349999999999994,
+                15.849999999999994,
+                24.349999999999994,
+                32.849999999999994
+              ],
+              "opening_count": 6,
+              "end_slot_cell": false,
+              "end_slot_cell_center_x_mm": null,
+              "dx_mm": 0.15232546916666126,
+              "dy_mm": 0.8157559999999968,
+              "cell_center_errors_mm": [
+                -1.6453487158333342,
+                -0.9872093358333331,
+                -0.3290698558333327,
+                0.3290692191666693,
+                0.9872089691666659,
+                1.645349719166667
+              ],
+              "max_abs_center_error_mm": 1.645349719166667,
+              "min_web_mm": 0.5199999999999996
+            },
+            {
+              "track_index": 4,
+              "track": "upper-middle zero",
+              "field_labels": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "source_y_mm": 9.002035,
+              "print_field_center_y_mm": 10.25,
+              "target_y_mm": 9.919999999999998,
+              "vertical_center_error_mm": -0.33000000000000185,
+              "row_index_from_anchor": 1,
+              "source_first_cell_center_x_mm": -2.289534805,
+              "target_first_cell_center_x_mm": -1.1500000000000057,
+              "source_cell_centers_x_mm": [
+                -2.289534805,
+                6.868604675,
+                16.02674375,
+                25.184883499999998,
+                34.3441283
+              ],
+              "target_cell_centers_x_mm": [
+                -1.1500000000000057,
+                7.349999999999994,
+                15.849999999999994,
+                24.349999999999994,
+                32.849999999999994
+              ],
+              "target_square_centers_x_mm": [
+                -1.1500000000000057,
+                7.349999999999994,
+                15.849999999999994,
+                24.349999999999994
+              ],
+              "opening_count": 4,
+              "end_slot_cell": true,
+              "end_slot_cell_center_x_mm": 34.3441283,
+              "dx_mm": -0.17696508400000582,
+              "dy_mm": 0.9179649999999988,
+              "cell_center_errors_mm": [
+                -1.3164998890000001,
+                -0.6583604090000001,
+                -0.00022133399999901826,
+                0.6579184159999976,
+                1.3171632160000044
+              ],
+              "max_abs_center_error_mm": 1.3171632160000044,
+              "min_web_mm": 0.5199999999999996
+            }
+          ]
+        },
+        {
+          "track": "upper-right zero",
+          "source_anchor_row_y_mm": 18.26,
+          "left_edge_offset_from_board_mm": 159.5,
+          "top_edge_offset_from_board_mm": 61.0,
+          "current_first_opening_center_x_mm": 50.994186049999996,
+          "target_first_printed_cell_center_x_mm": 50.25,
+          "current_top_row_center_y_mm": 18.264244400000003,
+          "target_top_print_field_center_y_mm": 18.75,
+          "target_top_opening_center_y_mm": 19.08,
+          "opening_count": 10,
+          "anchored_row_opening_count": 6,
+          "row_layouts": [
+            {
+              "track_index": 5,
+              "track": "upper-right zero",
+              "field_labels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "source_y_mm": 18.264244,
+              "print_field_center_y_mm": 18.75,
+              "target_y_mm": 19.08,
+              "vertical_center_error_mm": 0.3299999999999983,
+              "row_index_from_anchor": 0,
+              "source_first_cell_center_x_mm": 50.994186049999996,
+              "target_first_cell_center_x_mm": 50.25,
+              "source_cell_centers_x_mm": [
+                50.994186049999996,
+                60.1523268,
+                69.31046555,
+                78.46860625,
+                87.62674505000001,
+                96.7848839
+              ],
+              "target_cell_centers_x_mm": [
+                50.25,
+                58.75,
+                67.25,
+                75.75,
+                84.25,
+                92.75
+              ],
+              "target_square_centers_x_mm": [
+                50.25,
+                58.75,
+                67.25,
+                75.75,
+                84.25,
+                92.75
+              ],
+              "opening_count": 6,
+              "end_slot_cell": false,
+              "end_slot_cell_center_x_mm": null,
+              "dx_mm": -2.3895356,
+              "dy_mm": 0.8157559999999968,
+              "cell_center_errors_mm": [
+                -1.645349550000006,
+                -0.9872088000000048,
+                -0.32907004999999856,
+                0.32907064999999136,
+                0.9872094500000088,
+                1.6453482999999949
+              ],
+              "max_abs_center_error_mm": 1.645349550000006,
+              "min_web_mm": 0.5199999999999996
+            },
+            {
+              "track_index": 5,
+              "track": "upper-right zero",
+              "field_labels": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "source_y_mm": 9.002035,
+              "print_field_center_y_mm": 10.25,
+              "target_y_mm": 9.919999999999998,
+              "vertical_center_error_mm": -0.33000000000000185,
+              "row_index_from_anchor": 1,
+              "source_first_cell_center_x_mm": 60.1523268,
+              "target_first_cell_center_x_mm": 58.75,
+              "source_cell_centers_x_mm": [
+                60.1523268,
+                69.31046555,
+                78.46860625,
+                87.62674505000001,
+                96.78598679999999
+              ],
+              "target_cell_centers_x_mm": [
+                58.75,
+                67.25,
+                75.75,
+                84.25,
+                92.75
+              ],
+              "target_square_centers_x_mm": [
+                58.75,
+                67.25,
+                75.75,
+                84.25
+              ],
+              "opening_count": 4,
+              "end_slot_cell": true,
+              "end_slot_cell_center_x_mm": 96.78598679999999,
+              "dx_mm": -2.718826089999999,
+              "dy_mm": 0.9179649999999988,
+              "cell_center_errors_mm": [
+                -1.316499290000003,
+                -0.6583605399999897,
+                -0.00021983999999974912,
+                0.6579189600000177,
+                1.317160709999996
+              ],
+              "max_abs_center_error_mm": 1.317160709999996,
+              "min_web_mm": 0.5199999999999996
+            }
+          ]
+        }
+      ],
+      "cube_row_registration": [
+        {
+          "track_index": 0,
+          "track": "lower-left zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": -17.327616,
+          "print_field_center_y_mm": -16.25,
+          "target_y_mm": -15.92,
+          "vertical_center_error_mm": 0.33000000000000007,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": -93.45465035000001,
+          "target_first_cell_center_x_mm": -89.25,
+          "source_cell_centers_x_mm": [
+            -93.45465035000001,
+            -84.2965116,
+            -75.13837294999999,
+            -65.98023415,
+            -56.82209345,
+            -47.663954700000005
+          ],
+          "target_cell_centers_x_mm": [
+            -89.25,
+            -80.75,
+            -72.25,
+            -63.75,
+            -55.25,
+            -46.75
+          ],
+          "target_square_centers_x_mm": [
+            -89.25,
+            -80.75,
+            -72.25,
+            -63.75,
+            -55.25,
+            -46.75
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": 2.5593028666666675,
+          "dy_mm": 1.407615999999999,
+          "cell_center_errors_mm": [
+            -1.6453474833333388,
+            -0.9872087333333326,
+            -0.32907008333332044,
+            0.3290687166666686,
+            0.9872094166666727,
+            1.6453481666666647
+          ],
+          "max_abs_center_error_mm": 1.6453481666666647,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 0,
+          "track": "lower-left zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": -26.589826,
+          "print_field_center_y_mm": -24.75,
+          "target_y_mm": -25.08,
+          "vertical_center_error_mm": -0.3299999999999983,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": -84.2965116,
+          "target_first_cell_center_x_mm": -80.75,
+          "source_cell_centers_x_mm": [
+            -84.2965116,
+            -75.13837294999999,
+            -65.98023415,
+            -56.82209345,
+            -47.6628497
+          ],
+          "target_cell_centers_x_mm": [
+            -80.75,
+            -72.25,
+            -63.75,
+            -55.25,
+            -46.75
+          ],
+          "target_square_centers_x_mm": [
+            -80.75,
+            -72.25,
+            -63.75,
+            -55.25
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": -47.6628497,
+          "dx_mm": 2.2300123699999985,
+          "dy_mm": 1.5098260000000003,
+          "cell_center_errors_mm": [
+            -1.3164992300000051,
+            -0.658360579999993,
+            -0.00022178000000394604,
+            0.6579189200000002,
+            1.3171626699999948
+          ],
+          "max_abs_center_error_mm": 1.3171626699999948,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 1,
+          "track": "lower-middle zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": -17.327616,
+          "print_field_center_y_mm": -16.25,
+          "target_y_mm": -15.92,
+          "vertical_center_error_mm": 0.33000000000000007,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": -21.854651150000002,
+          "target_first_cell_center_x_mm": -20.25,
+          "source_cell_centers_x_mm": [
+            -21.854651150000002,
+            -12.69651194,
+            -3.5383721919999997,
+            5.61976754,
+            14.777907250000002,
+            23.9360465
+          ],
+          "target_cell_centers_x_mm": [
+            -20.25,
+            -11.75,
+            -3.25,
+            5.25,
+            13.75,
+            22.25
+          ],
+          "target_square_centers_x_mm": [
+            -20.25,
+            -11.75,
+            -3.25,
+            5.25,
+            13.75,
+            22.25
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": -0.04069766799999982,
+          "dy_mm": 1.407615999999999,
+          "cell_center_errors_mm": [
+            -1.6453488180000022,
+            -0.9872096080000006,
+            -0.3290698599999997,
+            0.3290698719999998,
+            0.987209582000002,
+            1.6453488319999998
+          ],
+          "max_abs_center_error_mm": 1.6453488319999998,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 1,
+          "track": "lower-middle zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": -26.589826,
+          "print_field_center_y_mm": -24.75,
+          "target_y_mm": -25.08,
+          "vertical_center_error_mm": -0.3299999999999983,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": -12.69651194,
+          "target_first_cell_center_x_mm": -11.75,
+          "source_cell_centers_x_mm": [
+            -12.69651194,
+            -3.5383721919999997,
+            5.61976754,
+            14.777907250000002,
+            23.9371516
+          ],
+          "target_cell_centers_x_mm": [
+            -11.75,
+            -3.25,
+            5.25,
+            13.75,
+            22.25
+          ],
+          "target_square_centers_x_mm": [
+            -11.75,
+            -3.25,
+            5.25,
+            13.75
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": 23.9371516,
+          "dx_mm": -0.36998845160000027,
+          "dy_mm": 1.5098260000000003,
+          "cell_center_errors_mm": [
+            -1.3165003916000018,
+            -0.6583606436,
+            -0.00022091160000048404,
+            0.6579187984000008,
+            1.3171631483999988
+          ],
+          "max_abs_center_error_mm": 1.3171631483999988,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 2,
+          "track": "lower-right zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": -17.327616,
+          "print_field_center_y_mm": -16.25,
+          "target_y_mm": -15.92,
+          "vertical_center_error_mm": 0.33000000000000007,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": 46.831395349999994,
+          "target_first_cell_center_x_mm": 45.75,
+          "source_cell_centers_x_mm": [
+            46.831395349999994,
+            55.989536099999995,
+            65.14767485,
+            74.30581555,
+            83.46395435,
+            92.622093
+          ],
+          "target_cell_centers_x_mm": [
+            45.75,
+            54.25,
+            62.75,
+            71.25,
+            79.75,
+            88.25
+          ],
+          "target_square_centers_x_mm": [
+            45.75,
+            54.25,
+            62.75,
+            71.25,
+            79.75,
+            88.25
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": -2.726744866666666,
+          "dy_mm": 1.407615999999999,
+          "cell_center_errors_mm": [
+            -1.6453495166666698,
+            -0.9872087666666687,
+            -0.32907001666666247,
+            0.32907068333334166,
+            0.9872094833333307,
+            1.6453481333333428
+          ],
+          "max_abs_center_error_mm": 1.6453495166666698,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 2,
+          "track": "lower-right zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": -26.589826,
+          "print_field_center_y_mm": -24.75,
+          "target_y_mm": -25.08,
+          "vertical_center_error_mm": -0.3299999999999983,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": 55.989536099999995,
+          "target_first_cell_center_x_mm": 54.25,
+          "source_cell_centers_x_mm": [
+            55.989536099999995,
+            65.14767485,
+            74.30581555,
+            83.46395435,
+            92.6231961
+          ],
+          "target_cell_centers_x_mm": [
+            54.25,
+            62.75,
+            71.25,
+            79.75,
+            88.25
+          ],
+          "target_square_centers_x_mm": [
+            54.25,
+            62.75,
+            71.25,
+            79.75
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": 92.6231961,
+          "dx_mm": -3.0560353899999995,
+          "dy_mm": 1.5098260000000003,
+          "cell_center_errors_mm": [
+            -1.316499290000003,
+            -0.6583605399999968,
+            -0.00021983999999974912,
+            0.6579189599999893,
+            1.317160709999996
+          ],
+          "max_abs_center_error_mm": 1.317160709999996,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 3,
+          "track": "upper-left -5",
+          "field_labels": [
+            -5,
+            -4,
+            -3,
+            -2,
+            -1
+          ],
+          "source_y_mm": 18.992733,
+          "print_field_center_y_mm": 18.75,
+          "target_y_mm": 19.41,
+          "vertical_center_error_mm": 0.6600000000000001,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": -65.45988535000001,
+          "target_first_cell_center_x_mm": -62.25,
+          "source_cell_centers_x_mm": [
+            -65.45988535000001,
+            -56.301744600000006,
+            -47.14360585,
+            -37.9854651,
+            -28.827325350000002
+          ],
+          "target_cell_centers_x_mm": [
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "target_square_centers_x_mm": [
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "opening_count": 5,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": 1.8936052500000031,
+          "dy_mm": 0.41726699999999894,
+          "cell_center_errors_mm": [
+            -1.3162801000000073,
+            -0.6581393500000061,
+            -5.999999999062311e-07,
+            0.6581401500000013,
+            1.3162799000000014
+          ],
+          "max_abs_center_error_mm": 1.3162801000000073,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 3,
+          "track": "upper-left -5",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": 9.730523,
+          "print_field_center_y_mm": 10.25,
+          "target_y_mm": 10.25,
+          "vertical_center_error_mm": 0.0,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": -74.61802405,
+          "target_first_cell_center_x_mm": -70.75,
+          "source_cell_centers_x_mm": [
+            -74.61802405,
+            -65.45988535000001,
+            -56.301744600000006,
+            -47.14360585,
+            -37.9854651,
+            -28.827325350000002
+          ],
+          "target_cell_centers_x_mm": [
+            -70.75,
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "target_square_centers_x_mm": [
+            -70.75,
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": 2.222675050000003,
+          "dy_mm": 0.5194770000000002,
+          "cell_center_errors_mm": [
+            -1.645348999999996,
+            -0.987210300000001,
+            -0.3290695499999998,
+            0.3290692000000064,
+            0.9872099500000076,
+            1.6453497000000006
+          ],
+          "max_abs_center_error_mm": 1.6453497000000006,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 3,
+          "track": "upper-left -5",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": 0.468314,
+          "print_field_center_y_mm": 1.75,
+          "target_y_mm": 1.0899999999999999,
+          "vertical_center_error_mm": -0.6600000000000001,
+          "row_index_from_anchor": 2,
+          "source_first_cell_center_x_mm": -65.45988535000001,
+          "target_first_cell_center_x_mm": -62.25,
+          "source_cell_centers_x_mm": [
+            -65.45988535000001,
+            -56.301744600000006,
+            -47.14360585,
+            -37.9854651,
+            -28.8262213
+          ],
+          "target_cell_centers_x_mm": [
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "target_square_centers_x_mm": [
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": -28.8262213,
+          "dx_mm": 1.8933844400000026,
+          "dy_mm": 0.6216859999999998,
+          "cell_center_errors_mm": [
+            -1.316500910000002,
+            -0.6583601600000009,
+            -0.0002214099999946484,
+            0.6579193400000065,
+            1.3171631400000017
+          ],
+          "max_abs_center_error_mm": 1.3171631400000017,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 4,
+          "track": "upper-middle zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": 18.264244,
+          "print_field_center_y_mm": 18.75,
+          "target_y_mm": 19.08,
+          "vertical_center_error_mm": 0.3299999999999983,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": -11.447674185,
+          "target_first_cell_center_x_mm": -9.650000000000006,
+          "source_cell_centers_x_mm": [
+            -11.447674185,
+            -2.289534805,
+            6.868604675,
+            16.02674375,
+            25.184883499999998,
+            34.34302425
+          ],
+          "target_cell_centers_x_mm": [
+            -9.650000000000006,
+            -1.1500000000000057,
+            7.349999999999994,
+            15.849999999999994,
+            24.349999999999994,
+            32.849999999999994
+          ],
+          "target_square_centers_x_mm": [
+            -9.650000000000006,
+            -1.1500000000000057,
+            7.349999999999994,
+            15.849999999999994,
+            24.349999999999994,
+            32.849999999999994
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": 0.15232546916666126,
+          "dy_mm": 0.8157559999999968,
+          "cell_center_errors_mm": [
+            -1.6453487158333342,
+            -0.9872093358333331,
+            -0.3290698558333327,
+            0.3290692191666693,
+            0.9872089691666659,
+            1.645349719166667
+          ],
+          "max_abs_center_error_mm": 1.645349719166667,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 4,
+          "track": "upper-middle zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": 9.002035,
+          "print_field_center_y_mm": 10.25,
+          "target_y_mm": 9.919999999999998,
+          "vertical_center_error_mm": -0.33000000000000185,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": -2.289534805,
+          "target_first_cell_center_x_mm": -1.1500000000000057,
+          "source_cell_centers_x_mm": [
+            -2.289534805,
+            6.868604675,
+            16.02674375,
+            25.184883499999998,
+            34.3441283
+          ],
+          "target_cell_centers_x_mm": [
+            -1.1500000000000057,
+            7.349999999999994,
+            15.849999999999994,
+            24.349999999999994,
+            32.849999999999994
+          ],
+          "target_square_centers_x_mm": [
+            -1.1500000000000057,
+            7.349999999999994,
+            15.849999999999994,
+            24.349999999999994
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": 34.3441283,
+          "dx_mm": -0.17696508400000582,
+          "dy_mm": 0.9179649999999988,
+          "cell_center_errors_mm": [
+            -1.3164998890000001,
+            -0.6583604090000001,
+            -0.00022133399999901826,
+            0.6579184159999976,
+            1.3171632160000044
+          ],
+          "max_abs_center_error_mm": 1.3171632160000044,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 5,
+          "track": "upper-right zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": 18.264244,
+          "print_field_center_y_mm": 18.75,
+          "target_y_mm": 19.08,
+          "vertical_center_error_mm": 0.3299999999999983,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": 50.994186049999996,
+          "target_first_cell_center_x_mm": 50.25,
+          "source_cell_centers_x_mm": [
+            50.994186049999996,
+            60.1523268,
+            69.31046555,
+            78.46860625,
+            87.62674505000001,
+            96.7848839
+          ],
+          "target_cell_centers_x_mm": [
+            50.25,
+            58.75,
+            67.25,
+            75.75,
+            84.25,
+            92.75
+          ],
+          "target_square_centers_x_mm": [
+            50.25,
+            58.75,
+            67.25,
+            75.75,
+            84.25,
+            92.75
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": -2.3895356,
+          "dy_mm": 0.8157559999999968,
+          "cell_center_errors_mm": [
+            -1.645349550000006,
+            -0.9872088000000048,
+            -0.32907004999999856,
+            0.32907064999999136,
+            0.9872094500000088,
+            1.6453482999999949
+          ],
+          "max_abs_center_error_mm": 1.645349550000006,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 5,
+          "track": "upper-right zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": 9.002035,
+          "print_field_center_y_mm": 10.25,
+          "target_y_mm": 9.919999999999998,
+          "vertical_center_error_mm": -0.33000000000000185,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": 60.1523268,
+          "target_first_cell_center_x_mm": 58.75,
+          "source_cell_centers_x_mm": [
+            60.1523268,
+            69.31046555,
+            78.46860625,
+            87.62674505000001,
+            96.78598679999999
+          ],
+          "target_cell_centers_x_mm": [
+            58.75,
+            67.25,
+            75.75,
+            84.25,
+            92.75
+          ],
+          "target_square_centers_x_mm": [
+            58.75,
+            67.25,
+            75.75,
+            84.25
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": 96.78598679999999,
+          "dx_mm": -2.718826089999999,
+          "dy_mm": 0.9179649999999988,
+          "cell_center_errors_mm": [
+            -1.316499290000003,
+            -0.6583605399999897,
+            -0.00021983999999974912,
+            0.6579189600000177,
+            1.317160709999996
+          ],
+          "max_abs_center_error_mm": 1.317160709999996,
+          "min_web_mm": 0.5199999999999996
+        }
+      ],
+      "cube_track_end_slots": [
+        {
+          "center_mm": [
+            -22.35487156,
+            1.0899999999999999
+          ],
+          "size_mm": [
+            17.7959306,
+            8.6377904
+          ],
+          "track": "upper-left -5",
+          "source_row_y_mm": 0.4683140000000001
+        },
+        {
+          "center_mm": [
+            -40.85487098,
+            -25.0799998
+          ],
+          "size_mm": [
+            17.7959327,
+            8.637791999999997
+          ],
+          "track": "lower-left zero",
+          "source_row_y_mm": -26.5898258
+        },
+        {
+          "center_mm": [
+            94.14512515999999,
+            -25.0799998
+          ],
+          "size_mm": [
+            17.795928900000007,
+            8.637791999999997
+          ],
+          "track": "lower-right zero",
+          "source_row_y_mm": -26.5898258
+        },
+        {
+          "center_mm": [
+            28.145128448399998,
+            -25.0799998
+          ],
+          "size_mm": [
+            17.7959306,
+            8.637791999999997
+          ],
+          "track": "lower-middle zero",
+          "source_row_y_mm": -26.5898258
+        },
+        {
+          "center_mm": [
+            98.64512481,
+            9.919999964999999
+          ],
+          "size_mm": [
+            17.795928200000006,
+            8.63779087
+          ],
+          "track": "upper-right zero",
+          "source_row_y_mm": 9.002034965
+        },
+        {
+          "center_mm": [
+            38.745128566,
+            9.919999964999999
+          ],
+          "size_mm": [
+            17.7959307,
+            8.63779087
+          ],
+          "track": "upper-middle zero",
+          "source_row_y_mm": 9.002034965
+        }
+      ],
+      "horizontal_slot": {
+        "source_center_mm": [
+          44.3857544,
+          -3.6944766349999996
+        ],
+        "source_size_mm": [
+          109.8976708,
+          8.637790529999998
+        ],
+        "target_center_mm": [
+          46.437346437346434,
+          -4.914004914004913
+        ],
+        "target_size_mm": [
+          109.8976708,
+          6.8
+        ],
+        "target_area_center_mm": [
+          46.437346437346434,
+          -4.914004914004913
+        ],
+        "target_area_size_mm": [
+          113.75921375921376,
+          13.022113022113022
+        ],
+        "minimum_cube_clearance_mm": 3.2859950859950864,
+        "nearest_cube_opening": {
+          "track": "lower-middle zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cube_center_mm": [
+            -11.75,
+            -15.92
+          ]
+        }
+      },
+      "adjacent_cutout": {
+        "source_center_mm": [
+          -92.10174435,
+          10.23005805
+        ],
+        "target_center_mm": [
+          -96.05174435,
+          10.23005805
+        ],
+        "translation_mm": [
+          -3.95,
+          0.0
+        ],
+        "size_mm": [
+          24.2482593,
+          15.610465099999999
+        ]
+      },
+      "resource_windows": [
+        {
+          "name": "upper-left",
+          "center_mm": [
+            -60.56511056511056,
+            49.877149877149876
+          ],
+          "size_mm": [
+            83.53808353808353,
+            43.488943488943484
+          ],
+          "bounds_mm": [
+            -102.33415233415232,
+            28.13267813267813,
+            -18.796068796068795,
+            71.62162162162161
+          ]
+        },
+        {
+          "name": "upper-middle",
+          "center_mm": [
+            12.285012285012286,
+            50.368550368550366
+          ],
+          "size_mm": [
+            56.26535626535626,
+            45.45454545454545
+          ],
+          "bounds_mm": [
+            -15.847665847665846,
+            27.64127764127764,
+            40.417690417690416,
+            73.09582309582309
+          ]
+        },
+        {
+          "name": "upper-right",
+          "center_mm": [
+            72.72727272727272,
+            50.49140049140048
+          ],
+          "size_mm": [
+            55.77395577395577,
+            44.717444717444714
+          ],
+          "bounds_mm": [
+            44.84029484029484,
+            28.13267813267813,
+            100.61425061425061,
+            72.85012285012284
+          ]
+        },
+        {
+          "name": "lower-left",
+          "center_mm": [
+            -67.93611793611794,
+            -54.05405405405405
+          ],
+          "size_mm": [
+            69.77886977886978,
+            37.59213759213759
+          ],
+          "bounds_mm": [
+            -102.82555282555282,
+            -72.85012285012284,
+            -33.04668304668304,
+            -35.257985257985254
+          ]
+        },
+        {
+          "name": "lower-middle",
+          "center_mm": [
+            1.8427518427518415,
+            -53.8083538083538
+          ],
+          "size_mm": [
+            61.42506142506142,
+            37.59213759213758
+          ],
+          "bounds_mm": [
+            -28.86977886977887,
+            -72.6044226044226,
+            32.55528255528255,
+            -35.01228501228501
+          ]
+        },
+        {
+          "name": "lower-right",
+          "center_mm": [
+            68.18181818181819,
+            -53.56265356265356
+          ],
+          "size_mm": [
+            67.81326781326781,
+            39.06633906633907
+          ],
+          "bounds_mm": [
+            34.27518427518427,
+            -73.09582309582309,
+            102.08845208845209,
+            -34.029484029484024
+          ]
+        }
+      ],
+      "mount_centers_mm": [
+        [
+          0.0,
+          -86.4819752
+        ],
+        [
+          0.0,
+          86.4819752
+        ],
+        [
+          -116.1825565,
+          -86.4819752
+        ],
+        [
+          -116.1825565,
+          0.0
+        ],
+        [
+          -116.1825565,
+          86.4819752
+        ],
+        [
+          116.1825565,
+          -86.4819752
+        ],
+        [
+          116.1825565,
+          0.0
+        ],
+        [
+          116.1825565,
+          86.4819752
+        ]
+      ],
+      "front_z": {
+        "bottom_z_mm": -1.5610464811325073,
+        "top_z_mm": 0.9389535188674927,
+        "floor_z_mm": 0.4389535188674927,
+        "floor_vertices_adjusted": 192
+      }
+    },
+    "3D/Objects/Body1_2.model": {
+      "mount_centers_mm": [
+        [
+          0.0,
+          -86.4819752
+        ],
+        [
+          0.0,
+          86.4819752
+        ],
+        [
+          -116.1825565,
+          -86.4819752
+        ],
+        [
+          -116.1825565,
+          0.0
+        ],
+        [
+          -116.1825565,
+          86.4819752
+        ],
+        [
+          116.1825565,
+          -86.4819752
+        ],
+        [
+          116.1825565,
+          0.0
+        ],
+        [
+          116.1825565,
+          86.4819752
+        ]
+      ],
+      "pin_projection_mm": 1.6,
+      "tip_z_mm": 1.3918604651162791
+    },
+    "3D/Objects/Vorderseite - PLA Transparent (Startprofil)_3.model": {
+      "cube_tracks": [
+        {
+          "track": "lower-left zero",
+          "source_anchor_row_y_mm": -17.33,
+          "left_edge_offset_from_board_mm": 20.0,
+          "top_edge_offset_from_board_mm": 96.0,
+          "current_first_opening_center_x_mm": -93.45465035000001,
+          "target_first_printed_cell_center_x_mm": -89.25,
+          "current_top_row_center_y_mm": -17.32761585,
+          "target_top_print_field_center_y_mm": -16.25,
+          "target_top_opening_center_y_mm": -15.92,
+          "opening_count": 10,
+          "anchored_row_opening_count": 6,
+          "row_layouts": [
+            {
+              "track_index": 0,
+              "track": "lower-left zero",
+              "field_labels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "source_y_mm": -17.327616,
+              "print_field_center_y_mm": -16.25,
+              "target_y_mm": -15.92,
+              "vertical_center_error_mm": 0.33000000000000007,
+              "row_index_from_anchor": 0,
+              "source_first_cell_center_x_mm": -93.45465035000001,
+              "target_first_cell_center_x_mm": -89.25,
+              "source_cell_centers_x_mm": [
+                -93.45465035000001,
+                -84.2965116,
+                -75.13837294999999,
+                -65.98023415,
+                -56.82209345,
+                -47.663954700000005
+              ],
+              "target_cell_centers_x_mm": [
+                -89.25,
+                -80.75,
+                -72.25,
+                -63.75,
+                -55.25,
+                -46.75
+              ],
+              "target_square_centers_x_mm": [
+                -89.25,
+                -80.75,
+                -72.25,
+                -63.75,
+                -55.25,
+                -46.75
+              ],
+              "opening_count": 6,
+              "end_slot_cell": false,
+              "end_slot_cell_center_x_mm": null,
+              "dx_mm": 2.5593028666666675,
+              "dy_mm": 1.407615999999999,
+              "cell_center_errors_mm": [
+                -1.6453474833333388,
+                -0.9872087333333326,
+                -0.32907008333332044,
+                0.3290687166666686,
+                0.9872094166666727,
+                1.6453481666666647
+              ],
+              "max_abs_center_error_mm": 1.6453481666666647,
+              "min_web_mm": 0.5199999999999996
+            },
+            {
+              "track_index": 0,
+              "track": "lower-left zero",
+              "field_labels": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "source_y_mm": -26.589826,
+              "print_field_center_y_mm": -24.75,
+              "target_y_mm": -25.08,
+              "vertical_center_error_mm": -0.3299999999999983,
+              "row_index_from_anchor": 1,
+              "source_first_cell_center_x_mm": -84.2965116,
+              "target_first_cell_center_x_mm": -80.75,
+              "source_cell_centers_x_mm": [
+                -84.2965116,
+                -75.13837294999999,
+                -65.98023415,
+                -56.82209345,
+                -47.6628497
+              ],
+              "target_cell_centers_x_mm": [
+                -80.75,
+                -72.25,
+                -63.75,
+                -55.25,
+                -46.75
+              ],
+              "target_square_centers_x_mm": [
+                -80.75,
+                -72.25,
+                -63.75,
+                -55.25
+              ],
+              "opening_count": 4,
+              "end_slot_cell": true,
+              "end_slot_cell_center_x_mm": -47.6628497,
+              "dx_mm": 2.2300123699999985,
+              "dy_mm": 1.5098260000000003,
+              "cell_center_errors_mm": [
+                -1.3164992300000051,
+                -0.658360579999993,
+                -0.00022178000000394604,
+                0.6579189200000002,
+                1.3171626699999948
+              ],
+              "max_abs_center_error_mm": 1.3171626699999948,
+              "min_web_mm": 0.5199999999999996
+            }
+          ]
+        },
+        {
+          "track": "lower-middle zero",
+          "source_anchor_row_y_mm": -17.33,
+          "left_edge_offset_from_board_mm": 89.0,
+          "top_edge_offset_from_board_mm": 96.0,
+          "current_first_opening_center_x_mm": -21.854651150000002,
+          "target_first_printed_cell_center_x_mm": -20.25,
+          "current_top_row_center_y_mm": -17.32761585,
+          "target_top_print_field_center_y_mm": -16.25,
+          "target_top_opening_center_y_mm": -15.92,
+          "opening_count": 10,
+          "anchored_row_opening_count": 6,
+          "row_layouts": [
+            {
+              "track_index": 1,
+              "track": "lower-middle zero",
+              "field_labels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "source_y_mm": -17.327616,
+              "print_field_center_y_mm": -16.25,
+              "target_y_mm": -15.92,
+              "vertical_center_error_mm": 0.33000000000000007,
+              "row_index_from_anchor": 0,
+              "source_first_cell_center_x_mm": -21.854651150000002,
+              "target_first_cell_center_x_mm": -20.25,
+              "source_cell_centers_x_mm": [
+                -21.854651150000002,
+                -12.69651194,
+                -3.5383721919999997,
+                5.61976754,
+                14.777907250000002,
+                23.9360465
+              ],
+              "target_cell_centers_x_mm": [
+                -20.25,
+                -11.75,
+                -3.25,
+                5.25,
+                13.75,
+                22.25
+              ],
+              "target_square_centers_x_mm": [
+                -20.25,
+                -11.75,
+                -3.25,
+                5.25,
+                13.75,
+                22.25
+              ],
+              "opening_count": 6,
+              "end_slot_cell": false,
+              "end_slot_cell_center_x_mm": null,
+              "dx_mm": -0.04069766799999982,
+              "dy_mm": 1.407615999999999,
+              "cell_center_errors_mm": [
+                -1.6453488180000022,
+                -0.9872096080000006,
+                -0.3290698599999997,
+                0.3290698719999998,
+                0.987209582000002,
+                1.6453488319999998
+              ],
+              "max_abs_center_error_mm": 1.6453488319999998,
+              "min_web_mm": 0.5199999999999996
+            },
+            {
+              "track_index": 1,
+              "track": "lower-middle zero",
+              "field_labels": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "source_y_mm": -26.589826,
+              "print_field_center_y_mm": -24.75,
+              "target_y_mm": -25.08,
+              "vertical_center_error_mm": -0.3299999999999983,
+              "row_index_from_anchor": 1,
+              "source_first_cell_center_x_mm": -12.69651194,
+              "target_first_cell_center_x_mm": -11.75,
+              "source_cell_centers_x_mm": [
+                -12.69651194,
+                -3.5383721919999997,
+                5.61976754,
+                14.777907250000002,
+                23.9371516
+              ],
+              "target_cell_centers_x_mm": [
+                -11.75,
+                -3.25,
+                5.25,
+                13.75,
+                22.25
+              ],
+              "target_square_centers_x_mm": [
+                -11.75,
+                -3.25,
+                5.25,
+                13.75
+              ],
+              "opening_count": 4,
+              "end_slot_cell": true,
+              "end_slot_cell_center_x_mm": 23.9371516,
+              "dx_mm": -0.36998845160000027,
+              "dy_mm": 1.5098260000000003,
+              "cell_center_errors_mm": [
+                -1.3165003916000018,
+                -0.6583606436,
+                -0.00022091160000048404,
+                0.6579187984000008,
+                1.3171631483999988
+              ],
+              "max_abs_center_error_mm": 1.3171631483999988,
+              "min_web_mm": 0.5199999999999996
+            }
+          ]
+        },
+        {
+          "track": "lower-right zero",
+          "source_anchor_row_y_mm": -17.33,
+          "left_edge_offset_from_board_mm": 155.0,
+          "top_edge_offset_from_board_mm": 96.0,
+          "current_first_opening_center_x_mm": 46.831395349999994,
+          "target_first_printed_cell_center_x_mm": 45.75,
+          "current_top_row_center_y_mm": -17.32761585,
+          "target_top_print_field_center_y_mm": -16.25,
+          "target_top_opening_center_y_mm": -15.92,
+          "opening_count": 10,
+          "anchored_row_opening_count": 6,
+          "row_layouts": [
+            {
+              "track_index": 2,
+              "track": "lower-right zero",
+              "field_labels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "source_y_mm": -17.327616,
+              "print_field_center_y_mm": -16.25,
+              "target_y_mm": -15.92,
+              "vertical_center_error_mm": 0.33000000000000007,
+              "row_index_from_anchor": 0,
+              "source_first_cell_center_x_mm": 46.831395349999994,
+              "target_first_cell_center_x_mm": 45.75,
+              "source_cell_centers_x_mm": [
+                46.831395349999994,
+                55.989536099999995,
+                65.14767485,
+                74.30581555,
+                83.46395435,
+                92.622093
+              ],
+              "target_cell_centers_x_mm": [
+                45.75,
+                54.25,
+                62.75,
+                71.25,
+                79.75,
+                88.25
+              ],
+              "target_square_centers_x_mm": [
+                45.75,
+                54.25,
+                62.75,
+                71.25,
+                79.75,
+                88.25
+              ],
+              "opening_count": 6,
+              "end_slot_cell": false,
+              "end_slot_cell_center_x_mm": null,
+              "dx_mm": -2.726744866666666,
+              "dy_mm": 1.407615999999999,
+              "cell_center_errors_mm": [
+                -1.6453495166666698,
+                -0.9872087666666687,
+                -0.32907001666666247,
+                0.32907068333334166,
+                0.9872094833333307,
+                1.6453481333333428
+              ],
+              "max_abs_center_error_mm": 1.6453495166666698,
+              "min_web_mm": 0.5199999999999996
+            },
+            {
+              "track_index": 2,
+              "track": "lower-right zero",
+              "field_labels": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "source_y_mm": -26.589826,
+              "print_field_center_y_mm": -24.75,
+              "target_y_mm": -25.08,
+              "vertical_center_error_mm": -0.3299999999999983,
+              "row_index_from_anchor": 1,
+              "source_first_cell_center_x_mm": 55.989536099999995,
+              "target_first_cell_center_x_mm": 54.25,
+              "source_cell_centers_x_mm": [
+                55.989536099999995,
+                65.14767485,
+                74.30581555,
+                83.46395435,
+                92.6231961
+              ],
+              "target_cell_centers_x_mm": [
+                54.25,
+                62.75,
+                71.25,
+                79.75,
+                88.25
+              ],
+              "target_square_centers_x_mm": [
+                54.25,
+                62.75,
+                71.25,
+                79.75
+              ],
+              "opening_count": 4,
+              "end_slot_cell": true,
+              "end_slot_cell_center_x_mm": 92.6231961,
+              "dx_mm": -3.0560353899999995,
+              "dy_mm": 1.5098260000000003,
+              "cell_center_errors_mm": [
+                -1.316499290000003,
+                -0.6583605399999968,
+                -0.00021983999999974912,
+                0.6579189599999893,
+                1.317160709999996
+              ],
+              "max_abs_center_error_mm": 1.317160709999996,
+              "min_web_mm": 0.5199999999999996
+            }
+          ]
+        },
+        {
+          "track": "upper-left -5",
+          "source_anchor_row_y_mm": 18.99,
+          "left_edge_offset_from_board_mm": 47.0,
+          "top_edge_offset_from_board_mm": 61.0,
+          "current_first_opening_center_x_mm": -65.45988535000001,
+          "target_first_printed_cell_center_x_mm": -62.25,
+          "current_top_row_center_y_mm": 18.99273255,
+          "target_top_print_field_center_y_mm": 18.75,
+          "target_top_opening_center_y_mm": 19.41,
+          "opening_count": 15,
+          "anchored_row_opening_count": 5,
+          "row_layouts": [
+            {
+              "track_index": 3,
+              "track": "upper-left -5",
+              "field_labels": [
+                -5,
+                -4,
+                -3,
+                -2,
+                -1
+              ],
+              "source_y_mm": 18.992733,
+              "print_field_center_y_mm": 18.75,
+              "target_y_mm": 19.41,
+              "vertical_center_error_mm": 0.6600000000000001,
+              "row_index_from_anchor": 0,
+              "source_first_cell_center_x_mm": -65.45988535000001,
+              "target_first_cell_center_x_mm": -62.25,
+              "source_cell_centers_x_mm": [
+                -65.45988535000001,
+                -56.301744600000006,
+                -47.14360585,
+                -37.9854651,
+                -28.827325350000002
+              ],
+              "target_cell_centers_x_mm": [
+                -62.25,
+                -53.75,
+                -45.25,
+                -36.75,
+                -28.25
+              ],
+              "target_square_centers_x_mm": [
+                -62.25,
+                -53.75,
+                -45.25,
+                -36.75,
+                -28.25
+              ],
+              "opening_count": 5,
+              "end_slot_cell": false,
+              "end_slot_cell_center_x_mm": null,
+              "dx_mm": 1.8936052500000031,
+              "dy_mm": 0.41726699999999894,
+              "cell_center_errors_mm": [
+                -1.3162801000000073,
+                -0.6581393500000061,
+                -5.999999999062311e-07,
+                0.6581401500000013,
+                1.3162799000000014
+              ],
+              "max_abs_center_error_mm": 1.3162801000000073,
+              "min_web_mm": 0.5199999999999996
+            },
+            {
+              "track_index": 3,
+              "track": "upper-left -5",
+              "field_labels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "source_y_mm": 9.730523,
+              "print_field_center_y_mm": 10.25,
+              "target_y_mm": 10.25,
+              "vertical_center_error_mm": 0.0,
+              "row_index_from_anchor": 1,
+              "source_first_cell_center_x_mm": -74.61802405,
+              "target_first_cell_center_x_mm": -70.75,
+              "source_cell_centers_x_mm": [
+                -74.61802405,
+                -65.45988535000001,
+                -56.301744600000006,
+                -47.14360585,
+                -37.9854651,
+                -28.827325350000002
+              ],
+              "target_cell_centers_x_mm": [
+                -70.75,
+                -62.25,
+                -53.75,
+                -45.25,
+                -36.75,
+                -28.25
+              ],
+              "target_square_centers_x_mm": [
+                -70.75,
+                -62.25,
+                -53.75,
+                -45.25,
+                -36.75,
+                -28.25
+              ],
+              "opening_count": 6,
+              "end_slot_cell": false,
+              "end_slot_cell_center_x_mm": null,
+              "dx_mm": 2.222675050000003,
+              "dy_mm": 0.5194770000000002,
+              "cell_center_errors_mm": [
+                -1.645348999999996,
+                -0.987210300000001,
+                -0.3290695499999998,
+                0.3290692000000064,
+                0.9872099500000076,
+                1.6453497000000006
+              ],
+              "max_abs_center_error_mm": 1.6453497000000006,
+              "min_web_mm": 0.5199999999999996
+            },
+            {
+              "track_index": 3,
+              "track": "upper-left -5",
+              "field_labels": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "source_y_mm": 0.468314,
+              "print_field_center_y_mm": 1.75,
+              "target_y_mm": 1.0899999999999999,
+              "vertical_center_error_mm": -0.6600000000000001,
+              "row_index_from_anchor": 2,
+              "source_first_cell_center_x_mm": -65.45988535000001,
+              "target_first_cell_center_x_mm": -62.25,
+              "source_cell_centers_x_mm": [
+                -65.45988535000001,
+                -56.301744600000006,
+                -47.14360585,
+                -37.9854651,
+                -28.8262213
+              ],
+              "target_cell_centers_x_mm": [
+                -62.25,
+                -53.75,
+                -45.25,
+                -36.75,
+                -28.25
+              ],
+              "target_square_centers_x_mm": [
+                -62.25,
+                -53.75,
+                -45.25,
+                -36.75
+              ],
+              "opening_count": 4,
+              "end_slot_cell": true,
+              "end_slot_cell_center_x_mm": -28.8262213,
+              "dx_mm": 1.8933844400000026,
+              "dy_mm": 0.6216859999999998,
+              "cell_center_errors_mm": [
+                -1.316500910000002,
+                -0.6583601600000009,
+                -0.0002214099999946484,
+                0.6579193400000065,
+                1.3171631400000017
+              ],
+              "max_abs_center_error_mm": 1.3171631400000017,
+              "min_web_mm": 0.5199999999999996
+            }
+          ]
+        },
+        {
+          "track": "upper-middle zero",
+          "source_anchor_row_y_mm": 18.26,
+          "left_edge_offset_from_board_mm": 99.6,
+          "top_edge_offset_from_board_mm": 61.0,
+          "current_first_opening_center_x_mm": -11.447674185,
+          "target_first_printed_cell_center_x_mm": -9.650000000000006,
+          "current_top_row_center_y_mm": 18.264244400000003,
+          "target_top_print_field_center_y_mm": 18.75,
+          "target_top_opening_center_y_mm": 19.08,
+          "opening_count": 10,
+          "anchored_row_opening_count": 6,
+          "row_layouts": [
+            {
+              "track_index": 4,
+              "track": "upper-middle zero",
+              "field_labels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "source_y_mm": 18.264244,
+              "print_field_center_y_mm": 18.75,
+              "target_y_mm": 19.08,
+              "vertical_center_error_mm": 0.3299999999999983,
+              "row_index_from_anchor": 0,
+              "source_first_cell_center_x_mm": -11.447674185,
+              "target_first_cell_center_x_mm": -9.650000000000006,
+              "source_cell_centers_x_mm": [
+                -11.447674185,
+                -2.289534805,
+                6.868604675,
+                16.02674375,
+                25.184883499999998,
+                34.34302425
+              ],
+              "target_cell_centers_x_mm": [
+                -9.650000000000006,
+                -1.1500000000000057,
+                7.349999999999994,
+                15.849999999999994,
+                24.349999999999994,
+                32.849999999999994
+              ],
+              "target_square_centers_x_mm": [
+                -9.650000000000006,
+                -1.1500000000000057,
+                7.349999999999994,
+                15.849999999999994,
+                24.349999999999994,
+                32.849999999999994
+              ],
+              "opening_count": 6,
+              "end_slot_cell": false,
+              "end_slot_cell_center_x_mm": null,
+              "dx_mm": 0.15232546916666126,
+              "dy_mm": 0.8157559999999968,
+              "cell_center_errors_mm": [
+                -1.6453487158333342,
+                -0.9872093358333331,
+                -0.3290698558333327,
+                0.3290692191666693,
+                0.9872089691666659,
+                1.645349719166667
+              ],
+              "max_abs_center_error_mm": 1.645349719166667,
+              "min_web_mm": 0.5199999999999996
+            },
+            {
+              "track_index": 4,
+              "track": "upper-middle zero",
+              "field_labels": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "source_y_mm": 9.002035,
+              "print_field_center_y_mm": 10.25,
+              "target_y_mm": 9.919999999999998,
+              "vertical_center_error_mm": -0.33000000000000185,
+              "row_index_from_anchor": 1,
+              "source_first_cell_center_x_mm": -2.289534805,
+              "target_first_cell_center_x_mm": -1.1500000000000057,
+              "source_cell_centers_x_mm": [
+                -2.289534805,
+                6.868604675,
+                16.02674375,
+                25.184883499999998,
+                34.3441283
+              ],
+              "target_cell_centers_x_mm": [
+                -1.1500000000000057,
+                7.349999999999994,
+                15.849999999999994,
+                24.349999999999994,
+                32.849999999999994
+              ],
+              "target_square_centers_x_mm": [
+                -1.1500000000000057,
+                7.349999999999994,
+                15.849999999999994,
+                24.349999999999994
+              ],
+              "opening_count": 4,
+              "end_slot_cell": true,
+              "end_slot_cell_center_x_mm": 34.3441283,
+              "dx_mm": -0.17696508400000582,
+              "dy_mm": 0.9179649999999988,
+              "cell_center_errors_mm": [
+                -1.3164998890000001,
+                -0.6583604090000001,
+                -0.00022133399999901826,
+                0.6579184159999976,
+                1.3171632160000044
+              ],
+              "max_abs_center_error_mm": 1.3171632160000044,
+              "min_web_mm": 0.5199999999999996
+            }
+          ]
+        },
+        {
+          "track": "upper-right zero",
+          "source_anchor_row_y_mm": 18.26,
+          "left_edge_offset_from_board_mm": 159.5,
+          "top_edge_offset_from_board_mm": 61.0,
+          "current_first_opening_center_x_mm": 50.994186049999996,
+          "target_first_printed_cell_center_x_mm": 50.25,
+          "current_top_row_center_y_mm": 18.264244400000003,
+          "target_top_print_field_center_y_mm": 18.75,
+          "target_top_opening_center_y_mm": 19.08,
+          "opening_count": 10,
+          "anchored_row_opening_count": 6,
+          "row_layouts": [
+            {
+              "track_index": 5,
+              "track": "upper-right zero",
+              "field_labels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "source_y_mm": 18.264244,
+              "print_field_center_y_mm": 18.75,
+              "target_y_mm": 19.08,
+              "vertical_center_error_mm": 0.3299999999999983,
+              "row_index_from_anchor": 0,
+              "source_first_cell_center_x_mm": 50.994186049999996,
+              "target_first_cell_center_x_mm": 50.25,
+              "source_cell_centers_x_mm": [
+                50.994186049999996,
+                60.1523268,
+                69.31046555,
+                78.46860625,
+                87.62674505000001,
+                96.7848839
+              ],
+              "target_cell_centers_x_mm": [
+                50.25,
+                58.75,
+                67.25,
+                75.75,
+                84.25,
+                92.75
+              ],
+              "target_square_centers_x_mm": [
+                50.25,
+                58.75,
+                67.25,
+                75.75,
+                84.25,
+                92.75
+              ],
+              "opening_count": 6,
+              "end_slot_cell": false,
+              "end_slot_cell_center_x_mm": null,
+              "dx_mm": -2.3895356,
+              "dy_mm": 0.8157559999999968,
+              "cell_center_errors_mm": [
+                -1.645349550000006,
+                -0.9872088000000048,
+                -0.32907004999999856,
+                0.32907064999999136,
+                0.9872094500000088,
+                1.6453482999999949
+              ],
+              "max_abs_center_error_mm": 1.645349550000006,
+              "min_web_mm": 0.5199999999999996
+            },
+            {
+              "track_index": 5,
+              "track": "upper-right zero",
+              "field_labels": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "source_y_mm": 9.002035,
+              "print_field_center_y_mm": 10.25,
+              "target_y_mm": 9.919999999999998,
+              "vertical_center_error_mm": -0.33000000000000185,
+              "row_index_from_anchor": 1,
+              "source_first_cell_center_x_mm": 60.1523268,
+              "target_first_cell_center_x_mm": 58.75,
+              "source_cell_centers_x_mm": [
+                60.1523268,
+                69.31046555,
+                78.46860625,
+                87.62674505000001,
+                96.78598679999999
+              ],
+              "target_cell_centers_x_mm": [
+                58.75,
+                67.25,
+                75.75,
+                84.25,
+                92.75
+              ],
+              "target_square_centers_x_mm": [
+                58.75,
+                67.25,
+                75.75,
+                84.25
+              ],
+              "opening_count": 4,
+              "end_slot_cell": true,
+              "end_slot_cell_center_x_mm": 96.78598679999999,
+              "dx_mm": -2.718826089999999,
+              "dy_mm": 0.9179649999999988,
+              "cell_center_errors_mm": [
+                -1.316499290000003,
+                -0.6583605399999897,
+                -0.00021983999999974912,
+                0.6579189600000177,
+                1.317160709999996
+              ],
+              "max_abs_center_error_mm": 1.317160709999996,
+              "min_web_mm": 0.5199999999999996
+            }
+          ]
+        }
+      ],
+      "cube_row_registration": [
+        {
+          "track_index": 0,
+          "track": "lower-left zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": -17.327616,
+          "print_field_center_y_mm": -16.25,
+          "target_y_mm": -15.92,
+          "vertical_center_error_mm": 0.33000000000000007,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": -93.45465035000001,
+          "target_first_cell_center_x_mm": -89.25,
+          "source_cell_centers_x_mm": [
+            -93.45465035000001,
+            -84.2965116,
+            -75.13837294999999,
+            -65.98023415,
+            -56.82209345,
+            -47.663954700000005
+          ],
+          "target_cell_centers_x_mm": [
+            -89.25,
+            -80.75,
+            -72.25,
+            -63.75,
+            -55.25,
+            -46.75
+          ],
+          "target_square_centers_x_mm": [
+            -89.25,
+            -80.75,
+            -72.25,
+            -63.75,
+            -55.25,
+            -46.75
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": 2.5593028666666675,
+          "dy_mm": 1.407615999999999,
+          "cell_center_errors_mm": [
+            -1.6453474833333388,
+            -0.9872087333333326,
+            -0.32907008333332044,
+            0.3290687166666686,
+            0.9872094166666727,
+            1.6453481666666647
+          ],
+          "max_abs_center_error_mm": 1.6453481666666647,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 0,
+          "track": "lower-left zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": -26.589826,
+          "print_field_center_y_mm": -24.75,
+          "target_y_mm": -25.08,
+          "vertical_center_error_mm": -0.3299999999999983,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": -84.2965116,
+          "target_first_cell_center_x_mm": -80.75,
+          "source_cell_centers_x_mm": [
+            -84.2965116,
+            -75.13837294999999,
+            -65.98023415,
+            -56.82209345,
+            -47.6628497
+          ],
+          "target_cell_centers_x_mm": [
+            -80.75,
+            -72.25,
+            -63.75,
+            -55.25,
+            -46.75
+          ],
+          "target_square_centers_x_mm": [
+            -80.75,
+            -72.25,
+            -63.75,
+            -55.25
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": -47.6628497,
+          "dx_mm": 2.2300123699999985,
+          "dy_mm": 1.5098260000000003,
+          "cell_center_errors_mm": [
+            -1.3164992300000051,
+            -0.658360579999993,
+            -0.00022178000000394604,
+            0.6579189200000002,
+            1.3171626699999948
+          ],
+          "max_abs_center_error_mm": 1.3171626699999948,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 1,
+          "track": "lower-middle zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": -17.327616,
+          "print_field_center_y_mm": -16.25,
+          "target_y_mm": -15.92,
+          "vertical_center_error_mm": 0.33000000000000007,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": -21.854651150000002,
+          "target_first_cell_center_x_mm": -20.25,
+          "source_cell_centers_x_mm": [
+            -21.854651150000002,
+            -12.69651194,
+            -3.5383721919999997,
+            5.61976754,
+            14.777907250000002,
+            23.9360465
+          ],
+          "target_cell_centers_x_mm": [
+            -20.25,
+            -11.75,
+            -3.25,
+            5.25,
+            13.75,
+            22.25
+          ],
+          "target_square_centers_x_mm": [
+            -20.25,
+            -11.75,
+            -3.25,
+            5.25,
+            13.75,
+            22.25
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": -0.04069766799999982,
+          "dy_mm": 1.407615999999999,
+          "cell_center_errors_mm": [
+            -1.6453488180000022,
+            -0.9872096080000006,
+            -0.3290698599999997,
+            0.3290698719999998,
+            0.987209582000002,
+            1.6453488319999998
+          ],
+          "max_abs_center_error_mm": 1.6453488319999998,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 1,
+          "track": "lower-middle zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": -26.589826,
+          "print_field_center_y_mm": -24.75,
+          "target_y_mm": -25.08,
+          "vertical_center_error_mm": -0.3299999999999983,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": -12.69651194,
+          "target_first_cell_center_x_mm": -11.75,
+          "source_cell_centers_x_mm": [
+            -12.69651194,
+            -3.5383721919999997,
+            5.61976754,
+            14.777907250000002,
+            23.9371516
+          ],
+          "target_cell_centers_x_mm": [
+            -11.75,
+            -3.25,
+            5.25,
+            13.75,
+            22.25
+          ],
+          "target_square_centers_x_mm": [
+            -11.75,
+            -3.25,
+            5.25,
+            13.75
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": 23.9371516,
+          "dx_mm": -0.36998845160000027,
+          "dy_mm": 1.5098260000000003,
+          "cell_center_errors_mm": [
+            -1.3165003916000018,
+            -0.6583606436,
+            -0.00022091160000048404,
+            0.6579187984000008,
+            1.3171631483999988
+          ],
+          "max_abs_center_error_mm": 1.3171631483999988,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 2,
+          "track": "lower-right zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": -17.327616,
+          "print_field_center_y_mm": -16.25,
+          "target_y_mm": -15.92,
+          "vertical_center_error_mm": 0.33000000000000007,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": 46.831395349999994,
+          "target_first_cell_center_x_mm": 45.75,
+          "source_cell_centers_x_mm": [
+            46.831395349999994,
+            55.989536099999995,
+            65.14767485,
+            74.30581555,
+            83.46395435,
+            92.622093
+          ],
+          "target_cell_centers_x_mm": [
+            45.75,
+            54.25,
+            62.75,
+            71.25,
+            79.75,
+            88.25
+          ],
+          "target_square_centers_x_mm": [
+            45.75,
+            54.25,
+            62.75,
+            71.25,
+            79.75,
+            88.25
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": -2.726744866666666,
+          "dy_mm": 1.407615999999999,
+          "cell_center_errors_mm": [
+            -1.6453495166666698,
+            -0.9872087666666687,
+            -0.32907001666666247,
+            0.32907068333334166,
+            0.9872094833333307,
+            1.6453481333333428
+          ],
+          "max_abs_center_error_mm": 1.6453495166666698,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 2,
+          "track": "lower-right zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": -26.589826,
+          "print_field_center_y_mm": -24.75,
+          "target_y_mm": -25.08,
+          "vertical_center_error_mm": -0.3299999999999983,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": 55.989536099999995,
+          "target_first_cell_center_x_mm": 54.25,
+          "source_cell_centers_x_mm": [
+            55.989536099999995,
+            65.14767485,
+            74.30581555,
+            83.46395435,
+            92.6231961
+          ],
+          "target_cell_centers_x_mm": [
+            54.25,
+            62.75,
+            71.25,
+            79.75,
+            88.25
+          ],
+          "target_square_centers_x_mm": [
+            54.25,
+            62.75,
+            71.25,
+            79.75
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": 92.6231961,
+          "dx_mm": -3.0560353899999995,
+          "dy_mm": 1.5098260000000003,
+          "cell_center_errors_mm": [
+            -1.316499290000003,
+            -0.6583605399999968,
+            -0.00021983999999974912,
+            0.6579189599999893,
+            1.317160709999996
+          ],
+          "max_abs_center_error_mm": 1.317160709999996,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 3,
+          "track": "upper-left -5",
+          "field_labels": [
+            -5,
+            -4,
+            -3,
+            -2,
+            -1
+          ],
+          "source_y_mm": 18.992733,
+          "print_field_center_y_mm": 18.75,
+          "target_y_mm": 19.41,
+          "vertical_center_error_mm": 0.6600000000000001,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": -65.45988535000001,
+          "target_first_cell_center_x_mm": -62.25,
+          "source_cell_centers_x_mm": [
+            -65.45988535000001,
+            -56.301744600000006,
+            -47.14360585,
+            -37.9854651,
+            -28.827325350000002
+          ],
+          "target_cell_centers_x_mm": [
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "target_square_centers_x_mm": [
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "opening_count": 5,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": 1.8936052500000031,
+          "dy_mm": 0.41726699999999894,
+          "cell_center_errors_mm": [
+            -1.3162801000000073,
+            -0.6581393500000061,
+            -5.999999999062311e-07,
+            0.6581401500000013,
+            1.3162799000000014
+          ],
+          "max_abs_center_error_mm": 1.3162801000000073,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 3,
+          "track": "upper-left -5",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": 9.730523,
+          "print_field_center_y_mm": 10.25,
+          "target_y_mm": 10.25,
+          "vertical_center_error_mm": 0.0,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": -74.61802405,
+          "target_first_cell_center_x_mm": -70.75,
+          "source_cell_centers_x_mm": [
+            -74.61802405,
+            -65.45988535000001,
+            -56.301744600000006,
+            -47.14360585,
+            -37.9854651,
+            -28.827325350000002
+          ],
+          "target_cell_centers_x_mm": [
+            -70.75,
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "target_square_centers_x_mm": [
+            -70.75,
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": 2.222675050000003,
+          "dy_mm": 0.5194770000000002,
+          "cell_center_errors_mm": [
+            -1.645348999999996,
+            -0.987210300000001,
+            -0.3290695499999998,
+            0.3290692000000064,
+            0.9872099500000076,
+            1.6453497000000006
+          ],
+          "max_abs_center_error_mm": 1.6453497000000006,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 3,
+          "track": "upper-left -5",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": 0.468314,
+          "print_field_center_y_mm": 1.75,
+          "target_y_mm": 1.0899999999999999,
+          "vertical_center_error_mm": -0.6600000000000001,
+          "row_index_from_anchor": 2,
+          "source_first_cell_center_x_mm": -65.45988535000001,
+          "target_first_cell_center_x_mm": -62.25,
+          "source_cell_centers_x_mm": [
+            -65.45988535000001,
+            -56.301744600000006,
+            -47.14360585,
+            -37.9854651,
+            -28.8262213
+          ],
+          "target_cell_centers_x_mm": [
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75,
+            -28.25
+          ],
+          "target_square_centers_x_mm": [
+            -62.25,
+            -53.75,
+            -45.25,
+            -36.75
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": -28.8262213,
+          "dx_mm": 1.8933844400000026,
+          "dy_mm": 0.6216859999999998,
+          "cell_center_errors_mm": [
+            -1.316500910000002,
+            -0.6583601600000009,
+            -0.0002214099999946484,
+            0.6579193400000065,
+            1.3171631400000017
+          ],
+          "max_abs_center_error_mm": 1.3171631400000017,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 4,
+          "track": "upper-middle zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": 18.264244,
+          "print_field_center_y_mm": 18.75,
+          "target_y_mm": 19.08,
+          "vertical_center_error_mm": 0.3299999999999983,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": -11.447674185,
+          "target_first_cell_center_x_mm": -9.650000000000006,
+          "source_cell_centers_x_mm": [
+            -11.447674185,
+            -2.289534805,
+            6.868604675,
+            16.02674375,
+            25.184883499999998,
+            34.34302425
+          ],
+          "target_cell_centers_x_mm": [
+            -9.650000000000006,
+            -1.1500000000000057,
+            7.349999999999994,
+            15.849999999999994,
+            24.349999999999994,
+            32.849999999999994
+          ],
+          "target_square_centers_x_mm": [
+            -9.650000000000006,
+            -1.1500000000000057,
+            7.349999999999994,
+            15.849999999999994,
+            24.349999999999994,
+            32.849999999999994
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": 0.15232546916666126,
+          "dy_mm": 0.8157559999999968,
+          "cell_center_errors_mm": [
+            -1.6453487158333342,
+            -0.9872093358333331,
+            -0.3290698558333327,
+            0.3290692191666693,
+            0.9872089691666659,
+            1.645349719166667
+          ],
+          "max_abs_center_error_mm": 1.645349719166667,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 4,
+          "track": "upper-middle zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": 9.002035,
+          "print_field_center_y_mm": 10.25,
+          "target_y_mm": 9.919999999999998,
+          "vertical_center_error_mm": -0.33000000000000185,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": -2.289534805,
+          "target_first_cell_center_x_mm": -1.1500000000000057,
+          "source_cell_centers_x_mm": [
+            -2.289534805,
+            6.868604675,
+            16.02674375,
+            25.184883499999998,
+            34.3441283
+          ],
+          "target_cell_centers_x_mm": [
+            -1.1500000000000057,
+            7.349999999999994,
+            15.849999999999994,
+            24.349999999999994,
+            32.849999999999994
+          ],
+          "target_square_centers_x_mm": [
+            -1.1500000000000057,
+            7.349999999999994,
+            15.849999999999994,
+            24.349999999999994
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": 34.3441283,
+          "dx_mm": -0.17696508400000582,
+          "dy_mm": 0.9179649999999988,
+          "cell_center_errors_mm": [
+            -1.3164998890000001,
+            -0.6583604090000001,
+            -0.00022133399999901826,
+            0.6579184159999976,
+            1.3171632160000044
+          ],
+          "max_abs_center_error_mm": 1.3171632160000044,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 5,
+          "track": "upper-right zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "source_y_mm": 18.264244,
+          "print_field_center_y_mm": 18.75,
+          "target_y_mm": 19.08,
+          "vertical_center_error_mm": 0.3299999999999983,
+          "row_index_from_anchor": 0,
+          "source_first_cell_center_x_mm": 50.994186049999996,
+          "target_first_cell_center_x_mm": 50.25,
+          "source_cell_centers_x_mm": [
+            50.994186049999996,
+            60.1523268,
+            69.31046555,
+            78.46860625,
+            87.62674505000001,
+            96.7848839
+          ],
+          "target_cell_centers_x_mm": [
+            50.25,
+            58.75,
+            67.25,
+            75.75,
+            84.25,
+            92.75
+          ],
+          "target_square_centers_x_mm": [
+            50.25,
+            58.75,
+            67.25,
+            75.75,
+            84.25,
+            92.75
+          ],
+          "opening_count": 6,
+          "end_slot_cell": false,
+          "end_slot_cell_center_x_mm": null,
+          "dx_mm": -2.3895356,
+          "dy_mm": 0.8157559999999968,
+          "cell_center_errors_mm": [
+            -1.645349550000006,
+            -0.9872088000000048,
+            -0.32907004999999856,
+            0.32907064999999136,
+            0.9872094500000088,
+            1.6453482999999949
+          ],
+          "max_abs_center_error_mm": 1.645349550000006,
+          "min_web_mm": 0.5199999999999996
+        },
+        {
+          "track_index": 5,
+          "track": "upper-right zero",
+          "field_labels": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "source_y_mm": 9.002035,
+          "print_field_center_y_mm": 10.25,
+          "target_y_mm": 9.919999999999998,
+          "vertical_center_error_mm": -0.33000000000000185,
+          "row_index_from_anchor": 1,
+          "source_first_cell_center_x_mm": 60.1523268,
+          "target_first_cell_center_x_mm": 58.75,
+          "source_cell_centers_x_mm": [
+            60.1523268,
+            69.31046555,
+            78.46860625,
+            87.62674505000001,
+            96.78598679999999
+          ],
+          "target_cell_centers_x_mm": [
+            58.75,
+            67.25,
+            75.75,
+            84.25,
+            92.75
+          ],
+          "target_square_centers_x_mm": [
+            58.75,
+            67.25,
+            75.75,
+            84.25
+          ],
+          "opening_count": 4,
+          "end_slot_cell": true,
+          "end_slot_cell_center_x_mm": 96.78598679999999,
+          "dx_mm": -2.718826089999999,
+          "dy_mm": 0.9179649999999988,
+          "cell_center_errors_mm": [
+            -1.316499290000003,
+            -0.6583605399999897,
+            -0.00021983999999974912,
+            0.6579189600000177,
+            1.317160709999996
+          ],
+          "max_abs_center_error_mm": 1.317160709999996,
+          "min_web_mm": 0.5199999999999996
+        }
+      ],
+      "cube_track_end_slots": [
+        {
+          "center_mm": [
+            -22.35487156,
+            1.0899999999999999
+          ],
+          "size_mm": [
+            17.7959306,
+            8.6377904
+          ],
+          "track": "upper-left -5",
+          "source_row_y_mm": 0.4683140000000001
+        },
+        {
+          "center_mm": [
+            -40.85487098,
+            -25.0799998
+          ],
+          "size_mm": [
+            17.7959327,
+            8.637791999999997
+          ],
+          "track": "lower-left zero",
+          "source_row_y_mm": -26.5898258
+        },
+        {
+          "center_mm": [
+            94.14512515999999,
+            -25.0799998
+          ],
+          "size_mm": [
+            17.795928900000007,
+            8.637791999999997
+          ],
+          "track": "lower-right zero",
+          "source_row_y_mm": -26.5898258
+        },
+        {
+          "center_mm": [
+            28.145128448399998,
+            -25.0799998
+          ],
+          "size_mm": [
+            17.7959306,
+            8.637791999999997
+          ],
+          "track": "lower-middle zero",
+          "source_row_y_mm": -26.5898258
+        },
+        {
+          "center_mm": [
+            98.64512481,
+            9.919999964999999
+          ],
+          "size_mm": [
+            17.795928200000006,
+            8.63779087
+          ],
+          "track": "upper-right zero",
+          "source_row_y_mm": 9.002034965
+        },
+        {
+          "center_mm": [
+            38.745128566,
+            9.919999964999999
+          ],
+          "size_mm": [
+            17.7959307,
+            8.63779087
+          ],
+          "track": "upper-middle zero",
+          "source_row_y_mm": 9.002034965
+        }
+      ],
+      "horizontal_slot": {
+        "source_center_mm": [
+          44.3857544,
+          -3.6944766349999996
+        ],
+        "source_size_mm": [
+          109.8976708,
+          8.637790529999998
+        ],
+        "target_center_mm": [
+          46.437346437346434,
+          -4.914004914004913
+        ],
+        "target_size_mm": [
+          109.8976708,
+          6.8
+        ],
+        "target_area_center_mm": [
+          46.437346437346434,
+          -4.914004914004913
+        ],
+        "target_area_size_mm": [
+          113.75921375921376,
+          13.022113022113022
+        ],
+        "minimum_cube_clearance_mm": 3.2859950859950864,
+        "nearest_cube_opening": {
+          "track": "lower-middle zero",
+          "field_labels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cube_center_mm": [
+            -11.75,
+            -15.92
+          ]
+        }
+      },
+      "adjacent_cutout": {
+        "source_center_mm": [
+          -92.10174435,
+          10.23005805
+        ],
+        "target_center_mm": [
+          -96.05174435,
+          10.23005805
+        ],
+        "translation_mm": [
+          -3.95,
+          0.0
+        ],
+        "size_mm": [
+          24.2482593,
+          15.610465099999999
+        ]
+      },
+      "resource_windows": [
+        {
+          "name": "upper-left",
+          "center_mm": [
+            -60.56511056511056,
+            49.877149877149876
+          ],
+          "size_mm": [
+            83.53808353808353,
+            43.488943488943484
+          ],
+          "bounds_mm": [
+            -102.33415233415232,
+            28.13267813267813,
+            -18.796068796068795,
+            71.62162162162161
+          ]
+        },
+        {
+          "name": "upper-middle",
+          "center_mm": [
+            12.285012285012286,
+            50.368550368550366
+          ],
+          "size_mm": [
+            56.26535626535626,
+            45.45454545454545
+          ],
+          "bounds_mm": [
+            -15.847665847665846,
+            27.64127764127764,
+            40.417690417690416,
+            73.09582309582309
+          ]
+        },
+        {
+          "name": "upper-right",
+          "center_mm": [
+            72.72727272727272,
+            50.49140049140048
+          ],
+          "size_mm": [
+            55.77395577395577,
+            44.717444717444714
+          ],
+          "bounds_mm": [
+            44.84029484029484,
+            28.13267813267813,
+            100.61425061425061,
+            72.85012285012284
+          ]
+        },
+        {
+          "name": "lower-left",
+          "center_mm": [
+            -67.93611793611794,
+            -54.05405405405405
+          ],
+          "size_mm": [
+            69.77886977886978,
+            37.59213759213759
+          ],
+          "bounds_mm": [
+            -102.82555282555282,
+            -72.85012285012284,
+            -33.04668304668304,
+            -35.257985257985254
+          ]
+        },
+        {
+          "name": "lower-middle",
+          "center_mm": [
+            1.8427518427518415,
+            -53.8083538083538
+          ],
+          "size_mm": [
+            61.42506142506142,
+            37.59213759213758
+          ],
+          "bounds_mm": [
+            -28.86977886977887,
+            -72.6044226044226,
+            32.55528255528255,
+            -35.01228501228501
+          ]
+        },
+        {
+          "name": "lower-right",
+          "center_mm": [
+            68.18181818181819,
+            -53.56265356265356
+          ],
+          "size_mm": [
+            67.81326781326781,
+            39.06633906633907
+          ],
+          "bounds_mm": [
+            34.27518427518427,
+            -73.09582309582309,
+            102.08845208845209,
+            -34.029484029484024
+          ]
+        }
+      ],
+      "mount_centers_mm": [
+        [
+          0.0,
+          -86.4819752
+        ],
+        [
+          0.0,
+          86.4819752
+        ],
+        [
+          -116.1825565,
+          -86.4819752
+        ],
+        [
+          -116.1825565,
+          0.0
+        ],
+        [
+          -116.1825565,
+          86.4819752
+        ],
+        [
+          116.1825565,
+          -86.4819752
+        ],
+        [
+          116.1825565,
+          0.0
+        ],
+        [
+          116.1825565,
+          86.4819752
+        ]
+      ],
+      "front_z": {
+        "bottom_z_mm": -1.5610464811325073,
+        "top_z_mm": 0.9389535188674927,
+        "floor_z_mm": 0.4389535188674927,
+        "floor_vertices_adjusted": 192
+      }
+    }
+  },
+  "project_settings_preserved_byte_for_byte": true,
+  "model_settings_preserved_byte_for_byte": true,
+  "physical_fit": "The 3.0 mm sockets / 2.6 mm pins are inherited from the previously coupon-tested variant. The new 2.5 mm front, shortened pins, laminate-edge registration, resized windows and complete tableau fit have not been physically tested. The user asked to preserve the existing Z stack; laminate thickness/compression remains unverified.",
+  "slicer": "No successful OrcaSlicer validation is claimed. The previous attempt on the unchanged source preset failed because retraction_distances_when_cut=0 is outside [10,18]."
+}
