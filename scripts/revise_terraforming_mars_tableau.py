@@ -140,7 +140,7 @@ TRANSPARENT_FILAMENT_PROFILE = (
     "Transparent PLA slow test @Anycubic Kobra S1 0.4 nozzle"
 )
 TRANSPARENT_BED_TYPE = "Cool Plate"
-TRANSPARENT_BED_TEMPERATURE_C = 45
+TRANSPARENT_BED_TEMPERATURE_C = 40
 TRANSPARENT_FIRST_LAYER_SPEED_MM_S = 20
 TRANSPARENT_PLATE_ID = 3
 SOCKET_DIAMETER = 3.0
@@ -3283,7 +3283,7 @@ def main():
         "settings_changed_after_review": [
             "Increase transparent-front top skin from one to two 0.10 mm layers while retaining top ironing.",
             "Rotate the 100% aligned single-direction infill and solid-surface raster to 90 degrees, along the panel's shorter axis.",
-            "Keep global Textured PEI; select Cool Plate only for transparent-front plate 3 and set only transparent PLA slot 4 Cool Plate first/normal bed temperatures to 45 C, within the manufacturer-stated 30-50 C range.",
+            "Keep global Textured PEI; select Cool Plate only for transparent-front plate 3 and set only transparent PLA slot 4 Cool Plate first/normal bed temperatures to 40 C, within the manufacturer-stated 30-50 C range.",
             "Reduce transparent-front object initial-layer wall/sparse speed from 40 to 20 mm/s; with zero bottom-shell layers, first-layer fill follows this sparse-infill speed, so the separate 60 mm/s solid-infill setting is unchanged and inapplicable. Retain first-layer flow, line width and print sequence.",
         ],
         "not_adopted": [
@@ -3546,7 +3546,7 @@ def main():
                 "bed_plate_source": (
                     "User-selected UniTak3D Energy-Saving Kobra S1/Kobra X/"
                     "Kobra 4 double-sided glossy/matte plate; seller lists "
-                    "30-50 C for the smooth side with PLA. 45 C is a "
+                    "30-50 C for the smooth side with PLA. 40 C is a "
                     "conservative starting setting, not a validated optimum."
                 ),
                 "other_material_profiles_changed": False,
