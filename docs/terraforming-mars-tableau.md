@@ -13,9 +13,10 @@ unchanged under `model-sources/terraforming-mars-tableau/`.
 The two front-panel build items are turned 180° in the XY plane around build Z
 to match the requested top/bottom presentation. This is an in-plane rotation,
 not a face flip: front faces and bed-contact sides are unchanged. Only the
-front panels on plates 1 and 3 are rotated; the rear panel on plate 2, its
-transform, plate order, and all object geometry remain unchanged. The embedded
-front-plate preview images are rotated to match the updated build transforms.
+front panels on plates 1 and 3 are rotated; the rear panel on plate 2 retains
+its geometry and plate order, but its plate placement was recentered separately
+to fit the printable area. The embedded front-plate preview images are rotated
+to match the updated build transforms.
 
 The original model author and license are unknown; the repository MIT license
 does not apply to model contents. Fit dimensions are based on the user's
@@ -110,8 +111,12 @@ thin ledges will survive handling or printing.
 Mounting fit remains eight Ø3.000 mm blind sockets and eight Ø2.600 mm pins.
 Sockets are 2.000 mm deep with 0.500 mm floors; pin projection is 1.600 mm,
 leaving 0.400 mm nominal axial clearance. The insertion sweep found no
-unintended CAD intersection. All three original plates, object placements,
-build transforms and unrelated material/process settings are preserved.
+unintended CAD intersection. All three original plates and mesh geometries are
+preserved. The rear-panel build item on plate 2 is centered at X=425.0 mm rather
+than X=439.4 mm so its print bounds fit the plate's X=300–550 mm range: the old
+placement reached 558.601 mm, while the corrected bounds are 305.799–544.201
+mm. This changes only the print-layout transform, not the rear-panel mesh.
+Other unrelated material/process settings remain unchanged.
 
 ## Transparent-front test profile and evidence
 
@@ -263,8 +268,9 @@ is ever retuned, use a sacrificial calibration print and small steps; do not
 transfer the paper's 0.75 flow or 240 °C combined recipe to the fit-critical
 part without spool-specific tests. No optical improvement or fit is claimed
 from saved settings alone.
-No successful slicer run exists for this 3MF, so saved settings are not
-verified effective G-code values.
+The current integrated 3MF was successfully sliced with OrcaSlicer 2.4.2.
+Exact G-code evidence, estimates and the remaining support/physical-test
+limitations are recorded below.
 
 ## Validation and limitations
 
@@ -285,17 +291,34 @@ without local warping; its approximately 1 mm registration uncertainty and
 the remaining per-field pitch drift are disclosed in the
 [photo-validation report](terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-validation.json).
 
-The updated `--slice=0` OrcaSlicer CLI attempt exited `-18` before generating
-G-code because the saved `retraction_distances_when_cut=0` is outside
-`[10,18]`. This is the same pre-existing project-setting blocker seen in the
-preceding integrated revision; it is not caused by the 230 °C test candidate.
-Earlier attempts also reported a missing referenced process preset;
-AnycubicSlicerNext 2.0.0.3 crashed before producing G-code. No user/global
-profile was changed. The saved global support setting remains
-`enable_support=0`; this is not support-free validation. Print time, material
-use, support paths and effective toolpath speeds are unknown. No physical cube
-insertion, slider transfer, laminate fit, retention, surface-quality or
-full-tableau assembly test has been performed.
+OrcaSlicer 2.4.2 successfully sliced all three plates from the final integrated
+3MF with `--slice=0 --export-statistics` (exit code 0; G-code generated for
+plates 1–3). The original failure was the saved
+`retraction_distances_when_cut=0`, outside the slicer's accepted `[10,18]`
+range. The machine profile's valid value, `18`, is now persisted in the machine
+override list; `enable_long_retraction_when_cut=0` remains disabled. After
+that fix, slicing exposed a second issue: the rear panel's old plate-2 X bounds
+extended to 558.601 mm, beyond the plate's 550 mm limit. Recentring its build
+item (without changing the mesh) brought the final X bounds to 305.799–544.201
+mm, and the final slice then completed.
+
+The G-code records both transparent-slot Cool Plate temperatures as exactly
+35 °C, the transparent nozzle temperatures as 230 °C, and cut retraction as
+18. G-code estimates are: plate 1, 1 h 44 min 31 s / 46.77 g; plate 2,
+2 h 11 min 13 s / 85.03 g; plate 3, 16 h 41 min 7 s / 58.06 g; total,
+20 h 36 min 51 s / 189.86 g. The slicer log also reports non-fatal missing
+referenced BBL machine/process preset files; this did not prevent output.
+AnycubicSlicerNext 2.0.0.3 had separately crashed before G-code generation
+during an earlier attempt, so the verified success is specifically with
+OrcaSlicer 2.4.2.
+
+The saved global support setting remains `enable_support=0`. All three G-code
+files contain zero support extrusion, but this is not support-free validation
+because supports are disabled. The per-plate images explicitly disclose that
+limitation. No physical cube insertion, slider transfer, laminate fit,
+retention, surface-quality or full-tableau assembly test has been performed.
+The 230 °C transparent-PLA profile remains an unvalidated test candidate, and
+the exact optical/surface result is not established by slicing.
 
 ## Reproducible files and evidence
 
@@ -305,6 +328,7 @@ full-tableau assembly test has been performed.
 - [Exported-mesh and settings validation](terraforming-mars-tableau-179mm-laminate-centered-blocks-validation.json)
 - [Photo registration report](terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-validation.json)
 - [Three-plate 3MF preview](images/terraforming-mars-tableau-179mm-laminate-centered-blocks-preview.png)
+- G-code-derived plate support-path screenshots: [plate 1](images/terraforming-mars-tableau-179mm-laminate-centered-blocks-plate-1-supports.png), [plate 2](images/terraforming-mars-tableau-179mm-laminate-centered-blocks-plate-2-supports.png), [plate 3](images/terraforming-mars-tableau-179mm-laminate-centered-blocks-plate-3-supports.png). Each explains that supports were disabled, so zero support paths do not prove support-free geometry.
 - [Small-window and arrow-ledge CAD close-up](images/terraforming-mars-tableau-179mm-laminate-centered-blocks-local-reliefs.png)
 - [Window 5-to-6 passage and retained-web close-up](images/terraforming-mars-tableau-179mm-laminate-centered-blocks-window5-to6-web-closeup.png)
 - [Before/after photo overlay](images/terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-before-after.png)
