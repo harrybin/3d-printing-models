@@ -135,13 +135,14 @@ SMALL_WINDOW_BOTTOM_TRIM_MM = 1.0
 SMALL_WEB_THICKNESS_MM = 1.0
 END_ARROW_LEDGE_THICKNESS_MM = 1.0
 LOCAL_RELIEF_EPS_MM = 0.02
-TRANSPARENT_FILAMENT_SLOT = 4
+TRANSPARENT_FILAMENT_SLOT = 1
 TRANSPARENT_FILAMENT_PROFILE = (
     "Transparent PLA slow test @Anycubic Kobra S1 0.4 nozzle"
 )
 TRANSPARENT_BED_TYPE = "Cool Plate"
-TRANSPARENT_BED_TEMPERATURE_C = 55
+TRANSPARENT_BED_TEMPERATURE_C = 35
 TRANSPARENT_FIRST_LAYER_SPEED_MM_S = 20
+TRANSPARENT_PLATE_ID = 3
 SOCKET_DIAMETER = 3.0
 PIN_DIAMETER = 2.6
 SOCKET_FLOOR = 0.5
@@ -400,20 +401,23 @@ def sha256(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def plate_bed_type(model_settings_bytes, plater_id):
+    config = ET.fromstring(model_settings_bytes)
+    for plate in config.findall("plate"):
+        metadata = {
+            item.get("key"): item.get("value")
+            for item in plate.findall("metadata")
+        }
+        if metadata.get("plater_id") == str(plater_id):
+            return metadata.get("bed_type")
+    return None
+
+
 def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
     settings = json.loads(project_bytes)
     original_slot_count = len(settings["filament_settings_id"])
     require(original_slot_count == 4,
             f"Expected four source filament slots, got {original_slot_count}")
-    for key, value in list(settings.items()):
-        if (
-            key != "printable_area"
-            and isinstance(value, list)
-            and len(value) == original_slot_count
-        ):
-            settings[key] = value[:]
-            settings[key][-1] = value[0]
-
     def set_filament_value(key, value):
         values = settings.get(key)
         require(
@@ -443,7 +447,6 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
     ):
         set_filament_value(key, 20)
     set_filament_value("additional_cooling_fan_speed", 0)
-    settings["curr_bed_type"] = TRANSPARENT_BED_TYPE
     different = settings["different_settings_to_system"]
     require(len(different) == original_slot_count + 2,
             "Unexpected different_settings_to_system slot count")
@@ -458,10 +461,6 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
         if key not in process_overrides:
             process_overrides.append(key)
     different[0] = ";".join(process_overrides)
-    machine_overrides = list(filter(None, different[1].split(";")))
-    if "curr_bed_type" not in machine_overrides:
-        machine_overrides.append("curr_bed_type")
-    different[1] = ";".join(machine_overrides)
     different[TRANSPARENT_FILAMENT_SLOT + 1] = (
         "filament_settings_id;cool_plate_temp;"
         "cool_plate_temp_initial_layer;nozzle_temperature;"
@@ -515,6 +514,31 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
             existing = ET.SubElement(transparent, "metadata", key=key)
             metadata[key] = existing
         existing.set("value", value)
+
+    transparent_plate = None
+    for plate in config.findall("plate"):
+        plate_metadata = {
+            item.get("key"): item for item in plate.findall("metadata")
+        }
+        if plate_metadata.get("plater_id", {}).get("value") == str(
+            TRANSPARENT_PLATE_ID
+        ):
+            transparent_plate = plate
+            break
+    require(
+        transparent_plate is not None,
+        f"Transparent front plate {TRANSPARENT_PLATE_ID} is missing",
+    )
+    plate_metadata = {
+        item.get("key"): item
+        for item in transparent_plate.findall("metadata")
+    }
+    bed_type_metadata = plate_metadata.get("bed_type")
+    if bed_type_metadata is None:
+        bed_type_metadata = ET.SubElement(
+            transparent_plate, "metadata", key="bed_type"
+        )
+    bed_type_metadata.set("value", TRANSPARENT_BED_TYPE)
     return (
         (json.dumps(settings, indent=2) + "\n").encode("utf-8"),
         ET.tostring(config, encoding="utf-8", xml_declaration=True),
@@ -551,12 +575,10 @@ def verify_filament_scope(
             expected_machine_flags = list(
                 filter(None, old_value[1].split(";"))
             )
-            if "curr_bed_type" not in expected_machine_flags:
-                expected_machine_flags.append("curr_bed_type")
             require(
                 new_value[0] == ";".join(expected_process_flags)
                 and new_value[1] == ";".join(expected_machine_flags)
-                and new_value[2:5] == old_value[2:5],
+                and new_value[3:5] == old_value[3:5],
                 "Only the selected bed type and transparent-front surface/raster flags may change",
             )
             expected_filament_flags = {
@@ -577,14 +599,16 @@ def verify_filament_scope(
                 "additional_cooling_fan_speed",
             }
             require(
-                set(filter(None, new_value[5].split(";")))
+                set(
+                    filter(
+                        None,
+                        new_value[
+                            TRANSPARENT_FILAMENT_SLOT + 1
+                        ].split(";"),
+                    )
+                )
                 == expected_filament_flags,
                 "Transparent filament override flags are incomplete",
-            )
-        elif key == "curr_bed_type":
-            require(
-                new_value == TRANSPARENT_BED_TYPE,
-                "Cool Plate was not selected for the transparent-front project",
             )
         elif (
             key != "printable_area"
@@ -594,12 +618,26 @@ def verify_filament_scope(
             require(
                 isinstance(new_value, list)
                 and len(new_value) == 4
-                and new_value[:3] == old_value[:3],
+                and new_value[1:] == old_value[1:],
                 f"Original filament slots changed for {key}",
             )
         else:
             require(new_value == old_value,
                     f"Unrelated project setting changed: {key}")
+
+    require(
+        revised.get("curr_bed_type") == original.get("curr_bed_type"),
+        "The global bed type must remain unchanged",
+    )
+    require(
+        plate_bed_type(revised_model_bytes, TRANSPARENT_PLATE_ID)
+        == TRANSPARENT_BED_TYPE,
+        "Cool Plate was not selected for the transparent-front plate",
+    )
+    require(
+        plate_bed_type(original_model_bytes, TRANSPARENT_PLATE_ID) is None,
+        "Expected the source transparent-front plate to inherit the global bed type",
+    )
 
     profile = revised["filament_settings_id"][TRANSPARENT_FILAMENT_SLOT - 1]
     require(profile == TRANSPARENT_FILAMENT_PROFILE,
@@ -703,9 +741,21 @@ def unverified_print_metadata(settings, model_settings_bytes):
         "supportFilamentMillimeters": "unknown",
         "supportFilamentCubicMillimeters": "unknown",
     }
-    plate_details = [
-        {"name": f"Plate {index} - {profile}", **unknown_stats}
-        for index, profile in enumerate(active_profiles, start=1)
+    plate_details = []
+    for index, profile in enumerate(active_profiles, start=1):
+        bed_type = (
+            plate_bed_type(model_settings_bytes, index)
+            or settings.get("curr_bed_type", "unknown")
+        )
+        plate_details.append({
+            "name": f"Plate {index} - {profile}",
+            "bedType": bed_type,
+            **unknown_stats,
+        })
+    bed_type_details = [
+        f"Plate {index}: {details['bedType']}"
+        for index, details in enumerate(plate_details, start=1)
+        if details["bedType"] != settings.get("curr_bed_type", "unknown")
     ]
     values = {
         **unknown_stats,
@@ -726,7 +776,10 @@ def unverified_print_metadata(settings, model_settings_bytes):
         "filamentProfile": ", ".join(dict.fromkeys(active_profiles)),
         "materialType": ", ".join(dict.fromkeys(materials)),
         "materialColorHex": ", ".join(active_colors),
-        "bedType": settings.get("curr_bed_type", "unknown"),
+        "bedType": "; ".join([
+            f"Global: {settings.get('curr_bed_type', 'unknown')}",
+            *bed_type_details,
+        ]),
         "wallLoops": "Per-object overrides; transparent front=2",
         "infillDensity": (
             "Per-object overrides; transparent front=100% aligned rectilinear"
@@ -3124,7 +3177,11 @@ def main():
     transparent_settings = {
         "filament_profile": TRANSPARENT_FILAMENT_PROFILE,
         "filament_slot": TRANSPARENT_FILAMENT_SLOT,
-        "bed_type": project_settings.get("curr_bed_type", "unknown"),
+        "bed_type": plate_bed_type(
+            revised["Metadata/model_settings.config"],
+            TRANSPARENT_PLATE_ID,
+        ),
+        "global_bed_type": project_settings.get("curr_bed_type", "unknown"),
         "cool_plate_temperature_c": project_settings["cool_plate_temp"][
             TRANSPARENT_FILAMENT_SLOT - 1
         ],
@@ -3168,7 +3225,7 @@ def main():
         ][TRANSPARENT_FILAMENT_SLOT - 1],
         "object_overrides": transparent_object_settings,
         "preserved": [
-            "Original filament slots 1-3",
+            "Original filament slots 2-4",
             "Global process settings and non-transparent filament temperatures",
             "Calibrated nozzle temperature and flow",
             "First-layer flow ratio, line width and print sequence",
@@ -3224,7 +3281,7 @@ def main():
         "settings_changed_after_review": [
             "Increase transparent-front top skin from one to two 0.10 mm layers while retaining top ironing.",
             "Rotate the 100% aligned single-direction infill and solid-surface raster to 90 degrees, along the panel's shorter axis.",
-            "Select Cool Plate and set only transparent PLA slot 4 Cool Plate first/normal bed temperatures to 55 C, within the seller-listed 50-70 C smooth-side PLA range.",
+            "Assign the transparent front to ACE/filament slot 1; keep global Textured PEI, select Cool Plate only for plate 3, and use 35 C for slot 1 Cool Plate first/normal bed temperatures.",
             "Reduce transparent-front object initial-layer wall/sparse speed from 40 to 20 mm/s; with zero bottom-shell layers, first-layer fill follows this sparse-infill speed, so the separate 60 mm/s solid-infill setting is unchanged and inapplicable. Retain first-layer flow, line width and print sequence.",
         ],
         "not_adopted": [
@@ -3472,20 +3529,25 @@ def main():
                 "ironing_type": transparent_object_settings["ironing_type"],
                 "object_id": "6",
                 "bed_type": TRANSPARENT_BED_TYPE,
+                "global_bed_type": project_settings["curr_bed_type"],
                 "cool_plate_temperature_c": TRANSPARENT_BED_TEMPERATURE_C,
                 "cool_plate_first_layer_temperature_c": (
                     TRANSPARENT_BED_TEMPERATURE_C
                 ),
                 "bed_temperature_scope": (
-                    "Cool Plate is the project-wide selected bed type; "
-                    "only transparent filament slot 4 Cool Plate temperatures "
-                    "are changed. Other filament slots are preserved."
+                    "Cool Plate is stored as the bed_type override only on "
+                    "transparent-front plate "
+                    "3; the global bed type and other plates remain unchanged. "
+                    "Transparent front uses ACE/filament slot 1; only its "
+                    "Cool Plate temperatures "
+                    "are changed."
                 ),
                 "bed_plate_source": (
                     "User-selected UniTak3D Energy-Saving Kobra S1/Kobra X/"
                     "Kobra 4 double-sided glossy/matte plate; seller lists "
-                    "50-70 C for the smooth side with PLA. 55 C is a "
-                    "conservative starting setting, not a validated optimum."
+                    "30-50 C for the smooth side with PLA. 35 C matches the "
+                    "existing Cool Plate PLA profile and is not physically "
+                    "validated."
                 ),
                 "other_material_profiles_changed": False,
                 "optical_result_physically_tested": False,
