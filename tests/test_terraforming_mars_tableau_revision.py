@@ -117,6 +117,22 @@ class TableauRevisionTests(unittest.TestCase):
                 self.assertAlmostEqual(
                     output_rotation[2, 2], 1.0, places=10
                 )
+            elif path == revision.REAR_PATH:
+                source_rotation, source_translation = (
+                    revision.parse_3mf_transform(source_item.get("transform"))
+                )
+                output_rotation, output_translation = (
+                    revision.parse_3mf_transform(output_item.get("transform"))
+                )
+                np.testing.assert_allclose(
+                    output_rotation, source_rotation, atol=1e-10, rtol=0
+                )
+                np.testing.assert_allclose(
+                    output_translation - source_translation,
+                    [-14.4, 0.0, 0.0],
+                    atol=revision.TOL,
+                    rtol=0,
+                )
             else:
                 self.assertEqual(
                     output_item.get("transform"),
@@ -125,7 +141,24 @@ class TableauRevisionTests(unittest.TestCase):
         self.assertEqual(target_ids, ["2", "6"])
         report = self.report["plate_layout"]
         self.assertTrue(report["build_item_ids_and_plate_order_preserved"])
-        self.assertTrue(report["rear_part_transform_unchanged"])
+        rear_placement = report["rear_panel_recentered_on_plate_2"]
+        self.assertTrue(rear_placement["fits_printable_area"])
+        np.testing.assert_allclose(
+            rear_placement["target_xy_center_mm"], [425, 125]
+        )
+        np.testing.assert_allclose(
+            rear_placement["world_bounds_after_mm"][0][:2],
+            [305.799, 35.5],
+            atol=0.001,
+            rtol=0,
+        )
+        np.testing.assert_allclose(
+            rear_placement["world_bounds_after_mm"][1][:2],
+            [544.201, 214.5],
+            atol=0.001,
+            rtol=0,
+        )
+        self.assertTrue(report["rear_part_geometry_unchanged"])
         self.assertTrue(report["in_plane_rotation_preserves_bed_contact"])
         self.assertEqual(
             report["front_plate_preview_images_rotated"],
@@ -158,6 +191,11 @@ class TableauRevisionTests(unittest.TestCase):
                     self.assertEqual(settings[key][slot], "35", key)
             elif key == "curr_bed_type":
                 self.assertEqual(settings[key], value)
+            elif key == "retraction_distances_when_cut":
+                self.assertEqual(
+                    settings[key],
+                    [str(revision.CUT_RETRACTION_DISTANCE_MM)],
+                )
             elif key == "different_settings_to_system":
                 expected = value[:]
                 process_overrides = expected[0].split(";")
@@ -174,6 +212,8 @@ class TableauRevisionTests(unittest.TestCase):
                 machine_overrides = list(
                     filter(None, expected[1].split(";"))
                 )
+                if "retraction_distances_when_cut" not in machine_overrides:
+                    machine_overrides.append("retraction_distances_when_cut")
                 expected[1] = ";".join(machine_overrides)
                 expected[revision.TRANSPARENT_FILAMENT_SLOT + 1] = (
                     "filament_settings_id;cool_plate_temp;"
@@ -190,19 +230,25 @@ class TableauRevisionTests(unittest.TestCase):
             else:
                 self.assertEqual(settings[key], value, key)
         self.assertEqual(settings["filament_settings_id"][slot], revision.TRANSPARENT_FILAMENT_PROFILE)
-        self.assertEqual(settings["nozzle_temperature"][slot], "220")
         self.assertEqual(
-            settings["nozzle_temperature_initial_layer"][slot], "220"
+            settings["nozzle_temperature"][slot],
+            str(revision.TRANSPARENT_NOZZLE_TEMPERATURE_C),
+        )
+        self.assertEqual(
+            settings["nozzle_temperature_initial_layer"][slot],
+            str(revision.TRANSPARENT_NOZZLE_TEMPERATURE_C),
         )
         self.assertEqual(settings["cool_plate_temp"][slot], "35")
         self.assertEqual(
             settings["cool_plate_temp_initial_layer"][slot], "35"
         )
         self.assertLessEqual(
-            float(settings["nozzle_temperature_range_low"][slot]), 220
+            float(settings["nozzle_temperature_range_low"][slot]),
+            revision.TRANSPARENT_NOZZLE_TEMPERATURE_C,
         )
         self.assertGreaterEqual(
-            float(settings["nozzle_temperature_range_high"][slot]), 220
+            float(settings["nozzle_temperature_range_high"][slot]),
+            revision.TRANSPARENT_NOZZLE_TEMPERATURE_C,
         )
         self.assertEqual(settings["fan_min_speed"][slot], "20")
         self.assertEqual(settings["fan_max_speed"][slot], "20")
@@ -210,6 +256,18 @@ class TableauRevisionTests(unittest.TestCase):
             settings["additional_cooling_fan_speed"][slot], "0"
         )
         self.assertEqual(settings["filament_flow_ratio"][slot], "0.98")
+        self.assertEqual(
+            settings["retraction_distances_when_cut"],
+            [str(revision.CUT_RETRACTION_DISTANCE_MM)],
+        )
+        self.assertEqual(settings["enable_long_retraction_when_cut"], "0")
+        self.assertEqual(settings["long_retractions_when_cut"], ["0"])
+        self.assertEqual(
+            self.report["requested_revision"]["transparent_filament_settings"][
+                "nozzle_temperature_test_candidate_c"
+            ],
+            revision.TRANSPARENT_NOZZLE_TEMPERATURE_C,
+        )
 
         model = ET.fromstring(self.output["Metadata/model_settings.config"])
         objects = {
@@ -591,6 +649,12 @@ class TableauRevisionTests(unittest.TestCase):
             if setting not in process_overrides:
                 process_overrides.append(setting)
         expected_overrides[0] = ";".join(process_overrides)
+        machine_overrides = list(
+            filter(None, expected_overrides[1].split(";"))
+        )
+        if "retraction_distances_when_cut" not in machine_overrides:
+            machine_overrides.append("retraction_distances_when_cut")
+        expected_overrides[1] = ";".join(machine_overrides)
         expected_overrides[revision.TRANSPARENT_FILAMENT_SLOT + 1] = (
             "filament_settings_id;cool_plate_temp;"
             "cool_plate_temp_initial_layer;nozzle_temperature;"
@@ -606,10 +670,18 @@ class TableauRevisionTests(unittest.TestCase):
         )
         transparent_slot_values = {
             "filament_settings_id": revision.TRANSPARENT_FILAMENT_PROFILE,
-            "nozzle_temperature": "220",
-            "nozzle_temperature_BRASS": "220",
-            "nozzle_temperature_initial_layer": "220",
-            "nozzle_temperature_initial_layer_BRASS": "220",
+            "nozzle_temperature": str(
+                revision.TRANSPARENT_NOZZLE_TEMPERATURE_C
+            ),
+            "nozzle_temperature_BRASS": str(
+                revision.TRANSPARENT_NOZZLE_TEMPERATURE_C
+            ),
+            "nozzle_temperature_initial_layer": str(
+                revision.TRANSPARENT_NOZZLE_TEMPERATURE_C
+            ),
+            "nozzle_temperature_initial_layer_BRASS": str(
+                revision.TRANSPARENT_NOZZLE_TEMPERATURE_C
+            ),
             "cool_plate_temp": "35",
             "cool_plate_temp_initial_layer": "35",
             "fan_min_speed": "20",
@@ -624,6 +696,8 @@ class TableauRevisionTests(unittest.TestCase):
         for key in prior_project.keys() - {"different_settings_to_system"}:
             if key == "curr_bed_type":
                 self.assertEqual(output_project[key], prior_project[key])
+            elif key == "retraction_distances_when_cut":
+                self.assertEqual(output_project[key], ["18"])
             elif key != "printable_area" and isinstance(prior_project[key], list) and len(prior_project[key]) == 4:
                 expected_values = prior_project[key][:]
                 if key in transparent_slot_values:

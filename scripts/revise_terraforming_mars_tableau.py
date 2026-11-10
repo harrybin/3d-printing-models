@@ -141,8 +141,12 @@ TRANSPARENT_FILAMENT_PROFILE = (
 )
 TRANSPARENT_BED_TYPE = "Cool Plate"
 TRANSPARENT_BED_TEMPERATURE_C = 35
+TRANSPARENT_NOZZLE_TEMPERATURE_C = 230
 TRANSPARENT_FIRST_LAYER_SPEED_MM_S = 20
 TRANSPARENT_PLATE_ID = 3
+CUT_RETRACTION_DISTANCE_MM = 18
+REAR_PLATE_CENTER_X_MM = 425.0
+REAR_PLATE_BOUNDS_XY_MM = ((300.0, 0.0), (550.0, 250.0))
 SOCKET_DIAMETER = 3.0
 PIN_DIAMETER = 2.6
 SOCKET_FLOOR = 0.5
@@ -428,10 +432,20 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
         values[TRANSPARENT_FILAMENT_SLOT - 1] = str(value)
 
     set_filament_value("filament_settings_id", TRANSPARENT_FILAMENT_PROFILE)
-    set_filament_value("nozzle_temperature", 220)
-    set_filament_value("nozzle_temperature_BRASS", 220)
-    set_filament_value("nozzle_temperature_initial_layer", 220)
-    set_filament_value("nozzle_temperature_initial_layer_BRASS", 220)
+    set_filament_value(
+        "nozzle_temperature", TRANSPARENT_NOZZLE_TEMPERATURE_C
+    )
+    set_filament_value(
+        "nozzle_temperature_BRASS", TRANSPARENT_NOZZLE_TEMPERATURE_C
+    )
+    set_filament_value(
+        "nozzle_temperature_initial_layer",
+        TRANSPARENT_NOZZLE_TEMPERATURE_C,
+    )
+    set_filament_value(
+        "nozzle_temperature_initial_layer_BRASS",
+        TRANSPARENT_NOZZLE_TEMPERATURE_C,
+    )
     set_filament_value("cool_plate_temp", TRANSPARENT_BED_TEMPERATURE_C)
     set_filament_value(
         "cool_plate_temp_initial_layer", TRANSPARENT_BED_TEMPERATURE_C
@@ -450,6 +464,18 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
     different = settings["different_settings_to_system"]
     require(len(different) == original_slot_count + 2,
             "Unexpected different_settings_to_system slot count")
+    cut_retraction = settings.get("retraction_distances_when_cut")
+    require(
+        isinstance(cut_retraction, list) and len(cut_retraction) == 1,
+        "Expected one machine cut-retraction distance for the Kobra S1",
+    )
+    settings["retraction_distances_when_cut"] = [
+        str(CUT_RETRACTION_DISTANCE_MM)
+    ]
+    machine_overrides = list(filter(None, different[1].split(";")))
+    if "retraction_distances_when_cut" not in machine_overrides:
+        machine_overrides.append("retraction_distances_when_cut")
+    different[1] = ";".join(machine_overrides)
     process_overrides = different[0].split(";")
     for key in (
         "top_shell_layers",
@@ -575,6 +601,8 @@ def verify_filament_scope(
             expected_machine_flags = list(
                 filter(None, old_value[1].split(";"))
             )
+            if "retraction_distances_when_cut" not in expected_machine_flags:
+                expected_machine_flags.append("retraction_distances_when_cut")
             require(
                 new_value[0] == ";".join(expected_process_flags)
                 and new_value[1] == ";".join(expected_machine_flags)
@@ -609,6 +637,11 @@ def verify_filament_scope(
                 )
                 == expected_filament_flags,
                 "Transparent filament override flags are incomplete",
+            )
+        elif key == "retraction_distances_when_cut":
+            require(
+                new_value == [str(CUT_RETRACTION_DISTANCE_MM)],
+                "Machine cut-retraction distance must match the Kobra S1 preset",
             )
         elif (
             key != "printable_area"
@@ -710,6 +743,95 @@ def verify_filament_scope(
     return True
 
 
+def center_rear_build_item_on_plate_two(entries):
+    scene = ET.fromstring(entries["3D/3dmodel.model"])
+    resources = {
+        obj.get("id"): obj
+        for obj in scene.findall("./m:resources/m:object", NS)
+    }
+    matches = []
+    for item_index, item in enumerate(
+        scene.findall("./m:build/m:item", NS), start=1
+    ):
+        assembly = resources.get(item.get("objectid"))
+        component = (
+            assembly.find("./m:components/m:component", NS)
+            if assembly is not None else None
+        )
+        if (
+            component is not None
+            and component.get(f"{{{PROD}}}path", "").lstrip("/")
+            == REAR_PATH
+        ):
+            matches.append((item_index, item, component))
+    require(len(matches) == 1, "Expected one rear panel build item")
+    item_index, item, component = matches[0]
+
+    mesh_root = ET.fromstring(entries[REAR_PATH])
+    vertex_nodes = mesh_root.findall(
+        f"./m:resources/m:object[@id='{MESH_IDS[REAR_PATH]}']"
+        "/m:mesh/m:vertices/m:vertex",
+        NS,
+    )
+    require(vertex_nodes, "No rear panel mesh vertices found")
+    vertices = np.asarray([
+        [float(vertex.get(axis)) for axis in ("x", "y", "z")]
+        for vertex in vertex_nodes
+    ])
+    component_rotation, component_translation = parse_3mf_transform(
+        component.get("transform")
+    )
+    vertices = (
+        component_rotation @ vertices.T
+    ).T + component_translation
+    local_center = (vertices.min(axis=0) + vertices.max(axis=0)) / 2
+    rotation, translation = parse_3mf_transform(item.get("transform"))
+    before_vertices = (rotation @ vertices.T).T + translation
+    before_bounds = np.stack(
+        (before_vertices.min(axis=0), before_vertices.max(axis=0))
+    )
+
+    target_center = np.asarray(
+        [REAR_PLATE_CENTER_X_MM, 125.0], dtype=float
+    )
+    adjusted_translation = translation.copy()
+    adjusted_translation[:2] = target_center - (
+        rotation @ local_center
+    )[:2]
+    after_vertices = (rotation @ vertices.T).T + adjusted_translation
+    after_bounds = np.stack(
+        (after_vertices.min(axis=0), after_vertices.max(axis=0))
+    )
+    plate_bounds = np.asarray(REAR_PLATE_BOUNDS_XY_MM)
+    require(
+        np.all(after_bounds[0, :2] >= plate_bounds[0] - TOL)
+        and np.all(after_bounds[1, :2] <= plate_bounds[1] + TOL),
+        "Recentered rear panel does not fit plate 2's printable area",
+    )
+    item.set(
+        "transform",
+        serialize_3mf_transform(rotation, adjusted_translation),
+    )
+    entries["3D/3dmodel.model"] = ET.tostring(
+        scene, encoding="utf-8", xml_declaration=True
+    )
+    return {
+        "plate_index": item_index,
+        "build_object_id": item.get("objectid"),
+        "mesh_path": REAR_PATH,
+        "before_translation_mm": translation.tolist(),
+        "after_translation_mm": adjusted_translation.tolist(),
+        "translation_delta_mm": (
+            adjusted_translation - translation
+        ).tolist(),
+        "target_xy_center_mm": target_center.tolist(),
+        "plate_bounds_xy_mm": plate_bounds.tolist(),
+        "world_bounds_before_mm": before_bounds.tolist(),
+        "world_bounds_after_mm": after_bounds.tolist(),
+        "fits_printable_area": True,
+    }
+
+
 def unverified_print_metadata(settings, model_settings_bytes):
     model_settings = ET.fromstring(model_settings_bytes)
     active_slots = sorted({
@@ -793,12 +915,11 @@ def unverified_print_metadata(settings, model_settings_bytes):
         "ironingType": settings.get("ironing_type", "unknown"),
         "objectCount": str(len(active_slots)),
         "validationNotes": (
-            "This centered-block artifact was not sliced. Prior attempts on "
-            "the preceding slider/cube layout yielded no G-code: OrcaSlicer "
-            "2.0.0.0 exited -18 because "
-            "retraction_distances_when_cut=0 is outside [10,18]; "
-            "AnycubicSlicerNext 2.0.0.3 crashed before producing G-code. "
-            "Support is inherited disabled (enable_support=0)."
+            "This 3MF contains print settings, not G-code; slice outputs are "
+            "kept separately. See the companion validation report for the "
+            "current OrcaSlicer result. Support is disabled "
+            "(enable_support=0), so zero support paths are not proof of "
+            "support-free geometry."
         ),
     }
     root = ET.Element("ghouls-grip-print-metadata", version="1")
@@ -3039,6 +3160,7 @@ def main():
         json.loads(revised["Metadata/project_settings.config"]),
         revised["Metadata/model_settings.config"],
     )
+    rear_plate_recenter = center_rear_build_item_on_plate_two(revised)
     front_build_rotations = rotate_front_build_items(revised)
     with zipfile.ZipFile(OUTPUT, "w") as archive:
         for info in infos:
@@ -3127,8 +3249,10 @@ def main():
         ]),
     )
     require(
-        source_nozzle_range[0] <= 220 <= source_nozzle_range[1],
-        "Requested 220 C exceeds the selected filament's declared range",
+        source_nozzle_range[0]
+        <= TRANSPARENT_NOZZLE_TEMPERATURE_C
+        <= source_nozzle_range[1],
+        "Transparent-front nozzle temperature exceeds the selected filament's declared range",
     )
     source_scene = ET.fromstring(original["3D/3dmodel.model"])
     revised_scene = ET.fromstring(revised["3D/3dmodel.model"])
@@ -3144,7 +3268,22 @@ def main():
     for source_item, revised_item in zip(
         source_build_items, revised_build_items
     ):
-        if source_item.get("objectid") not in {
+        if source_item.get("objectid") == rear_plate_recenter[
+            "build_object_id"
+        ]:
+            require(
+                revised_item.get("transform")
+                == serialize_3mf_transform(
+                    parse_3mf_transform(
+                        source_item.get("transform")
+                    )[0],
+                    np.asarray(
+                        rear_plate_recenter["after_translation_mm"]
+                    ),
+                ),
+                "The rear panel was not recentered on plate 2",
+            )
+        elif source_item.get("objectid") not in {
             record["build_object_id"] for record in front_build_rotations
         }:
             require(
@@ -3195,6 +3334,13 @@ def main():
             "nozzle_temperature_initial_layer"
         ][TRANSPARENT_FILAMENT_SLOT - 1],
         "declared_nozzle_range_c": list(source_nozzle_range),
+        "nozzle_temperature_test_candidate_c": (
+            TRANSPARENT_NOZZLE_TEMPERATURE_C
+        ),
+        "nozzle_temperature_status": (
+            "One-variable test candidate; optical improvement and fit "
+            "remain unverified."
+        ),
         "flow_ratio_preserved": project_settings["filament_flow_ratio"][
             TRANSPARENT_FILAMENT_SLOT - 1
         ],
@@ -3227,7 +3373,7 @@ def main():
         "preserved": [
             "Original filament slots 2-4",
             "Global process settings and non-transparent filament temperatures",
-            "Calibrated nozzle temperature and flow",
+            "Calibrated 0.98 flow; 230 C is an unvalidated temperature test candidate",
             "First-layer flow ratio, line width and print sequence",
             "Native filament start/end/change routines",
             "Bridge/overhang cooling behavior",
@@ -3236,9 +3382,9 @@ def main():
     transparent_guide_review = {
         "references": [
             "https://doi.org/10.3390/polym16202862",
-            "https://blog.snapmaker.com/blog/how-to-3d-print-clear-filament/",
-            "https://us.qidi3d.com/blogs/guides/tips-for-3d-printing-with-transparent-filaments",
-            "https://www.youtube.com/watch?v=MKyC1qbvAyI",
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC11511128/",
+            "https://help.prusa3d.com/article/extrusion-multiplier-calibration_2257",
+            "https://b2b.formfutura.com/blog/blogs-1/transparent-pla-the-complete-guide-to-clear-light-diffusing-3d-printing-98",
             "https://www.orcaslicer.com/wiki/print_settings/strength/strength_settings_top_bottom_shells",
         ],
         "core_recipe_match": {
@@ -3281,12 +3427,14 @@ def main():
         "settings_changed_after_review": [
             "Increase transparent-front top skin from one to two 0.10 mm layers while retaining top ironing.",
             "Rotate the 100% aligned single-direction infill and solid-surface raster to 90 degrees, along the panel's shorter axis.",
+            "Raise only transparent filament slot 1 nozzle temperature from 220 C to 230 C as a one-variable test candidate; retain the calibrated 0.98 flow.",
             "Assign the transparent front to ACE/filament slot 1; keep global Textured PEI, select Cool Plate only for plate 3, and use 35 C for slot 1 Cool Plate first/normal bed temperatures.",
             "Reduce transparent-front object initial-layer wall/sparse speed from 40 to 20 mm/s; with zero bottom-shell layers, first-layer fill follows this sparse-infill speed, so the separate 60 mm/s solid-infill setting is unchanged and inapplicable. Retain first-layer flow, line width and print sequence.",
         ],
         "not_adopted": [
-            "Simplify3D-specific outline/solid underspeed percentages; no successful slice to verify effective speed",
+            "Simplify3D-specific outline/solid underspeed percentages were not transferred; effective per-feature speed remains unverified",
             "A 0.30 mm layer / 240 C / 100% fan / 0.75 flow optimum reported for a different PLA on Prusa MK4 1 mm coupons; not transferred to this Kobra S1 fit-critical 2.5 mm panel.",
+            "A blanket +5% flow increase: the current 0.98 ratio would become 1.029, but there is no spool-specific calibration showing under-extrusion; extra material can build up on top surfaces and compromise the 8.64 mm openings with only 0.14 mm nominal cube clearance.",
             "PETG temperatures, wider lines, 1.01 flow, and PETG drying schedules are not transferable to the unidentified transparent PLA spool",
         ],
         "effective_gcode_speeds_verified": False,
@@ -3390,8 +3538,8 @@ def main():
                 "note": (
                     "CAD clearance only. FDM dimensional variation, "
                     "elephant foot, and slicer extrusion effects can change "
-                    "the printed opening; no successful slice or physical "
-                    "cube insertion test is available."
+                    "the printed opening; a successful slice does not establish "
+                    "printed dimensions or physical cube insertion."
                 ),
             },
             "all_six_track_alignment": {
@@ -3603,11 +3751,12 @@ def main():
             "source_build_item_count": len(source_build_items),
             "output_build_item_count": len(revised_build_items),
             "build_item_ids_and_plate_order_preserved": True,
+            "rear_panel_recentered_on_plate_2": rear_plate_recenter,
             "front_part_rotations": front_build_rotations,
             "front_plate_preview_images_rotated": list(
                 FRONT_PLATE_PREVIEWS
             ),
-            "rear_part_transform_unchanged": True,
+            "rear_part_geometry_unchanged": True,
             "in_plane_rotation_preserves_bed_contact": True,
             "printer_profile": project_settings.get(
                 "printer_settings_id", "unknown"
@@ -3631,7 +3780,7 @@ def main():
             "print on this 0.10 mm / 20 mm/s revision."
         ),
         "slicer_validation": {
-            "status": "not-sliced-after-local-reliefs",
+            "status": "not-sliced-by-generator",
             "gcode_files_produced": 0,
             "support_enabled": project_settings.get("enable_support") == "1",
             "current_attempt_artifact": str(
@@ -3641,9 +3790,9 @@ def main():
             "current_attempt_command": None,
             "current_attempt_exit_code": None,
             "current_attempt_diagnostic": (
-                "No slice was run after adding the local window and arrow "
-                "reliefs. The preceding integrated artifact failed before "
-                "G-code generation with the saved retraction setting."
+                "This generator writes the integrated 3MF but does not invoke "
+                "OrcaSlicer. Slice the exact generated artifact separately; "
+                "no slicer result is inferred here."
             ),
             "current_attempt_log": None,
             "current_attempt_gcode_files_produced": 0,
@@ -3654,7 +3803,8 @@ def main():
                 "2a6297ed8d9cd30123396c4f61ac3af48a3b73c4ebe8c37abc72859b01982695"
             ),
             "prior_attempts_status": (
-                "failed before local reliefs; no G-code produced"
+                "Historical pre-fix attempt failed before G-code generation; "
+                "see the companion validation report for external slice results."
             ),
             "prior_orca_slicer_command": (
                 "orca-slicer.exe "
@@ -3667,9 +3817,9 @@ def main():
             "prior_orca_slicer_cli_version": (
                 "unreported; --version is not supported by this executable"
             ),
-            "orca_slicer_version": "2.0.0.0",
-            "orca_slicer_exit_code": -18,
-            "orca_slicer_diagnostic": (
+            "historical_orca_slicer_version": "2.0.0.0",
+            "historical_orca_slicer_exit_code": -18,
+            "historical_orca_slicer_diagnostic": (
                 "retraction_distances_when_cut=0 is outside [10,18]; "
                 "the CLI also could not find the referenced BBL process preset."
             ),
@@ -3680,7 +3830,10 @@ def main():
                 "calc_exclude_triangles reported it could not create exclude "
                 "triangles; stderr also reports missing report.ini."
             ),
-            "print_estimates": "unknown; no successful slice",
+            "print_estimates": (
+                "Not produced by this generator; see the companion validation "
+                "report for independently sliced estimates."
+            ),
         },
     }
     REPORT.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

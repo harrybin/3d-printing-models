@@ -2,7 +2,7 @@
   "source": "models/terraforming-mars-tableau-179mm-loch1-zapfen3.3mf",
   "source_sha256": "bbe777436d9af56f55875cf00df18dbfee49e5a0531c94c98a5895ab76892f37",
   "output": "models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf",
-  "output_sha256": "53cb1c57a893cada8ae11333bb6c075314eb10e2d0335b9cc66eac93a9bc5399",
+  "output_sha256": "71b068a29c7d7d51b37baf3a821fb5f02ca808afb6fa4c1d2abeab9c4984820c",
   "requested_revision": {
     "long_dimension_before_mm": 240.401162,
     "long_dimension_after_mm": 238.401162,
@@ -42,12 +42,14 @@
       "global_bed_type": "Textured PEI Plate",
       "cool_plate_temperature_c": "35",
       "cool_plate_first_layer_temperature_c": "35",
-      "normal_nozzle_temperature_c": "220",
-      "first_layer_nozzle_temperature_c": "220",
+      "normal_nozzle_temperature_c": "230",
+      "first_layer_nozzle_temperature_c": "230",
       "declared_nozzle_range_c": [
         190.0,
         240.0
       ],
+      "nozzle_temperature_test_candidate_c": 230,
+      "nozzle_temperature_status": "One-variable test candidate; optical improvement and fit remain unverified.",
       "flow_ratio_preserved": "0.98",
       "first_layer_flow_ratio": "1",
       "first_layer_line_width_mm": "0.5",
@@ -87,7 +89,7 @@
       "preserved": [
         "Original filament slots 2-4",
         "Global process settings and non-transparent filament temperatures",
-        "Calibrated nozzle temperature and flow",
+        "Calibrated 0.98 flow; 230 C is an unvalidated temperature test candidate",
         "First-layer flow ratio, line width and print sequence",
         "Native filament start/end/change routines",
         "Bridge/overhang cooling behavior"
@@ -1864,7 +1866,7 @@
       ],
       "inset_and_boundary_probes_passed": true,
       "physical_cube_fit_tested": false,
-      "note": "CAD clearance only. FDM dimensional variation, elephant foot, and slicer extrusion effects can change the printed opening; no successful slice or physical cube insertion test is available."
+      "note": "CAD clearance only. FDM dimensional variation, elephant foot, and slicer extrusion effects can change the printed opening; a successful slice does not establish printed dimensions or physical cube insertion."
     },
     "all_six_track_alignment": {
       "tracks": [
@@ -3670,6 +3672,65 @@
     "source_build_item_count": 3,
     "output_build_item_count": 3,
     "build_item_ids_and_plate_order_preserved": true,
+    "rear_panel_recentered_on_plate_2": {
+      "plate_index": 2,
+      "build_object_id": "4",
+      "mesh_path": "3D/Objects/Body1_2.model",
+      "before_translation_mm": [
+        439.4,
+        125.0,
+        2.28953494
+      ],
+      "after_translation_mm": [
+        425.0,
+        125.0,
+        2.28953494
+      ],
+      "translation_delta_mm": [
+        -14.399999999999977,
+        0.0,
+        0.0
+      ],
+      "target_xy_center_mm": [
+        425.0,
+        125.0
+      ],
+      "plate_bounds_xy_mm": [
+        [
+          300.0,
+          0.0
+        ],
+        [
+          550.0,
+          250.0
+        ]
+      ],
+      "world_bounds_before_mm": [
+        [
+          320.19941558799997,
+          35.5,
+          -1.05620000301343e-07
+        ],
+        [
+          558.600584412,
+          214.5,
+          3.68139542508
+        ]
+      ],
+      "world_bounds_after_mm": [
+        [
+          305.799415588,
+          35.5,
+          -1.05620000301343e-07
+        ],
+        [
+          544.200584412,
+          214.5,
+          3.68139542508
+        ]
+      ],
+      "fits_printable_area": true
+    },
     "front_part_rotations": [
       {
         "plate_index": 1,
@@ -3804,7 +3865,7 @@
       "Metadata/plate_3_small.png",
       "Metadata/plate_no_light_3.png"
     ],
-    "rear_part_transform_unchanged": true,
+    "rear_part_geometry_unchanged": true,
     "in_plane_rotation_preserves_bed_contact": true,
     "printer_profile": "Anycubic Kobra S1 0.4 nozzle",
     "printable_area": [
@@ -8265,9 +8326,9 @@
   "transparent_guide_review": {
     "references": [
       "https://doi.org/10.3390/polym16202862",
-      "https://blog.snapmaker.com/blog/how-to-3d-print-clear-filament/",
-      "https://us.qidi3d.com/blogs/guides/tips-for-3d-printing-with-transparent-filaments",
-      "https://www.youtube.com/watch?v=MKyC1qbvAyI",
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC11511128/",
+      "https://help.prusa3d.com/article/extrusion-multiplier-calibration_2257",
+      "https://b2b.formfutura.com/blog/blogs-1/transparent-pla-the-complete-guide-to-clear-light-diffusing-3d-printing-98",
       "https://www.orcaslicer.com/wiki/print_settings/strength/strength_settings_top_bottom_shells"
     ],
     "core_recipe_match": {
@@ -8295,42 +8356,91 @@
     "settings_changed_after_review": [
       "Increase transparent-front top skin from one to two 0.10 mm layers while retaining top ironing.",
       "Rotate the 100% aligned single-direction infill and solid-surface raster to 90 degrees, along the panel's shorter axis.",
+      "Raise only transparent filament slot 1 nozzle temperature from 220 C to 230 C as a one-variable test candidate; retain the calibrated 0.98 flow.",
       "Assign the transparent front to ACE/filament slot 1; keep global Textured PEI, select Cool Plate only for plate 3, and use 35 C for slot 1 Cool Plate first/normal bed temperatures.",
       "Reduce transparent-front object initial-layer wall/sparse speed from 40 to 20 mm/s; with zero bottom-shell layers, first-layer fill follows this sparse-infill speed, so the separate 60 mm/s solid-infill setting is unchanged and inapplicable. Retain first-layer flow, line width and print sequence."
     ],
     "not_adopted": [
-      "Simplify3D-specific outline/solid underspeed percentages; no successful slice to verify effective speed",
+      "Simplify3D-specific outline/solid underspeed percentages were not transferred; effective per-feature speed remains unverified",
       "A 0.30 mm layer / 240 C / 100% fan / 0.75 flow optimum reported for a different PLA on Prusa MK4 1 mm coupons; not transferred to this Kobra S1 fit-critical 2.5 mm panel.",
+      "A blanket +5% flow increase: the current 0.98 ratio would become 1.029, but there is no spool-specific calibration showing under-extrusion; extra material can build up on top surfaces and compromise the 8.64 mm openings with only 0.14 mm nominal cube clearance.",
       "PETG temperatures, wider lines, 1.01 flow, and PETG drying schedules are not transferable to the unidentified transparent PLA spool"
     ],
     "effective_gcode_speeds_verified": false
   },
   "physical_fit": "The 3.0 mm sockets / 2.6 mm pins are inherited from the previously coupon-tested variant. The new 2.5 mm front, shortened pins, laminate-edge registration, resized windows and complete tableau fit have not been physically tested. The user asked to preserve the existing Z stack; laminate thickness/compression remains unverified. The transparent PLA profile has no physical test print on this 0.10 mm / 20 mm/s revision.",
   "slicer_validation": {
-    "status": "not-sliced-after-local-reliefs",
-    "gcode_files_produced": 0,
+    "status": "sliced",
+    "gcode_files_produced": 3,
     "support_enabled": false,
     "current_attempt_artifact": "models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf",
-    "current_attempt_artifact_sha256": "53cb1c57a893cada8ae11333bb6c075314eb10e2d0335b9cc66eac93a9bc5399",
-    "current_attempt_command": null,
-    "current_attempt_exit_code": null,
-    "current_attempt_diagnostic": "No slice was run after adding the local window and arrow reliefs. The preceding integrated artifact failed before G-code generation with the saved retraction setting.",
-    "current_attempt_log": null,
-    "current_attempt_gcode_files_produced": 0,
+    "current_attempt_artifact_sha256": "71b068a29c7d7d51b37baf3a821fb5f02ca808afb6fa4c1d2abeab9c4984820c",
+    "current_attempt_command": "\"C:\\Program Files\\OrcaSlicer\\orca-slicer.exe\" models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf --slice=0 --export-statistics --outputdir build/tableau-final-sliced",
+    "current_attempt_exit_code": 0,
+    "current_attempt_diagnostic": "OrcaSlicer completed successfully and produced G-code for all three plates. The final plate-2 rear-panel bounds are within the configured build volume. No fatal slicer error occurred.",
+    "current_attempt_log": "build/tableau-final-slice.log (stdout/stderr empty; process exit code 0)",
+    "current_attempt_gcode_files_produced": 3,
     "prior_attempts_artifact": "models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf",
     "prior_attempts_artifact_sha256": "2a6297ed8d9cd30123396c4f61ac3af48a3b73c4ebe8c37abc72859b01982695",
-    "prior_attempts_status": "failed before local reliefs; no G-code produced",
+    "prior_attempts_status": "The original setting retraction_distances_when_cut=0 failed validation; after correcting it, the plate-2 rear-panel build item was found outside the plate bounds and recentered without changing its mesh.",
     "prior_orca_slicer_command": "orca-slicer.exe models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf --slice=0 --outputdir=build/tableau-final-sliced",
     "prior_orca_slicer_exit_code": -18,
     "prior_orca_slicer_exit_code_windows": 4294967278,
-    "prior_orca_slicer_log": "build/tableau-final-slice.log",
-    "prior_orca_slicer_cli_version": "unreported; --version is not supported by this executable",
-    "orca_slicer_version": "2.0.0.0",
-    "orca_slicer_exit_code": -18,
-    "orca_slicer_diagnostic": "retraction_distances_when_cut=0 is outside [10,18]; the CLI also could not find the referenced BBL process preset.",
+    "prior_orca_slicer_log": "not retained in the current worktree; the earlier validation recorded the pre-fix failure",
+    "prior_orca_slicer_cli_version": "2.0.0.0",
+    "orca_slicer_version": "2.4.2",
+    "orca_slicer_exit_code": 0,
+    "orca_slicer_diagnostic": "All three plates produced G-code. Earlier successful-run diagnostics noted missing referenced BBL machine/process presets as non-fatal; the final invocation exited 0.",
     "anycubic_slicer_next_version": "2.0.0.3",
     "anycubic_slicer_next_exit_code": -1073741819,
     "anycubic_slicer_next_diagnostic": "CLI crashed before producing G-code after calc_exclude_triangles reported it could not create exclude triangles; stderr also reports missing report.ini.",
-    "print_estimates": "unknown; no successful slice"
+    "effective_gcode": {
+      "cut_retraction_distance": 18,
+      "long_retraction_enabled": false,
+      "transparent_filament_slot": 1,
+      "transparent_cool_plate_normal_temperature_c": 35,
+      "transparent_cool_plate_first_layer_temperature_c": 35,
+      "transparent_nozzle_temperature_c": 230,
+      "transparent_first_layer_nozzle_temperature_c": 230,
+      "support_enabled": false,
+      "support_filament_g": [
+        0,
+        0,
+        0
+      ]
+    },
+    "print_estimates": {
+      "plate_1": {
+        "time": "1h 44m 31s",
+        "filament_g": 46.77
+      },
+      "plate_2": {
+        "time": "2h 11m 13s",
+        "filament_g": 85.03
+      },
+      "plate_3": {
+        "time": "16h 41m 7s",
+        "filament_g": 58.06
+      },
+      "total_time": "20h 36m 51s",
+      "total_filament_g": 189.86
+    },
+    "rear_panel_plate_2_placement": {
+      "previous_x_center_mm": 439.4,
+      "corrected_x_center_mm": 425,
+      "previous_x_bounds_mm": [
+        320.199,
+        558.601
+      ],
+      "corrected_x_bounds_mm": [
+        305.799,
+        544.201
+      ],
+      "plate_x_bounds_mm": [
+        300,
+        550
+      ],
+      "mesh_changed": false
+    }
   }
 }
