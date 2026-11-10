@@ -141,6 +141,7 @@ TRANSPARENT_FILAMENT_PROFILE = (
 )
 TRANSPARENT_BED_TYPE = "Cool Plate"
 TRANSPARENT_BED_TEMPERATURE_C = 35
+TRANSPARENT_NOZZLE_TEMPERATURE_C = 230
 TRANSPARENT_FIRST_LAYER_SPEED_MM_S = 20
 TRANSPARENT_PLATE_ID = 3
 SOCKET_DIAMETER = 3.0
@@ -428,10 +429,20 @@ def apply_transparent_filament_settings(project_bytes, model_settings_bytes):
         values[TRANSPARENT_FILAMENT_SLOT - 1] = str(value)
 
     set_filament_value("filament_settings_id", TRANSPARENT_FILAMENT_PROFILE)
-    set_filament_value("nozzle_temperature", 220)
-    set_filament_value("nozzle_temperature_BRASS", 220)
-    set_filament_value("nozzle_temperature_initial_layer", 220)
-    set_filament_value("nozzle_temperature_initial_layer_BRASS", 220)
+    set_filament_value(
+        "nozzle_temperature", TRANSPARENT_NOZZLE_TEMPERATURE_C
+    )
+    set_filament_value(
+        "nozzle_temperature_BRASS", TRANSPARENT_NOZZLE_TEMPERATURE_C
+    )
+    set_filament_value(
+        "nozzle_temperature_initial_layer",
+        TRANSPARENT_NOZZLE_TEMPERATURE_C,
+    )
+    set_filament_value(
+        "nozzle_temperature_initial_layer_BRASS",
+        TRANSPARENT_NOZZLE_TEMPERATURE_C,
+    )
     set_filament_value("cool_plate_temp", TRANSPARENT_BED_TEMPERATURE_C)
     set_filament_value(
         "cool_plate_temp_initial_layer", TRANSPARENT_BED_TEMPERATURE_C
@@ -3127,8 +3138,10 @@ def main():
         ]),
     )
     require(
-        source_nozzle_range[0] <= 220 <= source_nozzle_range[1],
-        "Requested 220 C exceeds the selected filament's declared range",
+        source_nozzle_range[0]
+        <= TRANSPARENT_NOZZLE_TEMPERATURE_C
+        <= source_nozzle_range[1],
+        "Transparent-front nozzle temperature exceeds the selected filament's declared range",
     )
     source_scene = ET.fromstring(original["3D/3dmodel.model"])
     revised_scene = ET.fromstring(revised["3D/3dmodel.model"])
@@ -3195,6 +3208,13 @@ def main():
             "nozzle_temperature_initial_layer"
         ][TRANSPARENT_FILAMENT_SLOT - 1],
         "declared_nozzle_range_c": list(source_nozzle_range),
+        "nozzle_temperature_test_candidate_c": (
+            TRANSPARENT_NOZZLE_TEMPERATURE_C
+        ),
+        "nozzle_temperature_status": (
+            "One-variable test candidate; optical improvement and fit "
+            "remain unverified."
+        ),
         "flow_ratio_preserved": project_settings["filament_flow_ratio"][
             TRANSPARENT_FILAMENT_SLOT - 1
         ],
@@ -3227,7 +3247,7 @@ def main():
         "preserved": [
             "Original filament slots 2-4",
             "Global process settings and non-transparent filament temperatures",
-            "Calibrated nozzle temperature and flow",
+            "Calibrated 0.98 flow; 230 C is an unvalidated temperature test candidate",
             "First-layer flow ratio, line width and print sequence",
             "Native filament start/end/change routines",
             "Bridge/overhang cooling behavior",
@@ -3236,9 +3256,9 @@ def main():
     transparent_guide_review = {
         "references": [
             "https://doi.org/10.3390/polym16202862",
-            "https://blog.snapmaker.com/blog/how-to-3d-print-clear-filament/",
-            "https://us.qidi3d.com/blogs/guides/tips-for-3d-printing-with-transparent-filaments",
-            "https://www.youtube.com/watch?v=MKyC1qbvAyI",
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC11511128/",
+            "https://help.prusa3d.com/article/extrusion-multiplier-calibration_2257",
+            "https://b2b.formfutura.com/blog/blogs-1/transparent-pla-the-complete-guide-to-clear-light-diffusing-3d-printing-98",
             "https://www.orcaslicer.com/wiki/print_settings/strength/strength_settings_top_bottom_shells",
         ],
         "core_recipe_match": {
@@ -3281,12 +3301,14 @@ def main():
         "settings_changed_after_review": [
             "Increase transparent-front top skin from one to two 0.10 mm layers while retaining top ironing.",
             "Rotate the 100% aligned single-direction infill and solid-surface raster to 90 degrees, along the panel's shorter axis.",
+            "Raise only transparent filament slot 1 nozzle temperature from 220 C to 230 C as a one-variable test candidate; retain the calibrated 0.98 flow.",
             "Assign the transparent front to ACE/filament slot 1; keep global Textured PEI, select Cool Plate only for plate 3, and use 35 C for slot 1 Cool Plate first/normal bed temperatures.",
             "Reduce transparent-front object initial-layer wall/sparse speed from 40 to 20 mm/s; with zero bottom-shell layers, first-layer fill follows this sparse-infill speed, so the separate 60 mm/s solid-infill setting is unchanged and inapplicable. Retain first-layer flow, line width and print sequence.",
         ],
         "not_adopted": [
             "Simplify3D-specific outline/solid underspeed percentages; no successful slice to verify effective speed",
             "A 0.30 mm layer / 240 C / 100% fan / 0.75 flow optimum reported for a different PLA on Prusa MK4 1 mm coupons; not transferred to this Kobra S1 fit-critical 2.5 mm panel.",
+            "A blanket +5% flow increase: the current 0.98 ratio would become 1.029, but there is no spool-specific calibration showing under-extrusion; extra material can build up on top surfaces and compromise the 8.64 mm openings with only 0.14 mm nominal cube clearance.",
             "PETG temperatures, wider lines, 1.01 flow, and PETG drying schedules are not transferable to the unidentified transparent PLA spool",
         ],
         "effective_gcode_speeds_verified": False,

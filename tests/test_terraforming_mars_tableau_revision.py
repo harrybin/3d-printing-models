@@ -190,19 +190,25 @@ class TableauRevisionTests(unittest.TestCase):
             else:
                 self.assertEqual(settings[key], value, key)
         self.assertEqual(settings["filament_settings_id"][slot], revision.TRANSPARENT_FILAMENT_PROFILE)
-        self.assertEqual(settings["nozzle_temperature"][slot], "220")
         self.assertEqual(
-            settings["nozzle_temperature_initial_layer"][slot], "220"
+            settings["nozzle_temperature"][slot],
+            str(revision.TRANSPARENT_NOZZLE_TEMPERATURE_C),
+        )
+        self.assertEqual(
+            settings["nozzle_temperature_initial_layer"][slot],
+            str(revision.TRANSPARENT_NOZZLE_TEMPERATURE_C),
         )
         self.assertEqual(settings["cool_plate_temp"][slot], "35")
         self.assertEqual(
             settings["cool_plate_temp_initial_layer"][slot], "35"
         )
         self.assertLessEqual(
-            float(settings["nozzle_temperature_range_low"][slot]), 220
+            float(settings["nozzle_temperature_range_low"][slot]),
+            revision.TRANSPARENT_NOZZLE_TEMPERATURE_C,
         )
         self.assertGreaterEqual(
-            float(settings["nozzle_temperature_range_high"][slot]), 220
+            float(settings["nozzle_temperature_range_high"][slot]),
+            revision.TRANSPARENT_NOZZLE_TEMPERATURE_C,
         )
         self.assertEqual(settings["fan_min_speed"][slot], "20")
         self.assertEqual(settings["fan_max_speed"][slot], "20")
@@ -210,6 +216,12 @@ class TableauRevisionTests(unittest.TestCase):
             settings["additional_cooling_fan_speed"][slot], "0"
         )
         self.assertEqual(settings["filament_flow_ratio"][slot], "0.98")
+        self.assertEqual(
+            self.report["requested_revision"]["transparent_filament_settings"][
+                "nozzle_temperature_test_candidate_c"
+            ],
+            revision.TRANSPARENT_NOZZLE_TEMPERATURE_C,
+        )
 
         model = ET.fromstring(self.output["Metadata/model_settings.config"])
         objects = {
@@ -606,10 +618,18 @@ class TableauRevisionTests(unittest.TestCase):
         )
         transparent_slot_values = {
             "filament_settings_id": revision.TRANSPARENT_FILAMENT_PROFILE,
-            "nozzle_temperature": "220",
-            "nozzle_temperature_BRASS": "220",
-            "nozzle_temperature_initial_layer": "220",
-            "nozzle_temperature_initial_layer_BRASS": "220",
+            "nozzle_temperature": str(
+                revision.TRANSPARENT_NOZZLE_TEMPERATURE_C
+            ),
+            "nozzle_temperature_BRASS": str(
+                revision.TRANSPARENT_NOZZLE_TEMPERATURE_C
+            ),
+            "nozzle_temperature_initial_layer": str(
+                revision.TRANSPARENT_NOZZLE_TEMPERATURE_C
+            ),
+            "nozzle_temperature_initial_layer_BRASS": str(
+                revision.TRANSPARENT_NOZZLE_TEMPERATURE_C
+            ),
             "cool_plate_temp": "35",
             "cool_plate_temp_initial_layer": "35",
             "fan_min_speed": "20",

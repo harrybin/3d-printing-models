@@ -128,16 +128,34 @@ profiles. The Cool Plate selection and its transparent-slot temperature change
 are described below; other filament slots and their bed-temperature values
 remain unchanged.
 
-The transparent filament remains at 220 °C for normal and first layers,
-within the saved 190–240 °C profile range, with 20% part fan, 0% auxiliary fan,
-and the calibrated 0.98 flow ratio. The profile keeps this calibration rather
-than guessing at higher flow or temperature: excess flow could affect the
-8.64 mm openings and their 0.14 mm nominal cube clearance. The source material
-identity is still the imported “PLA Transparent” profile; its brand and drying
-state are unknown. The object explicitly overrides both shell layer count and
-shell thickness at 2 layers / 0.20 mm; this prevents the imported process
-profile's larger global minimum shell thickness from silently increasing the
-top skin beyond the intended two layers.
+The reported parallel bands look consistent with the 100% aligned extrusion
+paths being visible through the translucent panel; appearance alone cannot
+prove whether they are raised ridges, refractive bead boundaries, or gaps.
+The print reported in progress already combines the smooth Cool Plate and
+ironing; its result was not available for this revision and cannot isolate
+either effect. The plate can improve only its bed-contact face, not the
+opposite top face or internal paths.
+
+For the next controlled test, transparent filament slot 1 is set to 230 °C
+for both normal and first layers, one 10 °C step above the former 220 °C and
+inside the imported 190–240 °C range. This is a test candidate, not a proven
+improvement or a claim that the unknown spool is rated for every temperature
+in the imported range. The 20% part fan, 0% auxiliary fan, and calibrated
+0.98 flow ratio remain unchanged so temperature is the only new filament
+variable. A blanket +5% flow would make the ratio 1.029; it is not applied
+because there is no spool-specific evidence of under-extrusion, over-extrusion
+can build up on top surfaces, and the 8.64 mm apertures have only 0.14 mm
+nominal diametral clearance to 8.5 mm cubes. There is no broad, isolated
+no-slope region where higher flow can be safely confined without affecting
+the fit-critical openings and thin webs.
+
+The object explicitly overrides both shell layer count and shell thickness
+at 2 layers / 0.20 mm; this prevents the imported process profile's larger
+global minimum shell thickness from silently increasing the top skin beyond
+the intended two layers. Top ironing affects the topmost planar skin, not the
+internal aligned tracks or vertical aperture/ramp walls. The source material
+identity is still the imported “PLA Transparent” profile; its brand and
+drying state are unknown.
 
 ### User-selected smooth cool plate
 
@@ -172,30 +190,32 @@ object-order adjustment is useful. Other objects retain their inherited
 first-layer speeds. No extrusion-flow compensation or sequence change is
 inferred from the seller's plate claims.
 
-This is a conservative next-test profile, not a claim that the resulting print
-is optically clear. Two top skins plus ironing target top-facing planar
-surfaces; they cannot polish vertical aperture walls or the ramp. The extra
-skin and ironing can improve surface smoothness but may also change how the
-surface scatters light, so both appearance and transparency need a physical
-comparison. 90° raster lines are a targeted hypothesis for reducing long
-continuous tracks; they do not prove the long-face roughness is fixed. The
-model's geometry, 8.5 mm fit, and physical print were not altered or validated
-by these settings alone.
+This remains a translucency test profile, not a claim of glass-like clarity.
+PLA FFF can transmit light, but strand interfaces and the 2.5 mm optical path
+scatter light; it should not be confused with clear acrylic or glass.
+Two top skins plus ironing affect the top-facing plane, while the smooth plate
+forms the bed-contact face. Neither can remove internal line structure.
+The 90° aligned raster shortens the nominal straight run to 179 mm, about 25%
+shorter than the long axis, but tracks remain visible by design. Raising
+temperature may improve fusion, but it can also reduce dimensional accuracy;
+the model geometry is unchanged and the printed 8.5 mm fit remains untested.
 
-The research supports testing thick, solid prints rather than assuming that
-clarity is limited to thin walls, but it does not provide a directly
-transferable, measured recipe for this exact 2.5 mm Kobra S1 panel:
+The controlled translucency study used only 1 mm coupons, so it does not
+establish optical clarity for this 2.5 mm panel or centimeter-thick blocks.
+The user's referenced videos may demonstrate bulk clarity, but their URLs,
+material and settings were not supplied for independent verification:
 
-- Vochozka et al. measured 32 PLA parameter combinations, ten replicas each,
-  using 50 × 25 × 1 mm samples and an integrating-sphere luxmeter on a Prusa
-  MK4. Their best reported translucency configuration used 0.30 mm layers,
-  240 °C, 100% fan, 0.75 extrusion multiplier and 40 mm/s, with 23% more
-  measured light transmission than their default. It demonstrates that fan,
-  temperature, speed, flow and layer height can materially change PLA
-  translucency, but it is a 1 mm coupon with different PLA/printer and does not
-  measure whether game-board details remain clearly readable. Its 0.30 mm
-  layer height and 0.75 flow are not adopted here because they conflict with
-  the 0.10 mm fit-sensitive panel strategy and calibrated 0.98 flow.
+- Vochozka et al. ran a controlled PLA study with 32 combinations and ten
+  50 × 25 × 1 mm samples per combination on a Prusa MK4. They found significant
+  effects from orientation, layer height, nozzle temperature, fan, extrusion
+  multiplier and speed; their best combined condition was 0.30 mm, 240 °C,
+  100% fan, 0.75 flow and 40 mm/s, with 23% more measured transmission than
+  their default. The best setting is not a transferable recipe: it used a
+  different PLA and printer, a 1 mm sample, and lower flow—not +5% flow.
+  Their result supports testing temperature as one variable; it does not prove
+  that 230 °C improves this unknown spool, 2.5 mm panel, fit or visible line
+  texture. [Full paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC11511128/)
+  ([DOI](https://doi.org/10.3390/polym16202862)).
 - Snapmaker's clear-filament guide recommends 100% aligned rectilinear infill,
   slow extrusion, hotter material-specific settings, and surface finishing;
   it distinguishes solid internal void control from smoothing the outer
@@ -207,6 +227,22 @@ transferable, measured recipe for this exact 2.5 mm Kobra S1 panel:
   explicitly compares ironing at 05:08, but its available description does
   not report the outcome or establish a thick-PLA result. It is not treated as
   proof that ironing improves transparency.
+- FormFutura's transparent-PLA guidance says printing toward a material's
+  recommended upper temperature range can improve layer fusion and reduce
+  visible boundaries, but also warns excessive temperature may reduce
+  dimensional accuracy. It gives product-specific settings for its own
+  Transparent PLA, not the unidentified “PLA Transparent” spool here.
+  [Guide](https://b2b.formfutura.com/blog/blogs-1/transparent-pla-the-complete-guide-to-clear-light-diffusing-3d-printing-98).
+- Prusa's extrusion-multiplier calibration guide says flow is filament- and
+  spool-dependent; excess flow causes material buildup/scarring, while too
+  little can leave gaps. It recommends adjusting in 1–2% calibration steps
+  based on a test print, rather than applying a generic increase.
+  [Guide](https://help.prusa3d.com/article/extrusion-multiplier-calibration_2257).
+- A smooth plate transfers its finish only to the face in contact with it;
+  it cannot smooth the opposite skin or buried extrusion paths. Ironing is
+  likewise limited to the configured top surface. No new pattern or face flip
+  is applied: the panel's fit-critical apertures, webs and ramp make an
+  untested orientation or alternate infill pattern a potentially poor trade.
 - The [OrcaSlicer top/bottom shell reference](https://www.orcaslicer.com/wiki/print_settings/strength/strength_settings_top_bottom_shells)
   documents that shell thickness can increase the layer count when it exceeds
   the thickness from the layer-count setting. The project therefore saves an
@@ -217,14 +253,16 @@ transferable, measured recipe for this exact 2.5 mm Kobra S1 panel:
   their method cannot be independently attributed or reproduced from the
   current evidence.
 
-An eventual A/B test should keep the same panel and spool, dry/record the
-filament condition, and compare the current 0.10 mm / 220 °C / 20% fan /
-0.98-flow setup against the updated surface/raster profile under identical
-lighting and text/board-pattern readability checks. A separate clarity-focused
-coupon experiment could then vary temperature, cooling, flow and layer height
-independently within the actual spool limits; do not copy the paper's 240 °C
-or 0.75 flow onto the fit-critical part without coupon calibration. Until that
-test is printed, no optical or surface-quality improvement is claimed.
+Compare the reported smooth-Cool-Plate-and-ironing print before attributing
+any surface change to either setting; record which face was against the plate
+and which face shows the bands. The next 230 °C project
+changes only the transparent filament's nozzle temperature relative to the
+220 °C baseline. Use identical lighting and board/text readability checks,
+and verify cube insertion before adopting it for the complete board. If flow
+is ever retuned, use a sacrificial calibration print and small steps; do not
+transfer the paper's 0.75 flow or 240 °C combined recipe to the fit-critical
+part without spool-specific tests. No optical improvement or fit is claimed
+from saved settings alone.
 No successful slicer run exists for this 3MF, so saved settings are not
 verified effective G-code values.
 
@@ -247,13 +285,13 @@ without local warping; its approximately 1 mm registration uncertainty and
 the remaining per-field pitch drift are disclosed in the
 [photo-validation report](terraforming-mars-tableau-179mm-laminate-centered-blocks-photo-validation.json).
 
-The current localized-ramp 3MF was not sliced. The preceding integrated 3MF was
-attempted with OrcaSlicer's `--slice=0` CLI command; it exited `-18` before
-generating G-code because the saved
-`retraction_distances_when_cut=0` is outside `[10,18]`. This local-relief
-revision was not sliced. Earlier attempts also reported a missing referenced
-process preset; AnycubicSlicerNext 2.0.0.3 crashed before producing G-code. No
-user/global profile was changed. The saved global support setting remains
+The updated `--slice=0` OrcaSlicer CLI attempt exited `-18` before generating
+G-code because the saved `retraction_distances_when_cut=0` is outside
+`[10,18]`. This is the same pre-existing project-setting blocker seen in the
+preceding integrated revision; it is not caused by the 230 °C test candidate.
+Earlier attempts also reported a missing referenced process preset;
+AnycubicSlicerNext 2.0.0.3 crashed before producing G-code. No user/global
+profile was changed. The saved global support setting remains
 `enable_support=0`; this is not support-free validation. Print time, material
 use, support paths and effective toolpath speeds are unknown. No physical cube
 insertion, slider transfer, laminate fit, retention, surface-quality or
