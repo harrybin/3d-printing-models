@@ -68,7 +68,7 @@ class AssemblyImagesTests(unittest.TestCase):
         docs = next(model["docs"] for model in catalog["models"]
                     if model["slug"] == "ghouls-grip")
         for frame in images.FRAMES:
-            filename = f"ghouls-grip-montage-{frame['slug']}.png"
+            filename = f"ghouls-grip-montage-{frame['slug']}-en.png"
             self.assertIn(f"images/{filename}", guide)
             self.assertIn(f"docs/images/{filename}", docs)
 

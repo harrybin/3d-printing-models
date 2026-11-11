@@ -12,9 +12,9 @@ the moving connections.
 
 ## 1. Overview and Orientation
 
-[![Exploded view with numbered subassemblies](images/ghouls-grip-explosionszeichnung.png)](images/ghouls-grip-explosionszeichnung.png)
+[![Exploded view with numbered subassemblies](images/ghouls-grip-explosionszeichnung-en.png)](images/ghouls-grip-explosionszeichnung-en.png)
 
-[Open the full-resolution exploded view](images/ghouls-grip-explosionszeichnung.png).
+[Open the full-resolution exploded view](images/ghouls-grip-explosionszeichnung-en.png).
 Image numbers 1–8 identify **subassemblies**, not the work steps below. The
 dashed arrows show presentation axes, not insertion paths. In particular, the
 lift yoke and lid require the offsets described below. Filament pins are not
@@ -40,11 +40,11 @@ trains, and pins remain visible. Spacing in the illustrations is enlarged for
 clarity: **insertion directions and actual offsets are given in the text**.
 Filament pins are not shown. Click any image to open it at full resolution.
 
-[Overview of all twelve step illustrations](images/ghouls-grip-montage-bildfolge.png).
+[Overview of all twelve step illustrations](images/ghouls-grip-montage-bildfolge-en.png).
 
 ## 2. Prepare the Parts and Work Area
 
-[![Parts preparation: separate original components and target assembly](images/ghouls-grip-montage-02.png)](images/ghouls-grip-montage-02.png)
+[![Parts preparation: separate original components and target assembly](images/ghouls-grip-montage-02-en.png)](images/ghouls-grip-montage-02-en.png)
 
 Lay out the parts on a soft surface. Useful tools include side cutters, small
 pliers, tweezers, calipers, and fine deburring tools. Cut filament and remove
@@ -107,7 +107,7 @@ head must not clamp the joint.
 
 **Image groups 1–3 · original assembly steps 1–4**
 
-[![Step 3a: slider before installation and on the floor guides](images/ghouls-grip-montage-03a.png)](images/ghouls-grip-montage-03a.png)
+[![Step 3a: slider before installation and on the floor guides](images/ghouls-grip-montage-03a-en.png)](images/ghouls-grip-montage-03a-en.png)
 
 Place the slider vertically onto the floor guides with a slight rightward offset
 (`+X`, about 5.5 mm in front of the chest's rear guide rib). Press only on
@@ -116,7 +116,7 @@ slide it left (`−X`) into its starting position. The two rear crossbars make
 the slider a closed box frame that cannot bow under load. Carefully move it
 through its travel by hand: it should remain guided and slide without binding.
 
-[![Step 3b: main drive pinion and skull shown separately and installed](images/ghouls-grip-montage-03b.png)](images/ghouls-grip-montage-03b.png)
+[![Step 3b: main drive pinion and skull shown separately and installed](images/ghouls-grip-montage-03b-en.png)](images/ghouls-grip-montage-03b-en.png)
 
 Insert the main drive pinion axially through the front-wall hole **from the
 inside**. Its teeth must engage the slider rack. Move the slider to its closed
@@ -131,7 +131,7 @@ teeth skipping. The knob is a rotary drive, not a push button.
 
 **Image group 4 · original assembly steps 5–6**
 
-[![Step 4: follower and both transfer gears before and after installation](images/ghouls-grip-montage-04.png)](images/ghouls-grip-montage-04.png)
+[![Step 4: follower and both transfer gears before and after installation](images/ghouls-grip-montage-04-en.png)](images/ghouls-grip-montage-04-en.png)
 
 Lower the follower rack into its guide channel. From the inside, press the
 **single solid follower press pin (13.1 mm overall length, no longitudinal slot,
@@ -157,7 +157,7 @@ out of the guide or bind.
 
 **Image group 5 · original assembly step 7**
 
-[![Step 5: two scissor pairs and lower pivot pins at 18 degrees](images/ghouls-grip-montage-05.png)](images/ghouls-grip-montage-05.png)
+[![Step 5: two scissor pairs and lower pivot pins at 18 degrees](images/ghouls-grip-montage-05-en.png)](images/ghouls-grip-montage-05-en.png)
 
 Arrange two arms as a crossed pair in each of the two lateral scissor layers.
 At the bottom, the arms connect to one fixed floor point and one moving slider
@@ -181,7 +181,7 @@ not lever them into position with the pin.
 
 **Image group 5 · original assembly step 8**
 
-[![Step 6: install the scissor input gear at 48 degrees before the lift yoke](images/ghouls-grip-montage-06.png)](images/ghouls-grip-montage-06.png)
+[![Step 6: install the scissor input gear at 48 degrees before the lift yoke](images/ghouls-grip-montage-06-en.png)](images/ghouls-grip-montage-06-en.png)
 
 For this step, move the supported scissors to the **48° position**. Slide the
 input gear onto the upper arm eye from **+Y**, align its locating pin with the
@@ -196,7 +196,7 @@ The gear must not simply rest loose on the arm surface.
 
 **Image groups 6–7 · original assembly step 9**
 
-[![Step 7: lift yoke, forearm, D-shaft, and idler gears shown separately and preassembled](images/ghouls-grip-montage-07.png)](images/ghouls-grip-montage-07.png)
+[![Step 7: lift yoke, forearm, D-shaft, and idler gears shown separately and preassembled](images/ghouls-grip-montage-07-en.png)](images/ghouls-grip-montage-07-en.png)
 
 Set the platform aside outside the chest. Place the forearm between the bearing
 ears. Pass the D-shaft of the forearm output gear axially through the bearings
@@ -217,7 +217,7 @@ output gear.
 
 **Image group 6 · continuation of original assembly step 9**
 
-[![Step 8: lift-yoke assembly above the deployed scissors and engaged](images/ghouls-grip-montage-08.png)](images/ghouls-grip-montage-08.png)
+[![Step 8: lift-yoke assembly above the deployed scissors and engaged](images/ghouls-grip-montage-08-en.png)](images/ghouls-grip-montage-08-en.png)
 
 Move the supported scissors to the deployed position (**78°**). First offset
 the preassembled platform **3 mm away from the scissor input gear**, toward the
@@ -239,7 +239,7 @@ the assembly and check the gear alignment.
 
 **Image group 7 · original assembly step 10**
 
-[![Step 9: palm, five fingers, and optional dish shown separately and assembled](images/ghouls-grip-montage-09.png)](images/ghouls-grip-montage-09.png)
+[![Step 9: palm, five fingers, and optional dish shown separately and assembled](images/ghouls-grip-montage-09-en.png)](images/ghouls-grip-montage-09-en.png)
 
 Leave the mechanism deployed and supported. Orient the palm as in the view
 project: **rolled −75°** relative to the forearm datum. Slide the hub onto the
@@ -266,7 +266,7 @@ when tilting or disassembling.
 
 **Image group 8 · original assembly step 11**
 
-[![Step 10: underside of lid with separate crank and spacer, and their installed positions](images/ghouls-grip-montage-10.png)](images/ghouls-grip-montage-10.png)
+[![Step 10: underside of lid with separate crank and spacer, and their installed positions](images/ghouls-grip-montage-10-en.png)](images/ghouls-grip-montage-10-en.png)
 
 Place the lid upside down on a soft surface. Insert the lid crank from below
 and slide it **5.6 mm in +X** into its drive pocket. Place the spacer from
@@ -301,7 +301,7 @@ spacer, and hinge eyes share the same axis.
 
 **Image group 8 · original assembly step 12**
 
-[![Step 11: open lid assembly before fitting and in hinge position](images/ghouls-grip-montage-11.png)](images/ghouls-grip-montage-11.png)
+[![Step 11: open lid assembly before fitting and in hinge position](images/ghouls-grip-montage-11-en.png)](images/ghouls-grip-montage-11-en.png)
 
 Carefully move the mechanism to the **48° scissor position**; the lid drive is
 open in this position. Hold the lid assembly about **108° open** and offset it
@@ -319,7 +319,7 @@ not open or close it independently against the drive.
 
 ## 12. Dry Run and Acceptance Check
 
-[![Step 12: complete assembly retracted and deployed for the dry run](images/ghouls-grip-montage-12.png)](images/ghouls-grip-montage-12.png)
+[![Step 12: complete assembly retracted and deployed for the dry run](images/ghouls-grip-montage-12-en.png)](images/ghouls-grip-montage-12-en.png)
 
 First test **without candy and without a load**. Slowly turn only the skull
 through its intended travel of approximately 114°, then turn it exactly back.
@@ -379,7 +379,7 @@ geometry nor the [print/profile status](ghouls-grip-druckvalidierung.md).
 
 `scripts/render_ghouls_grip_assembly.py` reads only the existing 42 bodies in
 the three positions in the view 3MF. Blender renders twelve image pairs;
-Pillow adds German legends and the overview. Only presentation offsets are
+Pillow adds English legends and the overview. Only presentation offsets are
 applied; no print bodies are changed or exported. The illustration sequence is
 not sliced again.
 
@@ -387,10 +387,10 @@ not sliced again.
 .\.venv\Scripts\python.exe scripts\render_ghouls_grip_assembly.py
 ```
 
-The images are in `docs/images/ghouls-grip-montage-02.png` through
-`docs/images/ghouls-grip-montage-12.png` (Section 3 uses `03a` and `03b`).
+The English images are in `docs/images/ghouls-grip-montage-02-en.png` through
+`docs/images/ghouls-grip-montage-12-en.png` (Section 3 uses `03a` and `03b`).
 The overview is
-`docs/images/ghouls-grip-montage-bildfolge.png`. Raw images and camera
+`docs/images/ghouls-grip-montage-bildfolge-en.png`. Raw images and camera
 projections remain under `build/ghouls-grip-assembly/`. The renderer checks
 complete part assignment, camera bounds, nonempty images, and unchanged SHA-256
 values for the three Ghoul’s-Grip model files.

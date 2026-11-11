@@ -57,7 +57,7 @@ All 12 moving or inserted parts were checked in [`scripts/butterfly_messer.py`](
 | 10 | `clip-safe-vorn` & `clip-bite-vorn` | `+X` `(+1, 0, 0)` | Corresponding handle scales + D-bolts | `0.000000` | **PASS** |
 | 11 | `clip-safe-hinten` & `clip-bite-hinten` | `-X` `(-1, 0, 0)` | Corresponding handle scales + D-bolts | `0.000000` | **PASS** |
 
-![Explosionszeichnung Butterfly-Messer](images/butterfly-messer-explosion.png)
+![Butterfly knife exploded assembly drawing](images/butterfly-messer-explosion-en.png)
 
 ---
 
