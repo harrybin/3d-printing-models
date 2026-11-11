@@ -67,37 +67,37 @@
         },
         {
           "object_id": "10",
-          "object_name": "Probe 2.4 mm - Vorderseite - 1 Kerbe(n)",
+          "object_name": "Fit sample 2.4 mm - Front - 1 notch",
           "layer_height_mm": 0.2,
           "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
         },
         {
           "object_id": "14",
-          "object_name": "Probe 2.5 mm - Vorderseite - 2 Kerbe(n)",
+          "object_name": "Fit sample 2.5 mm - Front - 2 notches",
           "layer_height_mm": 0.2,
           "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
         },
         {
           "object_id": "18",
-          "object_name": "Probe 2.6 mm - Vorderseite - 3 Kerbe(n)",
+          "object_name": "Fit sample 2.6 mm - Front - 3 notches",
           "layer_height_mm": 0.2,
           "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
         },
         {
           "object_id": "8",
-          "object_name": "Probe 2.4 mm - Rueckseite - 1 Kerbe(n)",
+          "object_name": "Fit sample 2.4 mm - Back - 1 notch",
           "layer_height_mm": 0.2,
           "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
         },
         {
           "object_id": "12",
-          "object_name": "Probe 2.5 mm - Rueckseite - 2 Kerbe(n)",
+          "object_name": "Fit sample 2.5 mm - Back - 2 notches",
           "layer_height_mm": 0.2,
           "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
         },
         {
           "object_id": "16",
-          "object_name": "Probe 2.6 mm - Rueckseite - 3 Kerbe(n)",
+          "object_name": "Fit sample 2.6 mm - Back - 3 notches",
           "layer_height_mm": 0.2,
           "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
         }

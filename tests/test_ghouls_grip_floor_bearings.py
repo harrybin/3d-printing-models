@@ -239,7 +239,7 @@ class FloorBearingTests(unittest.TestCase):
             self.assertEqual(len(plates), 4)
             mechanism_plate = next(
                 plate for plate in plates
-                if "Hauptteile" in plate.find(
+                if "main parts" in plate.find(
                     "metadata[@key='plater_name']").get("value")
             )
             mechanism_ids = {

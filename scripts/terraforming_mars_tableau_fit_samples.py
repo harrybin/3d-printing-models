@@ -225,7 +225,8 @@ for row, diameter in enumerate((2.4, 2.5, 2.6), start=1):
         mesh_id = 7 + len(report) * 2
         object_id = mesh_id + 1
         sequence = 4 + len(report)
-        name = f"Fit sample {diameter:.1f} mm - {role} - {row} notches"
+        notch_label = "notch" if row == 1 else "notches"
+        name = f"Fit sample {diameter:.1f} mm - {role} - {row} {notch_label}"
         target = f"3D/Objects/FitSample_{mesh_id}.model"
         data[target] = mesh_xml(mesh, mesh_id, sequence)
         obj = ET.SubElement(
