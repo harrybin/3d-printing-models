@@ -58,10 +58,10 @@ class MaterialSpec:
 
 
 MATERIALS = {
-    "black": MaterialSpec("black", "Koerper - schwarzes PLA", "#1C1E21", 1),
-    "green": MaterialSpec("green", "Augen - hellgruenes PLA", "#4CC936", 2),
-    "red":   MaterialSpec("red",   "Schwanzflosse - rotes PLA", "#D62828", 3),
-    "white": MaterialSpec("white", "Wikinger-Emblem - weisses PLA", "#F4F5F7", 4),
+    "black": MaterialSpec("black", "Body - black PLA", "#1C1E21", 1),
+    "green": MaterialSpec("green", "Eyes - light-green PLA", "#4CC936", 2),
+    "red":   MaterialSpec("red",   "Tail fin - red PLA", "#D62828", 3),
+    "white": MaterialSpec("white", "Viking emblem - white PLA", "#F4F5F7", 4),
 }
 
 PART_MATERIAL = {
@@ -969,8 +969,8 @@ def build_view_3mf(
     """Write `models/drache-view.3mf` with Plate 1 (Assembled) and Plate 2 (Exploded)."""
     material_slots = {mat: mat.slot - 1 for mat in MATERIAL_LIST}
     plate_names = [
-        "Zusammengebaut (1:1 Nachtschatten)",
-        "Explosionsansicht (Steckachsen)",
+        "Assembled (1:1 Night Shadow)",
+        "Exploded view (press-fit axles)",
     ]
     objects = []
     object_plates = {}
@@ -1074,10 +1074,10 @@ def build_print_3mf(
 ) -> None:
     """Create the consolidated 4-plate OrcaSlicer printable 3MF (`models/drache-print.3mf`)."""
     plate_names = [
-        "Schwarz - Drachenkoerper",
-        "Gruen - Augen (Links & Rechts)",
-        "Rot - Schwanzflosse Links",
-        "Weiss - Wikinger-Schaedel-Emblem",
+        "Black - dragon body",
+        "Green - eyes (left and right)",
+        "Red - left tail fin",
+        "White - Viking skull emblem",
     ]
     # 4 plates -> 2x2 grid in OrcaSlicer (grid_columns = 2, pitch = 300.0 mm)
     grid_columns = 2
@@ -1332,10 +1332,10 @@ def slice_and_update_metadata(
         m.color_hex.lower(): m.name for m in MATERIAL_LIST
     }
     plate_titles = [
-        "Plate 1 - Koerper - schwarzes PLA",
-        "Plate 2 - Augen - hellgruenes PLA",
-        "Plate 3 - Schwanzflosse - rotes PLA",
-        "Plate 4 - Wikinger-Emblem - weisses PLA",
+        "Plate 1 - Body - black PLA",
+        "Plate 2 - Eyes - light-green PLA",
+        "Plate 3 - Tail fin - red PLA",
+        "Plate 4 - Viking emblem - white PLA",
     ]
 
     indexed_paths = [
@@ -1478,17 +1478,17 @@ def render_all_previews_and_supports(
     view_panels = []
     panel_configs = [
         (
-            "Plate 1 - Zusammengebaut (Vorderansicht 3/4)",
+            "Plate 1 - Assembled (front three-quarter view)",
             False,
             {"pos": (110.0, -95.0, 68.0), "focal_point": (0.0, 0.0, 26.0), "viewup": (0.0, 0.0, 1.0)},
         ),
         (
-            "Plate 1 - Zusammengebaut (Rueck-/Fluegelansicht)",
+            "Plate 1 - Assembled (rear/wing view)",
             False,
             {"pos": (-115.0, 95.0, 72.0), "focal_point": (0.0, 0.0, 27.0), "viewup": (0.0, 0.0, 1.0)},
         ),
         (
-            "Plate 2 - Explosionsansicht (Steckachsen & Passungen)",
+            "Plate 2 - Exploded view (press-fit axles and fits)",
             True,
             {"pos": (105.0, 115.0, 75.0), "focal_point": (0.0, 2.0, 28.0), "viewup": (0.0, 0.0, 1.0)},
         ),
@@ -1529,25 +1529,25 @@ def render_all_previews_and_supports(
     plate_defs = [
         (
             0,
-            "Plate 1 - Schwarz (Drachenkoerper)",
+            "Plate 1 - Black (dragon body)",
             [("drache-koerper", (125.0, 125.0))],
             "#2B2F36",
         ),
         (
             1,
-            "Plate 2 - Gruen (Augen Links & Rechts)",
+            "Plate 2 - Green (left and right eyes)",
             [("drache-auge-links", (115.0, 125.0)), ("drache-auge-rechts", (135.0, 125.0))],
             "#4CC936",
         ),
         (
             2,
-            "Plate 3 - Rot (Schwanzflosse Links)",
+            "Plate 3 - Red (left tail fin)",
             [("drache-schwanzflosse-links-rot", (125.0, 125.0))],
             "#D62828",
         ),
         (
             3,
-            "Plate 4 - Weiss (Wikinger-Schaedel-Emblem)",
+            "Plate 4 - White (Viking skull emblem)",
             [("drache-emblem-weiss", (125.0, 125.0))],
             "#F4F5F7",
         ),
@@ -1682,15 +1682,15 @@ def write_verification_doc(
     total_rem_s = total_s % 60
 
     lines = [
-        "# Ohnezahn (Nachtschatten / Toothless) – Montage-, Kollisions- und Slicer-Prüfbericht",
+        "# Toothless (Night Fury) — Assembly, Collision, and Slicer Validation Report",
         "",
-        "## 1. Gesamtmodell & Bauteil-Stückliste (BOM)",
+        "## 1. Complete Model and Bill of Materials (BOM)",
         "",
-        f"- **Gesamtabmessungen (zusammengebaut):** `{ext[0]:.2f} × {ext[1]:.2f} × {ext[2]:.2f} mm` (Referenz-Ziel aus 2-Euro-Münzkalibrierung: `~78,0 × 45,5 × 60,5 mm`)",
-        "- **Unterseite Schwanz:** Glatt modelliert; der eingeprägte Fabrik-/Copyright-Code (`41204AFS`) wurde wie gewünscht vollständig weggelassen.",
-        "- **Farbstrategie:** 5 passgenaue, formschlüssig steckbare Einzelteile auf 4 sortenreinen Druckplatten (`0,00 g` Farbwechsel-/Purge-Abfall).",
+        f"- **Overall assembled dimensions:** `{ext[0]:.2f} × {ext[1]:.2f} × {ext[2]:.2f} mm` (reference target from 2-euro coin calibration: `~78,0 × 45,5 × 60,5 mm`)",
+        "- **Tail underside:** Smoothly modeled; the embossed factory/copyright code (`41204AFS`) was omitted as requested.",
+        "- **Color strategy:** Five dimensioned, keyed, press-fit parts on four single-color plates (`0,00 g` color-change/purge waste).",
         "",
-        "| Bauteil | Datei (`models/`) | ACE Pro Slot & Farbe | Facetten | Watertight | Euler-Zahl | Komponenten | Volumen (`mm³`) | Abmessungen Drucklage (`mm`) |",
+        "| Part | File (`models/`) | ACE Pro slot and color | Facets | Watertight | Euler number | Components | Volume (`mm³`) | Dimensions in print orientation (`mm`) |",
         "| --- | --- | --- | ---: | :---: | ---: | ---: | ---: | --- |",
     ]
     for name, m in parts.items():
@@ -1705,11 +1705,11 @@ def write_verification_doc(
 
     lines.extend([
         "",
-        "## 2. Kollisions- und Einschubweg-Prüfung (25-Schritt Manifold-Sweep)",
+        "## 2. Collision and Insertion-Path Check (25-Step Manifold Sweep)",
         "",
-        "Alle gesteckten Verbindungen wurden über ihren gesamten linearen Einschubweg (25 äquidistante Schritte von außerhalb des Gehäuses bis zum Endanschlag) mit `manifold3d` auf Schnittvolumen geprüft:",
+        "All press-fit joints were checked for intersection volume throughout their full linear insertion path (25 evenly spaced steps from outside the enclosure to the end stop) using `manifold3d`:",
         "",
-        "| Steckteil | Zielbauteil | Einschubvektor (Welt-XYZ) | Passungsspiel (`mm`) | Statisches Schnittvolumen (`mm³`) | Max. Sweep-Schnittvolumen (`mm³`) | Status |",
+        "| Inserted part | Target part | Insertion vector (world XYZ) | Fit clearance (`mm`) | Static intersection volume (`mm³`) | Maximum sweep intersection volume (`mm³`) | Status |",
         "| --- | --- | --- | ---: | ---: | ---: | :---: |",
     ])
     for name, r in sweep_report.items():
@@ -1721,21 +1721,21 @@ def write_verification_doc(
 
     lines.extend([
         "",
-        "### Montagereihenfolge",
-        "1. **Grüne Augen (`drache-auge-links`, `drache-auge-rechts`):** Von schräg vorn/außen in die beiden Augenhöhlen des schwarzen Kopfes eindrücken. Die im schwarzen Kopf integrierten vertikalen Schlitzpupillen-Stege greifen exakt durch die Schlitze der grünen Augeneinsätze.",
-        "2. **Weißes Wikinger-Schädel-Emblem (`drache-emblem-weiss`):** Von oben in die formschlüssige Vertiefung der linken roten Schwanzflossen-Prothese (`drache-schwanzflosse-links-rot`) drücken (`0,12 mm` Presspassung).",
-        "3. **Rote Schwanzflossen-Prothese (`drache-schwanzflosse-links-rot`):** Seitlich von links entlang der Y-Achse (`(0, -1, 0)`) mit der asymmetrischen Feder in die Nut an der Schwanzspitze des schwarzen Körpers einschieben (`0,15 mm` Spiel).",
+        "### Assembly order",
+        "1. **Green eyes (`drache-auge-links`, `drache-auge-rechts`):** Press them diagonally from the front/outside into the black head's eye sockets. The vertical slit-pupil ribs integrated into the black head pass precisely through the slots in the green eye inserts.",
+        "2. **White Viking skull emblem (`drache-emblem-weiss`):** Press it down into the keyed recess in the red left tail-fin prosthesis (`drache-schwanzflosse-links-rot`) (`0,12 mm` press fit).",
+        "3. **Red tail-fin prosthesis (`drache-schwanzflosse-links-rot`):** Slide it in from the left along the Y axis (`(0, -1, 0)`), engaging its asymmetric spring with the slot at the tip of the black body's tail (`0,15 mm` clearance).",
         "",
-        "## 3. Verifizierte OrcaSlicer-Druckdaten (`models/drache-print.3mf`)",
+        "## 3. Verified OrcaSlicer Print Data (`models/drache-print.3mf`)",
         "",
-        "- **Druckerprofil:** `Anycubic Kobra S1 0.4 nozzle`",
-        "- **Druckbett:** `Textured PEI Plate`",
-        "- **Prozessprofil:** `0.20mm Standard @Anycubic Kobra S1 0.4 nozzle` (`seam_position=random`, `ironing_type=top`, `enable_support=1`, `support_type=tree(auto)`)",
-        f"- **Gesamtdruckzeit (alle 4 Platten):** `{total_h}h {total_m:02d}m {total_rem_s:02d}s` (`{total_s} s`)",
-        f"- **Gesamtfilamentbedarf:** `{slice_stats['filamentUsageGrams']} g` (`{slice_stats['filamentUsageMillimeters']} mm`, `{slice_stats['filamentUsageCubicMillimeters']} mm³`)",
-        f"- **Davon Support-Filament:** `{slice_stats['supportFilamentGrams']} g` (`{slice_stats['supportFilamentMillimeters']} mm`, `{slice_stats['supportFilamentCubicMillimeters']} mm³`)",
+        "- **Printer profile:** `Anycubic Kobra S1 0.4 nozzle`",
+        "- **Build plate:** `Textured PEI Plate`",
+        "- **Process profile:** `0.20mm Standard @Anycubic Kobra S1 0.4 nozzle` (`seam_position=random`, `ironing_type=top`, `enable_support=1`, `support_type=tree(auto)`)",
+        f"- **Total print time (all four plates):** `{total_h}h {total_m:02d}m {total_rem_s:02d}s` (`{total_s} s`)",
+        f"- **Total filament required:** `{slice_stats['filamentUsageGrams']} g` (`{slice_stats['filamentUsageMillimeters']} mm`, `{slice_stats['filamentUsageCubicMillimeters']} mm³`)",
+        f"- **Support filament:** `{slice_stats['supportFilamentGrams']} g` (`{slice_stats['supportFilamentMillimeters']} mm`, `{slice_stats['supportFilamentCubicMillimeters']} mm³`)",
         "",
-        "| Platte | Bezeichnung | Druckzeit | Filament gesamt (`g` / `mm`) | Support-Anteil (`g` / `mm`) | Status |",
+        "| Plate | Name | Print time | Total filament (`g` / `mm`) | Support filament (`g` / `mm`) | Status |",
         "| :---: | --- | ---: | ---: | ---: | :---: |",
     ])
     for idx, pd in enumerate(plate_details, start=1):
@@ -1751,9 +1751,9 @@ def write_verification_doc(
 
     lines.extend([
         "",
-        "### Orientierungs- und Support-Nachweis",
-        "- **Platte 1 (`drache-koerper`):** Steht auf den vier plan abgeflachten Pfotensohlen (`Z = 0,000 mm`). Dadurch entsteht lediglich minimaler Tree-Support vom Druckbett aus (`0,79 g` unter Kinn/Bauch/Flügelspitzen), während Kopf-Oberseite, Ohrenhörner, Rückenkamm-Noppen, Sattel und Schwanzflosse zu 100 % frei von Support-Kontaktpunkten bleiben.",
-        "- **Platten 2, 3 und 4 (`drache-auge-links`, `drache-auge-rechts`, `drache-schwanzflosse-links-rot`, `drache-emblem-weiss`):** Liegen jeweils mit ihrer 100 % planen Rückseite auf `Z = 0,000 mm` und benötigen trotz aktiviertem Auto-Support (`enable_support=1`) exakt **`0,00 g` Support**.",
+        "### Orientation and Support Evidence",
+        "- **Plate 1 (`drache-koerper`):** Rests on its four flattened paw soles (`Z = 0,000 mm`). This produces only minimal tree support from the build plate (`0,79 g` under the chin, belly, and wing tips), while the top of the head, ear horns, dorsal bumps, saddle, and tail fin remain 100% free of support contact points.",
+        "- **Plates 2, 3, and 4 (`drache-auge-links`, `drache-auge-rechts`, `drache-schwanzflosse-links-rot`, `drache-emblem-weiss`):** Each rests on its fully flat back at `Z = 0,000 mm` and requires exactly **`0,00 g` support** with automatic support enabled (`enable_support=1`).",
         "",
     ])
 

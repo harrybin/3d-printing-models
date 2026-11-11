@@ -31,7 +31,7 @@ PLATE_GRID_COLUMNS = 3
 
 MATERIAL_PROJECTS = {
     "black-pla": {
-        "match": "Schatulle - schwarzes PLA",
+        "match": "Chest - black PLA",
         "color": "#202124",
         "filament": "Anycubic PLA @Anycubic Kobra S1 0.4 nozzle.json",
         # Economy shell: the 3 mm source walls still retain a durable
@@ -51,12 +51,12 @@ MATERIAL_PROJECTS = {
         "plate_row_pitch": 140.0,
         "plate_x_pitch": 300.0,
         "plate_names": (
-            "Schatulle",
-            "Deckel auf Hinterkante stehend",
+            "Chest",
+            "Lid upright on rear edge",
         ),
     },
     "bone-pla": {
-        "match": "Knochen - beiges PLA",
+        "match": "Bone beige - PLA",
         "color": "#D8C6A5",
         "filament": "Anycubic PLA @Anycubic Kobra S1 0.4 nozzle.json",
         "wall_loops": "4", "infill": "25%", "speed": "standard",
@@ -64,7 +64,7 @@ MATERIAL_PROJECTS = {
         "object_overrides": True,
     },
     "mechanism-pla": {
-        "match": "Mechanik - naturweisses PLA",
+        "match": "Mechanism - natural white PLA",
         "color": "#F1EBDD",
         "filament": "Anycubic PLA @Anycubic Kobra S1 0.4 nozzle.json",
         "wall_loops": "5", "infill": "40%", "speed": "mechanism",
@@ -76,12 +76,12 @@ MATERIAL_PROJECTS = {
         "plate_row_pitch": 240.0,
         "plate_x_pitch": 300.0,
         "plate_names": (
-            "Mechanik-Hauptteile",
-            "Zahnraeder und Verbinder",
+            "Mechanism main parts",
+            "Gears and connectors",
         ),
     },
     "accent-pla": {
-        "match": "Totenkopf-Ausloeser - goldenes PLA",
+        "match": "Skull trigger - gold PLA",
         "color": "#D4AF37",
         "filament": "Anycubic PLA @Anycubic Kobra S1 0.4 nozzle.json",
         "wall_loops": "4", "infill": "25%", "speed": "standard",

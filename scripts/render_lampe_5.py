@@ -61,7 +61,7 @@ def render_panel_bed(panel_layout):
     axis.set_aspect("equal")
     axis.axis("off")
     axis.set_title(
-        "Datei 2 · Vier Leuchtflächen auf 250 × 250 mm Druckbett",
+        "Plate 2 · Four light panels on a 250 × 250 mm build plate",
         color="white",
         fontsize=17,
         pad=12,
@@ -102,7 +102,7 @@ def render_frame(transparent, black):
     _add_mesh(axis, black, BLACK)
     _style_3d(axis)
     axis.set_title(
-        "Datei 1 · Rahmen\n20 mm transparent + 20 mm schwarz",
+        "Plate 1 · Frame\n20 mm clear + 20 mm black",
         color="white",
         fontsize=16,
         pad=4,

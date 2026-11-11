@@ -18,18 +18,18 @@ METADATA_ENTRY = "Metadata/ghouls_grip_print_metadata.xml"
 PROJECT = MODELS / "ghouls-grip-print.3mf"
 FILAMENT_NAMES = {
     "#202124": "Black PLA",
-    "#212721": "Black PLA+ (Schatulle)",
+    "#212721": "Black PLA+ (chest)",
     "#d8c6a5": "Bone-beige PLA",
-    "#89a84f": "PLA Slot 2 (Knochen)",
+    "#89a84f": "Bone-beige PLA (Slot 2)",
     "#f1ebdd": "Natural-white PLA",
-    "#ffc196": "PLA Slot 1 (Mechanik)",
+    "#ffc196": "Mechanical parts PLA (Slot 1)",
     "#d4af37": "Gold PLA",
     "#777777": "Gray PLA",
-    "#009cbd": "PLA Slot 4 (Totenkopf-Ausloeser)",
-    "#1c1e21": "Black PLA (Drache)",
-    "#4cc936": "Green PLA (Augen)",
-    "#d62828": "Red PLA (Schwanzflosse)",
-    "#f4f5f7": "White PLA (Emblem)",
+    "#009cbd": "Skull trigger PLA (Slot 4)",
+    "#1c1e21": "Black PLA (dragon)",
+    "#4cc936": "Green PLA (eyes)",
+    "#d62828": "Red PLA (tail fin)",
+    "#f4f5f7": "White PLA (emblem)",
 }
 
 

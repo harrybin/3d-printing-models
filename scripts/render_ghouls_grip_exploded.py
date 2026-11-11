@@ -1,7 +1,7 @@
 """Read-only exploded assembly illustration from the delivered view 3MF.
 
 Run with the catalog venv; Blender renders exact source meshes, Pillow adds
-German typography. Only presentation translations are applied. Intermediate
+English labels. Only presentation translations are applied. Intermediate
 render/projection evidence is kept in build/ghouls-grip-exploded/.
 """
 
@@ -24,22 +24,22 @@ OUTPUT = ROOT / "docs" / "images" / "ghouls-grip-explosionszeichnung.png"
 INK = "#243447"
 TEAL = "#007F82"
 CARDS = (
-    ("Truhe", "Schritt 1",
-     "Öffnung nach oben. Bodenlager und\nSchienen bleiben Teil der Truhe."),
-    ("Schlitten", "Schritt 2",
-     "Senkrecht auf die Schienen drücken;\nbeide Schnappfinger einrasten lassen."),
-    ("Hauptantrieb & Totenkopf", "Schritte 3–4",
-     "Ritzel von innen durch die Vorderwand.\nKnauf außen auf die D-Welle stecken;\nmit 14-mm-Filamentstift quer sichern."),
-    ("Deckel-Folger & Transfer", "Schritte 5–6",
-     "Folger absenken, Pressstift einsetzen.\nZwei Transferzahnräder in −X einschieben;\naußen mit je 5-mm-Filamentstift sichern."),
-    ("Doppelschere", "Schritte 7–8",
-     "Vier Arme, zwei Scherenebenen.\nBodenstifte von der Mitte nach außen.\nEingangszahnrad vor dem Hubjoch setzen."),
-    ("Hubjoch & Fünf-Zahnrad-Getriebe", "Schritt 9",
-     "Unterarm und Abtriebswelle vormontieren.\nJoch 3 mm versetzt absenken, dann entlang\nder Achsverbindung in Eingriff schieben."),
-    ("Unterarm, Hand & optionale Schale", "Schritt 10 / Vormontage 9",
-     "Handgelenk: 16-mm-Querstift. Finger:\nZeige-, Mittel-, Ring-, kleiner, Daumen.\nAuf MCP-Zapfen schieben; Schale zuletzt."),
-    ("Deckel, Kurbel & Distanzhülse", "Schritte 11–12",
-     "Kurbel + Hülse außerhalb vormontieren.\nDeckel 108° offen, 3 mm nach hinten;\nabsenken, vorziehen, 198-mm-Achse einführen."),
+    ("Chest", "Step 1",
+     "Opening upward. Keep the floor bearings and\nrails attached to the chest."),
+    ("Slider", "Step 2",
+     "Press vertically onto the rails;\nengage both snap fingers."),
+    ("Main drive & skull", "Steps 3–4",
+     "Insert the pinion through the front wall\nfrom inside. Fit the skull knob onto the\nD-shaft; secure with a 14 mm filament pin."),
+    ("Lid follower & transfer gears", "Steps 5–6",
+     "Lower the follower and insert its press pin.\nSlide both transfer gears in −X; secure each\nfrom the outside with a 5 mm filament pin."),
+    ("Double scissors", "Steps 7–8",
+     "Four arms in two scissor layers.\nInsert floor pins from the center outward.\nFit the input gear before the lift yoke."),
+    ("Lift yoke & five-gear drive", "Step 9",
+     "Preassemble the forearm and output shaft.\nLower the yoke with a 3 mm offset, then\nengage it along the shaft connection."),
+    ("Forearm, hand & optional dish", "Step 10 / preassembly 9",
+     "Wrist: 16 mm cross-pin. Fingers:\nindex, middle, ring, little, thumb.\nSlide onto the MCP pins; fit the dish last."),
+    ("Lid, crank & spacer", "Steps 11–12",
+     "Preassemble the crank and spacer outside.\nHold the lid open 108°, offset it 3 mm rearward,\nlower, slide forward, and insert the 198 mm axle."),
 )
 
 
@@ -211,8 +211,8 @@ def compose() -> None:
     draw = ImageDraw.Draw(image)
     draw.rectangle((0, 0, 3200, 18), fill=TEAL)
     draw.text((80, 58), "THE GHOUL’S GRIP", font=font(30, True), fill=TEAL)
-    draw.text((75, 101), "Explosionszeichnung", font=font(82, True), fill=INK)
-    draw.text((82, 210), "Montageübersicht  /  Originalbauteile aus dem Ansichtsprojekt",
+    draw.text((75, 101), "Exploded assembly view", font=font(82, True), fill=INK)
+    draw.text((82, 210), "Assembly overview  /  original components from the view project",
               font=font(30), fill=INK)
     draw.rounded_rectangle((65, 290, 2185, 2390), radius=30, fill="white")
     metadata = json.loads((WORK / "projection.json").read_text(encoding="utf-8"))
@@ -254,7 +254,7 @@ def compose() -> None:
         draw.text(badge, str(group), font=font(30, True), fill="white",
                   anchor="mm")
 
-    draw.text((2250, 295), "BAUGRUPPEN & REIHENFOLGE",
+    draw.text((2250, 295), "ASSEMBLIES & ORDER",
               font=font(29, True), fill=TEAL)
     for index, (title, steps, text) in enumerate(CARDS):
         y = 365 + index * 240
@@ -267,18 +267,18 @@ def compose() -> None:
         draw.multiline_text((2324, y+87), text, font=font(27), fill=INK,
                             spacing=9)
 
-    draw.text((110, 2240), "↑  EXPLOSION: nach oben / seitlich auseinandergezogen",
+    draw.text((110, 2240), "↑  EXPLODED VIEW: parts separated upward / sideways",
               font=font(29, True), fill=TEAL)
     draw.multiline_text(
         (110, 2290),
-        "Gestrichelt: Explosionsachsen zur Übersicht, keine Einführpfade.\n"
-        "Schnappstifte sind seitlich gelöst; Zahnradgruppen bleiben ihrer Baugruppe zugeordnet.",
+        "Dashed lines: exploded-view axes for clarity, not insertion paths.\n"
+        "Snap pins are offset sideways; gear groups stay with their assemblies.",
         font=font(26), fill=INK, spacing=10)
     draw.line((80, 2430, 3120, 2430), fill="#B6C9D0", width=2)
     draw.multiline_text(
         (82, 2460),
-        "42 Druckteile  •  Schwarz: Gehäuse  /  Naturweiß: Mechanik  /  Knochenbeige: Hand  /  Gold: Knauf + Schale\n"
-        "Filamentstifte nicht dargestellt. Detail-Steckrichtungen, Sicherungen und Trockenlauf: Bauanleitung, Schritte 1–13.",
+        "42 printed parts  •  Black: chest  /  Natural white: mechanism  /  Bone beige: hand  /  Gold: knob + dish\n"
+        "Filament pins not shown. See assembly instructions, steps 1–13, for insertion directions, retainers, and the dry run.",
         font=font(28), fill=INK, spacing=14)
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     image.save(OUTPUT, dpi=(240, 240))
