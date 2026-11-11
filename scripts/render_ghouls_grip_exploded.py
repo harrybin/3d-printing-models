@@ -20,7 +20,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "models" / "ghouls-grip-view.3mf"
 WORK = ROOT / "build" / "ghouls-grip-exploded"
-OUTPUT = ROOT / "docs" / "images" / "ghouls-grip-explosionszeichnung.png"
+OUTPUT = ROOT / "docs" / "images" / "ghouls-grip-explosionszeichnung-en.png"
 INK = "#243447"
 TEAL = "#007F82"
 CARDS = (

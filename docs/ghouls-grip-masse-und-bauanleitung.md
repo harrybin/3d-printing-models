@@ -277,9 +277,9 @@ verified against print inaccuracy (±0.1–0.2 mm) in
 
 ### Exploded View
 
-[![Exploded view with eight numbered subassemblies and German assembly annotations](images/ghouls-grip-explosionszeichnung.png)](images/ghouls-grip-explosionszeichnung.png)
+[![Exploded view with eight numbered subassemblies and English assembly annotations](images/ghouls-grip-explosionszeichnung-en.png)](images/ghouls-grip-explosionszeichnung-en.png)
 
-The [full-resolution drawing (3200 × 2600 pixels)](images/ghouls-grip-explosionszeichnung.png)
+The [full-resolution drawing (3200 × 2600 pixels)](images/ghouls-grip-explosionszeichnung-en.png)
 shows all **42 printed bodies** from `models/ghouls-grip-view.3mf` in the
 `deployed` state, arranged in eight numbered subassemblies. The numbers refer
 to the assembly steps below; they are not additional part identifiers. The

@@ -392,7 +392,7 @@ def compose_all():
         draw.text((65, 1325), note, font=font(24), fill="#536570")
         draw.text((65, 1365), "Gray: parts already assigned to the assembly. Filament pins are not shown.",
                   font=font(23), fill="#536570")
-        path = OUT / f"ghouls-grip-montage-{frame['slug']}.png"
+        path = OUT / f"ghouls-grip-montage-{frame['slug']}-en.png"
         image.save(path, dpi=(220, 220))
         outputs.append(path)
     sheet = Image.new("RGB", (1800, 4 * 385), "#E3EAEE")
@@ -400,7 +400,7 @@ def compose_all():
         thumb = Image.open(path).convert("RGB")
         thumb.thumbnail((590, 370))
         sheet.paste(thumb, ((index % 3) * 600 + 5, (index // 3) * 385 + 5))
-    sheet.save(OUT / "ghouls-grip-montage-bildfolge.png")
+    sheet.save(OUT / "ghouls-grip-montage-bildfolge-en.png")
     print(f"Rendered {len(outputs)} step images and contact sheet; all panels nonempty.")
 
 
