@@ -87,7 +87,7 @@ Model-car replacement tire (`scripts/modellauto_reifen.py`,
 | 05 | PXL_20261010_115756377.jpg | Circumferential ring in rib ring, 2,29 mm |
 
 Create new contact sheets with
-`python scripts/make_contact_sheet.py <bildordner> --out model-sources/archiv/<modell>-index.png`.
+`python scripts/make_contact_sheet.py <image-folder> --out model-sources/archiv/<model>-index.png`.
 
 ## Ghoul's Grip
 

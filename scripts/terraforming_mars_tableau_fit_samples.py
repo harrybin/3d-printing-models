@@ -166,7 +166,7 @@ require(len(config.findall("plate")) == 3, "Expected three source plates")
 plate = ET.Element("plate")
 for key, value in (
     ("plater_id", "4"),
-    ("plater_name", "Passungsproben 2.4 - 2.5 - 2.6 mm"),
+    ("plater_name", "Fit samples 2.4 - 2.5 - 2.6 mm"),
     ("locked", "false"),
     ("filament_map_mode", "Auto For Flush"),
     ("filament_maps", "1 1 1 1"),
@@ -219,13 +219,14 @@ for row, diameter in enumerate((2.4, 2.5, 2.6), start=1):
     ]))
     mesh_check(front)
     for role, mesh, template, x in (
-        ("Rueckseite", back, back_template, 175),
-        ("Vorderseite", front, front_template, 65),
+        ("Back", back, back_template, 175),
+        ("Front", front, front_template, 65),
     ):
         mesh_id = 7 + len(report) * 2
         object_id = mesh_id + 1
         sequence = 4 + len(report)
-        name = f"Probe {diameter:.1f} mm - {role} - {row} Kerbe(n)"
+        notch_label = "notch" if row == 1 else "notches"
+        name = f"Fit sample {diameter:.1f} mm - {role} - {row} {notch_label}"
         target = f"3D/Objects/FitSample_{mesh_id}.model"
         data[target] = mesh_xml(mesh, mesh_id, sequence)
         obj = ET.SubElement(
@@ -468,7 +469,7 @@ with zipfile.ZipFile(OUTPUT) as archive:
                 "Sample exceeds gantry height clearance",
             )
             sample_bounds.append((local.min(axis=0)[:2], local.max(axis=0)[:2]))
-            if "Vorderseite" in sample["name"]:
+            if "Front" in sample["name"]:
                 for z, diameter in ((2.999, 3.998), (2.75, 3.5), (2.0, 3.0), (0.501, 3.0)):
                     section = mesh.section(
                         plane_normal=[0, 0, 1], plane_origin=[0, 0, z]

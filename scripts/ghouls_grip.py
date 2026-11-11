@@ -80,11 +80,11 @@ class Material:
     color: str
 
 
-BLACK = Material("Schatulle - schwarzes PLA", "#202124FF")
-BONE = Material("Knochen - beiges PLA", "#D8C6A5FF")
-MECH = Material("Mechanik - naturweisses PLA", "#F1EBDDFF")
+BLACK = Material("Chest - black PLA", "#202124FF")
+BONE = Material("Bone beige - PLA", "#D8C6A5FF")
+MECH = Material("Mechanism - natural white PLA", "#F1EBDDFF")
 FLEX = BONE
-ACCENT = Material("Totenkopf-Ausloeser - goldenes PLA", "#D4AF37FF")
+ACCENT = Material("Skull trigger - gold PLA", "#D4AF37FF")
 
 
 def validate(name: str, mesh: trimesh.Trimesh) -> None:

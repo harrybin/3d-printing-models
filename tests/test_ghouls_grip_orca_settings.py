@@ -124,12 +124,12 @@ class GhoulOrcaSettingsTests(unittest.TestCase):
         self.assertEqual(black["plate_row_pitch"], 140.0)
         self.assertEqual(
             black["plate_names"],
-            ("Schatulle", "Deckel auf Hinterkante stehend"),
+            ("Chest", "Lid upright on rear edge"),
         )
 
     def test_mechanism_second_plate_identifies_connectors(self) -> None:
         mechanism = MATERIAL_PROJECTS["mechanism-pla"]
-        self.assertIn("Verbinder", mechanism["plate_names"][1])
+        self.assertIn("connectors", mechanism["plate_names"][1])
 
     def test_multi_plate_export_uses_orca_settings_names_for_objects(self) -> None:
         names = ("chest", "scissor-arm-01")
@@ -260,32 +260,32 @@ class GhoulOrcaSettingsTests(unittest.TestCase):
             (
                 "terraforming-mars-tableau-fit-samples.3mf",
                 "8",
-                "Probe 2.4 mm - Rueckseite - 1 Kerbe(n)",
+                "Fit sample 2.4 mm - Back - 1 notch",
             ),
             (
                 "terraforming-mars-tableau-fit-samples.3mf",
                 "10",
-                "Probe 2.4 mm - Vorderseite - 1 Kerbe(n)",
+                "Fit sample 2.4 mm - Front - 1 notch",
             ),
             (
                 "terraforming-mars-tableau-fit-samples.3mf",
                 "12",
-                "Probe 2.5 mm - Rueckseite - 2 Kerbe(n)",
+                "Fit sample 2.5 mm - Back - 2 notches",
             ),
             (
                 "terraforming-mars-tableau-fit-samples.3mf",
                 "14",
-                "Probe 2.5 mm - Vorderseite - 2 Kerbe(n)",
+                "Fit sample 2.5 mm - Front - 2 notches",
             ),
             (
                 "terraforming-mars-tableau-fit-samples.3mf",
                 "16",
-                "Probe 2.6 mm - Rueckseite - 3 Kerbe(n)",
+                "Fit sample 2.6 mm - Back - 3 notches",
             ),
             (
                 "terraforming-mars-tableau-fit-samples.3mf",
                 "18",
-                "Probe 2.6 mm - Vorderseite - 3 Kerbe(n)",
+                "Fit sample 2.6 mm - Front - 3 notches",
             ),
             (
                 "terraforming-mars-tableau-print.3mf",

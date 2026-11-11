@@ -67,37 +67,37 @@
         },
         {
           "object_id": "10",
-          "object_name": "Probe 2.4 mm - Vorderseite - 1 Kerbe(n)",
+          "object_name": "Fit sample 2.4 mm - Front - 1 notch",
           "layer_height_mm": 0.2,
           "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
         },
         {
           "object_id": "14",
-          "object_name": "Probe 2.5 mm - Vorderseite - 2 Kerbe(n)",
+          "object_name": "Fit sample 2.5 mm - Front - 2 notches",
           "layer_height_mm": 0.2,
           "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
         },
         {
           "object_id": "18",
-          "object_name": "Probe 2.6 mm - Vorderseite - 3 Kerbe(n)",
+          "object_name": "Fit sample 2.6 mm - Front - 3 notches",
           "layer_height_mm": 0.2,
           "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
         },
         {
           "object_id": "8",
-          "object_name": "Probe 2.4 mm - Rueckseite - 1 Kerbe(n)",
+          "object_name": "Fit sample 2.4 mm - Back - 1 notch",
           "layer_height_mm": 0.2,
           "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
         },
         {
           "object_id": "12",
-          "object_name": "Probe 2.5 mm - Rueckseite - 2 Kerbe(n)",
+          "object_name": "Fit sample 2.5 mm - Back - 2 notches",
           "layer_height_mm": 0.2,
           "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
         },
         {
           "object_id": "16",
-          "object_name": "Probe 2.6 mm - Rueckseite - 3 Kerbe(n)",
+          "object_name": "Fit sample 2.6 mm - Back - 3 notches",
           "layer_height_mm": 0.2,
           "reason": "Preserve the user-saved per-object layer-height setting in the original fit-coupon project."
         }
@@ -409,26 +409,6 @@
       ],
       "license": "See LICENSE and model-specific source/license documentation; unchanged by migration",
       "status": "Existing files preserved; migration does not certify geometry or slicing"
-    },
-    {
-      "slug": "wedge_100x20x40",
-      "generator": null,
-      "outputs": [
-        "models/wedge_100x20x40.stl"
-      ],
-      "docs": [],
-      "license": "See LICENSE and model-specific source/license documentation; unchanged by migration",
-      "status": "Existing files preserved; migration does not certify geometry or slicing"
-    },
-    {
-      "slug": "zylinder_scheibe_2026_2027",
-      "generator": null,
-      "outputs": [
-        "models/zylinder_scheibe_2026_2027.stl"
-      ],
-      "docs": [],
-      "license": "See LICENSE and model-specific source/license documentation; unchanged by migration",
-      "status": "Existing files preserved; migration does not certify geometry or slicing"
     }
   ],
   "migration": {
@@ -573,9 +553,7 @@
       "models/pfeffermuehle-mahlwerk-einsatz.stl": "f5a7dfd358beadc96fd3fc5de85e5d4000de3f64683411060e448ea91e59f3a4",
       "models/pfosten-stopfen-11-5.3mf": "665eb819ba23c1f1b5b9df413b9b29562a242742391861c8c8d858fbc66e128c",
       "models/pfosten-stopfen-11-5.stl": "8b108703bf495c10c8ef2a382d591c4af120cec40d868c3eddc81a34d3559fb7",
-      "models/waeschespinne-reduzierring-67-50.2.stl": "10524b8c372177daa8a37825138791da3c92a880e41c132708115fbc40eda602",
-      "models/wedge_100x20x40.stl": "f3886a69cdc820cd23faa6340b1ac305e24bba60f853d8f68d4e277ef01f0f98",
-      "models/zylinder_scheibe_2026_2027.stl": "1e99ef4de29ecc9afeaf2978fb90d0c4dad4d375cd7a5c6e2096779cab4c7b5d"
+      "models/waeschespinne-reduzierring-67-50.2.stl": "10524b8c372177daa8a37825138791da3c92a880e41c132708115fbc40eda602"
     },
     "paths": [
       ".github/ISSUE_TEMPLATE/model-request.yml",
@@ -725,8 +703,6 @@
       "models/pfosten-stopfen-11-5.3mf",
       "models/pfosten-stopfen-11-5.stl",
       "models/waeschespinne-reduzierring-67-50.2.stl",
-      "models/wedge_100x20x40.stl",
-      "models/zylinder_scheibe_2026_2027.stl",
       "scripts/arrange_ghouls_grip_bone_plate.py",
       "scripts/audit_chest_support.py",
       "scripts/audit_ghouls_grip_assembly.py",

@@ -63,21 +63,21 @@ MAX_TOTAL_LENGTH = BED_SIZE_XY - 2.0 * BED_MARGIN_X  # 242.00 mm
 
 # Cable specification & functional clearances
 CABLE_DIAMETER = 3.50
-CABLE_RADIAL_CLEARANCE = 0.40  # +0.80 mm diametral clearance -> Ø 4.30 mm generous bore ("ggf. innen auch etwas mehr Platz lassen")
+CABLE_RADIAL_CLEARANCE = 0.40  # +0.80 mm diametral clearance -> generous Ø 4.30 mm bore
 BORE_RADIUS = 0.5 * CABLE_DIAMETER + CABLE_RADIAL_CLEARANCE  # 2.15 mm (Ø 4.30 mm inner cable passage)
 
-# Print vs. Installed Orientation (`Öffnung hinten`, Sichtseite `vorne` geschlossen):
+# Print vs. installed orientation (rear opening, closed visible front):
 # - Print orientation (in `models/kabelkanal-3-5mm*.stl` and `-print.3mf`):
-#   - Closed, sleek bevelled front side (`vorne`) rests on the Textured PEI build plate `Z = 0.00 mm`.
-#   - Flat slotted back side (`hinten`) faces UP at `Z = OUTER_HEIGHT = 5.40 mm`, where `ironing_type = top`
+#   - Closed, sleek bevelled front side rests on the Textured PEI build plate at `Z = 0.00 mm`.
+#   - Flat slotted rear side faces UP at `Z = OUTER_HEIGHT = 5.40 mm`, where `ironing_type = top`
 #     irons both flat rear wall-mounting strips (`Y in [-3.40, -1.95]` and `[+1.95, +3.40]`) razor-smooth.
 #   - Because the rear cable slot (`3.20 mm` throat, `3.90 mm` entry funnel) opens upward at `Z = 5.40 mm`,
 #     there is NO internal closing roof during printing -> 0.00 g support in OrcaSlicer `tree(auto)`!
 # - Installed wall orientation (shown in `-view.3mf` and presentation renders):
-#   - Flat slotted back (`hinten`) sits against the wall/cable; closed smooth front (`vorne`) faces out.
+#   - Flat slotted rear sits against the wall/cable; closed smooth front faces out.
 Z_BORE_CENTER = 3.10  # Ø 4.30 mm cable bore center (bore spans Z = 0.95..5.25 mm; 0.95 mm solid front wall = 6 layers)
 
-# Compliant rear snap-in opening (`Öffnung hinten`):
+# Compliant rear snap-in opening:
 # Revised from the over-stiff v1 slot (Ø 3.86 mm bore, 2.75 mm throat / 0.75 mm interference / 1.67 mm side wall / 3 wall loops)
 # to a compliant, easy-press snap-in slot with generous Ø 4.30 mm internal bore:
 #   - `2 * BORE_RADIUS = 4.30 mm` (`+0.80 mm` diametral clearance around the Ø 3.50 mm cable so the cable has plenty of room
@@ -101,14 +101,14 @@ OUTER_HEIGHT = 5.40
 FRONT_BEVEL = 1.10  # 45° architectural front bevel on Z = 0..1.10 mm (y_front = ±2.30 mm)
 BED_CHAMFER = 0.20  # Rear edge relief at Z = OUTER_HEIGHT
 
-# Short 35.0 mm Fit-Test Coupon (`Teststück`) included as standalone STL
+# Short 35.0 mm fit-test coupon included as a standalone STL
 # so the user can test-print a 4-minute / 0.7 g sample before or alongside full 242 mm channels.
 COUPON_TOTAL_LENGTH = 35.00
 
-# Front-to-back press-on Saddle Joint (`Von-vorne-Aufrast-Überblattung`)
+# Front-to-back press-on saddle joint
 # Connects in one motion from the front when snapping the channel onto the cable:
-# - `-X` end (`CONNECTOR_LENGTH = 10.00 mm`): Inner Saddle with vertical T-key rib (`Quersteg`, locks ±X)
-#   and horizontal snap-bead (`Rastleiste`, locks ±Z).
+# - `-X` end (`CONNECTOR_LENGTH = 10.00 mm`): Inner saddle with vertical T-key rib (locks ±X)
+#   and horizontal snap bead (locks ±Z).
 # - `+X` end (`SOCKET_DEPTH = 10.10 mm`): Outer Saddle Hood whose side cheeks wrap over the mating
 #   Inner Saddle from the front in the exact same motion as snapping the channel onto the cable.
 CONNECTOR_LENGTH = 10.00
@@ -320,35 +320,35 @@ VARIANT_SPECS: list[tuple[str, bool, bool, float, str]] = [
         False,
         True,
         MAX_TOTAL_LENGTH,
-        "Abschlusskanal links 242 mm (links glatt ohne Verbindung, Verbindung nur rechts +X)",
+        "Left-end channel, 242 mm (smooth left end without connector; connector only on right +X)",
     ),
     (
         "kabelkanal-3-5mm-mitte-beidseitig",
         True,
         True,
         MAX_TOTAL_LENGTH,
-        "Mittelkanal 242 mm (Verbindung links -X Sattel & rechts +X Ueberwurf-Kappe)",
+        "Center channel, 242 mm (saddle connector on left -X and hood cap on right +X)",
     ),
     (
         "kabelkanal-3-5mm-abschluss-rechts",
         True,
         False,
         MAX_TOTAL_LENGTH,
-        "Abschlusskanal rechts 242 mm (Verbindung nur links -X Sattel, rechts glatt ohne Verbindung)",
+        "Right-end channel, 242 mm (saddle connector only on left -X; smooth right end without connector)",
     ),
     (
         "kabelkanal-3-5mm-einzeln-ohne-verbindung",
         False,
         False,
         MAX_TOTAL_LENGTH,
-        "Einzel-/Kurzkanal ohne Verbindungen (links & rechts glatt, 242 mm Maximallaenge)",
+        "Single/short channel without connectors (smooth on both ends, 242 mm maximum length)",
     ),
     (
         "kabelkanal-3-5mm-10cm-rechts",
         False,
         True,
         100.00,
-        "10 cm Abschluss-/Passstueck (100.0 mm, links glatt ohne Verbindung, Verbindung nur rechts +X)",
+        "10 cm end/fitting piece (100.0 mm, smooth left end without connector; connector only on right +X)",
     ),
 ]
 
@@ -365,12 +365,12 @@ def build_channel_manifold(
     Coordinate system (centered on the print bed along X):
       - Total X span: `[-total_len/2, +total_len/2]`, default `total_len = 242.00 mm` (`MAX_TOTAL_LENGTH`)
         for all four variants so every variant uses the maximum printable bed length.
-      - `left_connector=True` (`-X` end, `[x_min, x_shoulder]`): Inner Saddle (`Aufrast-Sattel`, 10.00 mm)
-        with vertical T-key rib (`Quersteg`) and horizontal snap-bead (`Rastleiste`).
+      - `left_connector=True` (`-X` end, `[x_min, x_shoulder]`): Inner saddle (10.00 mm)
+        with vertical T-key rib and horizontal snap bead.
       - `left_connector=False` (`-X` end): Clean full-profile end at `x_min` without saddle step,
         with continuous cable bore and rear snap-in slot.
-      - `right_connector=True` (`+X` end, `[x_max - SOCKET_DEPTH, x_max]`): Outer Saddle Hood (`Aufrast-Kappe`,
-        10.10 mm) that presses straight down from the front (`-Z`) onto a mating `-X` Saddle.
+      - `right_connector=True` (`+X` end, `[x_max - SOCKET_DEPTH, x_max]`): Outer saddle hood (10.10 mm)
+        that presses straight down from the front (`-Z`) onto a mating `-X` saddle.
       - `right_connector=False` (`+X` end): Clean full-profile end at `x_max` without hood recess,
         with continuous cable bore and rear snap-in slot.
     """
@@ -589,7 +589,7 @@ def verify_cable_channel_and_joint(
     force_ratio_vs_v1 = stiffness_ratio_vs_v1 * (delta_y_per_side / 0.375)
     energy_ratio_vs_v1 = stiffness_ratio_vs_v1 * ((delta_y_per_side / 0.375) ** 2)
 
-    # 3. Front-to-back press-on assembly sweep ("von vorne in einem Zug aufstecken")
+    # 3. Front-to-back press-on assembly sweep.
     #    In print coordinates (front at Z = 0, flat slotted back at Z = 5.20):
     #    Segment B (`-X` Inner Saddle at x = +BODY_NET_LENGTH) sits against the wall/cable.
     #    Segment A (`+X` Outer Saddle Hood at x = 0) approaches from the front (`dz = -5.20 mm -> 0.00 mm`)
@@ -876,18 +876,18 @@ def build_print_3mf(variant_meshes: dict[str, trimesh.Trimesh], out_path: Path) 
     """Create `models/kabelkanal-3-5mm-print.3mf` with all 5 variants on Plate 1.
 
     - 4 max-length variants (`242.0 mm`, `X in [4.0, 246.0] mm`) + 1x `100.0 mm` right-connector variant (`X in [75.0, 175.0] mm`):
-      1. `kabelkanal-3-5mm-abschluss-links` at `Y = 89.0 mm` (242 mm, links glatt, Verbindung nur rechts `+X`)
-      2. `kabelkanal-3-5mm-mitte-beidseitig` at `Y = 107.0 mm` (242 mm, Verbindung links `-X` & rechts `+X`)
-      3. `kabelkanal-3-5mm-abschluss-rechts` at `Y = 125.0 mm` (242 mm, Verbindung nur links `-X`, rechts glatt)
-      4. `kabelkanal-3-5mm-einzeln-ohne-verbindung` at `Y = 143.0 mm` (242 mm, keine Verbindungen)
-      5. `kabelkanal-3-5mm-10cm-rechts` at `Y = 161.0 mm` (100 mm, links glatt, Verbindung nur rechts `+X`)
+      1. `kabelkanal-3-5mm-abschluss-links` at `Y = 89.0 mm` (242 mm, smooth left end, connector only on right `+X`)
+      2. `kabelkanal-3-5mm-mitte-beidseitig` at `Y = 107.0 mm` (242 mm, connectors on left `-X` and right `+X`)
+      3. `kabelkanal-3-5mm-abschluss-rechts` at `Y = 125.0 mm` (242 mm, connector only on left `-X`, smooth right end)
+      4. `kabelkanal-3-5mm-einzeln-ohne-verbindung` at `Y = 143.0 mm` (242 mm, no connectors)
+      5. `kabelkanal-3-5mm-10cm-rechts` at `Y = 161.0 mm` (100 mm, smooth left end, connector only on right `+X`)
     - Configured for Anycubic Kobra S1 0.4 mm nozzle, Textured PEI Plate, White PLA (Slot 1),
       0.16 mm layer height, 2 wall loops (for compliant snap-in flex), random seam, top ironing,
       and automatic tree supports (0.16 mm Z gap).
     """
     import tempfile
 
-    plate_names = ["Platte 1 - Alle 5 Varianten Kabelkanal 3.5 mm Weiss (4x 242 mm + 1x 100 mm)"]
+    plate_names = ["Plate 1 - All five 3.5 mm cable-channel variants in white (4 x 242 mm + 1 x 100 mm)"]
     layout_xy = {
         "kabelkanal-3-5mm-abschluss-links": (0, (125.0, 89.0)),
         "kabelkanal-3-5mm-mitte-beidseitig": (0, (125.0, 107.0)),
@@ -1160,10 +1160,10 @@ def build_view_3mf(
 ) -> None:
     """Create `models/kabelkanal-3-5mm-view.3mf` with 3 assembly-state plates in installed wall orientation:
     - Plate 1: All 4 full-length (242.0 mm) variants side-by-side in installed wall orientation.
-    - Plate 2: 3-segment system (Abschluss links + Mittelkanal + Abschluss rechts) during front-to-back (`-Z`) press-on.
+    - Plate 2: 3-segment system (left end + center channel + right end) during front-to-back (`-Z`) press-on.
     - Plate 3: 3-segment system fully snapped & locked onto the continuous 3.5 mm cable.
     """
-    cable_mat = filament_slot(slot=2, name="3.5 mm Kabel (Referenz)", material="PLA", color_hex="#2F7DE1")
+    cable_mat = filament_slot(slot=2, name="3.5 mm cable (reference)", material="PLA", color_hex="#2F7DE1")
     mat_list = [WHITE_PLA, cable_mat]
     material_slots = {WHITE_PLA: 0, cable_mat: 1}
 
@@ -1177,9 +1177,9 @@ def build_view_3mf(
     cable_mesh = manifold_to_trimesh(cable_m)
 
     plate_names = [
-        "Zustand 1 - Alle 5 Varianten im Ueberblick (4x 242 mm + 1x 100 mm Rechts-Verbinder)",
-        "Zustand 2 - Von vorne in einem Zug aufstecken (Abschluss links + Mitte + Abschluss rechts)",
-        "Zustand 3 - Komplett aufgerastet (Links + Mitte + Rechts) mit 3.5 mm Kabel",
+        "State 1 - Overview of all five variants (4 x 242 mm + 1 x 100 mm right connector)",
+        "State 2 - Press on from the front in one motion (left end + center + right end)",
+        "State 3 - Fully snapped together (left + center + right) with 3.5 mm cable",
     ]
     pitch = 300.0
 
@@ -1198,7 +1198,7 @@ def build_view_3mf(
         objects.append((obj_name, placed, WHITE_PLA, None))
         object_plates[obj_name] = 0
 
-    # Plate 2: 3-segment system (Abschluss links at -demo_net_length, Mitte dropping in -Z at 0, Abschluss rechts at +demo_net_length)
+    # Plate 2: 3-segment system (left end at -demo_net_length, center dropping in -Z at 0, right end at +demo_net_length)
     d_left = _to_installed_wall_mesh(demo_meshes["kabelkanal-3-5mm-abschluss-links"])
     d_mid = _to_installed_wall_mesh(demo_meshes["kabelkanal-3-5mm-mitte-beidseitig"])
     d_right = _to_installed_wall_mesh(demo_meshes["kabelkanal-3-5mm-abschluss-rechts"])
@@ -1271,7 +1271,7 @@ def slice_and_update_metadata(print_3mf_path: Path, view_3mf_path: Path, slice_d
             f"stdout={res.stdout[-1000:]}\nstderr={res.stderr[-1000:]}"
         )
 
-    plate_titles = ["Platte 1 - Alle 5 Varianten Kabelkanal 3.5 mm Weiss (4x 242 mm + 1x 100 mm)"]
+    plate_titles = ["Plate 1 - All five 3.5 mm cable-channel variants in white (4 x 242 mm + 1 x 100 mm)"]
     indexed_paths = [
         (p, _filament_index(p.read_text(encoding="utf-8", errors="replace")))
         for p in gcodes
@@ -1410,7 +1410,7 @@ def render_all_previews(
         v_ghost_actors.append(vedo.Mesh([pm.vertices, pm.faces]).c("#DDE2EA").alpha(0.85).lighting("plastic"))
 
     title_print = vedo.Text2D(
-        f"kabelkanal-3-5mm-print.3mf  |  Plate 1: Alle 5 Varianten (4x 242 mm + 1x 100 mm)  |  White PLA  |  "
+        f"kabelkanal-3-5mm-print.3mf  |  Plate 1: All five variants (4 x 242 mm + 1 x 100 mm)  |  White PLA  |  "
         f"{fil_g:.2f} g  |  {time_str}  |  Support: {sup_g:.2f} g",
         pos="top-left", s=0.88, c="white", bg="#11151C", alpha=0.85,
     )
@@ -1432,7 +1432,7 @@ def render_all_previews(
     sup_act = support_actor(sup_segs)
     plt_sup = vedo.Plotter(offscreen=True, size=(1600, 1000), bg="#15181F")
     sup_badge = vedo.Text2D(
-        f"Plate 1 G-code Support Verification (5 Varianten: 4x 242 mm + 1x 100 mm)  |  enable_support=1 tree(auto)  |  "
+        f"Plate 1 G-code support verification (five variants: 4 x 242 mm + 1 x 100 mm)  |  enable_support=1 tree(auto)  |  "
         f"Support path segments: {len(sup_segs)}  |  Support material: {sup_g:.2f} g (NO SUPPORTS REQUIRED)",
         pos="top-left", s=0.84, c="#5CE08A", bg="#10141B", alpha=0.9,
     )
@@ -1453,9 +1453,9 @@ def render_all_previews(
 
     # 3. View project preview + high-detail presentation render (4-panel composite):
     #    Panel 0 (Top-Left): All 5 variants side-by-side in installed wall orientation (4x 242 mm + 1x 100 mm)
-    #    Panel 1 (Top-Right): Front-to-back press-on motion ("von vorne in einem Zug aufstecken")
-    #    Panel 2 (Bottom-Left): Assembled & locked from the visible front (smooth 6.8x5.4 mm profile, Ø 4.30 mm bore)
-    #    Panel 3 (Bottom-Right): Rear view (`hinten abgeflacht`) with 3.20 mm compliant slot (3.90 mm funnel) & 1.25 mm flex walls
+    #    Panel 1 (Top-Right): Front-to-back press-on motion
+    #    Panel 2 (Bottom-Left): Assembled and locked from the visible front (smooth 6.8 x 5.4 mm profile, Ø 4.30 mm bore)
+    #    Panel 3 (Bottom-Right): Flattened rear with a 3.20 mm compliant slot (3.90 mm funnel) and 1.25 mm flex walls
     plt_pres = vedo.Plotter(N=4, offscreen=True, size=(2000, 1300), bg="#1C2029", sharecam=False)
 
     m_demo_mid = demo_meshes["kabelkanal-3-5mm-mitte-beidseitig"]
@@ -1474,8 +1474,9 @@ def render_all_previews(
         p0_actors.append(vedo.Mesh([mw.vertices, mw.faces]).c("#F4F5F7").lighting("plastic"))
 
     t0 = vedo.Text2D(
-        "1. Alle 5 Varianten: 4x 242 mm (Links | Mitte | Rechts | Einzeln) + 1x 100 mm (Verbindung nur rechts)",
-        pos="top-left", s=0.76, c="white", bg="#11151C", alpha=0.85,
+        "1. Five variants: 4 x 242 mm (left | center | right | single)\n"
+        "Plus 1 x 100 mm (right connector only)",
+        pos="top-left", s=0.58, c="white", bg="#11151C", alpha=0.85,
     )
     plt_pres.at(0).show(
         *p0_actors, t0,
@@ -1483,7 +1484,7 @@ def render_all_previews(
         resetcam=False,
     )
 
-    # Panel 1: Front-to-back press-on motion ("von vorne in einem Zug aufstecken"):
+    # Panel 1: Front-to-back press-on motion:
     half_demo_total = 0.5 * (demo_net_length + CONNECTOR_LENGTH)
     cable_wall_pts = np.array([
         (0.5 * CABLE_DIAMETER * math.cos(2.0 * math.pi * i / 40),
@@ -1497,8 +1498,9 @@ def render_all_previews(
     v_right_pre = vedo.Mesh([seg_right_base.vertices, seg_right_base.faces]).c("#E3E8F0").lighting("plastic")
     v_cable_pre = vedo.Mesh([cable_pre.vertices, cable_pre.faces]).c("#2F7DE1").lighting("plastic")
     t1 = vedo.Text2D(
-        "2. Von vorne in einem Zug aufstecken (-Z): Ueberwurf-Kappe (+X) rastet ueber Sattel (-X) & Quersteg",
-        pos="top-left", s=0.80, c="white", bg="#11151C", alpha=0.85,
+        "2. Press on from the front in one motion (-Z)\n"
+        "Hood cap (+X) snaps over saddle (-X) and cross-rib",
+        pos="top-left", s=0.58, c="white", bg="#11151C", alpha=0.85,
     )
     plt_pres.at(1).show(
         v_left_pre, v_right_pre, v_cable_pre, t1,
@@ -1513,8 +1515,9 @@ def render_all_previews(
     v_right_m = vedo.Mesh([seg_right_mated.vertices, seg_right_mated.faces]).c("#EAEEF5").lighting("plastic")
     v_cable = vedo.Mesh([cable_mated.vertices, cable_mated.faces]).c("#2F7DE1").lighting("plastic")
     t2 = vedo.Text2D(
-        "3. Aufgerastet (Sichtseite vorne): Schlankes 6.8x5.4 mm Profil (Ø 4.30 mm Innenraum), buendiger Uebergang",
-        pos="top-left", s=0.76, c="white", bg="#11151C", alpha=0.85,
+        "3. Snapped together (front): slim 6.8 x 5.4 mm profile\n"
+        "Ø 4.30 mm bore; flush transition",
+        pos="top-left", s=0.58, c="white", bg="#11151C", alpha=0.85,
     )
     plt_pres.at(2).show(
         v_left_m, v_right_m, v_cable, t2,
@@ -1522,7 +1525,7 @@ def render_all_previews(
         resetcam=False,
     )
 
-    # Panel 3: Rear/Bottom view (`hinten abgeflacht`) showing the flat slotted back (print Z = 5.40 mm facing up)
+    # Panel 3: Rear/bottom view showing the flat slotted back (print Z = 5.40 mm facing up)
     cable_print_pts = np.array([
         (0.5 * CABLE_DIAMETER * math.cos(2.0 * math.pi * i / 40),
          Z_BORE_CENTER + 0.5 * CABLE_DIAMETER * math.sin(2.0 * math.pi * i / 40))
@@ -1535,8 +1538,9 @@ def render_all_previews(
     v_right_b = vedo.Mesh([seg_right_back.vertices, seg_right_back.faces]).c("#E5EAF2").lighting("plastic")
     v_cable_b = vedo.Mesh([cable_back.vertices, cable_back.faces]).c("#2F7DE1").lighting("plastic")
     t3 = vedo.Text2D(
-        "4. Rueckseite: Ø 4.30 mm Bohrung + 3.20 mm elastischer Schlitz (3.90 mm Trichter, 1.25 mm Federwangen)",
-        pos="top-left", s=0.75, c="white", bg="#11151C", alpha=0.85,
+        "4. Rear: Ø 4.30 mm bore + 3.20 mm flexible slot\n"
+        "3.90 mm funnel; 1.25 mm spring arms",
+        pos="top-left", s=0.58, c="white", bg="#11151C", alpha=0.85,
     )
     plt_pres.at(3).show(
         v_left_b, v_right_b, v_cable_b, t3,

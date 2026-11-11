@@ -171,14 +171,19 @@ def consolidate(project: Path = PROJECT) -> None:
         plates = settings.findall("plate")
         main_plate = next(
             (plate for plate in plates
-             if all(term in (_metadata_value(plate, "plater_name") or "")
-                    for term in ("Mechanik", "Hauptteile"))),
+             if (
+                 all(term in (_metadata_value(plate, "plater_name") or "")
+                     for term in ("Mechanism", "main parts"))
+                 or all(term in (_metadata_value(plate, "plater_name") or "")
+                        for term in ("Mechanik", "Hauptteile"))
+             )),
             None,
         )
         connector_plate = next(
             (plate for plate in plates
-             if "Zahnraeder und Verbinder" in
-             (_metadata_value(plate, "plater_name") or "")),
+             if any(label in (_metadata_value(plate, "plater_name") or "")
+                    for label in ("Gears and connectors",
+                                  "Zahnraeder und Verbinder"))),
             None,
         )
         if main_plate is None:
@@ -306,7 +311,7 @@ def consolidate(project: Path = PROJECT) -> None:
         main_name = _metadata(main_plate, "plater_name")
         if main_name is None:
             raise ValueError("Main mechanism plate has no name metadata")
-        main_name.set("value", "Mechanik - Hauptteile und Verbinder")
+        main_name.set("value", "Mechanism - main parts and connectors")
         if connector_plate is not None:
             for instance in connector_instances:
                 main_plate.append(instance)

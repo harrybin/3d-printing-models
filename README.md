@@ -1,177 +1,92 @@
 # 3D Printing Models
 
-This is `harrybin/3d-printing-models`, the independently versioned model catalog.
-The reusable engine, viewer and skills live in
-[`harrybin/3d-printing`](https://github.com/harrybin/3d-printing).
-Model-specific generators, audits, source assets, measurements, license notices,
-STL/3MF outputs and final previews are kept together here at their existing paths.
-Their filtered Git history is preserved; `catalog.json` records the source commit,
-model inventory and SHA-256 migration baseline. Models without a known generator
-are explicitly marked with `generator: null`, not silently reconstructed.
+This repository contains parametric generators, source assets, documentation,
+and printable models for the Anycubic Kobra S1 Combo + ACE Pro (250 × 250 mm
+build plate). `catalog.json` is the authoritative inventory of all 20 catalog
+entries, including historical source and fit-sample projects. Model-specific
+files remain in their existing paths; entries without a maintained preview are
+marked below rather than shown with a substitute image.
 
-## Engine setup
+The reusable engine, viewer, and shared skills are maintained separately in
+[`harrybin/3d-printing`](https://github.com/harrybin/3d-printing). Bootstrap
+materializes ignored engine tools and skills; edit model generators and
+documentation here, and make engine changes in the engine repository.
 
-Install the pinned engine and materialize its ignored tools/skills before working
-on models. The materialized files are caches, not sources to edit or commit.
+## Setup
+
+Use the project-local Python environment and bootstrap the pinned engine before
+working on a model:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe -m printforge bootstrap .
+```
+
+Generators in `scripts/` are the source of truth for generated geometry and write
+deliverables to `models/`. New model work should update `catalog.json`; verify
+catalog changes with:
+
+```powershell
 .\.venv\Scripts\python.exe -m printforge verify-catalog .
 ```
 
-Existing generator commands below remain valid after bootstrap. New model work
-belongs here; engine changes require a separate engine PR and an explicit pinned
-version update. To prove the initial transfer was byte-for-byte unchanged, add
-`--migration` to `verify-catalog`. That optional historical check is not the normal
-gate for intentional future model changes. No geometry, slice evidence or license
-was changed or newly certified by this migration. The MIT repository license
-remains in place; model-specific source/attribution restrictions still apply.
+Print-time, material, and support claims require a successful OrcaSlicer slice
+with the intended profiles. See [MCP setup](docs/mcp-setup.md) for the optional
+Blender integration and slicer workflow. Repository contributor instructions
+are in [`AGENTS.md`](AGENTS.md).
 
-The catalog publishes its viewer at
-<https://harrybin.github.io/3d-printing-models/> using the pinned engine viewer.
-`catalog.json` is the model inventory; add or update its output/doc entries when
-changing the catalog. Detailed descriptions remain in the model docs and table
-below instead of being duplicated into new per-model folders.
+## Model catalog
 
-A collection of ASCII STL models for the Anycubic Kobra S1 Combo + ACE Pro (250 × 250 mm build plate).
+Each row corresponds to one `catalog.json` entry. File and documentation links
+point to the maintained repository paths.
+Entries without an image have no suitable maintained preview asset.
 
-## Models
+| Preview | Catalog entry | Model files | Notes and documentation |
+|---|---|---|---|
+| <img src="docs/images/terraforming-mars-tableau-179mm-loch1-zapfen3-preview.png" alt="Terraforming Mars fit revision preview" width="120"> | [`terraforming-mars-tableau-179mm-loch1-zapfen3`](catalog.json#L12) | [`3MF`](models/terraforming-mars-tableau-179mm-loch1-zapfen3.3mf) | User-selected 3.0 mm blind sockets / 2.6 mm pins; full-table fit remains unverified. [Measurements and provenance](docs/terraforming-mars-tableau.md) |
+| <img src="docs/images/terraforming-mars-tableau-179mm-preview.png" alt="Terraforming Mars scaled source preview" width="120"> | [`terraforming-mars-tableau-179mm-source`](catalog.json#L34) | [`3MF`](models/terraforming-mars-tableau-179mm.3mf) | Historical 179 mm scaled source revision. [Model notes](docs/terraforming-mars-tableau.md) |
+| <img src="docs/images/terraforming-mars-tableau-fit-samples-preview.png" alt="Terraforming Mars fit-sample preview" width="120"> | [`terraforming-mars-tableau-fit-samples`](catalog.json#L56) | [`3MF`](models/terraforming-mars-tableau-fit-samples.3mf) | Historical fit coupons for the selected pin/socket pairing. [Fit notes](docs/terraforming-mars-tableau.md) |
+| <img src="docs/images/terraforming-mars-tableau-print-preview.png" alt="Terraforming Mars original print-project preview" width="120"> | [`terraforming-mars-tableau-print-source`](catalog.json#L114) | [`3MF`](models/terraforming-mars-tableau-print.3mf) | Preserved original print-project source for comparison. [Model notes](docs/terraforming-mars-tableau.md) |
+| <img src="docs/images/terraforming-mars-tableau-179mm-kurz2mm-raster-preview.png" alt="Terraforming Mars raster revision preview" width="120"> | [`terraforming-mars-tableau-179mm-kurz2mm-raster`](catalog.json#L135) | [`3MF`](models/terraforming-mars-tableau-179mm-kurz2mm-raster.3mf) | Superseded 2 mm raster-shortening revision. [Model notes](docs/terraforming-mars-tableau.md) |
+| <img src="docs/images/terraforming-mars-tableau-179mm-laminate-aligned-preview.png" alt="Terraforming Mars laminate-aligned preview" width="120"> | [`terraforming-mars-tableau-179mm-laminate-aligned`](catalog.json#L159) | [`3MF`](models/terraforming-mars-tableau-179mm-laminate-aligned.3mf) | Superseded laminate-alignment revision. [Model notes](docs/terraforming-mars-tableau.md) |
+| <img src="docs/images/terraforming-mars-tableau-179mm-laminate-slider-cubes-preview.png" alt="Terraforming Mars slider and cube revision preview" width="120"> | [`terraforming-mars-tableau-179mm-laminate-slider-cubes`](catalog.json#L183) | [`3MF`](models/terraforming-mars-tableau-179mm-laminate-slider-cubes.3mf) | Superseded slider/cube-position revision. [Model notes](docs/terraforming-mars-tableau.md) |
+| <img src="docs/images/terraforming-mars-tableau-179mm-laminate-centered-blocks-preview.png" alt="Terraforming Mars centered-blocks preview" width="120"> | [`terraforming-mars-tableau-179mm-laminate-centered-blocks`](catalog.json#L199) | [`3MF`](models/terraforming-mars-tableau-179mm-laminate-centered-blocks.3mf) | Current centered-blocks revision; physical laminate fit and print finish remain unverified. [Model notes](docs/terraforming-mars-tableau.md) |
+| <img src="docs/images/butterfly-messer-view-preview.png" alt="Butterfly knife view-project preview" width="120"> | [`butterfly-messer`](catalog.json#L226) | [`View 3MF`](models/butterfly-messer-view.3mf)<br>[`Print 3MF`](models/butterfly-messer-print.3mf) | Multi-state, two-color balisong assembly. [Dimensions and mechanism](docs/butterfly-messer-masse-und-mechanik.md) · [Print validation](docs/butterfly-messer-druckvalidierung.md) · [Sources and licenses](docs/butterfly-messer-quellen-und-lizenzen.md) |
+| <img src="docs/images/drache-view-preview.png" alt="Dragon view-project preview" width="120"> | [`drache`](catalog.json#L241) | [`View 3MF`](models/drache-view.3mf)<br>[`Print 3MF`](models/drache-print.3mf)<br>[All STL outputs](models/) | Multi-part dragon with keyed color parts. [Dimensions](docs/drache-masze.md) · [Assembly and collision checks](docs/drache-montage-und-kollisionspruefung.md) |
+| <img src="docs/images/duschscharnier_ersatz-preview.png" alt="Shower hinge replacement preview" width="120"> | [`duschscharnier_ersatz`](catalog.json#L261) | [`3MF`](models/duschscharnier_ersatz.3mf)<br>[`STL`](models/duschscharnier_ersatz.stl) | Replacement shower-door hinge body. [Measurements](docs/duschscharnier_ersatz_masse.md) |
+| No maintained preview | [`egg-cup-man`](catalog.json#L274) | [`3MF`](models/egg-cup-man-body.3mf)<br>[`STL`](models/egg-cup-man-body.stl) | Egg-cup figure body. [Measurements](docs/egg-cup-man-measurements.md) |
+| <img src="docs/images/ghouls-grip-view-preview.png" alt="Ghoul's Grip view-project preview" width="120"> | [`ghouls-grip`](catalog.json#L287) | [`View 3MF`](models/ghouls-grip-view.3mf)<br>[`Print 3MF`](models/ghouls-grip-print.3mf)<br>[Assembly preview STL](models/ghouls-grip-preview.stl) | Multi-state, multi-material mechanical assembly. [Assembly and dimensions](docs/ghouls-grip-masse-und-bauanleitung.md) · [Print validation](docs/ghouls-grip-druckvalidierung.md) · [Source and licenses](docs/ghouls-grip-quellen-und-lizenzen.md) |
+| <img src="docs/images/kabelkanal-3-5mm-view-preview.png" alt="Cable-channel view-project preview" width="120"> | [`kabelkanal-3-5mm`](catalog.json#L321) | [`View 3MF`](models/kabelkanal-3-5mm-view.3mf)<br>[`Print 3MF`](models/kabelkanal-3-5mm-print.3mf) | Five modular variants for a 3.5 mm cable. [Dimensions](docs/kabelkanal-3-5mm-masstabelle.md) · [Mechanism check](docs/kabelkanal-3-5mm-mechanikpruefung.md) |
+| <img src="docs/images/lampe-5-rahmen-preview.png" alt="Number-5 lamp frame preview" width="120"> | [`lampe-5`](catalog.json#L339) | [`Frame 3MF`](models/lampe-5-rahmen.3mf)<br>[`Light panels STL`](models/lampe-5-leuchtflaechen.stl) | Frame and four translucent panels for a 240 mm wall lamp. [Dimensions](docs/lampe-5-masse.md) |
+| <img src="docs/images/lineal-clip-kappe-spa-normal.png" alt="Ruler clip-cap preview" width="120"> | [`lineal-clip-kappe`](catalog.json#L352) | [`STL`](models/lineal-clip-kappe.stl) | Snap-fit cap for the two holes at the end of a steel ruler. [Photo-to-model example](#example-from-photo-to-printable-stl) |
+| <img src="docs/images/modellauto-reifen-print-preview.png" alt="Toy-car replacement tire print preview" width="120"> | [`modellauto-reifen`](catalog.json#L362) | [`Print 3MF`](models/modellauto-reifen-print.3mf)<br>[`STL`](models/modellauto-reifen.stl) | PLA replacement tire, 37.2 mm diameter × 26 mm wide. [Measurements](docs/modellauto-reifen-masse.md) |
+| No maintained preview | [`pfeffermuehle-mahlwerk-einsatz`](catalog.json#L375) | [`Print-oriented STL`](models/pfeffermuehle-mahlwerk-einsatz-druckorientiert.stl)<br>[`STL`](models/pfeffermuehle-mahlwerk-einsatz.stl) | Pepper-mill mechanism insert. [Measurements](docs/pfeffermuehle-mahlwerk-einsatz-messungen.md) |
+| <img src="docs/images/pfosten-stopfen-11-5-preview.png" alt="Fence-post cap preview" width="120"> | [`pfosten-stopfen`](catalog.json#L388) | [`3MF`](models/pfosten-stopfen-11-5.3mf)<br>[`STL`](models/pfosten-stopfen-11-5.stl) | 11.5 mm fence-post cap. |
+| <img src="docs/images/waeschespinne-reduzierring-67-50.2.png" alt="Laundry-line reducer ring preview" width="120"> | [`waeschespinne-reduzierring`](catalog.json#L399) | [`STL`](models/waeschespinne-reduzierring-67-50.2.stl) | Reducer ring for a 67.0 mm sleeve bore and 50.2 mm pole. [Measurements](docs/waeschespinne-reduzierring-masse.md) |
+
+The catalog also records each generator, all output paths, and its status.
+Historical and source entries are listed for traceability; their presence does
+not imply current print validation.
 
 ### Token-efficient command evidence
 
-`scripts/compact_output.py` retains full command logs while returning bounded
-JSON summaries with deduplicated diagnostics, result lines and a short tail.
-It uses only Python's standard library and preserves command exit codes:
+`scripts/compact_output.py` keeps complete command logs while returning bounded
+summaries and preserving exit codes. For example:
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\compact_output.py run --log build\tests.log -- .\.venv\Scripts\python.exe -m unittest discover -s tests
-.\.venv\Scripts\python.exe scripts\compact_output.py log build\tests.log --limit 12 --tail 8
 .\.venv\Scripts\python.exe scripts\compact_output.py project models\ghouls-grip-print.3mf
 ```
 
-The project mode reports plate membership counts and selected Orca settings
-without dumping meshes/XML. Summaries are not validation: omitted diagnostics
-are counted, full logs remain available, and unknown warnings or failures need
-targeted inspection. The Ghoul's Grip slice wrapper uses log summaries
-automatically. Run the helper's tests with
+Summaries are not a substitute for inspecting omitted warnings or failures. Run
+the helper's focused tests with
 `.\.venv\Scripts\python.exe -m unittest discover -s tests -p test_compact_output.py`.
 
-| File | Description |
-|------|-------------|
-| `models/terraforming-mars-tableau-179mm-loch1-zapfen3.3mf` | 179 mm Terraforming Mars tableau with the user-selected nominal 3.0 mm blind sockets / 2.6 mm pins at all eight positions; original three plates and saved settings preserved ([preview](docs/images/terraforming-mars-tableau-179mm-loch1-zapfen3-preview.png); [dimensions, provenance and remaining fit/slice risk](docs/terraforming-mars-tableau.md)). Unchanged reproduction inputs are archived under `model-sources/terraforming-mars-tableau/`, not published as additional variants. |
-| `models/wedge_100x20x40.stl` | 100 × 20 × 40 mm wedge |
-| `models/lineal-clip-kappe.stl` | Snap-fit clip cap for the two holes at the end of a steel ruler ([see example](#example-from-photo-to-printable-stl)) |
-| `models/duschscharnier_ersatz.stl` | Shower-door hinge replacement body generated from `scripts/duschscharnier_ersatz.py` |
-| `models/waeschespinne-reduzierring-67-50.2.stl` | ASA reducer ring for a confirmed 67.0 mm sleeve bore and 50.2 mm laundry-line pole; 77 mm retaining collar ([dimensions](docs/waeschespinne-reduzierring-masse.md)) |
-| `models/zylinder_scheibe_2026_2027.stl` | Cylindrical/washer-style reference part |
-| `models/lampe-5-rahmen.3mf` | Multi-material frame for the 240 mm number-5 wall lamp |
-| `models/lampe-5-leuchtflaechen.stl` | All four translucent lamp panels arranged together on the 250 × 250 mm bed |
-| `models/modellauto-reifen.stl` / `models/modellauto-reifen-print.3mf` | Completed PLA toy-car replacement tyre, 37.2 mm diameter × 26 mm width ([3MF project preview](docs/images/modellauto-reifen-print-preview.png)); [archived measurements and print notes](docs/modellauto-reifen-masse.md) |
-| `models/ghouls-grip-view.3mf` | Assembled multi-material view on three plates: deployed, intermediate at a 48° scissor angle, and retracted ([project preview](docs/images/ghouls-grip-view-preview.png); [dimensions and assembly](docs/ghouls-grip-masse-und-bauanleitung.md)) |
-| `models/ghouls-grip-print.3mf` | One settings-bearing OrcaSlicer project with four PLA color/spool assignments and 42 objects on four plates ([all-plate preview](docs/images/ghouls-grip-print-preview.png)). The 31 natural-white mechanism parts share plate 3; the seven bone-beige cupped-hand parts (with solid knuckles, opposed thumb, and flush palm sockets) share plate 2 with at least 6 mm between footprints; the gold (`#D4AF37`) skull knob and optional plug-in candy dish share plate 4. All 35 non-hand payloads remain frozen to the already printed chest/drive contract (`docs/ghouls-grip-printed-box-contract.json`). See [slice/profile status and physical fit risks](docs/ghouls-grip-druckvalidierung.md). |
-| `models/ghouls-grip-preview.stl` | Deployed assembly-only multi-body preview; printable parts regenerate from `scripts/` |
-| `model-sources/ghouls-grip/ghouls-grip-master.blend` | Blender CLI/MCP scene checkpoint; technical objects are frozen and organic objects are separately marked |
-| `models/butterfly-messer-view.3mf` | Assembled 2-color balisong / butterfly knife on three state plates: Open (`0°`), Mid-flip (`90°`), and Closed & latched (`180°` with T-latch engaged) ([project preview](docs/images/butterfly-messer-view-preview.png); [dimensions & kinematics](docs/butterfly-messer-masse-und-mechanik.md)) |
-| `models/butterfly-messer-print.3mf` | Consolidated 2-plate Anycubic Kobra S1 + ACE Pro print project (14 objects across Silver-Gray and Anthracite PLA plates: blade and T-latch on Plate 1; 4× handle scales, 4× D-bolts, and 4× U-clips on Plate 2), verified in OrcaSlicer with **`0.00 g` support**, `24.90 g` total filament, and `1h 45m 27s` print time ([print preview](docs/images/butterfly-messer-print-preview.png); [slice validation](docs/butterfly-messer-druckvalidierung.md)) |
-| `models/butterfly-messer.stl` / `models/butterfly-messer-*.stl` | Assembled multi-body preview STL and 14 print-oriented watertight component STLs generated by `scripts/butterfly_messer.py` |
-| `models/kabelkanal-3-5mm*.stl` / `models/kabelkanal-3-5mm-print.3mf` / `models/kabelkanal-3-5mm-view.3mf` | Slim (`6.8 × 5.4 mm`) white cable channel system for a `3.5 mm` cable with an expanded `Ø 4.30 mm` internal bore, compliant `3.20 mm` rear snap-in slot (`3.90 mm` entry funnel, `1.25 mm` 2-wall side arms), closed visible front (`vorne`), and front-to-back press-on saddle joint (`von vorne in einem Zug aufsteckbar`). Includes all 5 modular variants (`4 × 242.0 mm`: `mitte-beidseitig`, `abschluss-links`, `abschluss-rechts`, `einzeln-ohne-verbindung`, plus `1 × 100.0 mm` right-connector piece `10cm-rechts`) on Plate 1 and a `35.0 mm` fit-test coupon (`teststueck-35mm`); verified on Anycubic Kobra S1 (`0.16 mm` layers, `enable_support=1 tree(auto)`) with **`0.00 g` support**, `24.82 g` White PLA, and `1h 00m 30s` ([presentation](docs/images/kabelkanal-3-5mm-presentation.png); [print preview](docs/images/kabelkanal-3-5mm-print-preview.png); [dimensions](docs/kabelkanal-3-5mm-masstabelle.md); [audit](docs/kabelkanal-3-5mm-mechanikpruefung.md)) |
-
-### The Ghoul's Grip: final project contract
-
-The original spring, rubber-band, tendon and latch concept was replaced by a
-fully rigid, manually reversible mechanism:
-
-`rotating skull knob -> rack-and-pinion slider -> dual scissor lift + lid linkage + five-gear forearm drive`
-
-The closed box contains the complete mechanism. The internal lid rack, follower
-and crank sit below a sealed black service hood with a continuous 2.0 mm roof;
-only its assembly cavity opens toward the inside of the chest. The intended
-external skull knob remains accessible at the front.
-
-The current user-edited print project contains **42 physical objects on four plates**.
-The file has been sliced with OrcaSlicer CLI 2.4.2; its saved profile settings
-differ from repository defaults, so print-profile compliance is not verified.
-
-| Plate group | Plates | Main contents | Slice material / support / time |
-| --- | ---: | --- | ---: |
-| Black PLA | 1 | chest and lid (2) | 334.99 g / 6.71 g / 12 h 02 min 22 s |
-| Bone-beige PLA | 1 | forearm, palm with flush dish sockets, five solid-knuckle curved fingers (7) | 45.77 g / 7.43 g / 3 h 10 min 26 s |
-| Natural-white PLA | 1 | all 31 mechanism parts, gears, shafts, crank spacer and pivot pins (31) | 111.63 g / 11.48 g / 4 h 35 min 22 s |
-| Gold PLA (`#D4AF37`) | 1 | anatomical skull drive knob and optional plug-in candy dish (2) | 36.40 g / 6.58 g / 1 h 45 min 40 s |
-| **Total** | **4** | **42 print objects** | **528.79 g / 32.20 g / 21 h 33 min 50 s** |
-
-Floor-bearing repair: two 4 mm cheeks around each open 12 mm arm channel,
-unchanged pivots and arm geometry. Actual per-arm/chest Boolean volumes are
-0.000 mm³ to three decimals across 18–78° (maximum numerical residual
-0.000020464 mm³, acceptance tolerance 0.001 mm³). The 16 former connector-plate
-objects now share the mechanism plate with the 11 main parts; the complete
-37-object BOM remains intact. All 36 unaffected mesh payloads remain unchanged.
-The floor pins insert from the chest centre; dimensions introduced for clearance
-and strength are design estimates requiring a physical PLA fit/load test.
-Profile compliance remains **not-verified**, not print-ready.
-Complex projects follow the two-file convention: `-view.3mf` is the assembled
-overview (with additional state plates for mechanisms), and `-print.3mf` is the
-single all-material print project. Same-color parts share plates when safe;
-additional plate count never creates additional print-project files.
-
-All generated OrcaSlicer projects use these mandatory repository defaults unless a
-documented part-specific override is required:
-
-- layer height: **`<= 0.16 mm`** (`layer_height=0.16` default)
-- seam position: **Random** (`seam_position=random`, mandatory on all 3MF files)
-- ironing: **All top surfaces** (`ironing_type=top`)
-- automatic tree supports: **enabled** (`enable_support=1`, `support_type=tree(auto)`) with **1 layer Z contact distance** (`support_top_z_distance=0.16`, `support_bottom_z_distance=0.16`, equal to `layer_height`) for easy removal after printing
-- Textured PEI plate, 0.4 mm nozzle
-- XY hole compensation 0.10 mm and elephant-foot compensation 0.15 mm
-
-Support is deliberately left enabled. A zero-support result must come from
-self-supporting geometry and a successful slice, never from switching support
-generation off. The exact per-plate support quantities and measured orientation
-comparisons are recorded in
-[`docs/ghouls-grip-druckvalidierung.md`](docs/ghouls-grip-druckvalidierung.md).
-Every 3MF also has a complete-project preview at
-`docs/images/<3mf-stem>-preview.png`. After a successful slice, each sliced plate
-has a G-code-derived support screenshot at
-`docs/images/<3mf-stem>-plate-<n>-supports.png`; both the Canvas and Web viewer
-provide buttons for these images, including in the expandable per-plate details.
-The current print-project preview shows all four plates and their material
-grouping:
-
-![Ghoul's Grip complete print project, all four plates](docs/images/ghouls-grip-print-preview.png)
-
-Assembly order, connector use and dimensions are in
-[`docs/ghouls-grip-masse-und-bauanleitung.md`](docs/ghouls-grip-masse-und-bauanleitung.md);
-The illustrated step-by-step assembly guide is
-[`docs/ghouls-grip-bauanleitung.md`](docs/ghouls-grip-bauanleitung.md);
-the full swept-volume proof is in
-[`docs/ghouls-grip-mechanik-verifikation.md`](docs/ghouls-grip-mechanik-verifikation.md).
-
-## Setup
-
-Python tooling for parametric model generation lives in a project-local virtual environment:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-```
-
-Generator scripts live in `scripts/` and write their output to `models/`:
-
-```powershell
-.\.venv\Scripts\python.exe scripts\lineal_clip_kappe.py
-```
-
-The final print gate uses OrcaSlicer's official CLI. `.vscode/mcp.json` supports
-the official Blender Lab MCP through a user-local `BLENDER_MCP_DIR`, bound to
-`127.0.0.1:9876`. The third-party OrcaSlicer MCP entry remains disabled; official
-Orca CLI slicing is authoritative. See [`docs/mcp-setup.md`](docs/mcp-setup.md).
-Render complete 3MF project previews with
-`.\.venv\Scripts\python.exe scripts\render_3mf_previews.py`; after a successful
-plate slice, render color-coded plate previews and G-code support-path screenshots
-with the corresponding scripts in `scripts/`.
-Printer control remains disabled unless explicitly requested.
+New complex projects use one assembled multi-state `-view.3mf` and one
+settings-bearing `-print.3mf`. Keep fit-critical dimensions sourced and
+documented, regenerate meshes from their scripts, and record print readiness
+only after a successful slice with the intended profiles.
 
 ## Example: From Photo to Printable STL
 
@@ -272,53 +187,11 @@ ledge. In use the part is flipped and pressed onto the ruler.
 If the fit is too tight or too loose, adjust `HOLE_DIA` / `PRESS_CLEAR` in
 `scripts/lineal_clip_kappe.py` and re-run the script instead of editing the mesh.
 
-## Agent Skills
+## Contributor guidance
 
-| Skill | Description |
-|-------|-------------|
-| `anycubic-kobra-s1-ace-pro-profile` | Printer defaults and constraints (bed size, nozzle, temperatures, wall minimums) for the Anycubic Kobra S1 Combo + ACE Pro. Referenced by other skills when authoring or editing STL/3MF outputs. |
-| `create-ascii-stl` | Generates new printable geometry with print-safe defaults. Collects dimensions, material, use case, and material/color-semantics intent before producing geometry; enforces 3MF when distinct material/color regions must be preserved. |
-| `edit-stl-transform` | Edits existing STL geometry: scale, rotate, translate, merge, split, and origin alignment — while preserving manifold/watertight topology. |
-| `stl-create-edit-interview` | Guided interview run before creating or editing STL/3MF outputs. Determines wall strategy, mesh pattern, infill strategy, fit intent, and material-semantics/output-format decisions one question at a time. |
-| `image-relief-vectorize` | Conditionally converts noisy reference photos into a relief/height-like image and a cleaned vector-style contour when a pictured object itself must be reconstructed. |
-| `photo-anchor-candidate-fit` | Refines an existing model toward image references by freezing trusted geometry, branching controlled candidates, and comparing them against calibrated landmarks. |
-| `visual-hull-envelope-fit` | Uses multiple accepted silhouettes or views to constrain the outer envelope before rebuild or refinement. |
-| `partial-rebuild-instead-of-mutate` | Rebuilds one wrong local region from a stable boundary instead of continuing to mutate a drifting model. |
-| `stl-from-image-measurements` | Creates or edits STL/3MF outputs from user photos plus measurements: identifies the whole shape first, researches existing models, applies reuse-vs-segmentation strategy, derives scale from reference objects, and validates against printer constraints. |
-| `research-part-specs` | Sources real published dimensions for an identifiable product before modeling, records origin/source/confidence per value in `docs/`, and forbids invented fit-critical numbers. |
-| `research-reusable-3d-assets` | Always searches for exact or similar reusable models before nontrivial original construction, verifies modification/redistribution rights, records attribution, and chooses reuse, hybrid, reference-only, or rebuild. |
-| `blender-assisted-modeling` | Routes organic and visually complex geometry through a controlled local Blender/MCP workflow while freezing technical datums and revalidating every export. |
-| `local-3d-genai-meshgen` | Asks whether local image-to-3D models (TRELLIS.2/Pixal3D via ComfyUI) should create organic seed meshes, probes hardware, installs a matching tier on approval, post-processes seeds into validated STL, and otherwise continues on the Gemini-assisted route. |
-| `validate-stl-mesh` | Validates an STL for manifold correctness and FDM printability: syntax, triangle count, watertight topology, normal consistency, and bed-fit. |
-| `optimize-stl-for-print` | Optimizes a correct mesh for printing: orientation for load direction, overhang and bridge reduction, hole/elephant-foot compensation, bed layout and filament estimate. |
-| `orcaslicer-support-minimization` | Compares stable-datum orientation candidates in OrcaSlicer to minimize support while preserving Kobra S1 profiles, material grouping, plate semantics, strength, fit, and source STL authority; geometry changes remain suggestions only. |
-| `orcaslicer-print-validation` | Performs the final slicer gate and records exact profiles, print time, material use, supports, warnings, status, and plate previews. |
-| `multimaterial-assembly-packaging` | Builds one assembled multi-state view 3MF and one consolidated print 3MF with all plates, favoring keyed separately printed color parts to reduce purge waste. |
-| `.github/skills/README.md` *(meta)* | Skills library index for reusable procedures: which rules are maintained in which skills and how new findings should be categorized. |
-
-## Central consistency matrix
-
-| Concern | Primary skill | Rule |
-| --- | --- | --- |
-| Fit-critical dimensions | `research-part-specs` | Never invent fit-critical dimensions; use measured or cited values and record them in `docs/`. |
-| Photo-driven reconstruction | `stl-from-image-measurements` | Image-driven workflows apply only when reconstructing a pictured object or motif. |
-| Free-design / no-original parts | `create-ascii-stl` | Do not force photo-tracing workflows onto invented or function-first parts. |
-| Relief-first contour extraction | `image-relief-vectorize` | Traced contours are candidate outlines only, not authority for fit-critical geometry. |
-| Anti-drift model refinement | `photo-anchor-candidate-fit` | Freeze trusted datums and compare branched candidates from one baseline instead of chaining STL tweaks. |
-| Multi-view outer-envelope recovery | `visual-hull-envelope-fit` | Use silhouette-derived hulls only to constrain outer envelopes, not hidden or mating geometry. |
-| Partial rebuild | `partial-rebuild-instead-of-mutate` | If one local region is structurally wrong, rebuild that region from a stable script boundary instead of continuing mutation. |
-| Source of geometry edits | `create-ascii-stl` | Regenerate from parametric scripts in `scripts/`; do not hand-edit STL facets. |
-| STL vs 3MF | `stl-create-edit-interview` | Distinct material/color regions require a 3MF deliverable; STL is only for merged single-region output. |
-| Coordinate convention | `validate-stl-mesh` | Auto-detect center-origin vs corner-origin unless the user specifies it. |
-| Feature proof | `validate-stl-mesh` | Use probes, slices, and compare checks instead of screenshots alone. |
-| Final model image in chat | `create-ascii-stl` | Post an inline render of the exact final STL/3MF in the final chat response; a canvas preview or path alone is not enough. |
-| Canvas preview | `create-ascii-stl` | Also preview written STL files from `models/`; for 3MF-first outputs, report the 3MF path and preview an STL counterpart when available. |
-| Reusable model assets | `research-reusable-3d-assets` | Always search exact and similar templates before nontrivial original modeling and use only assets with documented, compatible modification and redistribution rights. |
-| Python vs Blender | `blender-assisted-modeling` | Python owns fit-critical geometry; Blender owns approved organic and visual regions, followed by independent export validation. |
-| Local generative meshes | `local-3d-genai-meshgen` | Ask once whether local image-to-3D models or the Gemini route are used; install only after approval, outside git, with MIT-licensed catalog models; generated meshes are organic seeds only and need provenance plus full validation. |
-| Delivered-project support minimization | `orcaslicer-support-minimization` | Compare candidates from one frozen baseline, run OrcaSlicer sequentially, preserve materials/plates, and write the selected transform to 3MF rather than overwriting a generator STL. |
-| Final slicing | `orcaslicer-print-validation` | Do not claim print time or final print readiness without a successful slice using the intended profiles. |
-| Complex and multicolor packaging | `multimaterial-assembly-packaging` | Deliver exactly one multi-state `-view.3mf` and one all-plates `-print.3mf`; group same-color parts on shared plates and prefer keyed color bodies when practical. |
+The detailed modeling, fit, licensing, language, and validation rules are
+maintained in [`AGENTS.md`](AGENTS.md). Task-specific procedures are indexed in
+[`.github/skills/README.md`](.github/skills/README.md).
 
 ## Blender and OrcaSlicer workflow
 

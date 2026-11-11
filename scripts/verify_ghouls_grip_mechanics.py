@@ -57,7 +57,7 @@ def baseline_pair_collisions(named: dict, baseline: trimesh.Trimesh) -> list[dic
         old = volume_intersection(mesh, baseline)
         current = volume_intersection(mesh, named["chest"])
         if max(old, current) > 0.05:
-            pairs.append({"pair": f"{name} / chest (Bodenlager)",
+            pairs.append({"pair": f"{name} / chest (floor bearing)",
                           "baseline_mm3": old, "current_mm3": current})
     return pairs
 
@@ -180,33 +180,33 @@ def check() -> dict:
     idler_pin_clearance = 3.2 - 2.8
 
     if max_pivot_error > 0.01:
-        failures.append(f"Pivot-Schließfehler {max_pivot_error:.4f} mm")
+        failures.append(f"Pivot closure error {max_pivot_error:.4f} mm")
     if min_slot_margin < 0.0:
-        failures.append(f"Scherenkulisse zu kurz: {min_slot_margin:.3f} mm")
+        failures.append(f"Scissor slot margin too small: {min_slot_margin:.3f} mm")
     if max_drive_error > 0.01:
-        failures.append(f"Ritzel/Zahnstange weicht um {max_drive_error:.4f} mm ab")
+        failures.append(f"Pinion/rack closure error {max_drive_error:.4f} mm")
     if max_lid_error > 0.25:
-        failures.append(f"Deckelzapfen weicht von Kurvennut ab: {max_lid_error:.4f} mm")
+        failures.append(f"Lid pin deviates from cam slot: {max_lid_error:.4f} mm")
     if min_lid_pin_margin < 0.4:
-        failures.append(f"Deckelzapfen hat zu wenig Kulissenspiel: {min_lid_pin_margin:.3f} mm")
+        failures.append(f"Insufficient lid-pin slot clearance: {min_lid_pin_margin:.3f} mm")
     if max_gear_mesh_error > 0.01:
-        failures.append(f"Unterarm-Zahnradabstand falsch: {max_gear_mesh_error:.4f} mm")
+        failures.append(f"Forearm gear-mesh distance is incorrect: {max_gear_mesh_error:.4f} mm")
     if max_pitch_error > 0.2:
-        failures.append(f"Zahnradteilung weicht um {max_pitch_error:.3f} mm ab")
+        failures.append(f"Gear pitch deviates by {max_pitch_error:.3f} mm")
     if idler_pin_clearance < 0.3:
-        failures.append(f"Zwischenrad-Pinspiel zu klein: {idler_pin_clearance:.3f} mm")
+        failures.append(f"Idler-pin clearance is too small: {idler_pin_clearance:.3f} mm")
     if abs(mechanism.lid_angle(mechanism.THETA_MIN)) > 0.01:
-        failures.append("Deckel ist am Totenkopf-Anschlag nicht geschlossen")
+        failures.append("Lid is not closed at the skull-knob stop")
     if mechanism.lid_angle(mechanism.THETA_MAX) > -80.0:
-        failures.append("Deckel öffnet weniger als 80 Grad")
+        failures.append("Lid opens less than 80 degrees")
     if abs(mechanism.forearm_angle(mechanism.THETA_MIN)
            - mechanism.STOW_ANGLE) > 0.01:
-        failures.append("Unterarm erreicht die Stauposition nicht")
+        failures.append("Forearm does not reach the stowed position")
     if abs(mechanism.forearm_angle(mechanism.THETA_MAX)
            - mechanism.DEPLOYED_FOREARM_ANGLE) > 0.01:
-        failures.append("Unterarm erreicht die Präsentationsposition nicht")
+        failures.append("Forearm does not reach the deployed position")
     if mechanism.drive_angle(mechanism.THETA_MAX) > 130.0:
-        failures.append("Totenkopf-Drehweg überschreitet 130 Grad")
+        failures.append("Skull-knob rotation exceeds 130 degrees")
 
     platform_local = mechanism.build_platform()
     forearm_local = mechanism.build_forearm()
@@ -224,8 +224,8 @@ def check() -> dict:
         )
     if forearm_insertion_overlap > 0.05:
         failures.append(
-            "Unterarm kann nicht von oben zwischen die Lagerohren eingesetzt "
-            f"werden: {forearm_insertion_overlap:.3f} mm3"
+            "Forearm cannot be inserted from above between the bearing ears: "
+            f"{forearm_insertion_overlap:.3f} mm3 overlap"
         )
 
     installed_forearm = forearm_local.copy()
@@ -242,7 +242,7 @@ def check() -> dict:
         )
     if output_shaft_insertion_overlap > 0.05:
         failures.append(
-            "Ausgangszahnrad-D-Welle kann nicht axial montiert werden: "
+            "Output-gear D-shaft cannot be installed axially: "
             f"{output_shaft_insertion_overlap:.3f} mm3"
         )
 
@@ -257,7 +257,7 @@ def check() -> dict:
     }
     for name, count in body_counts.items():
         if count != 1:
-            failures.append(f"{name} besteht aus {count} getrennten Körpern")
+            failures.append(f"{name} consists of {count} separate bodies")
 
     collision_max = {
         "hand_chest": 0.0,
@@ -426,7 +426,7 @@ def check() -> dict:
             failures.append(f"Sweep {name}: {value:.3f} mm3")
     if preexisting_scissor_post_overlap > 0.001:
         failures.append(
-            f"Scherenarme/Bodenlager: {preexisting_scissor_post_overlap:.6f} mm3")
+            f"Scissor arms/floor bearings: {preexisting_scissor_post_overlap:.6f} mm3")
 
     wall_probe = box((12.0, 0.8, 21.0), (-27.0, 59.5, 74.5))
     wall_fill = volume_intersection(assembly.build_chest(), wall_probe) \
@@ -465,83 +465,82 @@ def check() -> dict:
 
 def write_report(result: dict) -> None:
     lines = [
-        "# Ghoul's Grip - Mechanik-Verifikation",
+        "# Ghoul's Grip — Mechanism Verification",
         "",
-        f"Ergebnis der Wand- und Bodenlagerkorrektur: **{'PASS' if result['passed'] else 'FAIL'}**",
+        f"Wall and floor-bearing correction result: **{'PASS' if result['passed'] else 'FAIL'}**",
         "",
-        "Bodenlager als offene Doppelwangen um die unveränderten Armhüllen "
-        "neu aufgebaut. Größtes aktuelles Arm-/Kisten-Schnittvolumen: "
+        "Floor bearings were rebuilt as open double cheeks around the unchanged "
+        "arm envelopes. Maximum current arm/chest intersection volume: "
         f"{result['current_scissor_post_overlap_mm3']:.6f} mm³. "
-        "Jeder einzelne Arm wird in allen 61 Zuständen geprüft; jede "
-        "Überschneidung über 0,001 mm³ lässt den Nachweis scheitern. "
-        "Das ist ein Geometrienachweis, kein Belastungs- oder PLA-Passungstest.",
+        "Each arm is checked in all 61 poses. Any intersection above "
+        "0,001 mm³ fails this check. "
+        "This proves geometry only, not load capacity or PLA fit.",
         "",
-        "Baseline-Beweis: Schatulle aus `f396e7a:models/ghouls-grip-view.3mf`, "
-        "nur um die Ansichtsplatten-Verschiebung zurückversetzt, gegen dieselben "
-        "unveränderten Scherenarme geprüft. Größte Verbesserung zum korrigierten "
-        f"Gehäuse: {result['max_scissor_post_overlap_change_mm3']:.6f} mm³.",
+        "Baseline evidence: enclosure from `f396e7a:models/ghouls-grip-view.3mf`, "
+        "translated only to undo the view-plate offset and checked against the same "
+        "unchanged scissor arms. Maximum improvement over the corrected "
+        f"enclosure: {result['max_scissor_post_overlap_change_mm3']:.6f} mm³.",
         "",
-        "Geprüft wird die starre, manuell reversible Kraftkette: "
-        "Drehbarer Totenkopf -> Antriebsritzel -> Schlittenzahnstange -> "
-        "Doppelschere sowie Antriebsritzel -> Deckelzahnstange -> "
-        "gefangener Deckelkurbelzapfen. Ein mitfahrendes Fünf-Zahnrad-Getriebe "
-        "mit drei Zwischenrädern überträgt die Scherenarmdrehung auf den "
-        "Unterarm. Es gibt keine Seile, "
-        "Gummibänder, Federn oder Wickelspulen.",
+        "The verified drive train is rigid and manually reversible: "
+        "rotating skull knob -> drive pinion -> slider rack -> "
+        "double scissors, and drive pinion -> lid rack -> "
+        "captured lid-crank pin. A moving five-gear drive with three idlers "
+        "transfers scissor-arm rotation to the forearm. There are no cables, "
+        "rubber bands, springs, or winding spools.",
         "",
-        "| Nachweis | Ergebnis |",
+        "| Check | Result |",
         "| --- | ---: |",
-        f"| Max. Pivot-Schließfehler | {result['max_pivot_error_mm']:.6f} mm |",
-        f"| Kleinster Scherenkulissenrand | {result['minimum_slot_margin_mm']:.3f} mm |",
-        f"| Ritzel/Zahnstangen-Schließfehler | {result['max_drive_closure_error_mm']:.6f} mm |",
-        f"| Deckelkurbel-Schließfehler | {result['max_lid_closure_error_mm']:.6f} mm |",
-        f"| Kleinster Deckelzapfen-Kulissenrand | {result['minimum_lid_pin_margin_mm']:.3f} mm |",
-        f"| Max. Zahnrad-Mittenfehler | {result['max_gear_mesh_error_mm']:.6f} mm |",
-        f"| Max. Zahnrad-Teilungsfehler | {result['max_gear_pitch_error_mm']:.3f} mm |",
-        f"| Zwischenrad-Pinspiel | {result['idler_pin_clearance_mm']:.3f} mm |",
-        f"| Unterarm-Einsetzsweep | {result['forearm_insertion_overlap_mm3']:.3f} mm³ |",
-        f"| D-Wellen-Einsetzsweep | {result['output_shaft_insertion_overlap_mm3']:.3f} mm³ |",
-        f"| Hinterwand am ehemaligen Mechanikfenster | {100 * result['rear_wall_fill_ratio']:.3f}% massiv |",
-        f"| Totenkopf-Drehweg | {result['knob_rotation_deg']:.2f}° |",
-        f"| Einzelkörper je Druckteil | {result['body_counts']} |",
-        f"| Laufzeit | {result['duration_seconds']:.1f} s |",
+        f"| Maximum pivot closure error | {result['max_pivot_error_mm']:.6f} mm |",
+        f"| Minimum scissor-slot margin | {result['minimum_slot_margin_mm']:.3f} mm |",
+        f"| Pinion/rack closure error | {result['max_drive_closure_error_mm']:.6f} mm |",
+        f"| Lid-crank closure error | {result['max_lid_closure_error_mm']:.6f} mm |",
+        f"| Minimum lid-pin slot margin | {result['minimum_lid_pin_margin_mm']:.3f} mm |",
+        f"| Maximum gear-center error | {result['max_gear_mesh_error_mm']:.6f} mm |",
+        f"| Maximum gear pitch error | {result['max_gear_pitch_error_mm']:.3f} mm |",
+        f"| Idler-pin clearance | {result['idler_pin_clearance_mm']:.3f} mm |",
+        f"| Forearm insertion sweep | {result['forearm_insertion_overlap_mm3']:.3f} mm³ |",
+        f"| D-shaft insertion sweep | {result['output_shaft_insertion_overlap_mm3']:.3f} mm³ |",
+        f"| Rear wall fill at former mechanism window | {100 * result['rear_wall_fill_ratio']:.3f}% solid |",
+        f"| Skull-knob rotation | {result['knob_rotation_deg']:.2f}° |",
+        f"| Separate bodies per print part | {result['body_counts']} |",
+        f"| Runtime | {result['duration_seconds']:.1f} s |",
     ]
     for name, value in result["max_sweep_collisions_mm3"].items():
         lines.append(f"| Sweep {name} | {value:.3f} mm³ |")
     lines.extend([
         "",
-        "## Beseitigte Bestandskollision (Baseline nur als Vergleich)",
+        "## Resolved Baseline Collision (Baseline for Comparison Only)",
         "",
-        "| Scherenwinkel / Pose | Paar | Baseline f396e7a | Aktuell |",
+        "| Scissor angle / pose | Pair | Baseline f396e7a | Current |",
         "| --- | --- | ---: | ---: |",
     ])
     for sample in result["motion_sweep"]:
         if sample["theta"] in (18.0, 48.0, 78.0):
             lines.append(
-                f"| {sample['theta']:.0f} Grad | scissors_chest (Bodenlager) | "
+                f"| {sample['theta']:.0f}° | scissors_chest (floor bearing) | "
                 f"{sample['scissors_chest_baseline_mm3']:.3f} mm³ | "
                 f"{sample['scissors_chest_current_mm3']:.3f} mm³ |")
     lines.extend([
         "",
-        "| Pose | Einzelpaar | Baseline f396e7a | Aktuell |",
+        "| Pose | Pair | Baseline f396e7a | Current |",
         "| --- | --- | ---: | ---: |",
     ])
     for pair in result["preexisting_collision_pairs"]:
         lines.append(
-            f"| {pair['theta']:.0f} Grad | {pair['pair']} | "
+            f"| {pair['theta']:.0f}° | {pair['pair']} | "
             f"{pair['baseline_mm3']:.3f} mm³ | "
             f"{pair['current_mm3']:.3f} mm³ |")
     lines.extend([
         "",
-        "Die hintere Zahnstange läuft 14,854 mm weiter innen. Zwei gleich große "
-        "Transferzahnräder übertragen mit zwei Drehsinnwechseln und Übersetzung "
-        "1:1 auf das unveränderte Deckelsegment. Die Kistenwand bleibt am "
-        "ehemaligen Fenster durchgehend; alle 61 Scherenstellungen von 18 bis "
-        "78 Grad einschließlich 48 Grad werden gegen die reale Wand geprüft.",
+        "The rear rack runs 14,854 mm farther inward. Two identical "
+        "transfer gears, with two direction changes and a 1:1 ratio, drive "
+        "the unchanged lid segment. The chest wall remains continuous at the "
+        "former window; all 61 scissor positions from 18 to 78 degrees, "
+        "including 48 degrees, are checked against the actual wall.",
         "",
-        "## Gekoppelte Bewegung",
+        "## Coupled Motion",
         "",
-        "| Scherenwinkel | Totenkopf/Ritzel | Deckel | Unterarm |",
+        "| Scissor angle | Skull knob/pinion | Lid | Forearm |",
         "| ---: | ---: | ---: | ---: |",
     ])
     for sample in result["motion_sweep"]:
@@ -552,20 +551,19 @@ def write_report(result: dict) -> None:
         )
     lines.extend([
         "",
-        "Der knochenfarbene Unterarm wird ohne Zahnrad von oben zwischen die "
-        "beiden Lagerohren gesetzt. Anschließend wird das naturweiße "
-        "Ausgangszahnrad mit seiner D-Welle von der Zahnradseite axial durch "
-        "beide Rundlager und die passende D-Nabe des Unterarms geschoben. Ein "
-        "1,75-mm-Filamentstift im äußeren Querloch sichert die Welle gegen "
-        "Herausrutschen; erst danach werden die Zwischenräder aufgesteckt.",
+        "The bone-beige forearm is placed from above between the two bearing "
+        "ears without its gear. The natural-white output gear and D-shaft are "
+        "then pushed axially from the gear side through both round bearings "
+        "and the matching D-shaped forearm hub. A 1.75 mm filament pin in the "
+        "outer cross-hole prevents the shaft from slipping out; fit the idler "
+        "gears only afterward.",
         "",
-        "Die Finger bleiben als druckbare, vorgekrümmte PLA-Flexuren in der "
-        "kompakten Greifpose. Die neue starre Kraftkette betätigt Deckel, "
-        "Scherenhub und Unterarm; sie enthält bewusst keine vorgetäuschte "
-        "Sehnenbetätigung.",
+        "The fingers remain printable, pre-curved PLA flexures in the compact "
+        "gripping pose. The new rigid drive train operates the lid, scissor "
+        "lift, and forearm; it deliberately does not simulate tendon actuation.",
     ])
     if result["failures"]:
-        lines.extend(["", "## Fehler", ""])
+        lines.extend(["", "## Failures", ""])
         lines.extend(f"- {failure}" for failure in result["failures"])
     REPORT.write_text("\n".join(lines) + "\n", encoding="utf-8")
 

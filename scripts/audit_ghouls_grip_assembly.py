@@ -272,13 +272,13 @@ def poses(theta: float) -> dict:
 # (name, length, hosts that must hold it, purpose)
 FILAMENT_PINS = (
     ("hinge", 198.0, ("chest", "lid", "lid-crank", "crank-spacer"),
-     "Deckelscharnier-Achse (Truhe Ø1.9, Deckel Ø1.98, Kurbel/Distanzhuelse Ø2.3)"),
+     "Lid hinge axis (chest Ø1.9, lid Ø1.98, crank/spacer Ø2.3)"),
     ("knob-cross", 14.0, ("drive-pinion", "drive-skull-knob"),
-     "Querstift Schaedelknauf/Ritzelwelle (Bohrung Ø2.3)"),
+     "Skull-knob/pinion-shaft cross-pin (Ø2.3 bore)"),
     ("forearm-retainer", 10.0, ("forearm-output-gear",),
-     "Axialsicherung Unterarm-D-Welle (Bohrung Ø2.3)"),
+     "Forearm D-shaft axial retainer (Ø2.3 bore)"),
     ("wrist", 16.0, ("forearm", "hand-palm"),
-     "Handgelenk-Querstift (Bohrung Ø2.3)"),
+     "Wrist cross-pin (Ø2.3 bore)"),
 )
 
 
@@ -446,37 +446,36 @@ def insertion_sweep(variant: str, pose) -> trimesh.Trimesh:
 
 SUBASSEMBLY = ("platform", "forearm", "forearm-output-gear")
 ASSEMBLY_ORDER = (
-    (1, "Truhe (chest) auf den Tisch, Oeffnung oben."),
-    (2, "Schlitten (slider) senkrecht auf die Schiene druecken, bis beide "
-        "Schnappfinger in die Nut einrasten."),
-    (3, "Antriebsritzel von innen axial durch die Vorderwand-Bohrung "
-        "schieben (Zahnstange kaemmt)."),
-    (4, "Schaedelknauf auf die D-Welle stecken, Filamentstift Ø1.75 x 14 "
-        "quer durch Knauf und Welle."),
-    (5, "Deckel-Folger in den Fuehrungskanal absenken; Folger-Pressstift "
-        "von innen durch Folger in den Kurvenschlitz druecken."),
-    (6, "Beide Deckel-Uebertragungsraeder axial (-X) in die Lagerboecke, "
-        "je Filamentstift Ø1.75 x 5 aussen quer durch den Zapfen."),
-    (7, "Scherenarme je Ebene einsetzen; Boden-, Schlitten- und Mittelstifte "
-        "von innen (Kopf innen) einschnappen."),
-    (8, "Scherenantriebsrad von +Y auf das obere Armauge setzen, Passstift "
-        "in das Armloch druecken (vor der Plattform!)."),
-    (9, "Plattform-Baugruppe ausserhalb vormontieren: Unterarm zwischen die "
-        "Ohren, Abtriebsrad-D-Welle durch, Filament-Sicherungsstift "
-        "Ø1.75 x 10, drei Zwischenraeder mit Idler-Stiften. Senkrecht "
-        "absenken, dabei 3 mm vom Scherenantriebsrad weg versetzt (Richtung "
-        "Zwischenrad 0), dann entlang der Achsverbindung in Eingriff "
-        "schieben; Zahnrad-/Fest-/Langlochstifte oben einschnappen."),
-    (10, "Hand auf den Unterarm-Zapfen, Filamentstift Ø1.75 x 16 quer."),
-    (11, "Deckel-Baugruppe ausserhalb vormontieren: Deckel umgedreht, "
-         "Deckelkurbel von unten einlegen und in +X in die Mitnehmertasche "
-         "schieben; Distanzhuelse von unten in den Servicekanal zwischen "
-         "Kurbel und Deckelauge legen."),
-    (12, "Deckel-Baugruppe ~108 Grad geoeffnet halten, 3 mm nach hinten (+Y) "
-         "versetzt senkrecht absenken, dann nach vorn in den Eingriff mit "
-         "dem Zwischenrad schieben, bis die Gelenkaugen fluchten; "
-         "Scharnier-Filament Ø1.75 x 198 durch Truhe, Deckel, Kurbel und "
-         "Huelse schieben."),
+    (1, "Place the chest on the table with its opening facing up."),
+    (2, "Press the slider vertically onto the rail until both snap fingers "
+        "engage in the groove."),
+    (3, "Slide the drive pinion axially through the front-wall hole from "
+        "inside, engaging it with the rack."),
+    (4, "Fit the skull knob onto the D-shaft and insert a Ø1.75 × 14 mm "
+        "filament pin through the knob and shaft."),
+    (5, "Lower the lid follower into its guide channel; press the follower pin "
+        "from inside through the follower and into the cam slot."),
+    (6, "Slide both lid transfer gears axially in −X into the bearing blocks; "
+        "secure each journal from the outside with a Ø1.75 × 5 mm filament pin."),
+    (7, "Install the scissor arms in each layer; snap in the floor, slider, "
+        "and center pins from inside (pin heads inward)."),
+    (8, "Place the scissor input gear from +Y onto the upper arm eye and press "
+        "its locating pin into the arm hole (before installing the platform)."),
+    (9, "Preassemble the platform outside the chest: place the forearm between "
+        "the ears, pass through the output-gear D-shaft, add the Ø1.75 × 10 mm "
+        "filament retainer, and fit three idler gears with their pins. Lower "
+        "vertically with a 3 mm offset away from the scissor input gear "
+        "(toward idler 0), then slide along the shaft axis to engage; snap in "
+        "the upper gear, fixed, and slotted pins."),
+    (10, "Fit the hand onto the forearm journal and insert a Ø1.75 × 16 mm "
+         "filament cross-pin."),
+    (11, "Preassemble the lid outside the chest, upside down: insert the lid "
+         "crank from below and slide it in +X into the drive pocket; place the "
+         "spacer from below in the service channel between the crank and lid eye."),
+    (12, "Hold the lid assembly open about 108°, lower it vertically with a "
+         "3 mm rearward (+Y) offset, then slide it forward to engage the idler "
+         "until the hinge eyes align. Pass the Ø1.75 × 198 mm hinge filament "
+         "through the chest, lid, crank, and spacer."),
 )
 
 
@@ -705,16 +704,16 @@ def assembly_sweeps() -> list[dict]:
         print(f"  sweep {label}: {'ok @' + str(clear[0]) if clear else results}",
               flush=True)
 
-    run("Schlitten senkrecht einsetzen (ohne Rastnasen)", (18.0, 48.0, 78.0),
+    run("Insert slider vertically (without snap noses)", (18.0, 48.0, 78.0),
         lambda p, t: ([_no_snap_noses(p["slider"])],
                       {"chest": p["chest"]},
                       [[((1, 0, 0), 5.5), ((0, 0, 1), None)],
                        [((0, 0, 1), None)]]))
-    run("Ritzel axial von innen, dann nach oben heraus", (18.0, 48.0, 78.0),
+    run("Insert pinion axially from inside, then lift it out", (18.0, 48.0, 78.0),
         lambda p, t: ([p["drive-pinion"]],
                       {n: p[n] for n in ("chest", "slider")},
                       [((0, 1, 0), 32.0), ((0, 0, 1), None)]))
-    run("Schaedelknauf axial auf die D-Welle", (18.0,),
+    run("Fit skull knob axially onto the D-shaft", (18.0,),
         lambda p, t: ([p["drive-skull-knob"]],
                       {n: p[n] for n in ("chest", "drive-pinion")},
                       [((0, -1, 0), 20.0)]))
@@ -722,7 +721,7 @@ def assembly_sweeps() -> list[dict]:
     # 6.8 mm + 0.7 mm margin; a longer pull would hit the chest knuckle.
     for gear, gy in (("lid-transfer-input", mechanism.LID_TRANSFER_Y),
                      ("lid-transfer-idler", mechanism.LID_IDLER_Y)):
-        run(f"{gear}: Klips-Zapfen axial in Lagerbock, dann nach oben",
+        run(f"{gear}: insert clip journal axially into bearing, then lift out",
             (18.0, 48.0, 78.0),
             lambda p, t, g=gear, y=gy: (
                 [_no_transfer_barbs(p[g], y)],
@@ -731,7 +730,7 @@ def assembly_sweeps() -> list[dict]:
                                     and n == "lid-transfer-idler")},
                 [((1, 0, 0), 7.5), ((0, 0, 1), None)]))
     for plane in (0, 1):
-        run(f"Scherenarm-Paar Ebene {plane} senkrecht absenken",
+        run(f"Lower scissor-arm pair in layer {plane} vertically",
             (18.0, 48.0, 78.0),
             lambda p, t, k=plane: (
                 [p[f"arm-{k}-True"], p[f"arm-{k}-False"]],
@@ -739,7 +738,7 @@ def assembly_sweeps() -> list[dict]:
                  if assembly_step(n) < 7 or (k == 1 and n.startswith("arm-0-"))},
                 [((0, 0, 1), None)]))
     # Key peg engages the arm 3.5 mm (world y 41.5..45); pull 4.2 mm.
-    run("Scherenantriebsrad: Passstift aus Armloch, dann nach oben",
+    run("Scissor input gear: withdraw locating pin from arm hole, then lift out",
         (48.0, 60.0, 78.0),
         lambda p, t: ([p["scissor-drive-gear"]],
                       {n: m for n, m in p.items() if assembly_step(n) <= 7},
@@ -749,7 +748,7 @@ def assembly_sweeps() -> list[dict]:
     start, idlers, _ = mechanism.forearm_gear_centres()
     mesh_dir = np.asarray(idlers[0], float) - np.asarray(start, float)
     mesh_dir /= np.linalg.norm(mesh_dir)
-    run("Plattform-Baugruppe versetzt absenken, radial in Eingriff",
+    run("Lower offset platform assembly and engage radially",
         (78.0, 60.0, 48.0),
         lambda p, t: (
             [p[n] for n in p if assembly_step(n) == 9 and not _is_pin(n)
@@ -764,7 +763,7 @@ def assembly_sweeps() -> list[dict]:
         return ([p[n] for n in p if n.startswith("hand-")],
                 {n: m for n, m in p.items() if assembly_step(n) <= 9},
                 [(axis, 25.0)])
-    run("Hand axial vom Unterarm-Zapfen", (78.0, 60.0), hand_build)
+    run("Remove hand axially from forearm journal", (78.0, 60.0), hand_build)
 
     def lid_under(t):
         return tuple(scene.rot(scene.lid_angle(t), [1, 0, 0])[:3, :3]
@@ -772,19 +771,19 @@ def assembly_sweeps() -> list[dict]:
     # Sub-assembly on the loose lid: the coupling slot is open only toward
     # -x, so the crank goes in from below and slides +x; the spacer is
     # enclosed by lid and chest once mounted and must be inserted first.
-    run("Deckelkurbel am losen Deckel: von unten, dann +X in die Tasche",
+    run("Fit crank to detached lid: from below, then +X into the pocket",
         (48.0, 18.0),
         lambda p, t: ([p["lid-crank"]], {"lid": p["lid"]},
                       [((-1, 0, 0), 5.6), (lid_under(t), 30.0)]))
-    run("Distanzhuelse am losen Deckel von unten in den Kanal",
+    run("Fit spacer from below into the detached lid channel",
         (48.0, 18.0),
         lambda p, t: ([p["crank-spacer"]],
                       {"lid": p["lid"], "lid-crank": p["lid-crank"]},
                       [(lid_under(t), 30.0)]))
     # Crank/transfer-idler line of centres is horizontal (-y), so a straight
     # drop clashes tooth tips: lower 3 mm behind, then slide forward in mesh.
-    run("Deckel-Baugruppe geoeffnet: 3 mm hinten absenken, nach vorn in "
-        "Eingriff", (48.0, 30.0, 60.0),
+    run("Lower open lid assembly 3 mm rearward, then slide forward to engage",
+        (48.0, 30.0, 60.0),
         lambda p, t: ([p[n] for n in p if assembly_step(n) == 11],
                       {n: m for n, m in p.items() if assembly_step(n) <= 10},
                       [((0, 1, 0), 3.0), ((0, 0, 1), None)]))
@@ -795,33 +794,33 @@ def part_play_check(theta: float = 48.0) -> list[dict]:
     """Guide and axial play of the moving parts (with their filament pins)."""
     parts = scene_parts(theta)
     cases = [
-        ("Schlitten in Schiene (quer Y)", ["slider"], ["chest"],
+        ("Slider in rail (transverse Y)", ["slider"], ["chest"],
          ((0, 1, 0), (0, -1, 0))),
-        ("Schlitten in Schiene (Z)", ["slider"], ["chest"],
+        ("Slider in rail (Z)", ["slider"], ["chest"],
          ((0, 0, 1), (0, 0, -1))),
-        ("Folger im Kanal (X)", ["lid-follower-rack", "pivot-pin-follower"],
+        ("Follower in channel (X)", ["lid-follower-rack", "pivot-pin-follower"],
          ["chest"], ((1, 0, 0), (-1, 0, 0))),
-        ("Folger im Kanal (Y)", ["lid-follower-rack", "pivot-pin-follower"],
+        ("Follower in channel (Y)", ["lid-follower-rack", "pivot-pin-follower"],
          ["chest"], ((0, 1, 0), (0, -1, 0))),
-        ("Ritzel+Knauf axial (Y)", ["drive-pinion", "drive-skull-knob",
+        ("Pinion + knob axially (Y)", ["drive-pinion", "drive-skull-knob",
                                     ("knob-cross",)],
          ["chest"], ((0, 1, 0), (0, -1, 0))),
-        ("Uebertragungsrad Eingang axial (X, Klips)",
+        ("Input transfer gear axially (X, clip)",
          ["lid-transfer-input"], ["chest"],
          ((1, 0, 0), (-1, 0, 0))),
-        ("Uebertragungsrad Zwischen axial (X, Klips)",
+        ("Idler transfer gear axially (X, clip)",
          ["lid-transfer-idler"], ["chest"],
          ((1, 0, 0), (-1, 0, 0))),
-        ("Abtriebsrad+Welle axial (Y)",
+        ("Output gear + shaft axially (Y)",
          ["forearm-output-gear", ("forearm-retainer",)],
          ["platform", "forearm"], ((0, 1, 0), (0, -1, 0))),
-        ("Deckelkurbel axial (X, Huelse)", ["lid-crank"],
+        ("Lid crank axially (X, spacer)", ["lid-crank"],
          ["lid", "crank-spacer"], ((1, 0, 0), (-1, 0, 0))),
-        ("Distanzhuelse axial (X)", ["crank-spacer"],
+        ("Spacer axially (X)", ["crank-spacer"],
          ["lid", "lid-crank"], ((1, 0, 0), (-1, 0, 0))),
     ]
     for index in range(3):
-        cases.append((f"Zwischenrad {index} axial (Y)", [f"idler-gear-{index}"],
+        cases.append((f"Idler gear {index} axially (Y)", [f"idler-gear-{index}"],
                       ["platform", f"pivot-pin-idler-{index}"],
                       ((0, 1, 0), (0, -1, 0))))
     rows = []
@@ -951,46 +950,46 @@ def _flag(ok: bool) -> str:
 
 def full_audit() -> int:
     started = time.perf_counter()
-    lines = ["# Ghoul's Grip - Montage- und Mechanik-Audit", "",
-             "Automatisch erzeugt von `scripts/audit_ghouls_grip_assembly.py`."
-             " Alle Pruefungen laufen auf den exakten Szenen-Meshes "
-             "(`render_ghouls_grip.build_scene_at`) mit manifold-Booleans.",
-             "", "Toleranzannahmen (Kobra S1, 0.4 mm Duese, 0.2 mm Schicht): "
-             f"radiales Spiel >= {MIN_RADIAL_PLAY} mm je Seite, axiales Spiel "
-             f">= {MIN_AXIAL_PLAY} mm, Flankenspiel >= {MIN_BACKLASH_MM} mm je "
-             f"Richtung, Schnapp-Dehnung <= {MAX_SNAP_STRAIN * 100:.0f} %, "
-             f"Kollision > {COLLISION_LIMIT_MM3} mm3 = FAIL, Einschub-/"
-             f"Montage-Huellen > {SWEEP_LIMIT_MM3} mm3 = FAIL.", ""]
+    lines = ["# Ghoul's Grip — Assembly and Mechanism Audit", "",
+             "Automatically generated by `scripts/audit_ghouls_grip_assembly.py`."
+             " All checks use the exact scene meshes "
+             "(`render_ghouls_grip.build_scene_at`) with manifold Booleans.",
+             "", "Tolerance assumptions (Kobra S1, 0.4 mm nozzle, 0.2 mm layer): "
+             f"radial clearance >= {MIN_RADIAL_PLAY} mm per side, axial clearance "
+             f">= {MIN_AXIAL_PLAY} mm, backlash >= {MIN_BACKLASH_MM} mm per "
+             f"direction, snap strain <= {MAX_SNAP_STRAIN * 100:.0f} %, "
+             f"collision > {COLLISION_LIMIT_MM3} mm3 = FAIL, insertion/assembly "
+             f"sweeps > {SWEEP_LIMIT_MM3} mm3 = FAIL.", ""]
     verdicts = []
 
     print("BOM ...", flush=True)
     bom = bom_check()
-    verdicts.append(("Stueckliste vollstaendig, nichts ueberzaehlig", bom["ok"]))
-    lines += ["## 1. Stueckliste (gedruckt)", "",
+    verdicts.append(("Bill of materials complete; no extra parts", bom["ok"]))
+    lines += ["## 1. Printed Bill of Materials", "",
               f"**{_flag(bom['ok'])}** - {sum(bom['printed'].values())} "
-              f"Druckobjekte im Druckprojekt, {sum(bom['needed'].values())} "
-              "Teile in der Baugruppe.", "",
-              "| Teil | im Druckprojekt | in der Baugruppe |",
+              f"print objects in the project, {sum(bom['needed'].values())} "
+              "parts in the assembly.", "",
+              "| Part | In print project | In assembly |",
               "| --- | ---: | ---: |"]
     for name in sorted(set(bom["printed"]) | set(bom["needed"])):
         lines.append(f"| {name} | {bom['printed'].get(name, 0)} | "
                      f"{bom['needed'].get(name, 0)} |")
-    lines += ["", f"Fehlend: {bom['missing'] or 'keine'}; ueberzaehlig: "
-              f"{bom['extra'] or 'keine'}; Stift-Mengen-Abweichung: "
-              f"{bom['pin_mismatch'] or 'keine'}.", ""]
+    lines += ["", f"Missing: {bom['missing'] or 'none'}; extra: "
+              f"{bom['extra'] or 'none'}; pin quantity mismatch: "
+              f"{bom['pin_mismatch'] or 'none'}.", ""]
 
     print("filament pins ...", flush=True)
     fil = filament_check()
     ok = all(r["ok"] for r in fil)
-    verdicts.append(("Nicht gedruckte Filamentstifte passen und halten", ok))
-    lines += ["## 2. Nicht gedruckte Teile (1.75 mm PLA-Filament)", "",
-              f"**{_flag(ok)}** - Stift-Ersatzkoerper Ø1.75 in den Szenen "
-              "bei Theta 18/48/78: keine Kollision, und jedes Wirtsteil hat "
-              "Material um den Stift (Ring +0.6 mm > 1 mm3).", "",
-              "| Stift | Laenge mm | Zweck | Wirte (gehalten) | Kollision | "
+    verdicts.append(("Unprinted filament pins fit and remain retained", ok))
+    lines += ["## 2. Unprinted Parts (1.75 mm PLA Filament)", "",
+              f"**{_flag(ok)}** - Ø1.75 pin proxies in the scenes at "
+              "theta 18/48/78: no collisions, and each host part has "
+              "material around the pin (ring +0.6 mm > 1 mm3).", "",
+              "| Pin | Length (mm) | Purpose | Hosts (retained) | Collision | "
               "Status |", "| --- | ---: | --- | --- | --- | --- |"]
     for r in fil:
-        hosts = ", ".join(f"{h} ({'ja' if e else 'NEIN'})"
+        hosts = ", ".join(f"{h} ({'yes' if e else 'NO'})"
                           for h, e in r["engaged"].items())
         lines.append(f"| {r['name']} | {r['length']:.0f} | {r['purpose']} | "
                      f"{hosts} | {r['collisions'] or '-'} | "
@@ -998,9 +997,9 @@ def full_audit() -> int:
     lines.append("")
 
     print("collisions ...", flush=True)
-    lines += ["## 3. Kollisionen im Bewegungsbereich", "",
-              "| Theta | Kontakte | Soll-Pressungen | Kollisionen | "
-              "groesste unbeabsichtigte mm3 |", "| ---: | ---: | --- | ---: | "
+    lines += ["## 3. Collisions Across the Motion Range", "",
+              "| Theta | Contacts | Intended press fits | Collisions | "
+              "Maximum unintended volume (mm3) |", "| ---: | ---: | --- | ---: | "
               "---: |"]
     worst_all, bad_total = 0.0, 0
     for theta in AUDIT_THETAS:
@@ -1021,22 +1020,20 @@ def full_audit() -> int:
             lines.append(f"|  | FAIL {h['a']} x {h['b']} | "
                          f"{h['volume_mm3']:.2f} mm3 | {h['bounds']} | |")
         print(f"  theta {theta}: {len(bad)} bad, worst {worst:.3f}", flush=True)
-    verdicts.append(("Keine Kollision im Bewegungsbereich", bad_total == 0))
-    lines += ["", f"**{_flag(bad_total == 0)}** - groesste unbeabsichtigte "
-              f"Ueberschneidung {worst_all:.3f} mm3 (Netz-Rauschen/"
-              "Flaechenkontakt).", ""]
+    verdicts.append(("No collisions across the motion range", bad_total == 0))
+    lines += ["", f"**{_flag(bad_total == 0)}** - maximum unintended "
+              f"intersection {worst_all:.3f} mm3 (mesh noise/surface contact).", ""]
 
     print("pin play ...", flush=True)
     play_rows = pin_play_check()
     ok = all(r["ok"] for r in play_rows)
-    verdicts.append(("Schnappstifte: radiales/axiales Spiel", ok))
-    lines += ["## 4. Spiel der Schnappstifte im eingebauten Zustand "
-              "(Theta 48)", "",
-              f"**{_flag(ok)}** - freie Verschiebung bis zum ersten Kontakt.",
-              "", "| Stift | radial min mm (+x,-x,+z,-z) | axial gesamt mm | "
-              "Nachbarn | Status |", "| --- | --- | ---: | --- | --- |"]
+    verdicts.append(("Snap-pin radial and axial clearance", ok))
+    lines += ["## 4. Snap-Pin Clearance in the Installed State (Theta 48)", "",
+              f"**{_flag(ok)}** - free travel before first contact.",
+              "", "| Pin | Minimum radial (mm; +x,-x,+z,-z) | Total axial (mm) | "
+              "Neighbors | Status |", "| --- | --- | ---: | --- | --- |"]
     for r in play_rows:
-        axial = ("Pressstift, Rippen " f"{r['press_mm3']:.2f} mm3"
+        axial = ("Press pin, ribs " f"{r['press_mm3']:.2f} mm3"
                  if r["axial_total"] is None else f"{r['axial_total']:.2f}")
         lines.append(
             f"| {r['pin']} | {r['radial_min']:.2f} "
@@ -1047,13 +1044,13 @@ def full_audit() -> int:
     print("pin insertion ...", flush=True)
     ins = pin_insertion_check()
     ok = all(r["ok"] for r in ins)
-    verdicts.append(("Stifte einsteckbar (Einschub- und Fingerraum)", ok))
-    lines += ["## 5. Einsteckbarkeit der Stifte", "",
-              f"**{_flag(ok)}** - exakte Einschub-Huelle: geschlossene "
-              f"Widerhaken r {mechanism.PIN_BARB_ARC_R} mm vom Ansatz bis zur "
-              "Spitze plus Kopf r 3.75 mm mit 8 mm Finger-/Zangenraum, gegen "
-              "alle zu diesem Montageschritt schon verbauten Teile.", "",
-              "| Stift | Variante | frei bei Theta | Treffer (falls nicht frei) "
+    verdicts.append(("Pins are insertable with sufficient finger/tool clearance", ok))
+    lines += ["## 5. Pin Insertability", "",
+              f"**{_flag(ok)}** - exact insertion envelope: closed "
+              f"barb radius {mechanism.PIN_BARB_ARC_R} mm from base to tip "
+              "plus head radius 3.75 mm and 8 mm finger/tool clearance, checked "
+              "against all parts already installed at that assembly step.", "",
+              "| Pin | Variant | Clear at theta | Intersections (if blocked) "
               "|", "| --- | --- | --- | --- |"]
     for r in ins:
         lines.append(f"| {r['pin']} | {r['variant']} | "
@@ -1064,10 +1061,10 @@ def full_audit() -> int:
     print("assembly sweeps ...", flush=True)
     sweeps = assembly_sweeps()
     ok = all(r["ok"] for r in sweeps)
-    verdicts.append(("Montagewege aller Baugruppen frei", ok))
-    lines += ["## 6. Montagewege (schrittweise Bewegungs-Huellen, 1.5 mm)", "",
-              f"**{_flag(ok)}**", "", "| Montageschritt | frei bei Theta | "
-              "Treffer |", "| --- | --- | --- |"]
+    verdicts.append(("All assembly insertion paths are clear", ok))
+    lines += ["## 6. Assembly Paths (Incremental Motion Envelopes, 1.5 mm)", "",
+              f"**{_flag(ok)}**", "", "| Assembly step | Clear at theta | "
+              "Intersections |", "| --- | --- | --- |"]
     for r in sweeps:
         lines.append(f"| {r['label']} | {r['clear_at'] or 'NIE'} | "
                      f"{'-' if r['ok'] else r['hits']} |")
@@ -1076,11 +1073,11 @@ def full_audit() -> int:
     print("part play ...", flush=True)
     pplay = part_play_check()
     ok = all(r["ok"] for r in pplay)
-    verdicts.append(("Fuehrungs- und Axialspiel der beweglichen Teile", ok))
-    lines += ["## 7. Fuehrungs- und Axialspiel (Theta 48)", "",
-              f"**{_flag(ok)}** - Summe beider Richtungen 0.1 .. 2.9 mm "
-              "(3.0 = nicht gefuehrt).", "", "| Teil | +/- mm | gesamt | "
-              "Status |", "| --- | --- | ---: | --- |"]
+    verdicts.append(("Guide and axial clearance of moving parts", ok))
+    lines += ["## 7. Guide and Axial Clearance (Theta 48)", "",
+              f"**{_flag(ok)}** - combined travel in both directions is "
+              "0.1 .. 2.9 mm (3.0 = not guided).", "",
+              "| Part | +/- mm | Total | Status |", "| --- | --- | ---: | --- |"]
     for r in pplay:
         lines.append(f"| {r['label']} | "
                      f"{', '.join(f'{v:.2f}' for v in r['travel'])} | "
@@ -1090,15 +1087,15 @@ def full_audit() -> int:
     print("backlash ...", flush=True)
     bl = backlash_mm()
     ok = all(r["ok"] for r in bl)
-    verdicts.append(("Zahnraeder kaemmen mit Flankenspiel", ok))
-    lines += ["## 8. Flankenspiel der Zahnraeder", "",
-              f"**{_flag(ok)}** - Spiel je Drehrichtung am Teilkreis; "
-              "'eingegriffen' = Anschlag vor dem Suchlimit.", "",
-              "| Theta | Paarung | + mm | - mm | eingegriffen | Status |",
+    verdicts.append(("Gears mesh with backlash", ok))
+    lines += ["## 8. Gear Backlash", "",
+              f"**{_flag(ok)}** - play in each rotational direction at the "
+              "pitch circle; 'engaged' means the stop occurred before the search limit.", "",
+              "| Theta | Mesh pair | + mm | - mm | Engaged | Status |",
               "| ---: | --- | ---: | ---: | --- | --- |"]
     for r in bl:
         lines.append(f"| {r['theta']:.0f} | {r['mesh']} | {r['mm'][0]:.2f} | "
-                     f"{r['mm'][1]:.2f} | {'ja' if r['engaged'] else 'NEIN'} "
+                     f"{r['mm'][1]:.2f} | {'yes' if r['engaged'] else 'NO'} "
                      f"| {_flag(r['ok'])} |")
     lines.append("")
 
@@ -1106,24 +1103,23 @@ def full_audit() -> int:
     split_ok = all(s["ok"] for s in an["split"].values())
     ok = an["barb"]["ok"] and split_ok and an["crush"]["ok"] and \
         an["finger"]["ok"]
-    verdicts.append(("Rastnasen/Widerhaken/Pressrippen dimensioniert", ok))
+    verdicts.append(("Snap noses, barbs, and crush ribs are dimensioned", ok))
     b = an["barb"]
-    lines += ["## 9. Rastnasen, Widerhaken, Pressrippen", "",
+    lines += ["## 9. Snap Noses, Barbs, and Crush Ribs", "",
               f"**{_flag(ok)}**", "",
-              f"* Widerhaken geschlossen r {b['closed_r']:.2f} in Bohrung r "
-              f"{b['bore_r']:.2f}: {b['insert_clear']:.2f} mm Einschubspiel; "
-              f"entspannt r {b['relaxed_r']:.2f}: {b['catch_overlap']:.2f} mm "
-              f"Hinterschnitt; Senkung r 3.0: {b['cbore_clear']:.2f} mm frei.",
-              f"* Pressstift Folger: Rippen r {mechanism.PIN_CRUSH_R} in r "
-              f"{bore_r_str()} = {an['crush']['interference']:.2f} mm Uebermass "
-              "(kein Widerhaken, Druck-Toleranz wird von den Rippen "
-              "aufgenommen).",
-              f"* Schlitten-Schnappfinger: Auslenkung {an['finger']['delta']:.1f}"
-              f" mm, Dicke {an['finger']['t']} mm, Laenge "
-              f"{an['finger']['l']} mm -> Dehnung "
+              f"* Closed barb radius {b['closed_r']:.2f} in bore radius "
+              f"{b['bore_r']:.2f}: {b['insert_clear']:.2f} mm insertion clearance; "
+              f"relaxed radius {b['relaxed_r']:.2f}: {b['catch_overlap']:.2f} mm "
+              f"undercut; counterbore radius 3.0: {b['cbore_clear']:.2f} mm clearance.",
+              f"* Follower press pin: rib radius {mechanism.PIN_CRUSH_R} in radius "
+              f"{bore_r_str()} = {an['crush']['interference']:.2f} mm interference "
+              "(no barb; the ribs absorb print tolerances).",
+              f"* Slider snap finger: deflection {an['finger']['delta']:.1f}"
+              f" mm, thickness {an['finger']['t']} mm, length "
+              f"{an['finger']['l']} mm -> strain "
               f"{an['finger']['strain'] * 100:.2f} % "
               f"({_flag(an['finger']['ok'])}).", "",
-              "| Stift | Klemmlaenge mm | Federlaenge mm | c mm | Dehnung % | "
+              "| Pin | Grip length (mm) | Flexure length (mm) | c (mm) | Strain (%) | "
               "Status |", "| --- | ---: | ---: | ---: | ---: | --- |"]
     for v, s in an["split"].items():
         lines.append(f"| {v} | {s['grip']} | {s['beam_l']:.2f} | "
@@ -1132,15 +1128,15 @@ def full_audit() -> int:
     lines.append("")
 
     load = lid_load()
-    verdicts.append(("Deckel-Kurvengetriebe klemmt nicht", load["jam_ok"]))
-    lines += ["## 10. Lastpfad Deckel (Abschaetzung, Risiko statt Beweis)", "",
-              f"Deckel {load['volume_cm3']:.0f} cm3 Volumen, Schwerpunkt "
-              f"{load['lever_mm']:.0f} mm vor der Scharnierachse. "
-              f"Kurvensteigung max {load['alpha_deg']:.1f} deg, Reibwinkel "
+    verdicts.append(("Lid cam drive does not jam", load["jam_ok"]))
+    lines += ["## 10. Lid Load Path (Estimate; Risk Assessment, Not Proof)", "",
+              f"Lid volume {load['volume_cm3']:.0f} cm3, center of mass "
+              f"{load['lever_mm']:.0f} mm ahead of the hinge axis. "
+              f"Maximum cam slope {load['alpha_deg']:.1f} deg, friction angle "
               f"{load['phi_deg']:.1f} deg (mu {PLA_MU}) -> "
-              f"{_flag(load['jam_ok'])} (Summe < 80 deg).", "",
-              "| Fall | Masse g | Moment Nm | Zahnstange N | Schlitten N | "
-              "Knauf Nm | Fingerkraft N am Knauf | Zahnfuss-Spannung MPa "
+              f"{_flag(load['jam_ok'])} (sum < 80 deg).", "",
+              "| Case | Mass (g) | Torque (Nm) | Rack (N) | Slider (N) | "
+              "Knob (Nm) | Finger force at knob (N) | Tooth-root stress (MPa) "
               "(Lewis, 4 mm Rad) |",
               "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"]
     for label, c in load["cases"].items():
@@ -1148,19 +1144,20 @@ def full_audit() -> int:
                      f"{c['rack_n']:.1f} | {c['slider_n']:.1f} | "
                      f"{c['knob_nm']:.2f} | {c['finger_n']:.1f} | "
                      f"{c['lewis_mpa']:.1f} |")
-    lines += ["", "Die kleinen 6-Zahn-Raeder (r 3.7 mm) der Deckeluebertragung "
-              "sind das hoechstbelastete Glied; PLA in Schichtebene ~50 MPa, "
-              "also Sicherheit ~2-3. Bei Probedruck auf Zahnbruch/Ueberspringen "
-              "achten; ggf. Deckel leichter (weniger Fuellung) drucken.", ""]
+    lines += ["", "The small 6-tooth gears (r 3.7 mm) in the lid drive are the "
+              "most highly loaded components; PLA in the layer plane is about "
+              "50 MPa, giving a safety factor of about 2–3. Check for broken or "
+              "skipped teeth in a test print; if needed, print a lighter lid "
+              "(with less infill).", ""]
 
-    lines += ["## 11. Montagereihenfolge (geprueft in Abschnitt 5/6)", ""]
+    lines += ["## 11. Assembly Order (Checked in Sections 5 and 6)", ""]
     lines += [f"{n}. {text}" for n, text in ASSEMBLY_ORDER]
     lines.append("")
 
     passed = all(ok for _, ok in verdicts)
-    summary = ["## Ergebnis", "", f"**Gesamt: {_flag(passed)}** "
+    summary = ["## Result", "", f"**Overall: {_flag(passed)}** "
                f"({time.perf_counter() - started:.0f} s)", "",
-               "| Pruefung | Status |", "| --- | --- |"]
+               "| Check | Status |", "| --- | --- |"]
     summary += [f"| {label} | {_flag(ok)} |" for label, ok in verdicts]
     summary.append("")
     REPORT.write_text("\n".join(lines[:5] + summary + lines[5:]) + "\n",

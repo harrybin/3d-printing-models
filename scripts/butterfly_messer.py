@@ -97,8 +97,8 @@ class MaterialSpec:
 
 
 MATERIALS = {
-    "silver":     MaterialSpec("silver",     "Klinge & Riegel - silbergraues PLA", "#C0C7D0", 1),
-    "anthracite": MaterialSpec("anthracite", "Griffschalen, Bolzen & Clips - anthrazit PLA", "#2D333B", 2),
+    "silver":     MaterialSpec("silver",     "Blade and latch - silver-gray PLA", "#C0C7D0", 1),
+    "anthracite": MaterialSpec("anthracite", "Handle scales, pins, and clips - anthracite PLA", "#2D333B", 2),
 }
 
 MATERIAL_LIST = [MATERIALS["silver"], MATERIALS["anthracite"]]
@@ -1289,9 +1289,9 @@ def build_view_3mf(parts: dict[str, trimesh.Trimesh], out_path: Path) -> None:
     """
     material_slots = {mat: mat.slot - 1 for mat in MATERIAL_LIST}
     states = [
-        ("open", "Zustand 1 - Geoeffnet (0 Grad, einsatzbereit)", 0.0, 0.0, 0.0),
-        ("mid", "Zustand 2 - Halb geoeffnet (90 Grad, Flip-Bewegung)", 90.0, 90.0, 0.0),
-        ("closed", "Zustand 3 - Geschlossen & verriegelt (180 Grad, T-Latch zu)", 180.0, 180.0, 90.0),
+        ("open", "State 1 - Open (0 degrees, ready to use)", 0.0, 0.0, 0.0),
+        ("mid", "State 2 - Half-open (90 degrees, flip motion)", 90.0, 90.0, 0.0),
+        ("closed", "State 3 - Closed and locked (180 degrees, T-latch engaged)", 180.0, 180.0, 90.0),
     ]
     plate_names = [s[1] for s in states]
     objects = []
@@ -1424,8 +1424,8 @@ def _add_metadata(parent: ET.Element, key: str, value: str) -> ET.Element:
 def build_print_3mf(print_parts: dict[str, trimesh.Trimesh], out_path: Path) -> None:
     """Create the consolidated 2-plate OrcaSlicer printable 3MF (`models/butterfly-messer-print.3mf`)."""
     plate_names = [
-        "Silber-Grau - Klinge & T-Latch",
-        "Anthrazit - 4x Griffschalen, 4x D-Bolzen & 4x U-Clips",
+        "Silver-gray - blade and T-latch",
+        "Anthracite - 4x handle scales, 4x D-pins, and 4x U-clips",
     ]
     grid_columns = 2
     pitch = 300.0
@@ -1666,8 +1666,8 @@ def slice_and_update_metadata(
         )
 
     plate_titles = [
-        "Platte 1 - Klinge & Riegel - silbergraues PLA",
-        "Platte 2 - Griffschalen (4x), D-Bolzen (4x) & U-Clips (4x) - anthrazitfarbenes PLA",
+        "Plate 1 - Blade and latch - silver-gray PLA",
+        "Plate 2 - Handle scales (4x), D-pins (4x) and U-clips (4x) - anthracite PLA",
     ]
 
     indexed_paths = [
@@ -1806,9 +1806,9 @@ def render_all_previews_and_supports(
 
     # 1. `docs/images/butterfly-messer-view-preview.png` (3 panels: Open 0°, Half-Open 90°, Closed & Latched 180°)
     view_states = [
-        ("Zustand 1 - Geoeffnet (0 Grad, Spachtel-Schneide & T-Latch offen)", 0.0, 0.0, 0.0),
-        ("Zustand 2 - Halb geoeffnet (90 Grad, Zen-Pin-Kinematik)", 90.0, 90.0, 0.0),
-        ("Zustand 3 - Geschlossen & verriegelt (180 Grad, T-Latch eingerastet)", 180.0, 180.0, 90.0),
+        ("State 1 - Open (0 degrees, spatula blade and T-latch open)", 0.0, 0.0, 0.0),
+        ("State 2 - Half-open (90 degrees, Zen-pin kinematics)", 90.0, 90.0, 0.0),
+        ("State 3 - Closed and locked (180 degrees, T-latch engaged)", 180.0, 180.0, 90.0),
     ]
     view_panels = []
     for idx, (title, ts, tb, pl) in enumerate(view_states):
@@ -1853,13 +1853,13 @@ def render_all_previews_and_supports(
     plate_defs = [
         (
             0,
-            "Platte 1 - Silber-Grau (Klinge & T-Latch)",
+            "Plate 1 - Silver-gray (blade and T-latch)",
             [k for k, (p, _) in PRINT_LAYOUT_XY.items() if p == 0],
             MATERIALS["silver"].color_hex,
         ),
         (
             1,
-            "Platte 2 - Anthrazit (4x Griffschalen, 4x D-Bolzen & 4x U-Clips)",
+            "Plate 2 - Anthracite (4x handle scales, 4x D-pins and 4x U-clips)",
             [k for k, (p, _) in PRINT_LAYOUT_XY.items() if p == 1],
             MATERIALS["anthracite"].color_hex,
         ),
@@ -2024,4 +2024,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
